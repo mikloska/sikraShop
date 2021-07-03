@@ -2,7 +2,9 @@ const path = require('path');
 const express = require('express');
 const dotenv = require('dotenv').config();
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT;
+const mongoose = require('mongoose');
+
 app.use(express.json());
 // Route Handlers
 //Default Error Handler
@@ -19,15 +21,20 @@ app.use((err, req, res, next) => {
 
 // statically serve everything in the build folder on the route '/build'
 app.use('/build', express.static(path.join(__dirname, '../build')));
-// serve index.html on the route '/'
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../index.html'));
-});
+
+// app.get('/', (req, res) => {
+//   res.sendFile(path.join(__dirname, './client/index.html'));
+// });
 
 // Catch-all to unknown routes (404)
 app.use((req,res) => res.status(404).send('not found'))
 //Start Server
-app.listen(PORT, () => {
-  console.log(`Server listening on port: ${PORT}`);
-});
-module.exports = app;
+const port = process.env.PORT || 5000;
+//console.log('connection url: ', process.env.CONNECTION_URL)
+mongoose.connect(process.env.CONNECTION_URL, {useNewUrlParser: true, useUnifiedTopology: true})
+  .then(()=> console.log('connected to db'))
+  .catch(err => console.log(err))
+
+app.listen(port, ()=> console.log(`Listening on ${port}`))
+
+mongoose.set('useFindAndModify', false)
