@@ -4,6 +4,8 @@ node_modules/
 node_modules
 # production
 /build
+#image files
+/images
 
 # misc
 .DS_Store
