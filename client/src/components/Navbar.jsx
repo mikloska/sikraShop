@@ -7,7 +7,6 @@ import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
-import LockOpenIcon from '@material-ui/icons/LockOpen';
 import { Link as RouterLink } from 'react-router-dom';
 import { Icon } from '@material-ui/core';
 
