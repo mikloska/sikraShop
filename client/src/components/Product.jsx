@@ -1,17 +1,20 @@
 import React from 'react'
-import Paper from '@material-ui/core/Paper'
-import Box from '@material-ui/core/Box'
+import{Paper, Link}  from '@material-ui/core/'
+// import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import { Typography } from '@material-ui/core';
 
 const useStyles = makeStyles({
-  Box: {
-    width: 300,
-    margin: 'auto'
-    
+  Card: {
+    // maxWidth: 300,
+    textAlign: 'center'
+
   },
+
   Media: {
     height: 'auto',
-    width: 300,
+    maxWidth:'100%'
+    // maxWidth: 300,
   }
 });
 
@@ -19,15 +22,22 @@ const Product = ({product}) => {
   const classes = useStyles()
   return (
     <div>
-      <Box elevation={3} className = {classes.Card}>
-      
-        <a href={`product/${product._id}`} className={classes.Media}>
-          
-          <img src={product.image}/> 
-        </a>
-
-      </Box>
-      
+      <Paper elevation={7} className = {classes.Card} ml={6}>
+        <Link href={`product/${product._id}`} variant='h6' style={{ color: 'inherit', textDecoration: 'inherit'}}>
+          {/* <a href={`product/${product._id}`} > */}
+            <img src={product.image} className={classes.Media}/> 
+          <Typography variant = "subtitle2">
+            <strong >{product.name}</strong>
+          </Typography>
+          <Typography>
+            {product.rating} from {product.numReviews} reviews
+          </Typography>
+          <Typography>
+            <strong>{product.price}</strong>
+          </Typography>
+        </Link>
+          {/* </a> */}
+      </Paper>
     </div>
   )
 }
