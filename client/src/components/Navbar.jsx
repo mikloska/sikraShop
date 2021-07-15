@@ -1,18 +1,14 @@
 import React from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
+import {AppBar, Toolbar, IconButton, Link, Menu, MenuItem, Typography, InputBase} from '@material-ui/core';
 import Image from "material-ui-image";
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
+import { Link as RouterLink } from 'react-router-dom';
 import { Icon } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -119,8 +115,8 @@ const Navbar= () => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/signin' onClick={handleMenuClose}>Sign In</MenuItem>
+      <MenuItem style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/account' onClick={handleMenuClose}>My account</MenuItem>
     </Menu>
   );
 
@@ -144,6 +140,7 @@ const Navbar= () => {
         aria-controls="cart"
         aria-haspopup="true"
         color="inherit"
+        style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/basket'
       
       >
         <ShoppingBasketIcon />
@@ -152,7 +149,7 @@ const Navbar= () => {
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
 
-        <IconButton
+        <IconButton 
           aria-label="account of current user"
           aria-controls="primary-search-account-menu"
           aria-haspopup="true"
@@ -161,7 +158,6 @@ const Navbar= () => {
           
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
       </MenuItem>
     </Menu>
   );
@@ -179,7 +175,7 @@ const Navbar= () => {
             <MenuIcon />
           </IconButton>
           {/* <Image alt="Example Alt" src="https://sikra.s3.us-east-2.amazonaws.com/logo-%2Bhigh%2Bres4.png" /> */}
-          <Typography className={classes.title} variant="h6" noWrap>
+          <Typography style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/' className={classes.title} variant="h6" noWrap>
             Sikra Jewelry
           </Typography>
           <div className={classes.search}>
@@ -203,6 +199,7 @@ const Navbar= () => {
                 aria-controls="cart"
                 aria-haspopup="true"
                 color="inherit"
+                style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/basket'
                 
                 >
               <ShoppingBasketIcon />

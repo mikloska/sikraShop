@@ -1,6 +1,6 @@
 import React from 'react'
 import{Paper, Link}  from '@material-ui/core/'
-// import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 import Rating from './Rating'
@@ -24,7 +24,7 @@ const Product = ({product}) => {
   return (
     <div>
       <Paper elevation={7} className = {classes.Card} ml={6}>
-        <Link component={Link} href={`product/${product._id}`} variant='h6' style={{ color: 'inherit', textDecoration: 'inherit'}}>
+        <Link component={RouterLink} to={`product/${product._id}`} variant='h6' style={{ color: 'inherit', textDecoration: 'inherit'}}>
           {/* <a href={`product/${product._id}`} > */}
             <img src={product.image} className={classes.Media}/> 
           <Typography variant = "subtitle2">
