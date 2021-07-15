@@ -33,7 +33,7 @@ module.exports = {
     historyApiFallback: true,
     publicPath: '/build',
     proxy: {
-      '/user': {
+      '/api': {
         target: 'http://localhost:3000',
       },
     },

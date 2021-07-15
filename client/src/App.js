@@ -3,18 +3,23 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Container from '@material-ui/core/Container'
 import HomeScreen from './screens/HomeScreen'
+import ProductScreen from './screens/ProductScreen'
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 const App = () => {
   return (
-    <>
-      <Navbar/>
-        <Container>
-          <HomeScreen/>
-        </Container>
+    <Router>
+      <>
+        <Navbar/>
+          <Container>
+            <Route path ='/' component={HomeScreen} exact/>
+            <Route path ='/product/:id' component={ProductScreen} />
+          </Container>
 
-      <Footer/>
-        
-    </>
+        <Footer/>
+          
+      </>
+    </Router>
 )}
 
 export default App;

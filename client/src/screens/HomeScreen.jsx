@@ -13,7 +13,7 @@ const HomeScreen = () => {
         {products.map((product) => (
           
           <Grid item xs={12}sm = {12} md = {6} lg = {4} xl = {3} key ={product.price} style={{textAlign:"center"}}>
-            <Product  product = {product} key ={product.id}/>
+            <Product product = {product} key ={product.id}/>
           </Grid>
         ))}
       </Grid>

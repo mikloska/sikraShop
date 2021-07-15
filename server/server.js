@@ -22,15 +22,14 @@ app.use((err, req, res, next) => {
 // statically serve everything in the build folder on the route '/build'
 app.use('/build', express.static(path.join(__dirname, '../build')));
 
-// app.get('/', (req, res) => {
-//   res.sendFile(path.join(__dirname, './client/index.html'));
-// });
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../index.html'));
+});
 
 // Catch-all to unknown routes (404)
 app.use((req,res) => res.status(404).send('not found'))
 //Start Server
-const port = process.env.PORT || 5000;
-//console.log('connection url: ', process.env.CONNECTION_URL)
+const port = process.env.PORT || 3000;
 mongoose.connect(process.env.CONNECTION_URL, {useNewUrlParser: true, useUnifiedTopology: true})
   .then(()=> console.log('connected to db'))
   .catch(err => console.log(err))

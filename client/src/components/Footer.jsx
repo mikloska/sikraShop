@@ -6,10 +6,11 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 
 const useStyles = makeStyles({
   root: {
-    position: 'absolute',
+    position: 'relative',
     bottom: 0,
     backgroundColor: 'teal',
     width: "100%",
+    marginTop : 35
   },
 });
 
