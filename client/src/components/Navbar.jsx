@@ -1,6 +1,6 @@
 import React from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
-import {AppBar, Toolbar, IconButton, Link, Menu, MenuItem, Typography, InputBase} from '@material-ui/core';
+import {AppBar, Toolbar, IconButton, Link, Menu, MenuItem, Typography, InputBase, TextField} from '@material-ui/core';
 import Image from "material-ui-image";
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
@@ -11,6 +11,20 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Icon } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
+  stylebar:{
+    background: 'white'
+  },
+  // Icons:{
+  //   background: 'black'
+  // },
+  logo: {
+    height:70,
+    marginTop: 10,
+    marginRight:20
+    // maxWidth: 60,
+
+    // marginRight: "80px",
+  },
   grow: {
     flexGrow: 1,
   },
@@ -23,7 +37,9 @@ const useStyles = makeStyles((theme) => ({
     //   display: 'block',
     // },
   },
+
   search: {
+    
     display: 'none',
     [theme.breakpoints.up('md')]: {
       display: 'block',
@@ -142,7 +158,7 @@ const Navbar= () => {
         style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/basket'
       
       >
-        <ShoppingBasketIcon />
+        <ShoppingBasketIcon style={{color:"black"}}/>
       </IconButton>
 
       </MenuItem>
@@ -155,7 +171,7 @@ const Navbar= () => {
           color="inherit"
         >
           
-          <AccountCircle />
+          <AccountCircle style={{color:"black"}}/>
         </IconButton>
       </MenuItem>
     </Menu>
@@ -163,7 +179,7 @@ const Navbar= () => {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static">
+      <AppBar position="static" className={classes.stylebar}>
         <Toolbar>
           <IconButton
             edge="start"
@@ -171,22 +187,35 @@ const Navbar= () => {
             color="inherit"
             aria-label="open drawer"
           >
-            <MenuIcon />
+            <MenuIcon style={{color:"black"}}/>
           </IconButton>
           {/* <Image alt="Example Alt" src="https://sikra.s3.us-east-2.amazonaws.com/logo-%2Bhigh%2Bres4.png" /> */}
-          <Typography style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/' className={classes.title} variant="h6" noWrap>
+          {/* <Typography style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/' className={classes.title} variant="h6" noWrap>
             Sikra Jewelry
+          </Typography> */}
+
+          <Typography variant="h6" className={classes.title} component={RouterLink} to='/'>
+            <img
+              src={'./images/logo.png'}
+              alt="logo"
+              className={classes.logo}
+            />
           </Typography>
           <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon/>
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
+            {/* <div className={classes.searchIcon}>
+              <SearchIcon style={{color:"black"}}/>
+            </div> */}
+            <TextField
+              size="small"
+              className={classes.SearchBox}
+              variant="outlined"
+              style={{color:"black"}}
+              border={2}
+              placeholder="Search…."
+              // classes={{
+              //   root: classes.inputRoot,
+              //   input: classes.inputInput,
+              // }}
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
@@ -201,7 +230,7 @@ const Navbar= () => {
                 style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/basket'
                 
                 >
-              <ShoppingBasketIcon />
+              <ShoppingBasketIcon style={{color:"black"}}/>
             </IconButton>
             <IconButton
               edge="end"
@@ -212,7 +241,7 @@ const Navbar= () => {
               color="inherit"
             >
 
-              <AccountCircle />
+              <AccountCircle style={{color:"black"}}/>
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>
@@ -223,7 +252,7 @@ const Navbar= () => {
               onClick={handleMobileMenuOpen}
               color="inherit"
             >
-              <MoreIcon />
+              <MoreIcon style={{color:"black"}}/>
             </IconButton>
           </div>
         </Toolbar>

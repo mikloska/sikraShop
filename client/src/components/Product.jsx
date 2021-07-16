@@ -7,15 +7,12 @@ import Rating from './Rating'
 
 const useStyles = makeStyles({
   Card: {
-    // maxWidth: 300,
     textAlign: 'center'
-
   },
 
   Media: {
     height: 'auto',
     maxWidth:'100%'
-    // maxWidth: 300,
   }
 });
 
