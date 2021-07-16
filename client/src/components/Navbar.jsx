@@ -3,6 +3,7 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import {AppBar, Toolbar, IconButton, Link, Menu, MenuItem, Typography, InputBase, TextField} from '@material-ui/core';
 import Image from "material-ui-image";
 import MenuIcon from '@material-ui/icons/Menu';
+import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
