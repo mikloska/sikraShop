@@ -1,11 +1,21 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import Product from '../components/Product'
-import products from '../products'
 import Grid from '@material-ui/core/Grid'
+import axios from 'axios'
 
 
 
 const HomeScreen = () => {
+  const [products,setProducts] = useState([])
+
+  useEffect(()=>{
+    axios.get('/api/products')
+      .then(res => {
+      setProducts(res.data);
+    })
+    .catch(err => console.log(err))
+  },[])
+
   return (
     <div>
       <h1>Latest Products</h1>

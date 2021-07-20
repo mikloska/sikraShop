@@ -2,8 +2,9 @@ const path = require('path');
 const express = require('express');
 const dotenv = require('dotenv').config();
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;;
 const mongoose = require('mongoose');
+const products = require(path.resolve(__dirname, './data/products'))
 
 app.use(express.json());
 // Route Handlers
@@ -22,18 +23,31 @@ app.use((err, req, res, next) => {
 // statically serve everything in the build folder on the route '/build'
 app.use('/build', express.static(path.join(__dirname, '../build')));
 
+// app.get('/', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../index.html'));
+// });
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../index.html'));
+  res.send('API is running');
 });
+
+app.get('/api/products', (req, res) => {
+  res.json(products);
+});
+
+app.get('/api/products/:id', (req, res) => {
+  const product=products.find(p=>p._id===req.params.id)
+  res.json(product)
+});
+
 
 // Catch-all to unknown routes (404)
 app.use((req,res) => res.status(404).send('not found'))
 //Start Server
-const port = process.env.PORT || 3000;
+
 mongoose.connect(process.env.CONNECTION_URL, {useNewUrlParser: true, useUnifiedTopology: true})
   .then(()=> console.log('connected to db'))
   .catch(err => console.log(err))
 
-app.listen(port, ()=> console.log(`Listening on ${port}`))
+app.listen(PORT, ()=> console.log(`Listening on ${PORT}`))
 
 mongoose.set('useFindAndModify', false)

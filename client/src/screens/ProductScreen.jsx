@@ -1,10 +1,10 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import{Paper, Link, Card, Button, Grid}  from '@material-ui/core/'
 import { Link as RouterLink } from 'react-router-dom';
-import products from '../products'
 import Rating from '../components/Rating'
 import {List,ListItem,ListItemIcon,ListItemText, Divider} from '@material-ui/core/';
+import axios from 'axios'
 
 const useStyles = makeStyles({
   root: {
@@ -18,7 +18,15 @@ const useStyles = makeStyles({
 
 const ProductScreen = ({match}) =>{
   const classes = useStyles()
-  // const product=products.find(p => p._id===match.params.id)
+  const [product,setProduct] = useState({})
+
+  useEffect(()=>{
+    axios.get(`/api/products/${match.params.id}`)
+      .then(res => {
+      setProduct(res.data);
+    })
+    .catch(err => console.log(err))
+  },[])
   
   return (
     <div className={classes.root}>
