@@ -10,9 +10,10 @@ import Product from '../models/productModel.js'
 router.get('/', async (req, res) => {
   try{
     const products=await Product.find({})
-    res.json(products)  
+    return res.json(products)  
   } catch(error){
     console.error(`Error: ${error.message}`.red.underline.bold)
+    return next()
   }
   res.json(products);
 });
@@ -24,12 +25,14 @@ router.get('/:id', async (req, res) => {
   try{
     const product=await Product.findById(req.params.id)
     if(product){
-      res.json(product)
+      return res.json(product)
     }else{
       res.status(404).json({message:'Product not found.'})
     }
   }catch(error){
-    console.error(`Error: ${error.message}`.red.underline.bold)
+    return res.status(500).json(error.message);
+    // console.error(`Error: ${error.message}`.red.underline.bold)
+    // process.exit(1)
   }
   
 });
