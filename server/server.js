@@ -10,6 +10,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import products from './data/products.js'
+//colorizes terminal
+import colots from 'colors'
 //need this for async await
 // import "core-js/stable";
 // import "regenerator-runtime/runtime"
@@ -62,6 +64,6 @@ app.use((req,res) => res.status(404).send('not found'))
 //   .then(()=> console.log('connected to db'))
 //   .catch(err => console.log(err))
 
-app.listen(PORT, ()=> console.log(`Server running in '${process.env.NODE_ENV}' mode on port ${PORT}`))
+app.listen(PORT, ()=> console.log(`Server running in '${process.env.NODE_ENV}' mode on port ${PORT}`.yellow.bold))
 
 // mongoose.set('useFindAndModify', false)
