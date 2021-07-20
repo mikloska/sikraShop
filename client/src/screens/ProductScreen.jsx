@@ -18,7 +18,7 @@ const useStyles = makeStyles({
 
 const ProductScreen = ({match}) =>{
   const classes = useStyles()
-  const product=products.find(p => p._id===match.params.id)
+  // const product=products.find(p => p._id===match.params.id)
   
   return (
     <div className={classes.root}>
@@ -50,6 +50,16 @@ const ProductScreen = ({match}) =>{
             <ListItem>
               <ListItemText>Price:   <strong>${product.price}</strong></ListItemText>
             </ListItem>
+          </List>
+          <List>
+            <ListItem>
+              <ListItemText>Status:   {product.countInStock > 0 ? 'In Stock' : 'Out of Stock'}</ListItemText>
+            </ListItem>
+          </List>
+          <List>
+            <Button type='button' style={{width:'80%'}} variant='outlined' disabled={product.countInStock===0}>
+              Add To Cart
+            </Button>
           </List>
         </Grid>
         
