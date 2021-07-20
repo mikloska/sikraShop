@@ -3,25 +3,23 @@
 // const dotenv = require('dotenv').config();
 // const app = express();
 // const PORT = process.env.PORT || 3000;
-// const mongoose = require('mongoose');
 // const products = require(path.resolve(__dirname, './data/products'))
 import "@babel/polyfill"
 import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-import products from './data/products.js'
 //colorizes terminal
-import colots from 'colors'
-//need this for async await
-// import "core-js/stable";
-// import "regenerator-runtime/runtime"
+import colors from 'colors'
+//Database connection
 import connectDB from './config/db.js'
+import productRoutes from './routes/productRoutes.js'
 
 dotenv.config();
 connectDB()
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(express.json());
+app.use('/api/products', productRoutes)
 // Route Handlers
 //Default Error Handler
 app.use((err, req, res, next) => {
@@ -46,20 +44,13 @@ app.get('/', (req, res) => {
   res.send('API is running');
 });
 
-app.get('/api/products', (req, res) => {
-  res.json(products);
-});
-
-app.get('/api/products/:id', (req, res) => {
-  const product=products.find(p=>p._id===req.params.id)
-  res.json(product)
-});
 
 
 // Catch-all to unknown routes (404)
 app.use((req,res) => res.status(404).send('not found'))
 //Start Server
 
+//This has has been moved to db.js
 // mongoose.connect(process.env.CONNECTION_URL, {useNewUrlParser: true, useUnifiedTopology: true})
 //   .then(()=> console.log('connected to db'))
 //   .catch(err => console.log(err))

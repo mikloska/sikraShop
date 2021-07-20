@@ -22,7 +22,9 @@ const userSchema= mongoose.Schema({
 }, {
   //automatically create a 'Created At' and 'Updated At'
   timestamps: true
-})
+},
+{ typeKey: '$type' }
+)
 
 const User= mongoose.model('User', userSchema)
 export default User;
