@@ -1,11 +1,19 @@
-const path = require('path');
-const express = require('express');
-const dotenv = require('dotenv').config();
-const app = express();
-const PORT = process.env.PORT || 3000;;
-const mongoose = require('mongoose');
-const products = require(path.resolve(__dirname, './data/products'))
+// const path = require('path');
+// const express = require('express');
+// const dotenv = require('dotenv').config();
+// const app = express();
+// const PORT = process.env.PORT || 3000;
+// const mongoose = require('mongoose');
+// const products = require(path.resolve(__dirname, './data/products'))
 
+import express from 'express';
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+import products from './data/products.js'
+
+dotenv.config();
+const app = express();
+const PORT = process.env.PORT || 3000;
 app.use(express.json());
 // Route Handlers
 //Default Error Handler
@@ -21,7 +29,8 @@ app.use((err, req, res, next) => {
 });
 
 // statically serve everything in the build folder on the route '/build'
-app.use('/build', express.static(path.join(__dirname, '../build')));
+// app.use('/build', express.static(path.join(__dirname, '../build')));
+app.use('/build', express.static('../build'));
 
 // app.get('/', (req, res) => {
 //   res.sendFile(path.join(__dirname, '../index.html'));
@@ -48,6 +57,6 @@ mongoose.connect(process.env.CONNECTION_URL, {useNewUrlParser: true, useUnifiedT
   .then(()=> console.log('connected to db'))
   .catch(err => console.log(err))
 
-app.listen(PORT, ()=> console.log(`Listening on ${PORT}`))
+app.listen(PORT, ()=> console.log(`Server running in '${process.env.NODE_ENV}' mode on port ${PORT}`))
 
 mongoose.set('useFindAndModify', false)
