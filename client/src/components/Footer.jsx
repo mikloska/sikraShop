@@ -39,7 +39,7 @@ export default function Footer() {
 
   return (
     <div>
-      <Grid container alignItems="center" justify="center" value={value} onChange={(event, newValue) => {setValue(newValue);}} className={classes.root}>
+      <Grid container alignItems="center" justifyContent="center" value={value} onChange={(event, newValue) => {setValue(newValue);}} className={classes.root}>
         {/* <Grid item component={PlayCircleFilledIcon} lg={12} fontSize="large" className={classes.ScrollIcon}/> */}
         <Grid item lg={2} xs={12} style={{textAlign:"center"}} className={classes.FooterItems} label="Necklaces & Pednants" value="Necklaces"><Typography>Necklaces & Pendants</Typography></Grid>
         <Grid item lg={1} xs={12} style={{textAlign:"center"}} className={classes.FooterItems} label="Rings" value="Rings"><Typography></Typography>Rings</Grid>

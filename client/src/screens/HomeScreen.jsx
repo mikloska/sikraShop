@@ -19,7 +19,7 @@ const HomeScreen = () => {
   return (
     <div>
       <h1>Latest Products</h1>
-      <Grid container spacing={6} justify="center">
+      <Grid container spacing={6} justifyContent="center">
         {products.map((product) => (
           
           <Grid item xs={12}sm = {12} md = {6} lg = {4} xl = {3} key ={product.price} style={{textAlign:"center"}}>
