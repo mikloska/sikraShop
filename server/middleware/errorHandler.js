@@ -1,4 +1,5 @@
 const notFound = (req,res,next)=>{
+  console.log('In notFound handler')
   const error = new Error(`Not found - ${req.originalUrl}`)
   res.status(404)
   return next(error)

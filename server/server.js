@@ -13,6 +13,7 @@ import colors from 'colors'
 //Database connection
 import connectDB from './config/db.js'
 import productRoutes from './routes/productRoutes.js'
+import {notFound, errorHandler} from './middleware/errorHandler.js'
 
 dotenv.config();
 connectDB()
@@ -25,35 +26,9 @@ app.use('/api/products', productRoutes)
 
 //Error handling
 //Error handling for non-existant routes
-app.use((req,res,next)=>{
-  const error = new Error(`Not found - ${req.originalUrl}`)
-  res.status(404)
-  return next(error)
-})
+app.use(notFound)
+app.use(errorHandler)
 
-//Error handling for incorrect requests
-app.use((err, req,res,next)=>{
-  const statusCode = res.statusCode===200 ? 500:res.statusCode
-  res.status(statusCode)
-  res.json({
-    message: err.message,
-    //If in development see stack
-    stack: process.env.NODE_ENV === 'production' ? null: err.stack,
-  })
-  
-})
-// Route Handlers
-//Default Error Handler
-// app.use((err, req, res, next) => {
-//   const defaultErr = {
-//     log: 'Express error handler caught unknown middleware error',
-//     status: 400,
-//     message: { err: 'An error occurred' },
-//   };
-//   const errorObj = Object.assign({}, defaultErr, err);
-//   console.log(errorObj.log);
-//   return res.status(errorObj.status).json(errorObj.message);
-// });
 
 // statically serve everything in the build folder on the route '/build'
 // app.use('/build', express.static(path.join(__dirname, '../build')));
