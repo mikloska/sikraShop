@@ -1,24 +1,32 @@
 import React, {useState, useEffect} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
 import Product from '../components/Product'
 import Grid from '@material-ui/core/Grid'
-import axios from 'axios'
+// import axios from 'axios'
+import {listProducts} from '../actions/productActions'
 
 
 
 const HomeScreen = () => {
-  const [products,setProducts] = useState([])
-
+  const dispatch = useDispatch()
+  // const [products,setProducts] = useState([])
+  const productList = useSelector(state => state.productList)
+  const {loading, error, products} = productList
   useEffect(()=>{
-    axios.get('/api/products')
-      .then(res => {
-      setProducts(res.data);
-    })
-    .catch(err => console.log(err))
-  },[])
+    dispatch(listProducts())
+
+    // axios.get('/api/products')
+    //   .then(res => {
+    //   setProducts(res.data);
+    // })
+    // .catch(err => console.log(err))
+  },[dispatch])
+
 
   return (
     <div>
       <h1>Latest Products</h1>
+      {loading ? <h2>Loading...</h2> : error ? <h3>{error}</h3> : 
       <Grid container spacing={6} justifyContent="center">
         {products.map((product) => (
           
@@ -26,7 +34,7 @@ const HomeScreen = () => {
             <Product product = {product} key ={product.id}/>
           </Grid>
         ))}
-      </Grid>
+      </Grid>}
     </div>
   )
 }

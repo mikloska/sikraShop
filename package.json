@@ -1,7 +1,7 @@
 {
   "name": "sikrashop",
   "version": "1.0.0",
-  "description": "",
+  "description": "e-commerce site for goldsmith",
   "main": "webpack.config.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production nodemon server/server.js",
@@ -39,14 +39,23 @@
     "html-webpack-plugin": "^5.3.2",
     "material-ui-image": "^3.3.2",
     "mongoose": "^5.13.1",
-    "nodemon": "^2.0.7",
+    "nodemon": "^2.0.12",
     "style-loader": "^2.0.0",
-    "webpack": "^5.40.0"
+    "webpack": "^5.40.0",
+    "webpack-cli": "^4.7.2",
+    "yargs": "^16.2.0"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "webpack-cli": "^4.7.2",
     "webpack-dev-middleware": "^5.0.0",
     "webpack-dev-server": "^3.11.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikloska/sikraShop.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mikloska/sikraShop/issues"
+  },
+  "homepage": "https://github.com/mikloska/sikraShop#readme"
 }
