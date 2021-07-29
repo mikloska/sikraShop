@@ -33,9 +33,8 @@ const App = (showBelow) => {
     }
 }
 
-const handleClick = () => {
-  console.log('clicked')
-    window[`scrollTo`]({ top: 0, behavior: `smooth` })
+const handleScrollClick = () => {
+  window[`scrollTo`]({ top: 0, behavior: `smooth` })
 }
 
 useEffect(() => {
@@ -48,15 +47,20 @@ useEffect(() => {
   return (
     <Router>
       <>
+        <div className = 'page-wrap'>
         <Navbar/>
-          <Container>
+          <Container className='main-container'>
             <Route path ='/' component={HomeScreen} exact/>
             <Route path ='/product/:id' component={ProductScreen} />
             <Route path ='/signin' component={SignIn} exact/>
             <Route path ='/signup' component={SignUp} exact/>
           </Container>
-        <div className ={classes.ScrollParent}><PlayCircleFilledIcon fontSize="large" className={classes.ScrollIcon} onClick={handleClick}/></div>
-        <Footer/>
+          
+        {/* {document.body.scrollHeight ? (
+        <div className ={classes.ScrollParent}><PlayCircleFilledIcon  fontSize="large" className={classes.ScrollIcon} onClick={handleClick}/></div>
+        ):(null)} */}
+        </div>
+        <Footer handleScrollClick={handleScrollClick} />
           
       </>
     </Router>

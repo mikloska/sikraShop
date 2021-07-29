@@ -78,7 +78,7 @@ export default function SignIn({ isLoggedIn, setIsLoggedIn }) {
   return (
     <Container component="main" maxWidth="xs" mt={5}>
       <Box mt={8} pt={0}>
-        <Card classsName={classes.card} >
+        <Card className={classes.card} >
           <Box p={3} >
             <CssBaseline />
             <div className={classes.paper} >

@@ -12,6 +12,8 @@ import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 
 const useStyles = makeStyles({
   root: {
+    bottom: 0,
+ 
     marginTop:'auto',
     backgroundColor: 'teal',
     width: "100%",
@@ -21,14 +23,16 @@ const useStyles = makeStyles({
   FooterNav: {
     // marginTop: 70
   },
-  // ScrollIcon: {
-    // top: -70,
-    // transform: "rotate(-90deg)",
-    // position: ""
-  // }
+  ScrollIcon: {
+    bottom: -50,
+    position: 'relative',
+    display: 'block',
+    margin: 'auto',
+    transform: "rotate(-90deg)",
+  }
 });
 
-export default function Footer() {
+export default function Footer({handleScrollClick}) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -39,16 +43,18 @@ export default function Footer() {
 
   return (
     <div>
-      <Grid container alignItems="center" justifyContent="center" value={value} onChange={(event, newValue) => {setValue(newValue);}} className={classes.root}>
-        {/* <Grid item component={PlayCircleFilledIcon} lg={12} fontSize="large" className={classes.ScrollIcon}/> */}
-        <Grid item lg={2} xs={12} style={{textAlign:"center"}} className={classes.FooterItems} label="Necklaces & Pednants" value="Necklaces"><Typography>Necklaces & Pendants</Typography></Grid>
-        <Grid item lg={1} xs={12} style={{textAlign:"center"}} className={classes.FooterItems} label="Rings" value="Rings"><Typography></Typography>Rings</Grid>
-        <Grid item lg={1} xs={12} style={{textAlign:"center"}} className={classes.FooterItems} label="Earrings" value="earrings"><Typography></Typography>Earrings</Grid>
-        <Grid item lg={1} xs={12} style={{textAlign:"center"}} className={classes.FooterItems} label="Bracelets" value="bracelets"><Typography>Bracelets</Typography></Grid>
-      
-        <Grid item sm={12} style={{textAlign:"center"}}><FacebookIcon/><InstagramIcon/></Grid>
+    <PlayCircleFilledIcon lg={12} fontSize="large" className={classes.ScrollIcon} onClick={handleScrollClick}/>
+    <Grid container alignItems="center" justifyContent="center" value={value} onChange={(event, newValue) => {setValue(newValue);}} className={classes.root}>
+      {/* <Grid item component={PlayCircleFilledIcon} lg={12} fontSize="large" className={classes.ScrollIcon}/> */}
+      <Grid item lg={2} xs={12} style={{textAlign:"center"}} className={classes.FooterItems} label="Necklaces & Pednants" value="Necklaces"><Typography>Necklaces & Pendants</Typography></Grid>
+      <Grid item lg={1} xs={12} style={{textAlign:"center"}} className={classes.FooterItems} label="Rings" value="Rings"><Typography></Typography>Rings</Grid>
+      <Grid item lg={1} xs={12} style={{textAlign:"center"}} className={classes.FooterItems} label="Earrings" value="earrings"><Typography></Typography>Earrings</Grid>
+      <Grid item lg={1} xs={12} style={{textAlign:"center"}} className={classes.FooterItems} label="Bracelets" value="bracelets"><Typography>Bracelets</Typography></Grid>
+    
+      <Grid item sm={12} style={{textAlign:"center"}}><FacebookIcon/><InstagramIcon/></Grid>
 
-      </Grid>
+    </Grid>
     </div>
+    
   );
 }

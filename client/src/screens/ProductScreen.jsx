@@ -4,7 +4,11 @@ import{Paper, Link, Card, Button, Grid}  from '@material-ui/core/'
 import { Link as RouterLink } from 'react-router-dom';
 import Rating from '../components/Rating'
 import {List,ListItem,ListItemIcon,ListItemText, Divider} from '@material-ui/core/';
-import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux';
+import {listProductDetails} from '../actions/productActions'
+import Message from '../components/Message'
+import Loader from '../components/Loader'
+// import axios from 'axios'
 
 const useStyles = makeStyles({
   root: {
@@ -17,19 +21,24 @@ const useStyles = makeStyles({
 
 
 const ProductScreen = ({match}) =>{
+  const dispatch = useDispatch()
+  const productDetails= useSelector(state=>state.productDetails)
+  const {loading, error, product} = productDetails
   const classes = useStyles()
-  const [product,setProduct] = useState({})
+  // const [product,setProduct] = useState({})
 
   useEffect(()=>{
-    axios.get(`/api/products/${match.params.id}`)
-      .then(res => {
-      setProduct(res.data);
-    })
-    .catch(err => console.log(err))
-  },[])
+    // axios.get(`/api/products/${match.params.id}`)
+    //   .then(res => {
+    //   setProduct(res.data);
+    // })
+    // .catch(err => console.log(err))
+    dispatch(listProductDetails(match.params.id))
+  },[dispatch, match])
   
   return (
     <div className={classes.root}>
+      {loading ? <Loader/> : error ? <Message severity='error'>{error}</Message> :
       <Grid container >
         <Grid item md={6}>
           <img src={product.image} alt={product.name} className={classes.Image}/>
@@ -71,7 +80,7 @@ const ProductScreen = ({match}) =>{
           </List>
         </Grid>
         
-      </Grid>
+      </Grid>}
 
     </div>
     
