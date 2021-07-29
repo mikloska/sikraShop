@@ -4,6 +4,8 @@ import Product from '../components/Product'
 import Grid from '@material-ui/core/Grid'
 // import axios from 'axios'
 import {listProducts} from '../actions/productActions'
+import Message from '../components/Message'
+import Loader from '../components/Loader'
 
 
 
@@ -26,7 +28,7 @@ const HomeScreen = () => {
   return (
     <div>
       <h1>Latest Products</h1>
-      {loading ? <h2>Loading...</h2> : error ? <h3>{error}</h3> : 
+      {loading ? <Loader/> : error ? <Message severity='error'>{error}</Message> : 
       <Grid container spacing={6} justifyContent="center">
         {products.map((product) => (
           

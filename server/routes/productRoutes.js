@@ -11,7 +11,7 @@ router.get('/', async (req, res, next) => {
   try{
     const products=await Product.find({})
     if(products) return res.json(products)
-    // return next(new Error('Error getting products.'))
+    // throw new Error('Error getting products dude')
     return next()
   } 
   catch(error){
