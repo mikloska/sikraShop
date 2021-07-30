@@ -13,22 +13,27 @@ import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 const useStyles = makeStyles({
   root: {
     bottom: 0,
- 
     marginTop:'auto',
     backgroundColor: 'teal',
     width: "100%",
     marginTop : 35,
+    paddingTop: 35,
     height: 260
   },
   FooterNav: {
     // marginTop: 70
   },
   ScrollIcon: {
-    bottom: -50,
+    '&:hover':{opacity:0.5},
+    cursor: 'pointer',
+    bottom: -53,
     position: 'relative',
     display: 'block',
     margin: 'auto',
     transform: "rotate(-90deg)",
+  },
+  SocialMediaIcons: {
+    '&:hover':{opacity:0.5},
   }
 });
 
@@ -51,7 +56,9 @@ export default function Footer({handleScrollClick}) {
       <Grid item lg={1} xs={12} style={{textAlign:"center"}} className={classes.FooterItems} label="Earrings" value="earrings"><Typography></Typography>Earrings</Grid>
       <Grid item lg={1} xs={12} style={{textAlign:"center"}} className={classes.FooterItems} label="Bracelets" value="bracelets"><Typography>Bracelets</Typography></Grid>
     
-      <Grid item sm={12} style={{textAlign:"center"}}><FacebookIcon/><InstagramIcon/></Grid>
+      <Grid item sm={12} style={{textAlign:"center"}}>
+        <a href='https://www.facebook.com/SikraJewelry/' target="_blank"><FacebookIcon className={classes.SocialMediaIcons} fontSize="large" style={{ color: 'black', textDecoration: 'none'}}/></a>
+        <a href='https://www.instagram.com/sikrajewelry/?hl=en' target="_blank"><InstagramIcon className={classes.SocialMediaIcons} fontSize="large" style={{ color: 'black', textDecoration: 'none'}}/></a></Grid>
 
     </Grid>
     </div>
