@@ -7,6 +7,7 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
+import { Link as RouterLink } from 'react-router-dom';
 
 
 
@@ -51,10 +52,10 @@ export default function Footer({handleScrollClick}) {
     <PlayCircleFilledIcon lg={12} fontSize="large" className={classes.ScrollIcon} onClick={handleScrollClick}/>
     <Grid container alignItems="center" justifyContent="center" value={value} onChange={(event, newValue) => {setValue(newValue);}} className={classes.root}>
       {/* <Grid item component={PlayCircleFilledIcon} lg={12} fontSize="large" className={classes.ScrollIcon}/> */}
-      <Grid item lg={2} xs={12} style={{textAlign:"center"}} className={classes.FooterItems} label="Necklaces & Pednants" value="Necklaces"><Typography>Necklaces & Pendants</Typography></Grid>
-      <Grid item lg={1} xs={12} style={{textAlign:"center"}} className={classes.FooterItems} label="Rings" value="Rings"><Typography></Typography>Rings</Grid>
-      <Grid item lg={1} xs={12} style={{textAlign:"center"}} className={classes.FooterItems} label="Earrings" value="earrings"><Typography></Typography>Earrings</Grid>
-      <Grid item lg={1} xs={12} style={{textAlign:"center"}} className={classes.FooterItems} label="Bracelets" value="bracelets"><Typography>Bracelets</Typography></Grid>
+      <Grid item lg={2} xs={12} style={{textAlign:"center"}} className={classes.FooterItems} label="Necklaces & Pednants" value="Necklaces" style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/necklaces'><Typography>Necklaces & Pendants</Typography></Grid>
+      <Grid item lg={1} xs={12} style={{textAlign:"center"}} className={classes.FooterItems} label="Rings" value="Rings" style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/rings'><Typography></Typography>Rings</Grid>
+      <Grid item lg={1} xs={12} style={{textAlign:"center"}} className={classes.FooterItems} label="Earrings" value="earrings" style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/earrings'><Typography></Typography>Earrings</Grid>
+      <Grid item lg={1} xs={12} style={{textAlign:"center"}} className={classes.FooterItems} label="Bracelets" value="bracelets" style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/bracelets'><Typography>Bracelets</Typography></Grid>
     
       <Grid item sm={12} style={{textAlign:"center"}}>
         <a href='https://www.facebook.com/SikraJewelry/' target="_blank"><FacebookIcon className={classes.SocialMediaIcons} fontSize="large" style={{ color: 'black', textDecoration: 'none'}}/></a>

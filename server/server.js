@@ -5,9 +5,9 @@
 // const PORT = process.env.PORT || 3000;
 // const products = require(path.resolve(__dirname, './data/products'))
 import "@babel/polyfill"
-import express from 'express';
-import dotenv from 'dotenv';
-import mongoose from 'mongoose';
+import express from 'express'
+import dotenv from 'dotenv'
+import mongoose from 'mongoose'
 //colorizes terminal
 import colors from 'colors'
 //Database connection

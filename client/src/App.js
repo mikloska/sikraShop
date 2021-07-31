@@ -4,11 +4,13 @@ import Footer from './components/Footer';
 import Container from '@material-ui/core/Container'
 import HomeScreen from './screens/HomeScreen'
 import ProductScreen from './screens/ProductScreen'
+import BasketScreen from './screens/BasketScreen';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import SignIn from './components/SignIn'
 import SignUp from './components/SignUp'
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import { makeStyles } from '@material-ui/core/styles';
+
 
 const useStyles = makeStyles({
   ScrollIcon: {
@@ -54,6 +56,10 @@ useEffect(() => {
             <Route path ='/product/:id' component={ProductScreen} />
             <Route path ='/signin' component={SignIn} exact/>
             <Route path ='/signup' component={SignUp} exact/>
+            <Route path ='/necklaces' />
+            <Route path ='/rings' />
+            <Route path ='/earrings' />
+            <Route path ='/bracelets' />
           </Container>
           
         {/* {document.body.scrollHeight ? (

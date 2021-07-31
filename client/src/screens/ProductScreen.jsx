@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import{Paper, Link, Card, Button, Grid}  from '@material-ui/core/'
 import { Link as RouterLink } from 'react-router-dom';
 import Rating from '../components/Rating'
-import {List,ListItem,ListItemIcon,ListItemText, Divider} from '@material-ui/core/';
+import {List, ListItem, ListItemIcon, ListItemText, Divider, FormControl, Select, MenuItem, InputLabel} from '@material-ui/core/';
 import { useDispatch, useSelector } from 'react-redux';
 import {listProductDetails} from '../actions/productActions'
 import Message from '../components/Message'
@@ -16,11 +16,15 @@ const useStyles = makeStyles({
   },
   Image: {
     width:'100%'
+  },
+  formControl: {
+    minWidth: 100
   }
 })
 
 
-const ProductScreen = ({match}) =>{
+const ProductScreen = ({history, match}) =>{
+  const [qty, setQty] = useState(0)
   const dispatch = useDispatch()
   const productDetails= useSelector(state=>state.productDetails)
   const {loading, error, product} = productDetails
@@ -35,6 +39,10 @@ const ProductScreen = ({match}) =>{
     // .catch(err => console.log(err))
     dispatch(listProductDetails(match.params.id))
   },[dispatch, match])
+
+  const handleAddToBasket = () => {
+    history.push(`/basket/${match.params.id}?qty=${qty}`)
+  }
   
   return (
     <div className={classes.root}>
@@ -73,9 +81,25 @@ const ProductScreen = ({match}) =>{
               <ListItemText>Status:   {product.countInStock > 0 ? 'In Stock' : 'Out of Stock'}</ListItemText>
             </ListItem>
           </List>
+          {product.countInStock > 0 && (
           <List>
-            <Button type='button' style={{width:'80%'}} variant='outlined' disabled={product.countInStock===0}>
-              Add To Cart
+            <ListItem>
+              {/* Update quantity state to be the selected value. */}
+              <FormControl className={classes.formControl} value={qty} onChange={e=>setQty(e.target.value)}>
+                <InputLabel>Quantity</InputLabel>
+                <Select defaultValue="">
+                  {/* Nothing will display after selected without a value!! */}
+                  {[...Array(product.countInStock).keys()].map(x=> (
+                    <MenuItem key={x+1} value={x+1}>{x+1}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </ListItem>
+          </List>)}
+
+          <List>
+            <Button type='button' style={{width:'80%'}} variant='outlined' disabled={product.countInStock===0} onClick={handleAddToBasket}>
+              Add To Basket
             </Button>
           </List>
         </Grid>
