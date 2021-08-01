@@ -57,9 +57,10 @@ useEffect(() => {
             <Route path ='/signin' component={SignIn} exact/>
             <Route path ='/signup' component={SignUp} exact/>
             <Route path ='/necklaces' />
-            <Route path ='/rings' />
             <Route path ='/earrings' />
+            <Route path ='/rings' />
             <Route path ='/bracelets' />
+            <Route path ='about'/>
           </Container>
           
         {/* {document.body.scrollHeight ? (

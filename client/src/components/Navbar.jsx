@@ -97,11 +97,20 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar= () => {
   const classes = useStyles();
+  const [mainNavanchorEl, setMainNavAnchorEl] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const handleNavMenuOpen = (event) =>{
+    setMainNavAnchorEl(event.currentTarget);
+  }
+
+  const handleNavMenuClose = () =>{
+    setMainNavAnchorEl(null);
+  }
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -157,7 +166,7 @@ const Navbar= () => {
         aria-haspopup="true"
         color="inherit"
         style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/basket'
-      
+        onClick={handleMobileMenuClose}
       >
       <Badge badgeContent={4} color="primary">
         <ShoppingBasketIcon style={{color:"black"}}/>
@@ -184,14 +193,25 @@ const Navbar= () => {
     <div className={classes.grow}>
       <AppBar position="static" className={classes.stylebar}>
         <Toolbar>
+          
           <IconButton
             edge="start"
             className={classes.menuButton}
             color="inherit"
             aria-label="open drawer"
+            onClick={handleNavMenuOpen}
           >
+            
             <MenuIcon style={{color:"black"}}/>
           </IconButton>
+          <Menu anchorEl={mainNavanchorEl} keepMounted open={Boolean(mainNavanchorEl)} onClose={handleNavMenuClose}>
+            <MenuItem onClick={handleNavMenuClose} style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/necklaces'>Necklaces & Pendants</MenuItem>
+            <MenuItem onClick={handleNavMenuClose} style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/earrings'>Earrings</MenuItem>
+            <MenuItem onClick={handleNavMenuClose} style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/rings'>Rings</MenuItem>
+            <MenuItem onClick={handleNavMenuClose} style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/bracelets'>Bracelets</MenuItem>
+            <MenuItem onClick={handleNavMenuClose} style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/about'>About Us</MenuItem>
+          </Menu>
+          
           {/* <Image alt="Example Alt" src="https://sikra.s3.us-east-2.amazonaws.com/logo-%2Bhigh%2Bres4.png" /> */}
           {/* <Typography style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/' className={classes.title} variant="h6" noWrap>
             Sikra Jewelry
