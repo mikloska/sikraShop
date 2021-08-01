@@ -168,7 +168,7 @@ const Navbar= () => {
         style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/basket'
         onClick={handleMobileMenuClose}
       >
-      <Badge badgeContent={4} color="primary">
+      <Badge badgeContent={4} color="primary" style={{transform: 'translate(74%, -69%)'}}>
         <ShoppingBasketIcon style={{color:"black"}}/>
       </Badge>
       </IconButton>
@@ -201,10 +201,10 @@ const Navbar= () => {
             aria-label="open drawer"
             onClick={handleNavMenuOpen}
           >
-            
+          
             <MenuIcon style={{color:"black"}}/>
           </IconButton>
-          <Menu anchorEl={mainNavanchorEl} keepMounted open={Boolean(mainNavanchorEl)} onClose={handleNavMenuClose}>
+          <Menu justify = "center" anchorEl={mainNavanchorEl} keepMounted open={Boolean(mainNavanchorEl)} onClose={handleNavMenuClose}>
             <MenuItem onClick={handleNavMenuClose} style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/necklaces'>Necklaces & Pendants</MenuItem>
             <MenuItem onClick={handleNavMenuClose} style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/earrings'>Earrings</MenuItem>
             <MenuItem onClick={handleNavMenuClose} style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/rings'>Rings</MenuItem>
