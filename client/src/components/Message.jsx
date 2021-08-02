@@ -4,7 +4,8 @@ import { Alert, AlertTitle } from '@material-ui/lab';
 const Message = ({severity, children}) => {
   const [alertTitle, setAlertTitle] = useState('Error')
   return (
-    <Alert severity={severity}><AlertTitle>{alertTitle}</AlertTitle>{children}</Alert>
+    <Alert severity={severity}>{children}</Alert>
+    // <Alert severity={severity}><AlertTitle>{alertTitle}</AlertTitle>{children}</Alert>
   )
 }
 

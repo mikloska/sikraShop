@@ -56,10 +56,11 @@ export default function Footer({handleScrollClick}) {
       <Grid item lg={1} xs={12} style={{textAlign:"center"}} className={classes.FooterItems} label="Rings" value="Rings" style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/rings'><Typography></Typography>Rings</Grid>
       <Grid item lg={1} xs={12} style={{textAlign:"center"}} className={classes.FooterItems} label="Earrings" value="earrings" style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/earrings'><Typography></Typography>Earrings</Grid>
       <Grid item lg={1} xs={12} style={{textAlign:"center"}} className={classes.FooterItems} label="Bracelets" value="bracelets" style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/bracelets'><Typography>Bracelets</Typography></Grid> */}
-      <Grid item sm={12} style={{textAlign:"center"}}><Typography>Copyright © {new Date().getFullYear()} Sikra Jewelry</Typography></Grid>
       <Grid item sm={12} style={{textAlign:"center"}}>
         <a href='https://www.facebook.com/SikraJewelry/' target="_blank"><FacebookIcon className={classes.SocialMediaIcons} fontSize="large" style={{ color: 'black', textDecoration: 'none'}}/></a>
-        <a href='https://www.instagram.com/sikrajewelry/?hl=en' target="_blank"><InstagramIcon className={classes.SocialMediaIcons} fontSize="large" style={{ color: 'black', textDecoration: 'none'}}/></a></Grid>
+        <a href='https://www.instagram.com/sikrajewelry/?hl=en' target="_blank"><InstagramIcon className={classes.SocialMediaIcons} fontSize="large" style={{ color: 'black', textDecoration: 'none'}}/></a>
+      </Grid>
+      <Grid item sm={12} style={{textAlign:"center"}}><Typography>Copyright © {new Date().getFullYear()} Sikra Jewelry</Typography></Grid>
 
     </Grid>
     </div>

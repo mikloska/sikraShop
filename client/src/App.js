@@ -54,8 +54,10 @@ useEffect(() => {
           <Container className='main-container'>
             <Route path ='/' component={HomeScreen} exact/>
             <Route path ='/product/:id' component={ProductScreen} />
-            <Route path ='/signin' component={SignIn} exact/>
-            <Route path ='/signup' component={SignUp} exact/>
+            <Route path ='/signin' component={SignIn} />
+            <Route path ='/signup' component={SignUp} />
+            <Route path ='/signup' component={SignUp} />
+            <Route path ='/basket/:id?' component={BasketScreen}/>
             <Route path ='/necklaces' />
             <Route path ='/earrings' />
             <Route path ='/rings' />

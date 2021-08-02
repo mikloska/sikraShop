@@ -1,6 +1,6 @@
 import React from 'react';
 import { alpha, makeStyles } from '@material-ui/core/styles';
-import {AppBar, Toolbar, IconButton, Link, Menu, MenuItem, Typography, InputBase, TextField, Badge} from '@material-ui/core';
+import {AppBar, Toolbar, IconButton, Menu, MenuItem, Typography, InputBase, TextField, Badge} from '@material-ui/core';
 import Image from "material-ui-image";
 import MenuIcon from '@material-ui/icons/Menu';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
@@ -168,7 +168,8 @@ const Navbar= () => {
         style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/basket'
         onClick={handleMobileMenuClose}
       >
-      <Badge badgeContent={4} color="primary" style={{transform: 'translate(74%, -69%)'}}>
+        {/* style={{transform: 'translate(74%, -69%)'}} */}
+      <Badge badgeContent={4} color="primary">
         <ShoppingBasketIcon style={{color:"black"}}/>
       </Badge>
       </IconButton>

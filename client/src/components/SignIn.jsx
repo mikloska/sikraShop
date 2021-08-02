@@ -9,18 +9,18 @@ import { useHistory } from 'react-router-dom'
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import { Link as RouterLink } from 'react-router-dom';
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Sikra Jewelry
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+// function Copyright() {
+//   return (
+//     <Typography variant="body2" color="textSecondary" align="center">
+//       {'Copyright © '}
+//       <Link color="inherit" href="https://material-ui.com/">
+//         Sikra Jewelry
+//       </Link>{' '}
+//       {new Date().getFullYear()}
+//       {'.'}
+//     </Typography>
+//   );
+// }
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -168,7 +168,7 @@ export default function SignIn({ isLoggedIn, setIsLoggedIn }) {
               </Button>
             </div>
             <Box mt={8}>
-              <Copyright />
+              {/* <Copyright /> */}
             </Box>
           </Box>
         </Card>

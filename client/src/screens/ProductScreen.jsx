@@ -24,7 +24,7 @@ const useStyles = makeStyles({
 
 
 const ProductScreen = ({history, match}) =>{
-  const [qty, setQty] = useState(0)
+  const [qty, setQty] = useState(1)
   const dispatch = useDispatch()
   const productDetails= useSelector(state=>state.productDetails)
   const {loading, error, product} = productDetails
@@ -37,10 +37,12 @@ const ProductScreen = ({history, match}) =>{
     //   setProduct(res.data);
     // })
     // .catch(err => console.log(err))
+    
     dispatch(listProductDetails(match.params.id))
   },[dispatch, match])
 
   const handleAddToBasket = () => {
+    
     history.push(`/basket/${match.params.id}?qty=${qty}`)
   }
   
@@ -85,9 +87,9 @@ const ProductScreen = ({history, match}) =>{
           <List>
             <ListItem>
               {/* Update quantity state to be the selected value. */}
-              <FormControl className={classes.formControl} value={qty} onChange={e=>setQty(e.target.value)}>
+              <FormControl className={classes.formControl} value={qty} >
                 <InputLabel>Quantity</InputLabel>
-                <Select defaultValue="">
+                <Select defaultValue='1' onChange={e=>setQty(e.target.value)}>
                   {/* Nothing will display after selected without a value!! */}
                   {[...Array(product.countInStock).keys()].map(x=> (
                     <MenuItem key={x+1} value={x+1}>{x+1}</MenuItem>

@@ -1,14 +1,133 @@
-import React from 'react'
-import {useDispatch, useSelector} from 'react-redux'
+import React, { useEffect } from 'react'
+import { makeStyles } from '@material-ui/core/styles';
+import { Link as RouterLink } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import {Grid, ListItem, List, Paper, FormControl, Select, Button, MenuItem, Typography, IconButton, InputLabel} from '@material-ui/core/';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import Message from '../components/Message'
+import { addToBasket, removeFromBasket } from '../actions/basketActions'
 
-const BasketScreen = () => {
+const useStyles = makeStyles({
+  Card: {
+    textAlign: 'center'
+  },
+  formControl: {
+    minWidth: 100
+  },
+
+  Media: {
+    height: 'auto',
+    maxWidth:'100%'
+  }
+});
+
+const BasketScreen = ({ match, location, history }) => {
+  const classes=useStyles()
+  const productId = match.params.id
+
+  const qty = location.search ? Number(location.search.split('=')[1]) : 1
+
+  const dispatch = useDispatch()
+
+  const basket = useSelector((state) => state.basket)
+  const { basketItems } = basket
+
+  useEffect(() => {
+    // console.log(match.params.id)
+    // console.log('quantity: ', 7, 'productId: ',productId)
+    // dispatch(addToBasket('60f729e897ee944ab06f2346', 7))
+    if (productId) {
+      console.log('productId: ', productId)
+      dispatch(addToBasket(productId, qty))
+    }
+  }, [dispatch, productId, qty])
+
+  const removeFromBasketHandler = (id) => {
+    dispatch(removeFromBasket(id))
+  }
+
+  const checkoutHandler = () => {
+    history.push('/login?redirect=shipping')
+  }
+
   return (
-    <div><h3>Basket</h3></div>
     
+      <div>
+      {/* <Grid item md={8}> */}
+        <h1>Basket</h1>
+        {basketItems.length === 0 ? (
+          <Message>
+            Your basket is empty <RouterLink to='/'>Go Back</RouterLink>
+          </Message>
+        ) : (
+   
+          <Grid container spacing={6} justifyContent="center" >
+            {basketItems.map((item) => (
+          
+            <Grid item xs={12}sm = {12} md = {6} lg = {4} xl = {3}>
+              <Paper elevation={7} className = {classes.Card} ml={6} key={item.product}>
+              <RouterLink to={`/product/${item.product}`} variant='h6' style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                  <img src={item.image} className={classes.Media}/> 
+                <Typography variant = "subtitle2">
+                  <strong >{item.name}</strong>
+                </Typography>
+      
+                <Typography>
+                  <strong>{item.price}</strong>
+                </Typography>
+              </RouterLink>
+              
+                <FormControl className={classes.formControl} >
+                <InputLabel>Quantity</InputLabel>
+                  <Select value={item.qty} onChange={(e) =>
+                    dispatch(addToBasket(item.product, Number(e.target.value)))}
+                  >
+                  {[...Array(item.countInStock).keys()].map((x) => (
+                    <MenuItem key={x + 1} value={x + 1}>
+                      {x + 1}
+                    </MenuItem>))}
+                  </Select>
+                </FormControl>
+                <IconButton onClick={() => removeFromBasketHandler(item.product)}> 
+                <DeleteForeverIcon style={{color:"black"}}/>
+                </IconButton>
+              </Paper>
+            </Grid>
+      
+            ))}
+            </Grid>
+
+        )}
+      {/* </Grid>
+      <Grid item md={4}> */}
+        <Paper elevation={7}>
+          <List>
+            <ListItem>
+              <h2>
+                Subtotal ({basketItems.reduce((acc, item) => acc + item.qty, 0)})
+                items
+              </h2>
+              $
+              {basketItems
+                .reduce((acc, item) => acc + item.qty * item.price, 0)
+                .toFixed(2)}
+            </ListItem>
+            <ListItem>
+              <Button
+                type='button'
+                className='btn-block'
+                disabled={basketItems.length === 0}
+                onClick={checkoutHandler}
+              >
+                Proceed To Checkout
+              </Button>
+            </ListItem>
+          </List>
+        </Paper>
+      {/* </Grid> */}
+    {/* </Grid> */}
+    </div>
   )
-
 }
-
 
 export default BasketScreen
