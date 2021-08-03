@@ -75,7 +75,7 @@ const BasketScreen = ({ match, location, history }) => {
           </Message>
         ) : (
    
-          <Grid container spacing={6} justifyContent="center" style={{marginBottom:50}}>
+          <Grid container spacing={6} justifyContent="center" >
             {basketItems.map((item) => (
           
             <Grid item xs={12}sm = {12} md = {6} lg = {3} xl = {3} key={item.product}>
@@ -113,7 +113,7 @@ const BasketScreen = ({ match, location, history }) => {
             </Grid>
 
         )}
-      <Grid container justifyContent="center"> 
+      <Grid container justifyContent="center" style={{marginTop:50}}> 
       <Grid item md={4}>
         <Paper elevation={7}>
           <List>
