@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { alpha, makeStyles } from '@material-ui/core/styles';
-import {AppBar, Toolbar, IconButton, Menu, MenuItem, Typography, InputBase, TextField, Badge} from '@material-ui/core';
+import {AppBar, Toolbar, IconButton, Menu, MenuItem, Typography, Button, TextField, Badge} from '@material-ui/core';
 import Image from "material-ui-image";
 import MenuIcon from '@material-ui/icons/Menu';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
@@ -9,7 +9,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import { Link as RouterLink } from 'react-router-dom';
-import { Icon } from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux'
+import { changeBadge } from '../actions/itemCountActions'
 
 const useStyles = makeStyles((theme) => ({
   stylebar:{
@@ -97,6 +98,16 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar= () => {
   const classes = useStyles();
+  const itemCount = useSelector(state => state.itemCount)
+  const dispatch = useDispatch()
+  const basket = useSelector((state) => state.basket)
+  const { basketItems } = basket
+  
+  //Access counter of items in cart in Redux store to use with bade
+  useEffect(() => {
+    dispatch(changeBadge(basketItems.reduce((acc, item) => acc + item.qty, 0)))
+  }, [basketItems])
+
   const [mainNavanchorEl, setMainNavAnchorEl] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -169,7 +180,7 @@ const Navbar= () => {
         onClick={handleMobileMenuClose}
       >
         {/* style={{transform: 'translate(74%, -69%)'}} */}
-      <Badge badgeContent={4} color="primary">
+      <Badge badgeContent={itemCount} color="primary">
         <ShoppingBasketIcon style={{color:"black"}}/>
       </Badge>
       </IconButton>
@@ -194,7 +205,6 @@ const Navbar= () => {
     <div className={classes.grow}>
       <AppBar position="static" className={classes.stylebar}>
         <Toolbar>
-          
           <IconButton
             edge="start"
             className={classes.menuButton}
@@ -211,6 +221,7 @@ const Navbar= () => {
             <MenuItem onClick={handleNavMenuClose} style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/rings'>Rings</MenuItem>
             <MenuItem onClick={handleNavMenuClose} style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/bracelets'>Bracelets</MenuItem>
             <MenuItem onClick={handleNavMenuClose} style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/about'>About Us</MenuItem>
+            <MenuItem onClick={handleNavMenuClose} style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/custom'>Custom Work</MenuItem>
           </Menu>
           
           {/* <Image alt="Example Alt" src="https://sikra.s3.us-east-2.amazonaws.com/logo-%2Bhigh%2Bres4.png" /> */}
@@ -254,9 +265,11 @@ const Navbar= () => {
                 style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/basket'
                 
                 >
-            <Badge badgeContent={4} color="primary">
+
+            <Badge badgeContent={itemCount} color="primary">
               <ShoppingBasketIcon style={{color:"black"}}/>
             </Badge>
+
             </IconButton>
             <IconButton
               edge="end"

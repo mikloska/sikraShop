@@ -62,6 +62,7 @@ useEffect(() => {
             <Route path ='/earrings' />
             <Route path ='/rings' />
             <Route path ='/bracelets' />
+            <Route path ='/custom'/>
             <Route path ='about'/>
           </Container>
           

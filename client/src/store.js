@@ -3,12 +3,14 @@ import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { productDetailsReducer, productListReducer } from './reducers/productReducers';
 import { basketReducer } from './reducers/basketReducers';
+import {itemCountReducer} from './reducers/itemCountReducers'
 
 
 const reducer =  combineReducers({
   productList: productListReducer,
   productDetails: productDetailsReducer,
   basket:basketReducer,
+  itemCount: itemCountReducer,
 })
 
 const basketFromStorage = localStorage.getItem('basketItems')?JSON.parse(localStorage.getItem('basketItems')) : []

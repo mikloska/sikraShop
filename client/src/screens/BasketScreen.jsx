@@ -6,6 +6,7 @@ import {Grid, ListItem, List, Paper, FormControl, Select, Button, MenuItem, Typo
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import Message from '../components/Message'
 import { addToBasket, removeFromBasket } from '../actions/basketActions'
+import { changeBadge } from '../actions/itemCountActions'
 
 const useStyles = makeStyles({
   Card: {
@@ -24,21 +25,29 @@ const useStyles = makeStyles({
 const BasketScreen = ({ match, location, history }) => {
   const classes=useStyles()
   const productId = match.params.id
-
+  const itemCount = useSelector(state => state.itemCount)
   const qty = location.search ? Number(location.search.split('=')[1]) : 1
-
+  const updateCart = (e, item) => {
+    dispatch(changeBadge(basketItems.reduce((acc, item) => acc + item.qty, 0)))
+    dispatch(addToBasket(item.product, Number(e)))
+  }
   const dispatch = useDispatch()
 
   const basket = useSelector((state) => state.basket)
   const { basketItems } = basket
 
   useEffect(() => {
+    dispatch(changeBadge(basketItems.reduce((acc, item) => acc + item.qty, 0)))
+    // console.log(initial)
     // console.log(match.params.id)
     // console.log('quantity: ', 7, 'productId: ',productId)
     // dispatch(addToBasket('60f729e897ee944ab06f2346', 7))
     if (productId) {
-      console.log('productId: ', productId)
+      // console.log('productId: ', productId)
+      
       dispatch(addToBasket(productId, qty))
+      
+      // dispatch(changeBadge(basketItems.reduce((acc, item) => acc + item.qty, 0)))
     }
   }, [dispatch, productId, qty])
 
@@ -64,8 +73,8 @@ const BasketScreen = ({ match, location, history }) => {
           <Grid container spacing={6} justifyContent="center" >
             {basketItems.map((item) => (
           
-            <Grid item xs={12}sm = {12} md = {6} lg = {4} xl = {3}>
-              <Paper elevation={7} className = {classes.Card} ml={6} key={item.product}>
+            <Grid item xs={12}sm = {12} md = {6} lg = {4} xl = {3} key={item.product}>
+              <Paper elevation={7} className = {classes.Card} ml={6} >
               <RouterLink to={`/product/${item.product}`} variant='h6' style={{ color: 'inherit', textDecoration: 'inherit'}}>
                   <img src={item.image} className={classes.Media}/> 
                 <Typography variant = "subtitle2">
@@ -80,8 +89,8 @@ const BasketScreen = ({ match, location, history }) => {
                 <FormControl className={classes.formControl} >
                 <InputLabel>Quantity</InputLabel>
                   <Select value={item.qty} onChange={(e) =>
-                    dispatch(addToBasket(item.product, Number(e.target.value)))}
-                  >
+                  updateCart(e.target.value, item)}>
+              
                   {[...Array(item.countInStock).keys()].map((x) => (
                     <MenuItem key={x + 1} value={x + 1}>
                       {x + 1}
