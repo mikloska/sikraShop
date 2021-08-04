@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import { alpha, makeStyles } from '@material-ui/core/styles';
+import { alpha, makeStyles, withStyles } from '@material-ui/core/styles';
 import {AppBar, Toolbar, IconButton, Menu, MenuItem, Typography, Button, TextField, Badge} from '@material-ui/core';
 import Image from "material-ui-image";
 import MenuIcon from '@material-ui/icons/Menu';
@@ -12,7 +12,18 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import { changeBadge } from '../actions/itemCountActions'
 
+const MyBadge = withStyles((theme) => ({
+  badge: {
+    left: 7,
+    top: -4,
+    backgroundColor:'#067e78'
+  },
+}))(Badge);
+
 const useStyles = makeStyles((theme) => ({
+  Badge : {
+
+  },
   stylebar:{
     background: 'white'
   },
@@ -180,9 +191,9 @@ const Navbar= () => {
         onClick={handleMobileMenuClose}
       >
         {/* style={{transform: 'translate(74%, -69%)'}} */}
-      <Badge badgeContent={itemCount} color="primary">
+      <MyBadge badgeContent={itemCount} color="primary">
         <ShoppingBasketIcon style={{color:"black"}}/>
-      </Badge>
+      </MyBadge>
       </IconButton>
 
       </MenuItem>
@@ -266,9 +277,9 @@ const Navbar= () => {
                 
                 >
 
-            <Badge badgeContent={itemCount} color="primary">
+            <MyBadge badgeContent={itemCount} color='primary'>
               <ShoppingBasketIcon style={{color:"black"}}/>
-            </Badge>
+            </MyBadge>
 
             </IconButton>
             <IconButton

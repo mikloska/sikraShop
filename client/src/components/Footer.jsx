@@ -1,21 +1,23 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, styled } from '@material-ui/core/styles';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import {Grid, Typography} from '@material-ui/core'
 import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
-import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import { Link as RouterLink } from 'react-router-dom';
 
-
+const CustomScroll = styled(PlayCircleFilledIcon)({
+  color:'#067e78'
+  // color:linear-gradient(120deg, #28ccc4, #067e78),
+});
 
 const useStyles = makeStyles({
   root: {
     bottom: 0,
     marginTop:'auto',
-    backgroundColor: 'teal',
+    backgroundColor: '#c8d4e8',
     width: "100%",
     marginTop : 35,
     paddingTop: 35,
@@ -49,7 +51,7 @@ export default function Footer({handleScrollClick}) {
 
   return (
     <div>
-    <PlayCircleFilledIcon lg={12} fontSize="large" className={classes.ScrollIcon} onClick={handleScrollClick}/>
+    <CustomScroll lg={12} fontSize="large" className={classes.ScrollIcon} onClick={handleScrollClick}/>
     <Grid container alignItems="center" justifyContent="center" value={value} onChange={(event, newValue) => {setValue(newValue);}} className={classes.root}>
       {/* <Grid item component={PlayCircleFilledIcon} lg={12} fontSize="large" className={classes.ScrollIcon}/> */}
       {/* <Grid item lg={2} xs={12} style={{textAlign:"center"}} className={classes.FooterItems} label="Necklaces & Pednants" value="Necklaces" style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/necklaces'><Typography>Necklaces & Pendants</Typography></Grid>

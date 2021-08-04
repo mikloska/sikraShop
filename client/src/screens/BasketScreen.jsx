@@ -9,6 +9,9 @@ import { addToBasket, removeFromBasket } from '../actions/basketActions'
 import { changeBadge } from '../actions/itemCountActions'
 
 const useStyles = makeStyles({
+  CheckoutButton: {
+   '&:hover':{color: 'white',background:'linear-gradient(120deg, #28ccc4, #067e78)'},
+  },
   Card: {
     textAlign: 'center'
   },
@@ -68,7 +71,7 @@ const BasketScreen = ({ match, location, history }) => {
     
       <div>
       {/* <Grid item md={8}> */}
-        <h1>Basket</h1>
+        <h1> Shopping Basket</h1>
         {basketItems.length === 0 ? (
           <Message>
             Your basket is empty <RouterLink to='/'>Go Back</RouterLink>
@@ -113,26 +116,26 @@ const BasketScreen = ({ match, location, history }) => {
             </Grid>
 
         )}
-      <Grid container justifyContent="center" style={{marginTop:50}}> 
+      <Grid container style={{marginTop:50}} justifyContent="center"> 
       <Grid item md={4}>
-        <Paper elevation={7}>
+        <Paper elevation={7} style={{ display: "flex", justifyContent: "center" }}>
           <List>
             <ListItem>
               <h2>
-                Subtotal ({total})
-                items
-              </h2>
-              $
+                Subtotal: $
               {basketItems
                 .reduce((acc, item) => acc + item.qty * item.price, 0)
                 .toFixed(2)}
+              </h2>
             </ListItem>
-            <ListItem>
+            <ListItem style={{ display: "flex", justifyContent: "center", marginBottom:20 }}>
               <Button
                 type='button'
-                className='btn-block'
+                color='default'
+                variant="contained"
                 disabled={basketItems.length === 0}
                 onClick={checkoutHandler}
+                className={classes.CheckoutButton}
               >
                 Proceed To Checkout
               </Button>

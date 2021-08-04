@@ -64,6 +64,7 @@ useEffect(() => {
             <Route path ='/bracelets' />
             <Route path ='/custom'/>
             <Route path ='about'/>
+            <Route path='/login'/>
           </Container>
           
         {/* {document.body.scrollHeight ? (
