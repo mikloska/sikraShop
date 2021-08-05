@@ -33,8 +33,9 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor:'#067e78'
+    // margin: theme.spacing(1),
+    // backgroundColor: theme.palette.primary.main,
   },
   form: {
     width: '100%',
@@ -89,7 +90,7 @@ export default function SignIn({ isLoggedIn, setIsLoggedIn }) {
                 <img src="https://i.imgur.com/q7xlJjy.png" />
               </div> */}
               <Typography component="h1" variant="h5">
-                Sign in
+                Sign In
               </Typography>
               <form className={classes.form} noValidate onSubmit={handleSubmit}>
                 <TextField

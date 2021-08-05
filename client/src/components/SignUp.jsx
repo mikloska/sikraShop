@@ -1,31 +1,30 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import {Avatar, Button, Card, CssBaseline, TextField, Link, Grid, Box, Checkbox, Typography, Divider, Container} from '@material-ui/core';
+import {Avatar, Button, Card, CssBaseline, TextField, Link, Grid, Box, Paper, Checkbox, Typography, Divider, Container} from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import HouseIcon from '@material-ui/icons/House';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, styled } from '@material-ui/core/styles';
 // import GoogleIcon from './GoogleIcon';
 // import api from '../axios/axios';
 import { useHistory } from 'react-router-dom'
-import LockIcon from '@material-ui/icons/Lock';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
+import PermIdentityIcon from '@material-ui/icons/PermIdentity';
+import { Link as RouterLink } from 'react-router-dom';
 
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Sikra Jewelry
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+// const CustomLock = withStyles((theme) => ({
+//   lock: {
+//     backgroundColor:'#067e78'
+//   },
+// }))(LockOpenIcon);
+// const CustomLock = styled(LockOpenIcon)({
+//   color:'#067e78'
+//   // color:linear-gradient(120deg, #28ccc4, #067e78),
+// });
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    padding: theme.spacing(5),
+    paddingLeft:20,
+    paddingRight:20
+    // padding: theme.spacing(5),
     // height="100%"
   },
   paper: {
@@ -35,14 +34,16 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor:'#067e78'
+    // margin: theme.spacing(1),
+    // backgroundColor: theme.palette.primary.main,
   },
   form: {
     width: '100%',
     marginTop: theme.spacing(1),
   },
   submit: {
+    background:'linear-gradient(120deg, #28ccc4, #067e78)',
     margin: theme.spacing(3, 0, 2),
   },
   googleBtn: {
@@ -50,50 +51,41 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp({isLoggedIn, setIsLoggedIn}) {
+export default function SignIn({ isLoggedIn, setIsLoggedIn }) {
   const classes = useStyles();
   const history = useHistory();
   //state to store input field values
-  const [emails, setEmails] = useState('');
-  const [passwords, setPasswords] = useState('');
-  const [confirm, setConfirm] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  console.log('history ', history)
+  // console.log('history ', history)
   //submit fxn to make http call to BE
-  const checkPasswords = (e) => {
-    if(passwords === confirm) handleSubmit(e)
-  }
   const handleSubmit = (e) => {
-  
-  
     // e.preventDefault();
-  
-    //   api({
-    //     method: 'post',
-    //     url: '/signup',
-    //     data: {
-    //       emails,
-    //       passwords,
-    //     },
-    //   }).then((res) => {
-    //     console.log(res.data.isLoggedIn);
-    //     setIsLoggedIn(res.data.isLoggedIn)
-        
-        
-    //   });
+    // api({
+    //   method: 'post',
+    //   url: '/signin',
+    //   data: {
+    //     email,
+    //     password,
+    //   },
+    // }).then((res) => {
+    //   console.log(res.data.isLoggedIn);
+    //   setIsLoggedIn(res.data.isLoggedIn);
+    // });
   };
 
-  if(isLoggedIn) return <Redirect to="/"/>;
+  if (isLoggedIn) return <Redirect to="/" />;
 
   return (
-    <Container component="main" maxWidth="xs" mt={5}>
-      <Box mt={8} pt={0}>
-        <Card classsName={classes.card} >
+    <Container component="main" maxWidth="xs" mt={5} style={{marginTop:35}}>
+      <Paper mt={8} pt={0} elevation={7}>
+        <Card className={classes.card} >
           <Box p={3} >
             <CssBaseline />
             <div className={classes.paper} >
               <Avatar className={classes.avatar} >
-                <LockIcon />
+                <PermIdentityIcon/>
               </Avatar>
               {/* <div>
                 <img src="https://i.imgur.com/q7xlJjy.png" />
@@ -101,19 +93,19 @@ export default function SignUp({isLoggedIn, setIsLoggedIn}) {
               <Typography component="h1" variant="h5">
                 Sign Up
               </Typography>
-              <form className={classes.form} noValidate onSubmit={checkPasswords}>
-                <TextField
+              <form className={classes.form} noValidate onSubmit={handleSubmit}>
+              <TextField
                   variant="outlined"
                   margin="normal"
                   required
                   fullWidth
-                  id="emails"
-                  label="Email Address"
-                  name="emails"
-                  autoComplete="emails"
-                  value={emails}
+                  id="name"
+                  label="Name"
+                  name="name"
+                  autoComplete="name"
+                  value={name}
                   onChange={(e) => {
-                    setEmails(e.target.value);
+                    setEmail(e.target.value);
                   }}
                 />
                 <TextField
@@ -121,17 +113,30 @@ export default function SignUp({isLoggedIn, setIsLoggedIn}) {
                   margin="normal"
                   required
                   fullWidth
-                  name="passwords"
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
                   label="Password"
                   type="password"
-                  id="passwords"
+                  id="password"
                   autoComplete="current-password"
-                  value={passwords}
+                  value={password}
                   onChange={(e) => {
-                    setPasswords(e.target.value);
+                    setPassword(e.target.value);
                   }}
                 />
-
                 <TextField
                   variant="outlined"
                   margin="normal"
@@ -146,7 +151,7 @@ export default function SignUp({isLoggedIn, setIsLoggedIn}) {
                   onChange={(e) => {
                     setConfirm(e.target.value);
                   }}
-                />      
+                />  
                 {/* <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
@@ -161,18 +166,27 @@ export default function SignUp({isLoggedIn, setIsLoggedIn}) {
                   Sign Up
                 </Button>
                 <Grid container>
-                  {/* <Grid item xs>
+                  <Grid item xs={11}>
                     <Link href="#" variant="body2">
                       Forgot password?
                     </Link>
-                  </Grid> */}
-                  {/* <Grid item>
-                    <Link href="#" variant="body2">
+                  </Grid>
+                  <Grid item xs={11}>
+                    <Link component = {RouterLink} to="/signup" variant="body2">
                       {"Don't have an account? Sign Up"}
                     </Link>
-                  </Grid> */}
+                  </Grid>
                 </Grid>
               </form>
+
+              <Typography
+                component="h3"
+                variant="h5"
+                className={classes.submit}
+              >
+                <Divider />
+              </Typography>
+
 
               <Button
                 fullWidth
@@ -180,16 +194,16 @@ export default function SignUp({isLoggedIn, setIsLoggedIn}) {
                 color="primary"
                 className={classes.submit}
               >
-                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google Logo" />
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google Logo"/>
                 Sign Up With Google
               </Button>
             </div>
             <Box mt={8}>
-              <Copyright />
+              {/* <Copyright /> */}
             </Box>
           </Box>
         </Card>
-      </Box>
+      </Paper>
     </Container>
   );
 }
