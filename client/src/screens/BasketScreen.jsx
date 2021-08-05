@@ -16,7 +16,7 @@ const useStyles = makeStyles({
     textAlign: 'center'
   },
   Link: {
-    '&:hover':{opacity:0.5, color: 'teal'},
+    '&:hover':{opacity:0.5, color: '#067e78'},
     color: 'inherit', 
     textDecoration: 'inherit'
   },

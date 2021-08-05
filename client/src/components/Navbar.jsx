@@ -16,7 +16,7 @@ const MyBadge = withStyles((theme) => ({
   badge: {
     left: 7,
     top: -4,
-    backgroundColor:'#067e78'
+    // backgroundColor:'#067e78'
   },
 }))(Badge);
 

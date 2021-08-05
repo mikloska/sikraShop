@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect as redirect } from 'react-router-dom';
 import {Avatar, Button, Card, CssBaseline, TextField, Link, Grid, Box, Paper, Checkbox, Typography, Divider, Container} from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles, styled } from '@material-ui/core/styles';
 // import GoogleIcon from './GoogleIcon';
 // import api from '../axios/axios';
 import { useHistory } from 'react-router-dom'
-import LockOpenIcon from '@material-ui/icons/LockOpen';
+import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import { Link as RouterLink } from 'react-router-dom';
 
 // const CustomLock = withStyles((theme) => ({
@@ -33,9 +33,9 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   avatar: {
-    backgroundColor:'#067e78'
+    // backgroundColor:'#067e78'
     // margin: theme.spacing(1),
-    // backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.primary.main,
   },
   form: {
     width: '100%',
@@ -50,12 +50,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn({ isLoggedIn, setIsLoggedIn }) {
+const SignUpScreen = ({ isLoggedIn, setIsLoggedIn }) => {
   const classes = useStyles();
   const history = useHistory();
   //state to store input field values
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirm, setConfirm] = useState('');
 
   // console.log('history ', history)
   //submit fxn to make http call to BE
@@ -63,7 +65,7 @@ export default function SignIn({ isLoggedIn, setIsLoggedIn }) {
     // e.preventDefault();
     // api({
     //   method: 'post',
-    //   url: '/signin',
+    //   url: '/SignUp',
     //   data: {
     //     email,
     //     password,
@@ -84,15 +86,29 @@ export default function SignIn({ isLoggedIn, setIsLoggedIn }) {
             <CssBaseline />
             <div className={classes.paper} >
               <Avatar className={classes.avatar} >
-                <LockOpenIcon/>
+                <PermIdentityIcon/>
               </Avatar>
               {/* <div>
                 <img src="https://i.imgur.com/q7xlJjy.png" />
               </div> */}
               <Typography component="h1" variant="h5">
-                Sign In
+                Sign Up
               </Typography>
-              <form className={classes.form} noValidate onSubmit={handleSubmit}>
+              <form className={classes.form} noValidate onSubmit={handleSubmit} >
+              <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="name"
+                  label="Name"
+                  name="name"
+                  autoComplete="name"
+                  value={name}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                />
                 <TextField
                   variant="outlined"
                   margin="normal"
@@ -116,10 +132,25 @@ export default function SignIn({ isLoggedIn, setIsLoggedIn }) {
                   label="Password"
                   type="password"
                   id="password"
-                  autoComplete="current-password"
+                  // autoComplete="current-password"
                   value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);
+                  }}
+                />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="confirm"
+                  label="Confirm Password"
+                  type="confirm"
+                  id="confirm"
+                  // autoComplete="confirm"
+                  value={confirm}
+                  onChange={(e) => {
+                    setConfirm(e.target.value);
                   }}
                 />
                 {/* <FormControlLabel
@@ -133,17 +164,12 @@ export default function SignIn({ isLoggedIn, setIsLoggedIn }) {
                   color="primary"
                   className={classes.submit}
                 >
-                  Sign In
+                  Sign Up
                 </Button>
                 <Grid container>
-                  <Grid item xs={11}>
-                    <Link href="#" variant="body2">
-                      Forgot password?
-                    </Link>
-                  </Grid>
-                  <Grid item xs={11}>
-                    <Link component = {RouterLink} to="/signup" variant="body2">
-                      {"Don't have an account? Sign Up"}
+                   <Grid item xs={11}>
+                    <Link component={RouterLink} to={'/signin'} variant="body2" color='inherit'>
+                      {"Already have an account?"}
                     </Link>
                   </Grid>
                 </Grid>
@@ -165,7 +191,7 @@ export default function SignIn({ isLoggedIn, setIsLoggedIn }) {
                 className={classes.submit}
               >
                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google Logo"/>
-                Sign In With Google
+                Sign Up With Google
               </Button>
             </div>
             <Box mt={8}>
@@ -177,3 +203,5 @@ export default function SignIn({ isLoggedIn, setIsLoggedIn }) {
     </Container>
   );
 }
+
+export default SignUpScreen

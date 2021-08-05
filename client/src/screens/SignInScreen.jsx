@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
-import {Avatar, Button, Card, CssBaseline, TextField, Link, Grid, Box, Paper, Checkbox, Typography, Divider, Container} from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
+// import { Redirect as redirect } from 'react-router-dom';
+import {Avatar, Button, Card, CssBaseline, TextField, Link, Grid, Box, Paper, Typography, Divider, Container} from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles, styled } from '@material-ui/core/styles';
-// import GoogleIcon from './GoogleIcon';
-// import api from '../axios/axios';
 import { useHistory } from 'react-router-dom'
 import LockOpenIcon from '@material-ui/icons/LockOpen';
-import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import { Link as RouterLink } from 'react-router-dom';
-
+import {login} from '../actions/userActions'
+import Message from '../components/Message'
+import Loader from '../components/Loader'
 // const CustomLock = withStyles((theme) => ({
 //   lock: {
 //     backgroundColor:'#067e78'
@@ -34,9 +34,9 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   avatar: {
-    backgroundColor:'#067e78'
+    // backgroundColor:'#067e78'
     // margin: theme.spacing(1),
-    // backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.primary.main,
   },
   form: {
     width: '100%',
@@ -51,31 +51,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn({ isLoggedIn, setIsLoggedIn }) {
+const SignInScreen = ({ location, history }) => {
+  //Define redirect to send users to route if there is an added redirect
+  const redirect= location.search ? location.search.split('=')[1] : '/'
   const classes = useStyles();
-  const history = useHistory();
   //state to store input field values
+  const dispatch=useDispatch()
+  //Get userLogin from state and destructure what we need from it
+  const userLogin=useSelector(state=>state.userLogin)
+  const {loading,error,userInformation}=userLogin
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // console.log('history ', history)
-  //submit fxn to make http call to BE
+  //Redirect if logged in 
+  useEffect(()=>{
+    if(userInformation) history.push(redirect)
+  },[history, userInformation, redirect])
+
   const handleSubmit = (e) => {
-    // e.preventDefault();
-    // api({
-    //   method: 'post',
-    //   url: '/signin',
-    //   data: {
-    //     email,
-    //     password,
-    //   },
-    // }).then((res) => {
-    //   console.log(res.data.isLoggedIn);
-    //   setIsLoggedIn(res.data.isLoggedIn);
-    // });
+    e.preventDefault()
+    dispatch(login(email,password))
   };
 
-  if (isLoggedIn) return <Redirect to="/" />;
 
   return (
     <Container component="main" maxWidth="xs" mt={5} style={{marginTop:35}}>
@@ -85,29 +82,17 @@ export default function SignIn({ isLoggedIn, setIsLoggedIn }) {
             <CssBaseline />
             <div className={classes.paper} >
               <Avatar className={classes.avatar} >
-                <PermIdentityIcon/>
+                <LockOpenIcon/>
               </Avatar>
               {/* <div>
                 <img src="https://i.imgur.com/q7xlJjy.png" />
               </div> */}
               <Typography component="h1" variant="h5">
-                Sign Up
+                Sign In
               </Typography>
-              <form className={classes.form} noValidate onSubmit={handleSubmit}>
-              <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="name"
-                  label="Name"
-                  name="name"
-                  autoComplete="name"
-                  value={name}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
-                />
+              {error && <Message severity='error'>{error}</Message>}
+              {loading && <Loader />}
+              <form className={classes.form} noValidate onSubmit={handleSubmit} >
                 <TextField
                   variant="outlined"
                   margin="normal"
@@ -137,21 +122,6 @@ export default function SignIn({ isLoggedIn, setIsLoggedIn }) {
                     setPassword(e.target.value);
                   }}
                 />
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="confirm_password"
-                  label="Confirm Password"
-                  type="password"
-                  id="confirm password"
-                  autoComplete="current-password"
-                  value={confirm}
-                  onChange={(e) => {
-                    setConfirm(e.target.value);
-                  }}
-                />  
                 {/* <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
@@ -163,16 +133,16 @@ export default function SignIn({ isLoggedIn, setIsLoggedIn }) {
                   color="primary"
                   className={classes.submit}
                 >
-                  Sign Up
+                  Sign In
                 </Button>
                 <Grid container>
                   <Grid item xs={11}>
-                    <Link href="#" variant="body2">
+                    <Link href="#" variant="body2" color='inherit'>
                       Forgot password?
                     </Link>
                   </Grid>
                   <Grid item xs={11}>
-                    <Link component = {RouterLink} to="/signup" variant="body2">
+                    <Link component = {RouterLink} to={redirect ? `/signup?redirect=${redirect}`:'/signup'} variant="body2" color='inherit'>
                       {"Don't have an account? Sign Up"}
                     </Link>
                   </Grid>
@@ -195,7 +165,7 @@ export default function SignIn({ isLoggedIn, setIsLoggedIn }) {
                 className={classes.submit}
               >
                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google Logo"/>
-                Sign Up With Google
+                Sign In With Google
               </Button>
             </div>
             <Box mt={8}>
@@ -207,3 +177,5 @@ export default function SignIn({ isLoggedIn, setIsLoggedIn }) {
     </Container>
   );
 }
+
+export default SignInScreen

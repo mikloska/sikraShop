@@ -6,10 +6,9 @@ import HomeScreen from './screens/HomeScreen'
 import ProductScreen from './screens/ProductScreen'
 import BasketScreen from './screens/BasketScreen';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import SignIn from './components/SignIn'
-import SignUp from './components/SignUp'
-import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import { makeStyles } from '@material-ui/core/styles';
+import SignInScreen from './screens/SignInScreen';
+import SignUpScreen from './screens/SignUpScreen';
 
 
 const useStyles = makeStyles({
@@ -54,8 +53,8 @@ useEffect(() => {
           <Container className='main-container'>
             <Route path ='/' component={HomeScreen} exact/>
             <Route path ='/product/:id' component={ProductScreen} />
-            <Route path ='/signin' component={SignIn} />
-            <Route path ='/signup' component={SignUp} />
+            <Route path ='/signin' component={SignInScreen} />
+            <Route path ='/signup' component={SignUpScreen} />
             <Route path ='/basket/:id?' component={BasketScreen}/>
             <Route path ='/necklaces' />
             <Route path ='/earrings' />
