@@ -178,7 +178,7 @@ const SignUpScreen = ({ isLoggedIn, setIsLoggedIn }) => {
                 </Button>
                 <Grid container>
                    <Grid item xs={11}>
-                    <Link component={RouterLink} to={redirect ? `/signin?redirect=${redirect}`:'/signin'} variant="body2" color='inherit'>
+                    <Link component={RouterLink} to={redirect ? `/login?redirect=${redirect}`:'/login'} variant="body2" color='inherit'>
                       {"Already have an account?"}
                     </Link>
                   </Grid>

@@ -68,7 +68,7 @@ const registerUser = async(req,res, next) => {
 
 // Desc: Authorize user and provide token
 // Route: Get api/users/profile
-// Access: public
+// Access: private
 
 const getProfile = async(req,res, next) => {
   // res.send('It worked!')
@@ -93,4 +93,40 @@ const getProfile = async(req,res, next) => {
 
 }
 
-export {authenticateUser, getProfile, registerUser}
+// Desc: Update user profile
+// Route: PUT api/users/profile
+// Access: private
+
+const updateProfile = async(req,res, next) => {
+  // res.send('It worked!')
+  try{
+    const user= await User.findById(req.user._id)
+    if(user){
+    //Change name or email
+    user.name = req.body.name || user.name
+    user.email = req.body.email || user.email
+    if (req.body.password) {
+      //Will automatically be encrypted due to presave middleware
+      user.password = req.body.password
+    }  
+    const updated = await user.save()
+    res.status(201).json({
+      _id:updated._id,
+      name:updated.name,
+      email:updated.email,
+      isAdmin:updated.isAdmin,
+      token:generateToken(updated._id),
+    })
+
+    }else{
+      res.status(404)
+      throw new Error('User not found')
+    }
+  }catch(error){
+    console.error(`Error: ${error.message}`.red.underline.bold)
+    return next(new Error(`Error in getProfile controller: ${error.message}`))
+  }
+
+}
+
+export {authenticateUser, getProfile, registerUser, updateProfile}

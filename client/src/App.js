@@ -9,6 +9,8 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import SignInScreen from './screens/SignInScreen';
 import SignUpScreen from './screens/SignUpScreen';
+import AboutScreen from './screens/AboutScreen';
+import AccountScreen from './screens/AccountScreen';
 
 
 const useStyles = makeStyles({
@@ -53,7 +55,7 @@ useEffect(() => {
           <Container className='main-container'>
             <Route path ='/' component={HomeScreen} exact/>
             <Route path ='/product/:id' component={ProductScreen} />
-            <Route path ='/signin' component={SignInScreen} />
+            <Route path ='/login' component={SignInScreen} />
             <Route path ='/signup' component={SignUpScreen} />
             <Route path ='/basket/:id?' component={BasketScreen}/>
             <Route path ='/necklaces' />
@@ -61,8 +63,9 @@ useEffect(() => {
             <Route path ='/rings' />
             <Route path ='/bracelets' />
             <Route path ='/custom'/>
-            <Route path ='about'/>
-            <Route path='/login'/>
+            <Route path ='/about' component={AboutScreen}/>
+            {/* <Route path='/login' component={BasketScreen}/> */}
+            <Route path='/account' component={AccountScreen}/>
           </Container>
           
         {/* {document.body.scrollHeight ? (

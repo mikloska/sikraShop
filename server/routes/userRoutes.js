@@ -1,5 +1,5 @@
 import express from 'express'
-import {authenticateUser, getProfile, registerUser} from '../controllers/userController.js'
+import {authenticateUser, getProfile, registerUser, updateProfile} from '../controllers/userController.js'
 import {protectUser} from '../middleware/authMiddleware.js'
 
 const router=express.Router()
@@ -13,7 +13,7 @@ router.post('/login',
 
 });
 //router.route bc we have separate get and post request to same end point
-router.route('/profile').get(protectUser, getProfile)
+router.route('/profile').get(protectUser, getProfile).put(protectUser,updateProfile)
 // router.get('/profile',
 //   protectUser, getProfile,
   // (req, res) => {

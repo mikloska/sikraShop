@@ -175,7 +175,7 @@ const Navbar= () => {
         //Need an array to render multiple children in conditional
         [<MenuItem style={{ color: 'inherit', textDecoration: 'inherit'}} key={1} component={RouterLink} to='/account' onClick={handleMenuClose}>My account</MenuItem>,
         <MenuItem style={{ color: 'inherit', textDecoration: 'inherit'}} key={2} component={RouterLink} to='/' onClick={handleSignOut}>Sign Out</MenuItem>]): 
-        <MenuItem style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/signin' onClick={handleMenuClose}>Sign In</MenuItem>}
+        <MenuItem style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/login' onClick={handleMenuClose}>Sign In</MenuItem>}
       
       
     </Menu>
@@ -248,7 +248,8 @@ const Navbar= () => {
             <MenuItem onClick={handleNavMenuClose} style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/rings'>Rings</MenuItem>
             <MenuItem onClick={handleNavMenuClose} style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/bracelets'>Bracelets</MenuItem>
             <MenuItem onClick={handleNavMenuClose} style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/about'>About Us</MenuItem>
-            <MenuItem onClick={handleNavMenuClose} style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/custom'>Custom Work</MenuItem>
+            <MenuItem onClick={handleNavMenuClose} style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/custom'>Custom Work
+            </MenuItem>
           </Menu>
           
           {/* <Image alt="Example Alt" src="https://sikra.s3.us-east-2.amazonaws.com/logo-%2Bhigh%2Bres4.png" /> */}
