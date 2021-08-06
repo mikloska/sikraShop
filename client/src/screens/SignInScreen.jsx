@@ -7,7 +7,7 @@ import { makeStyles, styled } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom'
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import { Link as RouterLink } from 'react-router-dom';
-import {login} from '../actions/userActions'
+import {signIn} from '../actions/userActions'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 // const CustomLock = withStyles((theme) => ({
@@ -70,7 +70,7 @@ const SignInScreen = ({ location, history }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    dispatch(login(email,password))
+    dispatch(signIn(email,password))
   };
 
 

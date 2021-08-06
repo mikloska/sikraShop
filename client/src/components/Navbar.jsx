@@ -11,6 +11,7 @@ import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import { changeBadge } from '../actions/itemCountActions'
+import {signOut} from '../actions/userActions'
 
 const MyBadge = withStyles((theme) => ({
   badge: {
@@ -108,6 +109,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Navbar= () => {
+  const userLogin=useSelector(state=>state.userLogin)
+  const {userInformation}=userLogin
   const classes = useStyles();
   const itemCount = useSelector(state => state.itemCount)
   const dispatch = useDispatch()
@@ -142,6 +145,11 @@ const Navbar= () => {
     setMobileMoreAnchorEl(null);
   };
 
+  const handleSignOut = ()=>{
+    handleMenuClose()
+    dispatch(signOut())
+  }
+
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
@@ -162,8 +170,14 @@ const Navbar= () => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/signin' onClick={handleMenuClose}>Sign In</MenuItem>
-      <MenuItem style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/account' onClick={handleMenuClose}>My account</MenuItem>
+      
+      {userInformation?(
+        //Need an array to render multiple children in conditional
+        [<MenuItem style={{ color: 'inherit', textDecoration: 'inherit'}} key={1} component={RouterLink} to='/account' onClick={handleMenuClose}>My account</MenuItem>,
+        <MenuItem style={{ color: 'inherit', textDecoration: 'inherit'}} key={2} component={RouterLink} to='/' onClick={handleSignOut}>Sign Out</MenuItem>]): 
+        <MenuItem style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/signin' onClick={handleMenuClose}>Sign In</MenuItem>}
+      
+      
     </Menu>
   );
 
@@ -181,6 +195,7 @@ const Navbar= () => {
       <MenuItem>
 
       </MenuItem>
+
       <MenuItem>
       <IconButton
         aria-label="cart"
@@ -191,9 +206,10 @@ const Navbar= () => {
         onClick={handleMobileMenuClose}
       >
         {/* style={{transform: 'translate(74%, -69%)'}} */}
-      <MyBadge badgeContent={itemCount} color="primary">
-        <ShoppingBasketIcon style={{color:"black"}}/>
-      </MyBadge>
+        <MyBadge badgeContent={itemCount} color="primary">
+          <ShoppingBasketIcon style={{color:"black"}}/>
+          
+        </MyBadge>
       </IconButton>
 
       </MenuItem>
@@ -265,7 +281,12 @@ const Navbar= () => {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
+          
           <div className={classes.grow} />
+          {/* {userInformation?(
+            <Typography variant="h6" className={classes.title} style={{color:'black'}}>
+              {userInformation.name}
+            </Typography>): null} */}
           <div className={classes.sectionDesktop}>
 
               <IconButton
@@ -305,6 +326,7 @@ const Navbar= () => {
               <MoreIcon style={{color:"black"}}/>
             </IconButton>
           </div>
+
         </Toolbar>
       </AppBar>
       {renderMobileMenu}

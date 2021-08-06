@@ -4,7 +4,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { productDetailsReducer, productListReducer } from './reducers/productReducers';
 import { basketReducer } from './reducers/basketReducers';
 import {itemCountReducer} from './reducers/itemCountReducers'
-import { userLoginReducer } from './reducers/userReducers';
+import { userLoginReducer, userRegisterReducer } from './reducers/userReducers';
 
 //Create the item in state as the key and link it to its reducer
 const reducer =  combineReducers({
@@ -13,6 +13,7 @@ const reducer =  combineReducers({
   basket:basketReducer,
   itemCount: itemCountReducer,
   userLogin: userLoginReducer,
+  userRegister: userRegisterReducer,
 })
 //Check to see if it`s in state. If so, put it into state.
 const basketFromStorage = localStorage.getItem('basketItems')?JSON.parse(localStorage.getItem('basketItems')) : []

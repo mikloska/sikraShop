@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Redirect as redirect } from 'react-router-dom';
 import {Avatar, Button, Card, CssBaseline, TextField, Link, Grid, Box, Paper, Checkbox, Typography, Divider, Container} from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles, styled } from '@material-ui/core/styles';
-// import GoogleIcon from './GoogleIcon';
-// import api from '../axios/axios';
+import Message from '../components/Message'
+import Loader from '../components/Loader'
 import { useHistory } from 'react-router-dom'
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import { Link as RouterLink } from 'react-router-dom';
-
+import { useDispatch, useSelector } from 'react-redux'
+import {register} from '../actions/userActions'
 // const CustomLock = withStyles((theme) => ({
 //   lock: {
 //     backgroundColor:'#067e78'
@@ -51,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignUpScreen = ({ isLoggedIn, setIsLoggedIn }) => {
+  const redirect= location.search ? location.search.split('=')[1] : '/'
   const classes = useStyles();
   const history = useHistory();
   //state to store input field values
@@ -58,22 +60,27 @@ const SignUpScreen = ({ isLoggedIn, setIsLoggedIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
+  //For customer messages in Message component. Default to null to use in conditional rendering
+  const [message, setMessage]=useState(null)
 
-  // console.log('history ', history)
-  //submit fxn to make http call to BE
+  const dispatch=useDispatch()
+  //Get userRegister from state and destructure what we need from it
+  const userRegister=useSelector(state=>state.userRegister)
+  const {loading,error,userInformation}=userRegister
+
+  useEffect(()=>{
+    if(userInformation) history.push(redirect)
+  },[history, userInformation, redirect])
+
+  
   const handleSubmit = (e) => {
-    // e.preventDefault();
-    // api({
-    //   method: 'post',
-    //   url: '/SignUp',
-    //   data: {
-    //     email,
-    //     password,
-    //   },
-    // }).then((res) => {
-    //   console.log(res.data.isLoggedIn);
-    //   setIsLoggedIn(res.data.isLoggedIn);
-    // });
+    e.preventDefault();
+    if(password!==confirm){
+      setMessage('Passwords do not match!')
+    }else{
+      dispatch(register(name,email,password))
+    }
+
   };
 
   if (isLoggedIn) return <Redirect to="/" />;
@@ -94,6 +101,9 @@ const SignUpScreen = ({ isLoggedIn, setIsLoggedIn }) => {
               <Typography component="h1" variant="h5">
                 Sign Up
               </Typography>
+              {message && <div style={{margin:8}}><Message severity='error' >{message}</Message></div>}
+              {error && <Message severity='error'>{error}</Message>}
+              {loading && <Loader />}
               <form className={classes.form} noValidate onSubmit={handleSubmit} >
               <TextField
                   variant="outlined"
@@ -106,7 +116,7 @@ const SignUpScreen = ({ isLoggedIn, setIsLoggedIn }) => {
                   autoComplete="name"
                   value={name}
                   onChange={(e) => {
-                    setEmail(e.target.value);
+                    setName(e.target.value);
                   }}
                 />
                 <TextField
@@ -145,7 +155,7 @@ const SignUpScreen = ({ isLoggedIn, setIsLoggedIn }) => {
                   fullWidth
                   name="confirm"
                   label="Confirm Password"
-                  type="confirm"
+                  type="password"
                   id="confirm"
                   // autoComplete="confirm"
                   value={confirm}
@@ -168,7 +178,7 @@ const SignUpScreen = ({ isLoggedIn, setIsLoggedIn }) => {
                 </Button>
                 <Grid container>
                    <Grid item xs={11}>
-                    <Link component={RouterLink} to={'/signin'} variant="body2" color='inherit'>
+                    <Link component={RouterLink} to={redirect ? `/signin?redirect=${redirect}`:'/signin'} variant="body2" color='inherit'>
                       {"Already have an account?"}
                     </Link>
                   </Grid>
