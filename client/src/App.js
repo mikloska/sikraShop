@@ -11,6 +11,7 @@ import SignInScreen from './screens/SignInScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import AboutScreen from './screens/AboutScreen';
 import AccountScreen from './screens/AccountScreen';
+import ShippingScreen from './screens/ShippingScreen';
 
 
 const useStyles = makeStyles({
@@ -66,6 +67,7 @@ useEffect(() => {
             <Route path ='/about' component={AboutScreen}/>
             {/* <Route path='/login' component={BasketScreen}/> */}
             <Route path='/account' component={AccountScreen}/>
+            <Route path='/shipping' component={ShippingScreen}/>
           </Container>
           
         {/* {document.body.scrollHeight ? (

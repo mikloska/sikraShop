@@ -100,7 +100,7 @@ const AccountScreen = ({ isLoggedIn, setIsLoggedIn }) => {
   if (isLoggedIn) return <Redirect to="/" />;
 
   return (
-    <Grid container style={{marginTop:50}}>
+    <Grid container>
       <Grid item md={3}>
         <Typography variant="h5">
           {user.name}'s Account

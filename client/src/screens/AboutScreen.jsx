@@ -12,7 +12,7 @@ const AboutScreen = () =>{
   return (
     // <div className={classes.root}>
     
-    <Paper mt={50} pt={0} elevation={7}>
+    <Paper pt={0} elevation={7}>
    
       <Typography>Hello</Typography>
     </Paper>

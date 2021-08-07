@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-// import { Redirect as redirect } from 'react-router-dom';
-import {Avatar, Button, Card, CssBaseline, TextField, Link, Grid, Box, Paper, Typography, Divider, Container} from '@material-ui/core';
+import {Avatar, Button, Card, TextField, Link, Grid, Box, Paper, Typography, Divider, Container} from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles, styled } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom'
@@ -75,64 +74,34 @@ const SignInScreen = ({ location, history }) => {
 
 
   return (
-    <Container component="main" maxWidth="xs" mt={5} style={{marginTop:35}}>
+    <Container component="main" maxWidth="xs">
       <Paper mt={8} pt={0} elevation={7}>
         <Card className={classes.card} >
           <Box p={3} >
-            <CssBaseline />
             <div className={classes.paper} >
               <Avatar className={classes.avatar} >
                 <LockOpenIcon/>
               </Avatar>
-              {/* <div>
-                <img src="https://i.imgur.com/q7xlJjy.png" />
-              </div> */}
               <Typography component="h1" variant="h5">
                 Sign In
               </Typography>
               {error && <Message severity='error'>{error}</Message>}
               {loading && <Loader />}
               <form className={classes.form} noValidate onSubmit={handleSubmit} >
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  value={email}
+                <TextField variant="outlined" margin="normal" required fullWidth id="email" label="Email Address"
+                  name="email" autoComplete="email" value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);
                   }}
                 />
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  value={password}
+                <TextField variant="outlined" margin="normal" required fullWidth name="password" label="Password" type="password"
+                  id="password" autoComplete="current-password" value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);
                   }}
                 />
-                {/* <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          /> */}
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                >
+
+                <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} >
                   Sign In
                 </Button>
                 <Grid container>
@@ -149,27 +118,15 @@ const SignInScreen = ({ location, history }) => {
                 </Grid>
               </form>
 
-              <Typography
-                component="h3"
-                variant="h5"
-                className={classes.submit}
-              >
+              <Typography component="h3" variant="h5" className={classes.submit} >
                 <Divider />
               </Typography>
-
-
-              <Button
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-              >
+              <Button fullWidth variant="contained" color="primary" className={classes.submit} >
                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google Logo"/>
                 Sign In With Google
               </Button>
             </div>
             <Box mt={8}>
-              {/* <Copyright /> */}
             </Box>
           </Box>
         </Card>
