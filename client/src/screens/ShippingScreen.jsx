@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     // height="100%"
   },
   paper: {
-    marginTop: theme.spacing(4),
+    // marginTop: theme.spacing(4),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   submit: {
+    marginTop: 40,
     background:'linear-gradient(120deg, #28ccc4, #067e78)',
     margin: theme.spacing(3, 0, 2),
   },
@@ -54,9 +55,9 @@ const ShippingScreen = ({history}) =>{
 
   return (
     <Container component="main" maxWidth="xs">
-      <Paper mt={8} pt={0} elevation={7}>
+      <Paper pt={0} elevation={7}>
         <Card className={classes.card} >
-          <Box p={3} >
+          <Box p={6} >
             <div className={classes.paper} >
               <Avatar className={classes.avatar} >
                 <LocalShippingIcon/>
@@ -91,20 +92,11 @@ const ShippingScreen = ({history}) =>{
                     setCountry(e.target.value);
                   }}
                 />
-
-                <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+                <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} style={{marginTop: 40}}>
                   Continue to Payment
                 </Button>
-
               </form>
-
-              <Typography component="h3" variant="h5" className={classes.submit}>
-                <Divider />
-              </Typography>
-
             </div>
-            <Box mt={8}>
-            </Box>
           </Box>
         </Card>
       </Paper>
