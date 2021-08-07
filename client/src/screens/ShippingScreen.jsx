@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom'
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
+import CheckoutSteps from '../components/CheckoutSteps'
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -54,6 +55,8 @@ const ShippingScreen = ({history}) =>{
   };
 
   return (
+    <div>
+    <CheckoutSteps step1 step2/>
     <Container component="main" maxWidth="xs">
       <Paper pt={0} elevation={7}>
         <Card className={classes.card} >
@@ -101,6 +104,7 @@ const ShippingScreen = ({history}) =>{
         </Card>
       </Paper>
     </Container>
+    </div>
   )
 }
 
