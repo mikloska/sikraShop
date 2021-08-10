@@ -12,7 +12,8 @@ import SignUpScreen from './screens/SignUpScreen';
 import AboutScreen from './screens/AboutScreen';
 import AccountScreen from './screens/AccountScreen';
 import ShippingScreen from './screens/ShippingScreen';
-
+import PaymentScreen from './screens/PaymentScreen';
+import CheckoutSteps from './components/CheckoutSteps';
 
 const useStyles = makeStyles({
   ScrollIcon: {
@@ -67,7 +68,9 @@ useEffect(() => {
             <Route path ='/about' component={AboutScreen}/>
             {/* <Route path='/login' component={BasketScreen}/> */}
             <Route path='/account' component={AccountScreen}/>
+            <Route path='/checkout' component={CheckoutSteps}/>
             <Route path='/shipping' component={ShippingScreen}/>
+            <Route path='/payment' component={PaymentScreen}/>
           </Container>
           
         {/* {document.body.scrollHeight ? (

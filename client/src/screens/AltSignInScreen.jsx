@@ -9,8 +9,6 @@ import { Link as RouterLink } from 'react-router-dom';
 import {signIn} from '../actions/userActions'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import CheckoutSteps from '../components/CheckoutSteps'
-// import CheckoutScreen from './CheckoutScreen';
 // const CustomLock = withStyles((theme) => ({
 //   lock: {
 //     backgroundColor:'#067e78'
@@ -53,12 +51,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignInScreen = ({ location, history }) => {
-  const basketItems=useSelector(state=>state.basket.basketItems)
-  const tab = 0
   //Define redirect to send users to route if there is an added redirect
   // const redirect= '/'
-  // const redirect= location==undefined ? '/':location.search.split('=')[1]
-  const redirect= location.search && location!==undefined ? location.search.split('=')[1] : '/'
+  const redirect= location==undefined ? '/':location.search.split('=')[1]
+  // const redirect= location.search && location!==undefined ? location.search.split('=')[1] : '/'
   const classes = useStyles();
   //state to store input field values
   const dispatch=useDispatch()
@@ -80,14 +76,17 @@ const SignInScreen = ({ location, history }) => {
 
 
   return (
-    <div>
-    {basketItems.length>0 && <CheckoutSteps step1 step2 step3 tab={0}/>}
-    <Container component="main" maxWidth="xs" >
+    <Container component="main" maxWidth="xs" style={{zIndex:100000,margin:'auto',position:'absolute',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    left: 0,
+    right: 0,
+    textAlign: 'center'}}>
       <Paper pt={0} elevation={7} >
         <Card className={classes.card}>
           <Box p={6} >
             <div className={classes.paper} >
-              <Avatar className={classes.avatar}>
+              <Avatar className={classes.avatar} style={{marginBottom: 20}}>
                 <LockOpenIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
@@ -109,7 +108,7 @@ const SignInScreen = ({ location, history }) => {
                   }}
                 />
 
-                <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} >
+                <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} style={{marginBottom: 20}}>
                   Sign In
                 </Button>
                 <Grid container>
@@ -126,7 +125,7 @@ const SignInScreen = ({ location, history }) => {
                 </Grid>
               </form>
 
-              <Button fullWidth variant="contained" color="primary" className={classes.submit}  >
+              <Button fullWidth variant="contained" color="primary" className={classes.submit}  style={{marginTop: 50}}>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google Logo" style={{marginRight: 10}}/>
                 Sign In With Google
               </Button>
@@ -135,7 +134,6 @@ const SignInScreen = ({ location, history }) => {
         </Card>
       </Paper>
     </Container>
-    </div>
   );
 }
 
