@@ -4,7 +4,7 @@ import {Avatar, Button, Card, TextField, Link, Grid, Box, Paper, Typography, Div
 // import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles, styled } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom'
-import LockOpenIcon from '@material-ui/icons/LockOpen';
+import PaymentIcon from '@material-ui/icons/Payment';
 import { Link as RouterLink } from 'react-router-dom';
 import {signIn} from '../actions/userActions'
 import Message from '../components/Message'
@@ -83,7 +83,7 @@ const PaymentScreen = ({ history }) => {
           <Box p={6} >
             <div className={classes.paper} >
               <Avatar className={classes.avatar} style={{marginBottom: 20}}>
-                <LockOpenIcon />
+                <PaymentIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
                 Payment
@@ -98,10 +98,16 @@ const PaymentScreen = ({ history }) => {
                 </Button>
                 <Grid container>
                   <Grid item>
-                  <FormControlLabel
-                    control={<Checkbox checked label='PayPal or Credit Card' id='PayPal' onChange={(e) => setPaymentMethod(e.target.value)} name="paymentMethod" />}
-                    label="Secondary"
-                  />
+                    <FormControlLabel
+                      control={<Checkbox  id='PayPal' value='paypal' onChange={(e) => setPaymentMethod(e.target.value)} name="paymentMethod" />}
+                      label='PayPal or Credit Card'
+                    />
+                  </Grid>
+                  <Grid item>
+                    <FormControlLabel
+                      control={<Checkbox  id='Stripe' value='stripe' onChange={(e) => setPaymentMethod(e.target.value)} name="paymentMethod" />}
+                      label='Stripe'
+                    />
                   </Grid>
 
                 </Grid>
