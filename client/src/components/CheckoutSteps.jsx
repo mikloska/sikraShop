@@ -15,7 +15,9 @@ import PaymentScreen from '../screens/PaymentScreen'
 
 const CheckoutSteps = (props)=>{
   const { step1, step2, step3, step4, tab} = props
-
+  const basket = useSelector((state) => state.basket)
+  const {basketItems} = basket
+  const { shippingAddress } = basket
   const history=useHistory()
   // const tabObj = {login:<SignInScreen/>, shipping: <ShippingScreen/>}
   const tabObj = {login:0, shipping: 1}
@@ -46,7 +48,7 @@ const CheckoutSteps = (props)=>{
         <Tab label="Shipping" disabled />
       )}
 
-      {step3 ? (
+      {step3&&shippingAddress ? (
           <Tab label="Payment"  component={RouterLink} to={routes[2]}/>
       ) : (
         <Tab label="Payment" disabled />

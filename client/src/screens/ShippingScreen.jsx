@@ -42,15 +42,29 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ShippingScreen = ({history}) =>{
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInformation } = userLogin
+  //Redirect to login if userInfo is empty
+  if(!userInformation) history.push('/login')
   const basket = useSelector((state) => state.basket)
+  const {basketItems} = basket
   const { shippingAddress } = basket
+  //Redirect to home page if basket is empty
+  if (basketItems.length === 0) history.push('/')
   const classes = useStyles();
   const dispatch = useDispatch()
-  const [address,setAddress]=useState('')
-  const [city,setCity]=useState('')
-  const [zip,setZip]=useState('')
-  const [country,setCountry]=useState('')
+  const defaultAddress =  shippingAddress ? shippingAddress.address : ''
+  const defaultCity =  shippingAddress ? shippingAddress.city : ''
+  const defaultZip =  shippingAddress ? shippingAddress.zip : ''
+  const defaultCountry =  shippingAddress ? shippingAddress.country : ''
+  const [address,setAddress]=useState(defaultAddress)
+  const [city,setCity]=useState(defaultCity)
+  const [zip,setZip]=useState(defaultZip)
+  const [country,setCountry]=useState(defaultCountry)
   const tab = 1
+  // if(shippingAddress){
+  //   setAddress(address)
+  // }
   const handleSubmit = (e) => {
     e.preventDefault()
     dispatch(saveShippingAddress({ address, city, zip, country }))
@@ -60,7 +74,7 @@ const ShippingScreen = ({history}) =>{
 
   return (
     <div>
-    <CheckoutSteps step1 step2 step3 tab={tab}/>
+    <CheckoutSteps step2 step3 tab={tab}/>
     <Container component="main" maxWidth="xs">
     <Paper pt={0} elevation={7}>
       <Card className={classes.card} >
@@ -75,7 +89,7 @@ const ShippingScreen = ({history}) =>{
             {/* {error && <Message severity='error'>{error}</Message>}
             {loading && <Loader />} */}
             <form className={classes.form} noValidate onSubmit={handleSubmit} >
-              <TextField variant="outlined" margin="normal" required fullWidth id="address"
+              <TextField autoComplete="address" variant="outlined" margin="normal" required fullWidth id="address"
                 label="Address" name="address" autoComplete="address" value={address}
                 onChange={(e) => {
                   setAddress(e.target.value);

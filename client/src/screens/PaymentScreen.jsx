@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import {Avatar, Button, Card, TextField, Link, Grid, Box, Paper, Typography, Divider, Container, Checkbox, FormControlLabel} from '@material-ui/core';
+import {Avatar, Button, Card, TextField, Link, Grid, Box, Paper, Typography, Divider, Container, Checkbox, RadioGroup, Radio, FormControlLabel} from '@material-ui/core';
 // import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles, styled } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom'
@@ -61,7 +61,7 @@ const PaymentScreen = ({ history }) => {
     history.push('/shipping')
   }
 
-  const [paymentMethod, setPaymentMethod] = useState('PayPal')
+  const [paymentMethod, setPaymentMethod] = useState('paypal')
 
   const dispatch = useDispatch()
 
@@ -74,7 +74,7 @@ const PaymentScreen = ({ history }) => {
 
   return (
     <div>
-      <CheckoutSteps step1 step2 step3 tab={2}/>
+      <CheckoutSteps step2 step3 tab={2}/>
     
     <Container component="main" maxWidth="xs">
       
@@ -92,25 +92,28 @@ const PaymentScreen = ({ history }) => {
               {/* {loading && <Loader />} */}
               <form className={classes.form} noValidate onSubmit={handleSubmit} >
 
-
-                <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} style={{marginBottom: 20}}>
-                  Submit
-                </Button>
                 <Grid container>
+                <RadioGroup value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)} >
                   <Grid item>
+                    
                     <FormControlLabel
-                      control={<Checkbox  id='PayPal' value='paypal' onChange={(e) => setPaymentMethod(e.target.value)} name="paymentMethod" />}
+                      control={<Radio  id='PayPal' value='paypal' name="paymentMethod" />}
                       label='PayPal or Credit Card'
                     />
                   </Grid>
                   <Grid item>
                     <FormControlLabel
-                      control={<Checkbox  id='Stripe' value='stripe' onChange={(e) => setPaymentMethod(e.target.value)} name="paymentMethod" />}
+                      control={<Radio  id='Stripe' value='stripe' name="paymentMethod" />}
                       label='Stripe'
                     />
                   </Grid>
+                  </RadioGroup>
 
                 </Grid>
+                
+                <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} style={{marginBottom: 20}}>
+                  Submit
+                </Button>
               </form>
 
 

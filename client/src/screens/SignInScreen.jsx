@@ -95,7 +95,7 @@ const SignInScreen = ({ location, history }) => {
               </Typography>
               {error && <Message severity='error'>{error}</Message>}
               {loading && <Loader />}
-              <form className={classes.form} noValidate onSubmit={handleSubmit} >
+              <form className={classes.form} noValidate onSubmit={handleSubmit}>
                 <TextField variant="outlined" margin="normal" required fullWidth id="email" label="Email Address"
                   name="email" autoComplete="email" value={email}
                   onChange={(e) => {
