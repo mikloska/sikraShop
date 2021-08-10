@@ -19,10 +19,10 @@ const reducer =  combineReducers({
 })
 //Check to see if it`s in state. If so, put it into state.
 const basketFromStorage = localStorage.getItem('basketItems')?JSON.parse(localStorage.getItem('basketItems')) : []
-const userInfoFromStorage = localStorage.getItem('userInfo')?JSON.parse(localStorage.getItem('userInfo')) : null
+const userInformationFromStorage = localStorage.getItem('userInformation')?JSON.parse(localStorage.getItem('userInformation')) : null
 const initialState = {
   basket: {basketItems: basketFromStorage},
-  userLogin: {userInfo:userInfoFromStorage},
+  userLogin: {userInformation:userInformationFromStorage},
 }
 
 const middleware = [thunk]
