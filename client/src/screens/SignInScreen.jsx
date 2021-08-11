@@ -10,6 +10,7 @@ import {signIn} from '../actions/userActions'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import CheckoutSteps from '../components/CheckoutSteps'
+import {getUserDetails} from '../actions/userActions'
 // import CheckoutScreen from './CheckoutScreen';
 // const CustomLock = withStyles((theme) => ({
 //   lock: {
@@ -76,6 +77,7 @@ const SignInScreen = ({ location, history }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     dispatch(signIn(email,password))
+    // dispatch(getUserDetails('profile'))
   };
 
 

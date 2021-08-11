@@ -1,12 +1,12 @@
 import axios from 'axios'
 import { BASKET_CLEAR_ITEMS } from '../constants/basketConstants'
 import { ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS, ORDER_CREATE_FAILURE, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS,
-  ORDER_DETAILS_FAILURE, ORDER_PAY_REQUEST, ORDER_PAY_FAILURE, ORDER_PAY_SUCCESS, ORDER_PAY_RESET, ORDER_LIST_MY_REQUEST,
-  ORDER_LIST_MY_SUCCESS, ORDER_LIST_MY_FAILURE, ORDER_LIST_MY_RESET, ORDER_LIST_FAILURE, ORDER_LIST_SUCCESS,
+  ORDER_DETAILS_FAILURE, ORDER_PAY_REQUEST, ORDER_PAY_FAILURE, ORDER_PAY_SUCCESS, ORDER_PAY_RESET, ORDER_LIST_OF_USER_REQUEST,
+  ORDER_LIST_OF_USER_SUCCESS, ORDER_LIST_OF_USER_FAILURE, ORDER_LIST_OF_USER_RESET, ORDER_LIST_FAILURE, ORDER_LIST_SUCCESS,
   ORDER_LIST_REQUEST, ORDER_DELIVER_FAILURE, ORDER_DELIVER_SUCCESS, ORDER_DELIVER_REQUEST, ORDER_DELIVER_RESET,
   ORDER_CREATE_RESET,
 } from '../constants/orderConstants'
-import { logout } from './userActions'
+import { signOut } from './userActions'
 
 export const createOrder = (order) => async (dispatch, getState) => {
   try {
@@ -32,17 +32,17 @@ export const createOrder = (order) => async (dispatch, getState) => {
       payload: data,
     })
     dispatch({
-      type: CART_CLEAR_ITEMS,
+      type: BASKET_CLEAR_ITEMS,
       payload: data,
     })
-    localStorage.removeItem('cartItems')
+    localStorage.removeItem('basketItems')
   } catch (error) {
     const message =
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message
     if (message === 'Not authorized, token failed') {
-      dispatch(logout())
+      dispatch(signOut())
     }
     dispatch({
       type: ORDER_CREATE_FAILURE,
@@ -79,7 +79,7 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
         ? error.response.data.message
         : error.message
     if (message === 'Not authorized, token failed') {
-      dispatch(logout())
+      dispatch(signOut())
     }
     dispatch({
       type: ORDER_DETAILS_FAILURE,
@@ -108,11 +108,7 @@ export const payOrder = (orderId, paymentResult) => async (
       },
     }
 
-    const { data } = await axios.put(
-      `/api/orders/${orderId}/pay`,
-      paymentResult,
-      config
-    )
+    const { data } = await axios.put(`/api/orders/${orderId}/pay`,paymentResult, config)
 
     dispatch({
       type: ORDER_PAY_SUCCESS,
@@ -124,7 +120,7 @@ export const payOrder = (orderId, paymentResult) => async (
         ? error.response.data.message
         : error.message
     if (message === 'Not authorized, token failed') {
-      dispatch(logout())
+      dispatch(signOut())
     }
     dispatch({
       type: ORDER_PAY_FAILURE,
@@ -165,7 +161,7 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
         ? error.response.data.message
         : error.message
     if (message === 'Not authorized, token failed') {
-      dispatch(logout())
+      dispatch(signOut())
     }
     dispatch({
       type: ORDER_DELIVER_FAILURE,
@@ -177,7 +173,7 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
 export const listMyOrders = () => async (dispatch, getState) => {
   try {
     dispatch({
-      type: ORDER_LIST_MY_REQUEST,
+      type: ORDER_LIST_OF_USER_REQUEST,
     })
 
     const {
@@ -193,7 +189,7 @@ export const listMyOrders = () => async (dispatch, getState) => {
     const { data } = await axios.get(`/api/orders/myorders`, config)
 
     dispatch({
-      type: ORDER_LIST_MY_SUCCESS,
+      type: ORDER_LIST_OF_USER_SUCCESS,
       payload: data,
     })
   } catch (error) {
@@ -202,10 +198,10 @@ export const listMyOrders = () => async (dispatch, getState) => {
         ? error.response.data.message
         : error.message
     if (message === 'Not authorized, token failed') {
-      dispatch(logout())
+      dispatch(signOut())
     }
     dispatch({
-      type: ORDER_LIST_MY_FAILURE,
+      type: ORDER_LIST_OF_USER_FAILURE,
       payload: message,
     })
   }
@@ -239,7 +235,7 @@ export const listOrders = () => async (dispatch, getState) => {
         ? error.response.data.message
         : error.message
     if (message === 'Not authorized, token failed') {
-      dispatch(logout())
+      dispatch(signOut())
     }
     dispatch({
       type: ORDER_LIST_FAILURE,

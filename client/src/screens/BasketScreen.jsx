@@ -36,7 +36,7 @@ const BasketScreen = ({ match, location, history }) => {
   const productId = match.params.id
   const itemCount = useSelector(state => state.itemCount)
   const qty = location.search ? Number(location.search.split('=')[1]) : 1
-  const updateCart = (e, item) => {
+  const updateBasket = (e, item) => {
     dispatch(changeBadge(total))
     dispatch(addToBasket(item.product, Number(e)))
   }
@@ -98,7 +98,7 @@ const BasketScreen = ({ match, location, history }) => {
                 <FormControl className={classes.formControl} >
                   <InputLabel>Quantity</InputLabel>
                   <Select value={item.qty} onChange={(e) =>
-                  updateCart(e.target.value, item)}>
+                  updateBasket(e.target.value, item)}>
               
                   {[...Array(item.countInStock).keys()].map((x) => (
                     <MenuItem key={x + 1} value={x + 1}>

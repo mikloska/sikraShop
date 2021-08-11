@@ -1,6 +1,6 @@
 import { ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS, ORDER_CREATE_FAILURE, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS,
-  ORDER_DETAILS_FAILURE, ORDER_PAY_REQUEST, ORDER_PAY_FAILURE, ORDER_PAY_SUCCESS, ORDER_PAY_RESET, ORDER_LIST_MY_REQUEST,
-  ORDER_LIST_MY_SUCCESS, ORDER_LIST_MY_FAILURE, ORDER_LIST_MY_RESET, ORDER_LIST_FAILURE, ORDER_LIST_SUCCESS,
+  ORDER_DETAILS_FAILURE, ORDER_PAY_REQUEST, ORDER_PAY_FAILURE, ORDER_PAY_SUCCESS, ORDER_PAY_RESET, ORDER_LIST_OF_USER_REQUEST,
+  ORDER_LIST_OF_USER_SUCCESS, ORDER_LIST_OF_USER_FAILURE, ORDER_LIST_OF_USER_RESET, ORDER_LIST_FAILURE, ORDER_LIST_SUCCESS,
   ORDER_LIST_REQUEST, ORDER_DELIVER_FAILURE, ORDER_DELIVER_SUCCESS, ORDER_DELIVER_REQUEST, ORDER_DELIVER_RESET,
   ORDER_CREATE_RESET,
 } from '../constants/orderConstants'
@@ -100,23 +100,24 @@ export const orderDeliverReducer = (state = {}, action) => {
   }
 }
 
-export const orderListMyReducer = (state = { orders: [] }, action) => {
+export const orderListOfUserReducer = (state = { orders: [] }, action) => {
   switch (action.type) {
-    case ORDER_LIST_MY_REQUEST:
+    case ORDER_LIST_OF_USER_REQUEST:
       return {
         loading: true,
       }
-    case ORDER_LIST_MY_SUCCESS:
+    case ORDER_LIST_OF_USER_SUCCESS:
       return {
         loading: false,
         orders: action.payload,
       }
-    case ORDER_LIST_MY_FAILURE:
+    case ORDER_LIST_OF_USER_FAILURE:
       return {
         loading: false,
         error: action.payload,
       }
-    case ORDER_LIST_MY_RESET:
+      //Need this so other users can't see on first render
+    case ORDER_LIST_OF_USER_RESET:
       return { orders: [] }
     default:
       return state

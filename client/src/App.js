@@ -13,6 +13,7 @@ import AboutScreen from './screens/AboutScreen';
 import AccountScreen from './screens/AccountScreen';
 import ShippingScreen from './screens/ShippingScreen';
 import PaymentScreen from './screens/PaymentScreen';
+import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
 import newScreen from './screens/newScreen';
 import CheckoutSteps from './components/CheckoutSteps';
@@ -73,7 +74,8 @@ useEffect(() => {
             <Route path='/checkout' component={CheckoutSteps}/>
             <Route path='/shipping' component={ShippingScreen}/>
             <Route path='/payment' component={PaymentScreen}/>
-            <Route path='/placeorder' component={OrderScreen}/>
+            <Route path='/placeorder' component={PlaceOrderScreen}/>
+            <Route path='/orders/:id' component={OrderScreen}/>
           </Container>
           
         {/* {document.body.scrollHeight ? (

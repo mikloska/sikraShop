@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect as redirect } from 'react-router-dom';
-import {Avatar, Button, Card, CssBaseline, TextField, Link, Grid, Box, Paper, Checkbox, Typography, Divider, Container} from '@material-ui/core';
+import {Avatar, Button, Card, CssBaseline, TextField, Link, Grid, Box, Paper, Checkbox, 
+Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Divider, Container} from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles, styled } from '@material-ui/core/styles';
 import Message from '../components/Message'
@@ -10,6 +11,9 @@ import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import {getUserDetails, updateUser} from '../actions/userActions'
+import { listMyOrders } from '../actions/orderActions'
+import CancelIcon from '@material-ui/icons/Cancel';
+import { USER_UPDATE_RESET } from '../constants/userConstants'
 // const CustomLock = withStyles((theme) => ({
 //   lock: {
 //     backgroundColor:'#067e78'
@@ -51,10 +55,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AccountScreen = ({ isLoggedIn, setIsLoggedIn }) => {
-  const classes = useStyles();
-  const history = useHistory();
-  //state to store input field values
+const AccountScreen = ({ location, history }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -63,7 +64,7 @@ const AccountScreen = ({ isLoggedIn, setIsLoggedIn }) => {
   const [message, setMessage]=useState(null)
 
   const dispatch=useDispatch()
-  //Get userRegister from state and destructure what we need from it
+  
   const userDetails=useSelector(state=>state.userDetails)
   const {loading,error,user}=userDetails
 
@@ -72,19 +73,33 @@ const AccountScreen = ({ isLoggedIn, setIsLoggedIn }) => {
 
   const userUpdate=useSelector(state=>state.userUpdate)
   const {success}=userUpdate
+  
+
+  const orderListOfUser=useSelector(state=>state.orderListOfUser)
+  const {loading: loadingOrders,error:errorOrders,orders}=orderListOfUser
+
+  const classes = useStyles();
+  // const history = useHistory();
+  //state to store input field values
+
+
+
+
 
   useEffect(()=>{
     if(!userInformation) {
       history.push('/login')
     }else{
-      if(!user.name){
+      if(!user || !user.name || success){
+        dispatch({ type: USER_UPDATE_RESET })
         dispatch(getUserDetails('profile'))
+        dispatch(listMyOrders())
       }else {
         setName(user.name)
         setEmail(user.email)
       }
     }
-  },[dispatch, history, userInformation, user])
+  },[dispatch, history, userInformation, user, success])
 
   
   const handleSubmit = (e) => {
@@ -97,13 +112,14 @@ const AccountScreen = ({ isLoggedIn, setIsLoggedIn }) => {
 
   };
 
-  if (isLoggedIn) return <Redirect to="/" />;
+  // if (isLoggedIn) return <Redirect to="/" />;
 
   return (
-    <Grid container>
-      <Grid item md={3}>
+    <Grid container justifyContent="center" alignItems="center" spacing={6}>
+      <Grid item md={3} sm={11}>
+        <Paper elevation={7} style={{padding:20}}>
         <Typography variant="h5">
-          {user.name}'s Account
+          {name}'s Account
         </Typography>
         {message && <div style={{margin:8}}><Message severity='error' >{message}</Message></div>}
         {success && <div style={{margin:8}}><Message severity='success' >Profile Successfully Updated!</Message></div>}
@@ -193,12 +209,69 @@ const AccountScreen = ({ isLoggedIn, setIsLoggedIn }) => {
         </Typography>
 
 
-
+        </Paper>
       </Grid>
-      <Grid item md={8} style={{marginLeft:50}}>
+      <Grid item md={8} sm={11} style={{marginLeft:50}}>
+        <Paper elevation={7} style={{padding:20}}>
         <Typography variant="h5">
           Orders
         </Typography>
+
+        {loadingOrders ? (
+          <Loader />
+        ) : errorOrders ? (
+          <Message severiy='error'>{errorOrders}</Message>
+        ) : (
+          // <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>ID</TableCell>
+                <TableCell>DATE</TableCell>
+                <TableCell>TOTAL</TableCell>
+                <TableCell>PAID</TableCell>
+                <TableCell>DELIVERED</TableCell>
+                <TableCell></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {orders.map((order) => (
+                <TableRow key={order._id}>
+                  <TableCell>{order._id}</TableCell>
+                  <TableCell>{order.createdAt.substring(0, 10)}</TableCell>
+                  <TableCell>{order.totalPrice}</TableCell>
+                    {order.isPaid ? (
+                      <TableCell>{order.paidAt.substring(0, 10)}</TableCell>
+                    ) : (
+                      <TableCell> </TableCell>
+                    )}
+                  
+                  
+                    {order.isDelivered ? (
+                      <TableCell>{order.deliveredAt.substring(0, 10)}</TableCell>
+                    ) : (
+                      <TableCell> </TableCell>
+                    )}
+            
+                  <TableCell>
+                    <RouterLink to={`/orders/${order._id}`} style={{color:'#067e78'}}>
+                      <Button style={{color:'#067e78'}}>
+                        Details
+                      </Button>
+                    </RouterLink>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          // </TableContainer>
+        )}
+
+
+
+
+
+      </Paper>
       </Grid>
 
     </Grid>

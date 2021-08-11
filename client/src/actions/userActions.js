@@ -1,10 +1,11 @@
 import axios from 'axios'
 import { 
-  USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGIN_FAILURE, USER_LOGOUT,
+  USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGIN_FAILURE, USER_SIGNOUT,
   USER_REGISTER_SUCCESS, USER_REGISTER_REQUEST, USER_REGISTER_FAILURE,
-  USER_DETAILS_SUCCESS, USER_DETAILS_REQUEST, USER_DETAILS_FAILURE,
+  USER_DETAILS_SUCCESS, USER_DETAILS_REQUEST, USER_DETAILS_RESET, USER_DETAILS_FAILURE,
   USER_UPDATE_SUCCESS, USER_UPDATE_REQUEST, USER_UPDATE_FAILURE, USER_UPDATE_RESET
 } from "../constants/userConstants"
+import { ORDER_LIST_OF_USER_RESET } from '../constants/orderConstants'
 
 export const signIn=(email,password) => async(dispatch)=>{
   try {
@@ -37,7 +38,9 @@ export const signIn=(email,password) => async(dispatch)=>{
 export const signOut =()=>(dispatch)=>{
   //Remove from local storage here in the action and dispatch the reducer which actually updates state adnd returns an empty object
   localStorage.removeItem('userInformation')
-  dispatch({type:USER_LOGOUT})
+  dispatch({type:USER_SIGNOUT})
+  dispatch({type:USER_DETAILS_RESET})
+  dispatch({type:ORDER_LIST_OF_USER_RESET})
 }
 
 
