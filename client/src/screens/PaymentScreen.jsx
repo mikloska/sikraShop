@@ -61,7 +61,7 @@ const PaymentScreen = ({ history }) => {
     history.push('/shipping')
   }
 
-  const [paymentMethod, setPaymentMethod] = useState('paypal')
+  const [paymentMethod, setPaymentMethod] = useState('PayPal')
 
   const dispatch = useDispatch()
 
@@ -97,13 +97,13 @@ const PaymentScreen = ({ history }) => {
                   <Grid item>
                     
                     <FormControlLabel
-                      control={<Radio  id='PayPal' value='paypal' name="paymentMethod" />}
+                      control={<Radio  id='PayPal' value='PayPal' name="paymentMethod" />}
                       label='PayPal or Credit Card'
                     />
                   </Grid>
                   <Grid item>
                     <FormControlLabel
-                      control={<Radio  id='Stripe' value='stripe' name="paymentMethod" />}
+                      control={<Radio  id='Stripe' value='Stripe' name="paymentMethod" />}
                       label='Stripe'
                     />
                   </Grid>

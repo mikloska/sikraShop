@@ -8,9 +8,10 @@ import Message from '../components/Message'
 import { addToBasket, removeFromBasket } from '../actions/basketActions'
 import { changeBadge } from '../actions/itemCountActions'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme)=>({
   CheckoutButton: {
-   '&:hover':{color: 'white',background:'linear-gradient(120deg, #28ccc4, #067e78)'},
+    background:'linear-gradient(120deg, #28ccc4, #067e78)',
+    margin: theme.spacing(3, 0, 2),
   },
   Card: {
     textAlign: 'center'
@@ -28,7 +29,7 @@ const useStyles = makeStyles({
     height: 'auto',
     maxWidth:'100%'
   }
-});
+}));
 
 const BasketScreen = ({ match, location, history }) => {
   const classes=useStyles()
@@ -131,7 +132,7 @@ const BasketScreen = ({ match, location, history }) => {
             <ListItem style={{ display: "flex", justifyContent: "center", marginBottom:20 }}>
               <Button
                 type='button'
-                color='default'
+                color='primary'
                 variant="contained"
                 disabled={basketItems.length === 0}
                 onClick={checkoutHandler}

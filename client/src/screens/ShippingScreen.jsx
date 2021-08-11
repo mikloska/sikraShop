@@ -79,7 +79,7 @@ const ShippingScreen = ({history}) =>{
     <Paper pt={0} elevation={7}>
       <Card className={classes.card} >
         <Box p={6} >
-          <div className={classes.paper} >
+          <div className={classes.paper}>
             <Avatar className={classes.avatar} >
               <LocalShippingIcon/>
             </Avatar>

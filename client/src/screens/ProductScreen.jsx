@@ -10,7 +10,12 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 // import axios from 'axios'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme)=>({
+  submit: {
+    
+    background:'linear-gradient(120deg, #28ccc4, #067e78)',
+    margin: theme.spacing(3, 0, 2),
+  },
   root: {
     marginTop:50
   },
@@ -20,7 +25,7 @@ const useStyles = makeStyles({
   formControl: {
     minWidth: 100
   }
-})
+}))
 
 
 const ProductScreen = ({history, match}) =>{
@@ -73,6 +78,8 @@ const ProductScreen = ({history, match}) =>{
           </List>
         </Grid>
         <Grid item md={3}>
+          <Grid container >
+            <Grid item md={5}>
           <List>
             <ListItem>
               <ListItemText>Price:   <strong>${product.price}</strong></ListItemText>
@@ -83,6 +90,7 @@ const ProductScreen = ({history, match}) =>{
               <ListItemText>Status:   {product.countInStock > 0 ? 'In Stock' : 'Out of Stock'}</ListItemText>
             </ListItem>
           </List>
+          </Grid>
           {product.countInStock > 0 && (
           <List>
             <ListItem>
@@ -97,13 +105,16 @@ const ProductScreen = ({history, match}) =>{
                 </Select>
               </FormControl>
             </ListItem>
-          </List>)}
-
-          <List>
-            <Button type='button' style={{width:'80%'}} variant='outlined' disabled={product.countInStock===0} onClick={handleAddToBasket}>
+            {/* <Grid item md={5}>  */}
+          <ListItem>
+            <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} style={{width:'80%'}} disabled={product.countInStock===0} onClick={handleAddToBasket}>
               Add To Basket
             </Button>
-          </List>
+          </ListItem>
+          {/* </Grid> */}
+          </List>)}
+
+        </Grid>
         </Grid>
         
       </Grid>}

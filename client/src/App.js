@@ -13,6 +13,8 @@ import AboutScreen from './screens/AboutScreen';
 import AccountScreen from './screens/AccountScreen';
 import ShippingScreen from './screens/ShippingScreen';
 import PaymentScreen from './screens/PaymentScreen';
+import OrderScreen from './screens/OrderScreen';
+import newScreen from './screens/newScreen';
 import CheckoutSteps from './components/CheckoutSteps';
 
 const useStyles = makeStyles({
@@ -71,6 +73,7 @@ useEffect(() => {
             <Route path='/checkout' component={CheckoutSteps}/>
             <Route path='/shipping' component={ShippingScreen}/>
             <Route path='/payment' component={PaymentScreen}/>
+            <Route path='/placeorder' component={OrderScreen}/>
           </Container>
           
         {/* {document.body.scrollHeight ? (
