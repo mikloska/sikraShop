@@ -90,7 +90,7 @@ const OrderScreen = ({ history }) => {
           <Paper elevation={7}>
           <Typography>
             <strong>Shipping Address: </strong>{basket.shippingAddress.address}, {basket.shippingAddress.city}{' '}
-              {basket.shippingAddress.postalCode},{' '}
+              {basket.shippingAddress.zip},{' '}
               {basket.shippingAddress.country}
           </Typography>
           <Typography>

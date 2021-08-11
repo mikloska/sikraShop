@@ -5,7 +5,7 @@ import {Button, List, ListItem, ListItemIcon, ListItemText, Divider, FormControl
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import CheckoutSteps from '../components/CheckoutSteps'
-// import { createOrder } from '../actions/orderActions'
+import { createOrder } from '../actions/orderActions'
 // import { ORDER_CREATE_RESET } from '../constants/orderConstants'
 // import { USER_DETAILS_RESET } from '../constants/userConstants'
 const useStyles = makeStyles((theme) => ({
@@ -53,29 +53,28 @@ const OrderScreen = ({ history }) => {
     Number(basket.taxPrice)
   ).toFixed(2)
 
-  // const orderCreate = useSelector((state) => state.orderCreate)
-  // const { order, success, error } = orderCreate
+  const orderCreate = useSelector((state) => state.orderCreate)
+  const { order, success, error } = orderCreate
 
-  // useEffect(() => {
-    // if (success) {
-    //   history.push(`/order/${order._id}`)
-    //   dispatch({ type: USER_DETAILS_RESET })
-    //   dispatch({ type: ORDER_CREATE_RESET })
-    // }
-    // eslint-disable-next-line
-  // }, [history, success])
+  useEffect(() => {
+    if (success) {
+      history.push(`/order/${order._id}`)
+      dispatch({ type: USER_DETAILS_RESET })
+      dispatch({ type: ORDER_CREATE_RESET })
+    }
+  }, [history, success])
 
   const placeOrderHandler = () => {
     dispatch(
-      // createOrder({
-      //   orderItems: basket.basketItems,
-      //   shippingAddress: basket.shippingAddress,
-      //   paymentMethod: basket.paymentMethod,
-      //   itemsPrice: basket.itemsPrice,
-      //   shippingPrice: basket.shippingPrice,
-      //   taxPrice: basket.taxPrice,
-      //   totalPrice: basket.totalPrice,
-      // })
+      createOrder({
+        orderItems: basket.basketItems,
+        shippingAddress: basket.shippingAddress,
+        paymentMethod: basket.paymentMethod,
+        itemsPrice: basket.itemsPrice,
+        shippingPrice: basket.shippingPrice,
+        taxPrice: basket.taxPrice,
+        totalPrice: basket.totalPrice,
+      })
     )
   }
 
@@ -91,7 +90,7 @@ const OrderScreen = ({ history }) => {
                 <Grid container justifyContent="center" >
                   <Grid item><strong>Shipping Address: </strong>
                   {' '}{basket.shippingAddress.address} {basket.shippingAddress.city}{' '}
-                  {basket.shippingAddress.postalCode},{' '}
+                  {basket.shippingAddress.zip},{' '}
                   {basket.shippingAddress.country}
                   </Grid>
                 </Grid>
@@ -193,7 +192,7 @@ const OrderScreen = ({ history }) => {
 
 
               <ListItem>
-                {/* {error && <Message variant='danger'>{error}</Message>} */}
+                {error && <Message variant='error'>{error}</Message>}
               </ListItem>
               <ListItem>
                 <Button  className={classes.submit} 
