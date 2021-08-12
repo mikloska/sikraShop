@@ -46,7 +46,7 @@ const StyledTableRow = withStyles((theme) => ({
 
 const useStyles = makeStyles((theme) => ({
   table:{
-    maxWidth:'100vw'
+    // width:400
   },
   Box: {
     width:50
@@ -54,10 +54,6 @@ const useStyles = makeStyles((theme) => ({
   Icon: {
     color: '#8a0b20',
     // marginLeft:27
-  },
-  Media: {
-    height: 'auto',
-    maxWidth:'100%'
   },
   card: {
     paddingLeft:20,
@@ -150,8 +146,8 @@ const AccountScreen = ({ location, history }) => {
   // if (isLoggedIn) return <Redirect to="/" />;
 
   return (
-    <Grid container justifyContent="center" alignItems="center" spacing={2}>
-      <Grid item md={4} sm={11}>
+    <Grid container justifyContent="center" alignItems="center" spacing={6}>
+      <Grid item sm={12} xs={12} md={4}>
         <Paper elevation={7} style={{padding:20}}>
         <Typography variant="h5">
           {name}'s Account
@@ -242,11 +238,12 @@ const AccountScreen = ({ location, history }) => {
         >
           <Divider />
         </Typography>
-
-
         </Paper>
       </Grid>
-      <Grid item md={7} sm={10} style={{marginLeft:50}}>
+
+
+      
+      <Grid item md={8} sm={12} xs={12}>
         <Paper elevation={7} style={{padding:20}}>
         <Typography variant="h5">
           Orders
@@ -258,6 +255,7 @@ const AccountScreen = ({ location, history }) => {
           <Message severiy='error'>{errorOrders}</Message>
         ) : (
           // <TableContainer component={Paper}>
+          <TableContainer style={{overflowX:'scroll'}}>
           <Table className={classes.table} style={{marginTop:20}}>
             <TableHead>
               <StyledTableRow>
@@ -305,7 +303,8 @@ const AccountScreen = ({ location, history }) => {
               ))}
             </TableBody>
           </Table>
-          // </TableContainer>
+ 
+          </TableContainer>
         )}
 
 

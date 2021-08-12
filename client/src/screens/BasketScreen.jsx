@@ -74,9 +74,13 @@ const BasketScreen = ({ match, location, history }) => {
       {/* <Grid item md={8}> */}
         <h1 style={{marginTop:0}}> Shopping Basket</h1>
         {basketItems.length === 0 ? (
-          <Message>
-            Your basket is empty <RouterLink to='/'>Go Back</RouterLink>
-          </Message>
+        <List>
+          <ListItem>
+            <Message style={{width:'100%'}}>
+              Your basket is empty <RouterLink to='/'>Go Back</RouterLink>
+            </Message>
+          </ListItem>
+        </List>
         ) : (
    
           <Grid container spacing={6} justifyContent="center" >

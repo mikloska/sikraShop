@@ -126,7 +126,7 @@ const OrderScreen = ({ match }) => {
   ) : (
     <div>
       <Grid container justifyContent="center" alignItems="center" spacing={6}>
-        <Grid item md={6} sm={10} xs={12}>
+        <Grid item md={6} sm={2} xs={12}>
         <Paper elevation={7} className={classes.paper}>
           <List  >
           <ListItem>
