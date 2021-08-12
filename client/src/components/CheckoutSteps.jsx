@@ -9,7 +9,6 @@ import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import { Link as RouterLink, useParams, useLocation,BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import {register} from '../actions/userActions'
-import AltSignInScreen from '../screens/AltSignInScreen'
 import ShippingScreen from '../screens/ShippingScreen'
 import PaymentScreen from '../screens/PaymentScreen'
 
@@ -74,7 +73,7 @@ const CheckoutSteps = (props)=>{
     </TabPanel> */}
   </Tabs>
   {/* {value === 2 && <ShippingScreen/>} */}
-  {/* {value === 0 && <AltSignInScreen/>}
+{/* 
   {value === 3 && <PaymentScreen/>}
   {value === 2 && <ShippingScreen/>} */}
       {/* <Switch>

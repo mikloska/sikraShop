@@ -15,7 +15,7 @@ import ShippingScreen from './screens/ShippingScreen';
 import PaymentScreen from './screens/PaymentScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
-import newScreen from './screens/newScreen';
+// import TempPlaceOrderScreen from './screens/TempPlaceOrderScreen';
 import CheckoutSteps from './components/CheckoutSteps';
 
 const useStyles = makeStyles({

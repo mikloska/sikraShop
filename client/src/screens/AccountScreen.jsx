@@ -3,7 +3,7 @@ import { Redirect as redirect } from 'react-router-dom';
 import {Avatar, Button, Card, CssBaseline, TextField, Link, Grid, Box, Paper, Checkbox, 
 Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Divider, Container} from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { makeStyles, styled } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { useHistory } from 'react-router-dom'
@@ -12,7 +12,8 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import {getUserDetails, updateUser} from '../actions/userActions'
 import { listMyOrders } from '../actions/orderActions'
-import CancelIcon from '@material-ui/icons/Cancel';
+import CloseIcon from '@material-ui/icons/Close';
+
 import { USER_UPDATE_RESET } from '../constants/userConstants'
 // const CustomLock = withStyles((theme) => ({
 //   lock: {
@@ -23,8 +24,41 @@ import { USER_UPDATE_RESET } from '../constants/userConstants'
 //   color:'#067e78'
 //   // color:linear-gradient(120deg, #28ccc4, #067e78),
 // });
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    // background:'linear-gradient(120deg, #28ccc4, #067e78)',
+    color: theme.palette.common.white,
+  },
+  body: {
+    // fontSize: 14,
+  },
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+  
+}))(TableRow);
 
 const useStyles = makeStyles((theme) => ({
+  table:{
+    maxWidth:'100vw'
+  },
+  Box: {
+    width:50
+  },
+  Icon: {
+    color: '#8a0b20',
+    // marginLeft:27
+  },
+  Media: {
+    height: 'auto',
+    maxWidth:'100%'
+  },
   card: {
     paddingLeft:20,
     paddingRight:20
@@ -99,6 +133,7 @@ const AccountScreen = ({ location, history }) => {
         setEmail(user.email)
       }
     }
+
   },[dispatch, history, userInformation, user, success])
 
   
@@ -115,8 +150,8 @@ const AccountScreen = ({ location, history }) => {
   // if (isLoggedIn) return <Redirect to="/" />;
 
   return (
-    <Grid container justifyContent="center" alignItems="center" spacing={6}>
-      <Grid item md={3} sm={11}>
+    <Grid container justifyContent="center" alignItems="center" spacing={2}>
+      <Grid item md={4} sm={11}>
         <Paper elevation={7} style={{padding:20}}>
         <Typography variant="h5">
           {name}'s Account
@@ -211,7 +246,7 @@ const AccountScreen = ({ location, history }) => {
 
         </Paper>
       </Grid>
-      <Grid item md={8} sm={11} style={{marginLeft:50}}>
+      <Grid item md={7} sm={10} style={{marginLeft:50}}>
         <Paper elevation={7} style={{padding:20}}>
         <Typography variant="h5">
           Orders
@@ -223,44 +258,50 @@ const AccountScreen = ({ location, history }) => {
           <Message severiy='error'>{errorOrders}</Message>
         ) : (
           // <TableContainer component={Paper}>
-          <Table>
+          <Table className={classes.table} style={{marginTop:20}}>
             <TableHead>
-              <TableRow>
-                <TableCell>ID</TableCell>
-                <TableCell>DATE</TableCell>
-                <TableCell>TOTAL</TableCell>
-                <TableCell>PAID</TableCell>
-                <TableCell>DELIVERED</TableCell>
-                <TableCell></TableCell>
-              </TableRow>
+              <StyledTableRow>
+                <StyledTableCell>ID</StyledTableCell>
+                <StyledTableCell>DATE</StyledTableCell>
+                <StyledTableCell>TOTAL</StyledTableCell>
+                <StyledTableCell>PAID</StyledTableCell>
+                <StyledTableCell>DELIVERED</StyledTableCell>
+                {/* <StyledTableCell></StyledTableCell> */}
+              </StyledTableRow>
             </TableHead>
             <TableBody>
               {orders.map((order) => (
-                <TableRow key={order._id}>
-                  <TableCell>{order._id}</TableCell>
-                  <TableCell>{order.createdAt.substring(0, 10)}</TableCell>
-                  <TableCell>{order.totalPrice}</TableCell>
+                <StyledTableRow key={order._id}>
+                  <StyledTableCell>
+                    <RouterLink to={`/orders/${order._id}`} style={{color:'#067e78'}}>
+                      <Button style={{color:'#067e78'}}>
+                        {order._id}
+                      </Button>
+                    </RouterLink>
+                  </StyledTableCell>
+                  <StyledTableCell>{order.createdAt.substring(0, 10)}</StyledTableCell>
+                  <StyledTableCell>${order.totalPrice}</StyledTableCell>
                     {order.isPaid ? (
-                      <TableCell>{order.paidAt.substring(0, 10)}</TableCell>
+                      <StyledTableCell>{order.paidAt.substring(0, 10)}</StyledTableCell>
                     ) : (
-                      <TableCell> </TableCell>
+                      <StyledTableCell> </StyledTableCell>
                     )}
                   
                   
                     {order.isDelivered ? (
-                      <TableCell>{order.deliveredAt.substring(0, 10)}</TableCell>
+                      <StyledTableCell>{order.deliveredAt.substring(0, 10)}</StyledTableCell>
                     ) : (
-                      <TableCell> </TableCell>
+                      <StyledTableCell><CloseIcon className={classes.Icon}/></StyledTableCell>
                     )}
             
-                  <TableCell>
+                  {/* <StyledTableCell>
                     <RouterLink to={`/orders/${order._id}`} style={{color:'#067e78'}}>
                       <Button style={{color:'#067e78'}}>
                         Details
                       </Button>
                     </RouterLink>
-                  </TableCell>
-                </TableRow>
+                  </StyledTableCell> */}
+                </StyledTableRow>
               ))}
             </TableBody>
           </Table>

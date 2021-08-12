@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles';
-import {Typography,Button, List, ListItem, ListItemIcon, ListItemText, Divider, FormControl, Select, MenuItem, InputLabel, Grid, Paper} from '@material-ui/core/';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+import {Typography,Button, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, List, ListItem, ListItemIcon, ListItemText, Divider, FormControl, Select, MenuItem, InputLabel, Grid, Paper} from '@material-ui/core/';
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
@@ -16,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
     background:'linear-gradient(120deg, #28ccc4, #067e78)',
     margin: theme.spacing(3, 0, 2),
   },
+  Box: {
+    width:50
+  },
   Media: {
     height: 'auto',
     maxWidth:'100%'
@@ -28,6 +31,27 @@ const useStyles = makeStyles((theme) => ({
   },
   
 }))
+
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    // background:'linear-gradient(120deg, #28ccc4, #067e78)',
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
+
+
 
 const OrderScreen = ({ match }) => {
   const orderId= match.params.id
@@ -155,12 +179,13 @@ const OrderScreen = ({ match }) => {
 
               </ListItemText>
             </ListItem>
-
+            <ListItem>
             {order.isDelivered ? (
                 <Message severity='success'>Delivered on {order.deliveredAt}</Message>
               ) : (
                 <Message severity='warning'>Not Delivered</Message>
               )}
+            </ListItem>
 
             <ListItem>
               <ListItemText>
@@ -171,48 +196,46 @@ const OrderScreen = ({ match }) => {
                 </Grid>
               </ListItemText>
             </ListItem>
-
+            <ListItem>
             {order.isPaid ? (
                 <Message severity='success'>Paid on {order.paidAt}</Message>
               ) : (
                 <Message severity='warning'>Not Paid</Message>
               )}
-
-
-            <ListItem>
-              <ListItemText>
-                {/* <strong>Items:</strong> */}
-                  {order.orderItems.length === 0 ? (
-                <Message>Order not found</Message>
-              ) : (
-                <Grid container justifyContent="center" >
-                <Grid item>
-                {/* <List  > */}
-                  {order.orderItems.map((item, index) => (
-                    <ListItemText style={{padding:10}} key={index}>
-                      {/* <Grid container> */}
-                        {/* <Grid item sm={2} md={1}>
-                          <img src={item.image} alt={item.name} className={classes.Media}/>
-                        </Grid> */}
-                        {/* <Grid item> */}
-                          <RouterLink style={{color:'#067e78'}} to={`/product/${item.product}`}>
-                            {item.name}
-                          </RouterLink>
-                        {/* </Grid>
-                        <Grid item md={4}> */}
-                          :{'  '}{item.qty} x ${item.price} = ${item.qty * item.price}
-                        {/* </Grid>
-                      </Grid> */}
-                    </ListItemText>
-                  ))}
-                {/* </List> */}
-                </Grid>
-
-                </Grid>
-              )}
-
-              </ListItemText>
             </ListItem>
+
+            {order.orderItems.length === 0 ? (
+              <Message>Order not found</Message>
+            ) : (
+            <Table className={classes.table} style={{marginTop:20}}>
+              <TableHead>
+                <StyledTableRow>
+                  <StyledTableCell>ITEM</StyledTableCell>
+                  <StyledTableCell>QTY</StyledTableCell>
+                  <StyledTableCell>PRICE</StyledTableCell>
+                  <StyledTableCell>TOTAL</StyledTableCell>
+                </StyledTableRow>
+              </TableHead>
+              <TableBody>
+              {order.orderItems.map((item, index) => (
+                <StyledTableRow key={index}>
+                  <StyledTableCell>
+                    <RouterLink style={{color:'#067e78'}} to={`/product/${item.product}`}>
+                    <Box className={classes.Box}><img src={item.image} alt={item.name} className={classes.Media}/></Box>
+                      {item.name}
+                    </RouterLink>
+                  </StyledTableCell>
+                  <StyledTableCell>{item.qty}</StyledTableCell>
+                  <StyledTableCell>${item.price}</StyledTableCell>
+                  <StyledTableCell>${item.qty * item.price}</StyledTableCell>
+                </StyledTableRow>
+              ))}
+              </TableBody>
+
+
+
+            </Table>
+            )}
 
           </List>
           </Paper>

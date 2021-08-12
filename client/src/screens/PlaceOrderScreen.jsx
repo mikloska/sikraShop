@@ -1,18 +1,40 @@
 import React, { useEffect } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles';
-import {Button, List, ListItem, ListItemIcon, ListItemText, Divider, FormControl, Select, MenuItem, InputLabel, Grid, Paper} from '@material-ui/core/';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import {Button, Box, List, ListItem, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, ListItemIcon, ListItemText, Divider, FormControl, Select, MenuItem, InputLabel, Grid, Paper} from '@material-ui/core/';
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import CheckoutSteps from '../components/CheckoutSteps'
 import { createOrder } from '../actions/orderActions'
 // import { ORDER_CREATE_RESET } from '../constants/orderConstants'
 // import { USER_DETAILS_RESET } from '../constants/userConstants'
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    // background:'linear-gradient(120deg, #28ccc4, #067e78)',
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
+
 const useStyles = makeStyles((theme) => ({
   submit: {
     
     background:'linear-gradient(120deg, #28ccc4, #067e78)',
     margin: theme.spacing(3, 0, 2),
+  },
+  Box: {
+    width:50
   },
   Media: {
     height: 'auto',
@@ -83,7 +105,7 @@ const PlaceOrderScreen = ({ history }) => {
       <CheckoutSteps step1 step2 step3 step4 tab={3} />
       <Grid container justifyContent="center" alignItems="center" spacing={6}>
         <Grid item md={6} sm={10} xs={12}>
-        <Paper elevation={7} className={classes.paper}>
+        <Paper elevation={7} className={classes.paper} style={{padding:20}}>
           <List  >
             <ListItem>
               <ListItemText>
@@ -109,40 +131,41 @@ const PlaceOrderScreen = ({ history }) => {
             </ListItem>
 
 
-            <ListItem>
-              <ListItemText>
-                {/* <strong>Items:</strong> */}
-                  {basket.basketItems.length === 0 ? (
-                <Message>Your basket is empty</Message>
-              ) : (
-                <Grid container justifyContent="center" >
-                <Grid item>
-                {/* <List  > */}
-                  {basket.basketItems.map((item, index) => (
-                    <ListItemText style={{padding:10}} key={index}>
-                      {/* <Grid container> */}
-                        {/* <Grid item sm={2} md={1}>
-                          <img src={item.image} alt={item.name} className={classes.Media}/>
-                        </Grid> */}
-                        {/* <Grid item> */}
-                          <RouterLink style={{color:'#067e78'}} to={`/product/${item.product}`}>
-                            {item.name}
-                          </RouterLink>
-                        {/* </Grid>
-                        <Grid item md={4}> */}
-                          :{'  '}{item.qty} x ${item.price} = ${item.qty * item.price}
-                        {/* </Grid>
-                      </Grid> */}
-                    </ListItemText>
-                  ))}
-                {/* </List> */}
-                </Grid>
+            {basket.basketItems.length === 0 ? (
+              <ListItem><Message>Your basket is empty</Message></ListItem>
+            ) : (
+            <Table  className={classes.table} style={{marginTop:20}}>
+              <TableHead>
+                <StyledTableRow>
+                  {/* <TableCell>IMG</TableCell> */}
+                  <StyledTableCell>ITEM</StyledTableCell>
+                  <StyledTableCell>QTY</StyledTableCell>
+                  <StyledTableCell>PRICE</StyledTableCell>
+                  <StyledTableCell>TOTAL</StyledTableCell>
+                </StyledTableRow>
+              </TableHead>
+              <TableBody>
+              {basket.basketItems.map((item, index) => (
+                <StyledTableRow key={index}>
+                  <StyledTableCell>
 
-                </Grid>
-              )}
+                    <RouterLink style={{color:'#067e78'}} to={`/product/${item.product}`}>
+                    <Box className={classes.Box}><img src={item.image} alt={item.name} className={classes.Media}/></Box>
+                      {item.name}
+                    </RouterLink>
+                  </StyledTableCell>
+                  {/* <TableCell><Box className={classes.Box}><img src={item.image} alt={item.name} className={classes.Media}/></Box></TableCell> */}
+                  <StyledTableCell>{item.qty}</StyledTableCell>
+                  <StyledTableCell>${item.price}</StyledTableCell>
+                  <StyledTableCell>${item.qty * item.price}</StyledTableCell>
+                </StyledTableRow>
+              ))}
+              </TableBody>
 
-              </ListItemText>
-            </ListItem>
+
+
+            </Table>
+            )}
 
           </List>
           </Paper>
