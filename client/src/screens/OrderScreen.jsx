@@ -71,6 +71,10 @@ const OrderScreen = ({ match }) => {
 
   const orderDetails = useSelector((state) => state.orderDetails)
   const { order, loading, error } = orderDetails
+
+  // const {shippingAddress} = order
+
+
   if(!loading){
     const addDecimals = (num) => {
       return (Math.round(num * 100) / 100).toFixed(2)
@@ -115,7 +119,7 @@ const OrderScreen = ({ match }) => {
   }, [dispatch, orderId, successPay, order])
 
   const successPaymentHandler = (paymentResult) => {
-    console.log(paymentResult)
+    // console.log(paymentResult)
     dispatch(payOrder(orderId, paymentResult))
   }
 
@@ -125,7 +129,7 @@ const OrderScreen = ({ match }) => {
     <Message severity='error'>{error}</Message>
   ) : (
     <div>
-      <Grid container justifyContent="center" alignItems="center" spacing={6}>
+      <Grid container justifyContent="center" spacing={6}>
         <Grid item md={6} sm={2} xs={12}>
         <Paper elevation={7} className={classes.paper}>
           <List  >
@@ -273,9 +277,10 @@ const OrderScreen = ({ match }) => {
               {!order.isPaid && (
                 <ListItem>
                   {loadingPay && <Loader />}
-                  {!sdkReady ? (
+                  {!sdkReady && (
                     <Loader />
-                  ) : (
+                  )}  
+                  {( order.paymentMethod==='PayPal' &&
                     <PayPalButton
                       amount={order.totalPrice}
                       onSuccess={successPaymentHandler}

@@ -6,6 +6,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import CheckoutSteps from '../components/CheckoutSteps'
 import { createOrder } from '../actions/orderActions'
+import { getOrderDetails, payOrder, deliverOrder,} from '../actions/orderActions'
+import axios from 'axios'
+import { PayPalButton } from 'react-paypal-button-v2'
+import {ORDER_PAY_RESET,  ORDER_DELIVER_RESET } from '../constants/orderConstants'
 // import { ORDER_CREATE_RESET } from '../constants/orderConstants'
 // import { USER_DETAILS_RESET } from '../constants/userConstants'
 const StyledTableCell = withStyles((theme) => ({
@@ -103,7 +107,7 @@ const PlaceOrderScreen = ({ history }) => {
   return (
     <>
       <CheckoutSteps step1 step2 step3 step4 tab={3} />
-      <Grid container justifyContent="center" alignItems="center" spacing={6}>
+      <Grid container justifyContent="center" spacing={6}>
         <Grid item md={6} sm={10} xs={12}>
         <Paper elevation={7} className={classes.paper} style={{padding:20}}>
           <List  >
