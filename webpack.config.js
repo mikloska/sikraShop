@@ -1,5 +1,6 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 // const path = require('path');
@@ -7,11 +8,18 @@ const __dirname = path.dirname(__filename);
 // module.exports = {
   export default {
   entry: ["@babel/polyfill",'./client/src/index.js'],
+  devtool: 'inline-source-map',
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js',
     publicPath: '/',
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'Sikra Shop',
+      template: './index.html',
+    }),
+  ],
   resolve: {
     extensions: ['.js', '.jsx'],
   },
