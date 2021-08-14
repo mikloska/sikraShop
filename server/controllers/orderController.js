@@ -53,7 +53,7 @@ const addOrderItems = async (req, res, next) => {
 // @access  Private
 const getOrderById = async (req, res, next) => {
   try{
-    //Almost like a foreign key, this goes into the connected (in order model) user table and grabs the name and email address of buyer. Name and emaila are 2 separate fields.
+    //Almost like a foreign key, this goes into the connected user table and grabs the name and email address of buyer. Name and emaila are 2 separate fields.
     const order = await Order.findById(req.params.id).populate(
       'user',
       'name email'
