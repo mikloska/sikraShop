@@ -7,7 +7,7 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { getOrderDetails, payOrder, deliverOrder,} from '../actions/orderActions'
 import axios from 'axios'
-import { PayPalButton } from 'react-paypal-button-v2'
+// import { PayPalButton } from 'react-paypal-button-v2'
 import {ORDER_PAY_RESET,  ORDER_DELIVER_RESET } from '../constants/orderConstants'
 
 const useStyles = makeStyles((theme) => ({
@@ -86,41 +86,43 @@ const OrderScreen = ({ match }) => {
   }
 
   useEffect(() => {
+    // dispatch(payOrder(orderId, paymentResult))
 
     if (!userInformation) {
       history.push('/login')
     }
 
 
-    const addPayPalScript = async () => {
-      const { data: clientId } = await axios.get('/api/config/paypal')
-      const script = document.createElement('script')
-      script.type = 'text/javascript'
-      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`
-      script.async = true
-      script.onload = () => {
-        setSdkReady(true)
-      }
-      document.body.appendChild(script)
-    }
+    // const addPayPalScript = async () => {
+    //   const { data: clientId } = await axios.get('/api/config/paypal')
+    //   const script = document.createElement('script')
+    //   script.type = 'text/javascript'
+    //   script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`
+    //   script.async = true
+    //   script.onload = () => {
+    //     setSdkReady(true)
+    //   }
+    //   document.body.appendChild(script)
+    // }
     //Check for order and if the order id doesn't match id in url, get most recent
     if (!order || successPay || order._id !== orderId) {
       //Prevent useEffect loop
       dispatch({ type: ORDER_PAY_RESET })
       dispatch({ type: ORDER_DELIVER_RESET })
       dispatch(getOrderDetails(orderId))
-    } else if (!order.isPaid) {
-      if (!window.paypal) {
-        addPayPalScript()
-      } else {
-        setSdkReady(true)
-      }
-    }
+    } 
+    //else if (!order.isPaid) {
+      // if (!window.paypal) {
+      //   addPayPalScript()
+      // } else {
+      //   setSdkReady(true)
+      // }
+    //}
   }, [dispatch, orderId, successPay, order])
 
   const successPaymentHandler = (paymentResult) => {
     // console.log(paymentResult)
-    dispatch(payOrder(orderId, paymentResult))
+    // dispatch(payOrder(orderId, paymentResult))
   }
 
   return loading ? (
@@ -134,14 +136,14 @@ const OrderScreen = ({ match }) => {
         <Paper elevation={7} className={classes.paper}>
           <List  >
           <ListItem>
-          <Grid container justifyContent="center" >
+          <Grid container justifyContent="flex-start" >
             <Grid item><h2>Order Details</h2>
             </Grid>
               </Grid>
             </ListItem>
            <ListItem>
             <ListItemText>
-              <Grid container justifyContent="center" >
+              <Grid container justifyContent="flex-start" >
                <Grid item><strong> Order:  </strong>
                  {order._id}
                 </Grid>
@@ -151,7 +153,7 @@ const OrderScreen = ({ match }) => {
 
             <ListItem>
               <ListItemText>
-                <Grid container justifyContent="center" >
+                <Grid container justifyContent="flex-start" >
                   <Grid item><strong>Name: </strong>
                   {' '}{order.user.name}
                   </Grid>
@@ -162,7 +164,7 @@ const OrderScreen = ({ match }) => {
 
             <ListItem>
               <ListItemText>
-                <Grid container justifyContent="center" >
+                <Grid container justifyContent="flex-start" >
                   <Grid item><strong>Email: </strong>
                   {' '}<a href={`mailto:${order.user.email}`} style={{color:'#067e78'}}>{order.user.email}</a>
                   </Grid>
@@ -173,7 +175,7 @@ const OrderScreen = ({ match }) => {
             
             <ListItem>
               <ListItemText>
-                <Grid container justifyContent="center" >
+                <Grid container justifyContent="flex-start" >
                   <Grid item><strong>Shipping Address: </strong>
                   {' '}{order.shippingAddress.address} {order.shippingAddress.city}{' '}
                   {order.shippingAddress.zip},{' '}
@@ -193,7 +195,7 @@ const OrderScreen = ({ match }) => {
 
             <ListItem>
               <ListItemText>
-                <Grid container justifyContent="center" >
+                <Grid container justifyContent="flex-start" >
                   <Grid item><strong>Payment Method: </strong>
                 {' '}{order.paymentMethod}
                 </Grid>
@@ -217,7 +219,7 @@ const OrderScreen = ({ match }) => {
                   <StyledTableCell>ITEM</StyledTableCell>
                   <StyledTableCell>QTY</StyledTableCell>
                   <StyledTableCell>PRICE</StyledTableCell>
-                  <StyledTableCell>TOTAL</StyledTableCell>
+                  <StyledTableCell></StyledTableCell>
                 </StyledTableRow>
               </TableHead>
               <TableBody>
@@ -240,6 +242,63 @@ const OrderScreen = ({ match }) => {
 
             </Table>
             )}
+            {/* <Table className={classes.table} style={{marginTop:20}}>
+              <TableHead>
+                <StyledTableRow>
+                  <StyledTableCell>SUBTOTAL</StyledTableCell>
+                  <StyledTableCell>SHIPPING</StyledTableCell>
+                  <StyledTableCell>TAX</StyledTableCell>
+                  <StyledTableCell>T</StyledTableCell>
+                </StyledTableRow>
+              </TableHead>
+              <TableBody>
+               <StyledTableRow>
+                <StyledTableCell>${order.itemsPrice}</StyledTableCell>
+                <StyledTableCell>${order.shippingPrice}</StyledTableCell>
+                <StyledTableCell>${order.taxPrice}</StyledTableCell>
+                <StyledTableCell>${order.totalPrice}</StyledTableCell>
+              </StyledTableRow>
+            
+              </TableBody>
+
+
+
+            </Table> */}
+            <ListItem>
+                <Grid container justifyContent="flex-end" style={{marginTop:20}}>
+                  <Grid item><strong>Subtotal: </strong> ${order.itemsPrice}</Grid>
+                </Grid>
+              </ListItem>
+              <ListItem>
+                <Grid container justifyContent="flex-end" >
+                  <Grid item><strong>Shipping: </strong> ${order.shippingPrice}</Grid>
+                </Grid>
+              </ListItem>
+              <ListItem>
+                <Grid container justifyContent="flex-end" >
+                  <Grid item><strong>Tax: </strong> ${order.taxPrice}</Grid>
+                </Grid>
+              </ListItem>
+              <ListItem>
+                <Grid container justifyContent="flex-end"  style={{marginBottom:20}}>
+                  <Grid item><strong>Total: </strong> ${order.totalPrice}</Grid>
+                </Grid>
+              </ListItem>
+
+              {!order.isPaid && (
+                <ListItem>
+                  {loadingPay && <Loader />}
+                  {/* {!sdkReady && (
+                    <Loader />
+                  )}   */}
+                  {/* {( order.paymentMethod==='PayPal' &&
+                    <PayPalButton
+                      amount={order.totalPrice}
+                      onSuccess={successPaymentHandler}
+                    />
+                  )} */}
+                </ListItem>
+              )}
 
           </List>
           </Paper>
@@ -247,7 +306,7 @@ const OrderScreen = ({ match }) => {
 
 
 
-        <Grid item md={5} sm={10} xs={12}>
+        {/* <Grid item md={5} sm={10} xs={12}>
           <Paper elevation={7} className={classes.paper}>
             <List  >
               <ListItem>
@@ -277,23 +336,23 @@ const OrderScreen = ({ match }) => {
               {!order.isPaid && (
                 <ListItem>
                   {loadingPay && <Loader />}
-                  {!sdkReady && (
+                  {/* {!sdkReady && (
                     <Loader />
-                  )}  
-                  {( order.paymentMethod==='PayPal' &&
+                  )}   */}
+                  {/* {( order.paymentMethod==='PayPal' &&
                     <PayPalButton
                       amount={order.totalPrice}
                       onSuccess={successPaymentHandler}
                     />
-                  )}
-                </ListItem>
-              )}
+                  )} */}
+                {/* </ListItem>
+              )} */}
 
 
-            </List>
+            {/* </List>
 
           </Paper>
-        </Grid>
+        </Grid> */}
       </Grid>
 
 

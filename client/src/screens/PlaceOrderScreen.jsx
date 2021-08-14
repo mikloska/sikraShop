@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import {Button, Box, List, ListItem, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, ListItemIcon, ListItemText, Divider, FormControl, Select, MenuItem, InputLabel, Grid, Paper} from '@material-ui/core/';
@@ -10,6 +10,8 @@ import { getOrderDetails, payOrder, deliverOrder,} from '../actions/orderActions
 import axios from 'axios'
 import { PayPalButton } from 'react-paypal-button-v2'
 import {ORDER_PAY_RESET,  ORDER_DELIVER_RESET } from '../constants/orderConstants'
+import Loader from '../components/Loader'
+
 // import { ORDER_CREATE_RESET } from '../constants/orderConstants'
 // import { USER_DETAILS_RESET } from '../constants/userConstants'
 const StyledTableCell = withStyles((theme) => ({
@@ -57,6 +59,7 @@ const PlaceOrderScreen = ({ history }) => {
   const classes = useStyles();
   const dispatch = useDispatch()
   const basket = useSelector((state) => state.basket)
+  const [sdkReady, setSdkReady] = useState(false)
 
   if (!basket.shippingAddress.address) {
     history.push('/shipping')
@@ -82,15 +85,33 @@ const PlaceOrderScreen = ({ history }) => {
   const orderCreate = useSelector((state) => state.orderCreate)
   const { order, success, error } = orderCreate
 
+  const addPayPalScript = async () => {
+    const { data: clientId } = await axios.get('/api/config/paypal')
+    const script = document.createElement('script')
+    script.type = 'text/javascript'
+    script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`
+    script.async = true
+    script.onload = () => {
+      setSdkReady(true)
+    }
+    document.body.appendChild(script)
+  }
+
   useEffect(() => {
     if (success) {
+      // dispatch(payOrder(order._id, paymentResult))
       history.push(`/orders/${order._id}`)
       // dispatch({ type: USER_DETAILS_RESET })
       // dispatch({ type: ORDER_CREATE_RESET })
     }
+    if (!window.paypal) {
+      addPayPalScript()
+    } else {
+      setSdkReady(true)
+    }
   }, [history, success])
-
-  const placeOrderHandler = () => {
+  const successPaymentHandler = (paymentResult) => {
+    
     dispatch(
       createOrder({
         orderItems: basket.basketItems,
@@ -100,8 +121,25 @@ const PlaceOrderScreen = ({ history }) => {
         shippingPrice: basket.shippingPrice,
         taxPrice: basket.taxPrice,
         totalPrice: basket.totalPrice,
+        paymentResult: paymentResult
       })
     )
+    dispatch(payOrder(order._id, paymentResult))
+    // console.log(paymentResult)
+    // dispatch(payOrder(orderId, paymentResult))
+  }
+  const placeOrderHandler = () => {
+    // dispatch(
+    //   createOrder({
+    //     orderItems: basket.basketItems,
+    //     shippingAddress: basket.shippingAddress,
+    //     paymentMethod: basket.paymentMethod,
+    //     itemsPrice: basket.itemsPrice,
+    //     shippingPrice: basket.shippingPrice,
+    //     taxPrice: basket.taxPrice,
+    //     totalPrice: basket.totalPrice,
+    //   })
+    // )
   }
 
   return (
@@ -222,6 +260,17 @@ const PlaceOrderScreen = ({ history }) => {
                 {error && <Message severity='error'>{error}</Message>}
               </ListItem>
               <ListItem>
+              {!sdkReady && (
+                    <Loader />
+                  )} 
+              {( basket.paymentMethod==='PayPal' &&
+                    <PayPalButton
+                      amount={basket.totalPrice}
+                      onSuccess={successPaymentHandler}
+                    />
+                  )}
+              </ListItem>
+              {/* <ListItem>
                 <Button  className={classes.submit} 
                   // type='button'
                   disabled={basket.basketItems === 0}
@@ -231,7 +280,7 @@ const PlaceOrderScreen = ({ history }) => {
                 >
                   Place Order
                 </Button>
-              </ListItem>
+              </ListItem> */}
             </List>
 
           </Paper>
