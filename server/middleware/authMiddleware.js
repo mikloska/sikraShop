@@ -30,6 +30,7 @@ const protectUser = async (req,res,next) => {
 
 }
 
+//Check if user requesting all users is an admin
 const admin = (req, res, next) => {
   if (req.user && req.user.isAdmin) {
     next()

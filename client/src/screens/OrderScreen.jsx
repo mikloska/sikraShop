@@ -53,7 +53,7 @@ const StyledTableRow = withStyles((theme) => ({
 
 
 
-const OrderScreen = ({ match }) => {
+const OrderScreen = ({ match, history}) => {
   const orderId= match.params.id
   const classes = useStyles();
   const dispatch = useDispatch()

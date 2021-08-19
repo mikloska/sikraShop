@@ -72,7 +72,7 @@ const BasketScreen = ({ match, location, history }) => {
     
       <Paper elevation ={7} style={{padding:30}} >
       {/* <Grid item md={8}> */}
-        <h1 style={{marginTop:0}}> Shopping Basket</h1>
+        <Typography style={{marginTop:0}} variant='h4'> Shopping Basket</Typography>
         {basketItems.length === 0 ? (
         <List>
           <ListItem>

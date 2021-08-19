@@ -3,8 +3,7 @@ import { alpha, makeStyles, withStyles } from '@material-ui/core/styles';
 import {AppBar, Toolbar, IconButton, Menu, MenuItem, Typography, Button, TextField, Badge} from '@material-ui/core';
 import Image from "material-ui-image";
 import MenuIcon from '@material-ui/icons/Menu';
-import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
-import SearchIcon from '@material-ui/icons/Search';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
@@ -50,6 +49,11 @@ const useStyles = makeStyles((theme) => ({
     // [theme.breakpoints.up('sm')]: {
     //   display: 'block',
     // },
+  },
+  Link: {
+    color: 'inherit', 
+    textDecoration: 'inherit'
+
   },
 
   search: {
@@ -125,9 +129,19 @@ const Navbar= () => {
   const [mainNavanchorEl, setMainNavAnchorEl] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [adminAnchorEl, setAdminAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const isAdminMenuOpen = Boolean(adminAnchorEl);
+
+  const handleAdminMenuOpen = (event) =>{
+    setAdminAnchorEl(event.currentTarget);
+  }
+
+  const handleAdminMenuClose = () =>{
+    setAdminAnchorEl(null);
+  }
 
   const handleNavMenuOpen = (event) =>{
     setMainNavAnchorEl(event.currentTarget);
@@ -173,9 +187,9 @@ const Navbar= () => {
       
       {userInformation?(
         //Need an array to render multiple children in conditional
-        [<MenuItem style={{ color: 'inherit', textDecoration: 'inherit'}} key={1} component={RouterLink} to='/account' onClick={handleMenuClose}>My account</MenuItem>,
-        <MenuItem style={{ color: 'inherit', textDecoration: 'inherit'}} key={2} component={RouterLink} to='/' onClick={handleSignOut}>Sign Out</MenuItem>]): 
-        <MenuItem style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/login' onClick={handleMenuClose}>Sign In</MenuItem>}
+        [<MenuItem className={classes.Link} key={1} component={RouterLink} to='/account' onClick={handleMenuClose}>My account</MenuItem>,
+        <MenuItem className={classes.Link} key={2} component={RouterLink} to='/' onClick={handleSignOut}>Sign Out</MenuItem>]): 
+        <MenuItem className={classes.Link} component={RouterLink} to='/login' onClick={handleMenuClose}>Sign In</MenuItem>}
       
       
     </Menu>
@@ -202,7 +216,7 @@ const Navbar= () => {
         aria-controls="cart"
         aria-haspopup="true"
         color="inherit"
-        style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/basket'
+        className={classes.Link} component={RouterLink} to='/basket'
         onClick={handleMobileMenuClose}
       >
         {/* style={{transform: 'translate(74%, -69%)'}} */}
@@ -243,17 +257,17 @@ const Navbar= () => {
             <MenuIcon style={{color:"black"}}/>
           </IconButton>
           <Menu justify = "center" anchorEl={mainNavanchorEl} keepMounted open={Boolean(mainNavanchorEl)} onClose={handleNavMenuClose}>
-            <MenuItem onClick={handleNavMenuClose} style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/necklaces'>Necklaces & Pendants</MenuItem>
-            <MenuItem onClick={handleNavMenuClose} style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/earrings'>Earrings</MenuItem>
-            <MenuItem onClick={handleNavMenuClose} style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/rings'>Rings</MenuItem>
-            <MenuItem onClick={handleNavMenuClose} style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/bracelets'>Bracelets</MenuItem>
-            <MenuItem onClick={handleNavMenuClose} style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/about'>About Us</MenuItem>
-            <MenuItem onClick={handleNavMenuClose} style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/custom'>Custom Work
+            <MenuItem onClick={handleNavMenuClose} className={classes.Link} component={RouterLink} to='/necklaces'>Necklaces & Pendants</MenuItem>
+            <MenuItem onClick={handleNavMenuClose} className={classes.Link} component={RouterLink} to='/earrings'>Earrings</MenuItem>
+            <MenuItem onClick={handleNavMenuClose} className={classes.Link} component={RouterLink} to='/rings'>Rings</MenuItem>
+            <MenuItem onClick={handleNavMenuClose} className={classes.Link} component={RouterLink} to='/bracelets'>Bracelets</MenuItem>
+            <MenuItem onClick={handleNavMenuClose} className={classes.Link} component={RouterLink} to='/about'>About Us</MenuItem>
+            <MenuItem onClick={handleNavMenuClose} className={classes.Link} component={RouterLink} to='/custom'>Custom Work
             </MenuItem>
           </Menu>
           
           {/* <Image alt="Example Alt" src="https://sikra.s3.us-east-2.amazonaws.com/logo-%2Bhigh%2Bres4.png" /> */}
-          {/* <Typography style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/' className={classes.title} variant="h6" noWrap>
+          {/* <Typography className={classes.Link} component={RouterLink} to='/' className={classes.title} variant="h6" noWrap>
             Sikra Jewelry
           </Typography> */}
 
@@ -295,7 +309,7 @@ const Navbar= () => {
                 aria-controls="cart"
                 aria-haspopup="true"
                 color="inherit"
-                style={{ color: 'inherit', textDecoration: 'inherit'}} component={RouterLink} to='/basket'
+                className={classes.Link} component={RouterLink} to='/basket'
                 
                 >
 
@@ -327,6 +341,39 @@ const Navbar= () => {
               <MoreIcon style={{color:"black"}}/>
             </IconButton>
           </div>
+          {userInformation && userInformation.isAdmin && (
+          <Toolbar>
+          <IconButton
+            edge="start"
+            
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleAdminMenuOpen}
+          >
+        
+            <SupervisorAccountIcon style={{color:"black"}}/>
+            </IconButton>
+            <Menu title='Admin'
+              anchorEl={adminAnchorEl}
+              anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+              id='adminMenu'
+              keepMounted
+              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+              open={isAdminMenuOpen}
+              onClose={handleAdminMenuClose}
+            >
+              <MenuItem component={RouterLink} onClick={handleAdminMenuClose} to='/admin/userlist'>
+                Users
+              </MenuItem>
+              <MenuItem component={RouterLink} onClick={handleAdminMenuClose} to='/admin/productlist'>
+                Products
+              </MenuItem>
+              <MenuItem component={RouterLink} onClick={handleAdminMenuClose} to='/admin/orderlist'>
+                Orders
+              </MenuItem>
+            </Menu>
+            </Toolbar>
+            )}
 
         </Toolbar>
       </AppBar>

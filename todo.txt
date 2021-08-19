@@ -1,0 +1,2 @@
+-style check mark and x on admin userlist screen
+-stop navbar from jumping around when dropdown menus are opened

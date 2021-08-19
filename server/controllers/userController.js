@@ -129,4 +129,94 @@ const updateProfile = async(req,res, next) => {
 
 }
 
-export {authenticateUser, getProfile, registerUser, updateProfile}
+// Desc: Get all users
+// Route: GET api/users
+// Access: private- Admin only
+const getUsers = async(req,res, next) => {
+  // res.send('It worked!')
+  try{
+    const users= await User.find({})
+    if(users){
+      res.json(users)
+
+    }else{
+      res.status(404)
+      throw new Error('Users not found')
+    }
+  }catch(error){
+    console.error(`Error: ${error.message}`.red.underline.bold)
+    return next(new Error(`Error in get all users controller: ${error.message}`))
+  }
+
+}
+
+// @desc    Delete user
+// @route   DELETE /api/users/:id
+// @access  Private/Admin
+const deleteUser = async (req, res, next) => {
+  try{
+  const user = await User.findById(req.params.id)
+
+    if (user) {
+      await user.remove()
+      res.json({ message: `User ${req.params.id} removed` })
+    } else {
+      res.status(404)
+      throw new Error('User not found')
+    }
+  }catch(error){
+    console.error(`Error: ${error.message}`.red.underline.bold)
+    return next(new Error(`Error in delete user controller: ${error.message}`))
+  }
+}
+
+// @desc    Get user by ID
+// @route   GET /api/users/:id
+// @access  Private/Admin
+const getUserById = async (req, res, next) => {
+  try{
+    const user = await User.findById(req.params.id).select('-password')
+
+    if (user) {
+      res.json(user)
+    } else {
+      res.status(404)
+      throw new Error('User not found')
+    }
+  }catch(error){
+    console.error(`Error: ${error.message}`.red.underline.bold)
+    return next(new Error(`Error in get user by id controller: ${error.message}`))
+  }
+}
+
+// @desc    Update user
+// @route   PUT /api/users/:id
+// @access  Private/Admin
+const updateUser = async (req, res, next) => {
+  try{
+    const user = await User.findById(req.params.id)
+
+    if (user) {
+      user.name = req.body.name || user.name
+      user.email = req.body.email || user.email
+      // user.isAdmin = req.body.isAdmin
+
+      const updatedUser = await user.save()
+
+      res.json({
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        isAdmin: updatedUser.isAdmin,
+      }) 
+    } else {
+      res.status(404)
+      throw new Error('User not found')
+    }
+  }catch(error){
+    console.error(`Error: ${error.message}`.red.underline.bold)
+    return next(new Error(`Error in update user controller: ${error.message}`))
+  }
+}
+
+export {authenticateUser, getProfile, registerUser, updateProfile, getUsers, deleteUser, updateUser, getUserById}
