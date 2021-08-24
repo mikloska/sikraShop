@@ -5,7 +5,7 @@ import { productDetailsReducer, productListReducer, productDeleteReducer, produc
 import { basketReducer } from './reducers/basketReducers';
 import {itemCountReducer} from './reducers/itemCountReducers'
 import { userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateReducer, userListReducer, userDeleteReducer, userAdminUpdateReducer } from './reducers/userReducers';
-import { orderCreateReducer, orderDetailsReducer, orderPayReducer, orderListOfUserReducer } from './reducers/orderReducers';
+import { orderCreateReducer, orderDetailsReducer, orderPayReducer, orderListOfUserReducer, orderListReducer, orderDeliverReducer } from './reducers/orderReducers';
 
 //Create the item in state as the key and link it to its reducer
 const reducer =  combineReducers({
@@ -27,7 +27,9 @@ const reducer =  combineReducers({
   orderCreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,
   orderPay: orderPayReducer,
+  orderDeliver: orderDeliverReducer,
   orderListOfUser: orderListOfUserReducer,
+  orderList:orderListReducer,
   userList: userListReducer,
 })
 //Check to see if it`s in state. If so, put it into state.

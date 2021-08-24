@@ -12,7 +12,7 @@ import {ORDER_PAY_RESET,  ORDER_DELIVER_RESET } from '../constants/orderConstant
 
 const useStyles = makeStyles((theme) => ({
   submit: {
-    
+    color:'white',
     background:'linear-gradient(120deg, #28ccc4, #067e78)',
     margin: theme.spacing(3, 0, 2),
   },
@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const StyledTableCell = withStyles((theme) => ({
+
   head: {
     backgroundColor: theme.palette.common.black,
     // background:'linear-gradient(120deg, #28ccc4, #067e78)',
@@ -66,13 +67,19 @@ const OrderScreen = ({ match, history}) => {
   // }
   const userLogin = useSelector((state) => state.userLogin)
   const { userInformation } = userLogin
+
   const orderPay = useSelector((state) => state.orderPay)
   const { loading: loadingPay, success: successPay } = orderPay
+
+  const orderDeliver = useSelector((state) => state.orderDeliver)
+  const { loading: loadingDeliver, success: successDeliver } = orderDeliver
 
   const orderDetails = useSelector((state) => state.orderDetails)
   const { order, loading, error } = orderDetails
 
-  // const {shippingAddress} = order
+  const deliverHandler = () => {
+    dispatch(deliverOrder(order))
+  }
 
 
   if(!loading){
@@ -105,7 +112,7 @@ const OrderScreen = ({ match, history}) => {
     //   document.body.appendChild(script)
     // }
     //Check for order and if the order id doesn't match id in url, get most recent
-    if (!order || successPay || order._id !== orderId) {
+    if (!order || successPay || order._id !== orderId || successDeliver) {
       //Prevent useEffect loop
       dispatch({ type: ORDER_PAY_RESET })
       dispatch({ type: ORDER_DELIVER_RESET })
@@ -118,7 +125,7 @@ const OrderScreen = ({ match, history}) => {
       //   setSdkReady(true)
       // }
     //}
-  }, [dispatch, orderId, successPay, order])
+  }, [dispatch, orderId, successPay, order, successDeliver])
 
   const successPaymentHandler = (paymentResult) => {
     // console.log(paymentResult)
@@ -185,7 +192,21 @@ const OrderScreen = ({ match, history}) => {
 
               </ListItemText>
             </ListItem>
+            {loadingDeliver && <Loader />}
+            {userInformation &&
+                userInformation.isAdmin &&
+                order.isPaid &&
+                !order.isDelivered && (
+                  <ListItem>
+                    <Button className={classes.submit}
+                      onClick={deliverHandler}
+                    >
+                      Mark As Delivered
+                    </Button>
+                  </ListItem>
+                )}
             <ListItem>
+
             {order.isDelivered ? (
                 <Message severity='success'>Delivered on {order.deliveredAt}</Message>
               ) : (

@@ -114,7 +114,7 @@ const updateOrderToDelivered = async (req, res, next) => {
       const updatedOrder = await order.save()
 
       res.json(updatedOrder)
-      return next()
+      // return next()
     } else {
       res.status(404)
       throw new Error('Order not found')

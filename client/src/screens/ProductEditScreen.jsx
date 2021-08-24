@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { listProductDetails, updateProduct } from '../actions/productActions'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
 import { Description } from '@material-ui/icons';
-import {DropzoneArea} from 'material-ui-dropzone'
+// import {DropzoneArea} from 'material-ui-dropzone'
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -93,15 +93,8 @@ const ProductEditScreen = ({ match, history }) => {
       })
     )
   };
-  const changeFile = (e) => {
-    
-    const val = document.getElementById('fileUpload').value
-    console.log('Pic is: ',val)
-  }
-
   const uploadFileHandler = async (e) => {
-    // setFiles(e.target)
-    const file = document.getElementById('fileUpload').value
+    const file = e.target.files[0]
     const formData = new FormData()
     formData.append('image', file)
     setUploading(true)
@@ -160,8 +153,8 @@ const ProductEditScreen = ({ match, history }) => {
                       setImage(e.target.value);
                     }}
                   />
-                  <input type='file' onChange={uploadFileHandler} id='fileUpload'/>
-                  <DropzoneArea onChange={uploadFileHandler}/>
+                  <input type='file' onChange={uploadFileHandler} id='fileUpload' />
+                  {/* <DropzoneArea onChange={uploadFileHandler}/> */}
                   {uploading && <Loader />}
                   <FormControl className={classes.formControl} fullWidth value={category} style={{marginTop:20}}>
                     <InputLabel>Category</InputLabel>
