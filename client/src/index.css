@@ -1,8 +1,10 @@
 html, body {
   margin:0;
-  height: 100%;
+  min-height: 100%;
+  /* overflow:scroll; */
+  /* overflow-y:visible; */
   overflow-x: hidden;
-  overflow:'scroll';
+  /* overflow:scroll; */
   font-family: 'Signika';
 }
 

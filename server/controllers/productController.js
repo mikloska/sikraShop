@@ -38,4 +38,33 @@ const getProductById = async(req,res, next) => {
   }
 }
 
-export {getProducts,getProductById}
+
+// Desc: Delete single product
+// Route: DELETE api/products/:id
+// Access: private/admin
+
+const deleteProduct = async(req,res, next) => {
+  // console.log('In get product by id controller. Req.params is: ', req.params)
+  try{
+    const product=await Product.findById(req.params.id)
+    if(product){
+      await product.remove()
+      res.json({message: 'Product deleted'})
+    }else{
+      res.status(404)
+      throw new Error('Product not found')
+    }
+    // console.log('In get product by id controller. Res.locals is: ', res.locals)
+    // if(product) return res.json(product)
+    // return next()
+  }catch(error){
+    // return res.status(500).json(error.message);
+    return next(new Error(`Product '${req.params.id}' not found`))
+    // return next(error)
+    // console.error(`Error: ${error.message}`.red.underline.bold)
+    // process.exit(1)
+  }
+}
+
+
+export {getProducts,getProductById, deleteProduct}

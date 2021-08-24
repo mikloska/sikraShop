@@ -1,6 +1,7 @@
 import express from 'express'
-import products from '../data/products.js'
-import {getProducts, getProductById} from '../controllers/productController.js'
+// import products from '../data/products.js'
+import {getProducts, getProductById, deleteProduct} from '../controllers/productController.js'
+import {protectUser, admin} from '../middleware/authMiddleware.js'
 
 const router=express.Router()
 
@@ -52,5 +53,7 @@ router.get('/:id',
   // }
   
 });
+router.route('/:id').delete(protectUser, admin, deleteProduct)
+
 
 export default router
