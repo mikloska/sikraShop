@@ -4,6 +4,7 @@
 // const app = express();
 // const PORT = process.env.PORT || 3000;
 // const products = require(path.resolve(__dirname, './data/products'))
+import path from 'path'
 import "@babel/polyfill"
 import express from 'express'
 import dotenv from 'dotenv'
@@ -16,6 +17,7 @@ import productRoutes from './routes/productRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 import orderRoutes from './routes/orderRoutes.js'
 import {notFound, errorHandler} from './middleware/errorHandler.js'
+import uploadRoutes from './routes/uploadRoutes.js'
 
 dotenv.config();
 connectDB()
@@ -31,7 +33,7 @@ app.use('/api/orders', orderRoutes)
 app.get('/api/config/paypal', (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
 )
-
+app.use('/api/upload', uploadRoutes)
 //Error handling
 //Error handling for non-existant routes
 app.use(notFound)
@@ -41,6 +43,8 @@ app.use(errorHandler)
 // statically serve everything in the build folder on the route '/build'
 // app.use('/build', express.static(path.join(__dirname, '../build')));
 app.use('/build', express.static('../build'));
+const __dirname = path.resolve()
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
 // app.get('/', (req, res) => {
 //   res.sendFile(path.join(__dirname, '../index.html'));

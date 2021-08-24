@@ -11,7 +11,8 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
 import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
-import {listProducts, deleteProduct} from '../actions/productActions'
+import {listProducts, deleteProduct, createProduct} from '../actions/productActions'
+import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -61,22 +62,31 @@ const ProductListScreen = ({history, match}) => {
   const { loading, error, products } = productList
 
   const productDelete = useSelector((state) => state.productDelete)
-  const { loading: loadingDelete, error: errorDelete, success: successDelete } = productDelete
+  const {loading: loadingDelete, error: errorDelete, success: successDelete} = productDelete
+
+  const productCreate = useSelector((state) => state.productCreate)
+  const {loading: loadingCreate, error: errorCreate, success: successCreate, product: createdProduct} = productCreate
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInformation } = userLogin
 
-  const createProductHandler = (product)=>{
-
+  const createProductHandler = () => {
+    dispatch(createProduct())
   }
 
   useEffect(() => {
-    if (userInformation && userInformation.isAdmin) {
-      dispatch(listProducts())
-    } else {
+    dispatch({ type: PRODUCT_CREATE_RESET })
+
+    if (!userInformation || !userInformation.isAdmin) {
       history.push('/login')
     }
-  }, [dispatch, history, userInformation, successDelete])
+
+    if (successCreate) {
+      history.push(`/admin/product/${createdProduct._id}/edit`)
+    } else {
+      dispatch(listProducts())
+    }
+  }, [dispatch, history, userInformation, successDelete, successCreate, createdProduct])
 
   const deleteHandler = (id) => {
     if (window.confirm('Are you sure')) {
@@ -84,6 +94,7 @@ const ProductListScreen = ({history, match}) => {
       dispatch(deleteProduct(id))
     }
   }
+  
 
   return(
     <div>
@@ -92,12 +103,15 @@ const ProductListScreen = ({history, match}) => {
           <Typography variant='h4'>Products</Typography>
         </Grid>
         <Grid item md={6} sm={6} >
-          <Button onClick={createProductHandler} style={{float:'right', color:'white',backgroundColor:'#067e78',
-   }}>+ Create Product</Button>
+          <Button onClick={createProductHandler} style={{float:'right', color:'white',backgroundColor:'#067e78',}}>
+            + Create Product
+          </Button>
         </Grid>
       </Grid>
       {loadingDelete && <Loader/>}
       {errorDelete && <Message severity='error'>{errorDelete}</Message>}
+      {loadingCreate && <Loader/>}
+      {errorCreate && <Message severity='error'>{errorCreate}</Message>}
       {loading ? (
         <Loader />
       ) : error ? (
@@ -118,7 +132,9 @@ const ProductListScreen = ({history, match}) => {
       <TableBody>
       {products.map((product) => (
         <StyledTableRow key={product._id}>
-          <StyledTableCell>{product._id}</StyledTableCell>
+          <StyledTableCell>
+            <RouterLink style={{color:'#067e78'}} to={`/product/${product._id}`}>{product._id}</RouterLink>
+          </StyledTableCell>
           <StyledTableCell>{product.name}</StyledTableCell>
           <StyledTableCell>${product.price}</StyledTableCell>
           <StyledTableCell>{product.category}</StyledTableCell>
