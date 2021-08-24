@@ -6,7 +6,7 @@ node_modules
 /build
 #image files
 /images
-
+/uploads
 # misc
 .DS_Store
 
