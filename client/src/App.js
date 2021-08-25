@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { ThemeProvider, createTheme } from '@material-ui/core/styles';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import NotFound from './components/NotFound';
@@ -24,6 +25,14 @@ import ProductEditScreen from './screens/ProductEditScreen';
 import CategoryScreen from './screens/CategoryScreen';
 import CheckoutSteps from './components/CheckoutSteps';
 
+const THEME = createTheme({
+  typography: {
+    fontFamily: [
+      'Signika',
+      // 'cursive',
+    ].join(','),
+  },});
+
 const useStyles = makeStyles({
   ScrollIcon: {
     // top: -70,
@@ -45,20 +54,21 @@ const App = (showBelow) => {
     } else {
         if (show) setShow(false)
     }
-}
+  }
 
-const handleScrollClick = () => {
-  window[`scrollTo`]({ top: 0, behavior: `smooth` })
-}
+  const handleScrollClick = () => {
+    window[`scrollTo`]({ top: 0, behavior: `smooth` })
+  }
 
-useEffect(() => {
-    if (showBelow) {
-        window.addEventListener(`scroll`, handleScroll)
-        return () => window.removeEventListener(`scroll`, handleScroll)
-    }
+  useEffect(() => {
+      if (showBelow) {
+          window.addEventListener(`scroll`, handleScroll)
+          return () => window.removeEventListener(`scroll`, handleScroll)
+      }
 })
   const classes = useStyles();
   return (
+    <ThemeProvider theme={THEME}>
     <Router>
       <>
         <div className = 'page-wrap'>
@@ -102,6 +112,7 @@ useEffect(() => {
           
       </>
     </Router>
+    </ThemeProvider>
 )}
 
 export default App;
