@@ -21,6 +21,7 @@ import UserListScreen from './screens/UserListScreen';
 import UserEditScreen from './screens/UserEditScreen';
 import ProductListScreen from './screens/ProductListScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
+import CategoryScreen from './screens/CategoryScreen';
 import CheckoutSteps from './components/CheckoutSteps';
 
 const useStyles = makeStyles({
@@ -69,10 +70,10 @@ useEffect(() => {
               <Route path ='/login' component={SignInScreen} />
               <Route path ='/signup' component={SignUpScreen} />
               <Route path ='/basket/:id?' component={BasketScreen}/>
-              <Route path ='/necklaces' />
-              <Route path ='/earrings' />
-              <Route path ='/rings' />
-              <Route path ='/bracelets' />
+              <Route path ='/necklaces' component={CategoryScreen}/>
+              <Route path ='/earrings' component={CategoryScreen}/>
+              <Route path ='/rings' component={CategoryScreen}/>
+              <Route path ='/bracelets' component={CategoryScreen}/>
               <Route path ='/custom'/>
               <Route path ='/about' component={AboutScreen}/>
               {/* <Route path='/login' component={BasketScreen}/> */}

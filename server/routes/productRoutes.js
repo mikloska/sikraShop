@@ -1,9 +1,14 @@
 import express from 'express'
 // import products from '../data/products.js'
-import {getProducts, getProductById, deleteProduct, createProduct, updateProduct} from '../controllers/productController.js'
+import {getProducts, getProductById, deleteProduct, createProduct, updateProduct, getProductsByCategory} from '../controllers/productController.js'
 import {protectUser, admin} from '../middleware/authMiddleware.js'
 
 const router=express.Router()
+
+router.get('/category/:id', getProductsByCategory,
+  (req,res)=>{
+    return res.status(200).json(res.locals.productsByCategory)
+  })
 
 router.get('/', 
   getProducts,

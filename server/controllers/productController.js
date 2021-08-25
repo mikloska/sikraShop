@@ -1,5 +1,25 @@
 import Product from '../models/productModel.js'
 
+// Desc: Fetch products by category
+// Route: Get api/products/category/:id
+// Access: public
+
+const getProductsByCategory = async(req,res, next) => {
+  // console.log('In get product by id controller. Req.params is: ', req.params)
+  try{
+    res.locals.productsByCategory=await Product.find({"category":req.params.id})
+    // console.log('In get product by id controller. Res.locals is: ', res.locals)
+    // if(product) return res.json(product)
+    return next()
+  }catch(error){
+    // return res.status(500).json(error.message);
+    return next(new Error(`Products in category '${req.params.id}' not found`))
+    // return next(error)
+    // console.error(`Error: ${error.message}`.red.underline.bold)
+    // process.exit(1)
+  }
+}
+
 // Desc: Fetch all products
 // Route: Get api/products
 // Access: public
@@ -131,4 +151,4 @@ const updateProduct = async (req, res, next) => {
 
 
 
-export {getProducts,getProductById, deleteProduct, createProduct, updateProduct}
+export {getProducts,getProductById, deleteProduct, createProduct, updateProduct, getProductsByCategory}
