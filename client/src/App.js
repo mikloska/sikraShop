@@ -23,15 +23,9 @@ import UserEditScreen from './screens/UserEditScreen';
 import ProductListScreen from './screens/ProductListScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
 import CategoryScreen from './screens/CategoryScreen';
+import ContactScreen from './screens/ContactScreen';
+import CustomScreen from './screens/CustomScreen';
 import CheckoutSteps from './components/CheckoutSteps';
-
-const THEME = createTheme({
-  typography: {
-    fontFamily: [
-      'Signika',
-      // 'cursive',
-    ].join(','),
-  },});
 
 const useStyles = makeStyles({
   ScrollIcon: {
@@ -68,7 +62,7 @@ const App = (showBelow) => {
 })
   const classes = useStyles();
   return (
-    <ThemeProvider theme={THEME}>
+    
     <Router>
       <>
         <div className = 'page-wrap'>
@@ -84,8 +78,9 @@ const App = (showBelow) => {
               <Route path ='/earrings' component={CategoryScreen}/>
               <Route path ='/rings' component={CategoryScreen}/>
               <Route path ='/bracelets' component={CategoryScreen}/>
-              <Route path ='/custom'/>
+              <Route path ='/custom' component={CustomScreen}/>
               <Route path ='/about' component={AboutScreen}/>
+              <Route path ='/contact' component={ContactScreen}/>
               {/* <Route path='/login' component={BasketScreen}/> */}
               <Route path='/account' component={AccountScreen}/>
               <Route path='/checkout' component={CheckoutSteps}/>
@@ -112,7 +107,7 @@ const App = (showBelow) => {
           
       </>
     </Router>
-    </ThemeProvider>
+    
 )}
 
 export default App;

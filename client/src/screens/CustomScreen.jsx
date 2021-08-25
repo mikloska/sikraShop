@@ -7,20 +7,20 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const AboutScreen = () =>{
+const CustomScreen = () =>{
   const classes = useStyles();
   return (
-    <div className={classes.root}>
-       <Typography variant='h4' style={{marginBottom:40}}>About Us</Typography>
-    
-    <Paper pt={0} elevation={7}>
-   
+    <div>
+      <Typography variant='h4' style={{marginBottom:40}}>Custom Pieces</Typography>
       
-    </Paper>
+      <Paper pt={0} elevation={7}>
+    
+        
+      </Paper>
     </div>
 
   )
 
 }
 
-export default AboutScreen
+export default CustomScreen

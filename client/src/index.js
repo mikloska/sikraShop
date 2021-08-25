@@ -10,10 +10,17 @@ import { createTheme } from '@material-ui/core/styles';
 
 
 const theme = createTheme({
+  typography: {
+    fontFamily: [
+      'Signika',
+      // 'cursive',
+    ].join(','),
+  },
   palette: {
     primary: {
       main: '#067e78',
     },
+
     // secondary: {
     //   main: green[500],
     // },

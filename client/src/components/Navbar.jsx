@@ -262,8 +262,8 @@ const Navbar= () => {
             <MenuItem onClick={handleNavMenuClose} className={classes.Link} component={RouterLink} to='/rings'>Rings</MenuItem>
             <MenuItem onClick={handleNavMenuClose} className={classes.Link} component={RouterLink} to='/bracelets'>Bracelets</MenuItem>
             <MenuItem onClick={handleNavMenuClose} className={classes.Link} component={RouterLink} to='/about'>About Us</MenuItem>
-            <MenuItem onClick={handleNavMenuClose} className={classes.Link} component={RouterLink} to='/custom'>Custom Work
-            </MenuItem>
+            <MenuItem onClick={handleNavMenuClose} className={classes.Link} component={RouterLink} to='/custom'>Custom Work</MenuItem>
+            <MenuItem onClick={handleNavMenuClose} className={classes.Link} component={RouterLink} to='/contact'>Contact Us</MenuItem>
           </Menu>
           
           {/* <Image alt="Example Alt" src="https://sikra.s3.us-east-2.amazonaws.com/logo-%2Bhigh%2Bres4.png" /> */}
