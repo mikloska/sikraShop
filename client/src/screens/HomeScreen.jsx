@@ -6,24 +6,26 @@ import Grid from '@material-ui/core/Grid'
 import {listProducts} from '../actions/productActions'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
+import Paginate from '../components/Paginate'
 
 
 
 const HomeScreen = ({match}) => {
   const dispatch = useDispatch()
   const keyword = match.params.keyword
+  const pageNumber = match.params.pageNumber || 1
   // const [products,setProducts] = useState([])
   const productList = useSelector(state => state.productList)
-  const {loading, error, products} = productList
+  const {loading, error, products, page, pages} = productList
   useEffect(()=>{
-    dispatch(listProducts(keyword))
+    dispatch(listProducts(keyword, pageNumber))
 
     // axios.get('/api/products')
     //   .then(res => {
     //   setProducts(res.data);
     // })
     // .catch(err => console.log(err))
-  },[dispatch, keyword])
+  },[dispatch, keyword, pageNumber])
 
 
   return (
@@ -37,6 +39,7 @@ const HomeScreen = ({match}) => {
             <Product product = {product} key ={product.id}/>
           </Grid>
         ))}
+        <Grid item lg={11} md={11} style={{display:'flex',justifyContent:'center'}} ><Paginate pages={pages} page={page} keyword={keyword ? keyword : ''}/></Grid>
       </Grid>}
     </div>
   )

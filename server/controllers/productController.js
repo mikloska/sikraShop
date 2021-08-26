@@ -26,7 +26,7 @@ const getProductsByCategory = async(req,res, next) => {
 
 const getProducts = async(req,res, next) => {
   try{
-    const pageSize = 2
+    const pageSize = 1
     const page = Number(req.query.pageNumber) || 1
     const keyword = req.query.keyword
 

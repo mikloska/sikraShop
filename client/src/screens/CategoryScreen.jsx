@@ -7,6 +7,7 @@ import {listProductByCategory} from '../actions/productActions'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { PRODUCT_CATEGORY_LIST_RESET } from '../constants/productConstants'
+import Paginate from '../components/Paginate'
 
 
 
@@ -42,6 +43,7 @@ const CategoryScreen = ({match}) => {
             <Product product = {product} key ={product.id}/>
           </Grid>
         ))}
+        {/* <Grid item lg={11} md={11} style={{display:'flex',justifyContent:'center'}} ><Paginate pages={pages} page={page} keyword={keyword ? keyword : ''}/></Grid> */}
       </Grid>}
     </div>
   )
