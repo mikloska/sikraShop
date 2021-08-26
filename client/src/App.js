@@ -70,6 +70,7 @@ const App = (showBelow) => {
           <Container className='main-container'>
             <Switch>
               <Route path ='/' component={HomeScreen} exact/>
+              <Route path='/search/:keyword' component={HomeScreen} exact />
               <Route path ='/product/:id' component={ProductScreen} />
               <Route path ='/login' component={SignInScreen} />
               <Route path ='/signup' component={SignUpScreen} />
@@ -93,6 +94,7 @@ const App = (showBelow) => {
               <Route path='/admin/user/:id/edit' component={UserEditScreen}/>
               <Route path='/admin/productlist' component={ProductListScreen}/>
               <Route path='/admin/product/:id/edit' component={ProductEditScreen}/>
+              
               {/* <Route >
                   <NotFound/>
                 </Route> */}

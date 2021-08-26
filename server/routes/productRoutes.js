@@ -9,12 +9,12 @@ router.get('/category/:id', getProductsByCategory,
   (req,res)=>{
     return res.status(200).json(res.locals.productsByCategory)
   })
-
-router.get('/', 
-  getProducts,
-  (req, res) => {
+router.route('/').get(getProducts).post(protectUser, admin, createProduct)
+// router.get('/', 
+  // getProducts,
+  // (req, res) => {
     // console.log('In get all products route. Res.locals is: ', res.locals)
-    return res.status(200).json(res.locals.products)
+    // return res.status(200).json(res.locals.products)
   // try{
   //   const products=await Product.find({})
   //   if(products) return res.json(products)
@@ -25,9 +25,9 @@ router.get('/',
   //   console.error(`Error: ${error.message}`.red.underline.bold)
   //   return next(`Error getting products: ${error.message}`)
   // }
-});
+// });
 
-router.route('/').post(protectUser, admin, createProduct)
+// router.route('/').post(protectUser, admin, createProduct)
 router.get('/:id',
   getProductById,
   (req, res) => {

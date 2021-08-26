@@ -9,20 +9,21 @@ import Loader from '../components/Loader'
 
 
 
-const HomeScreen = () => {
+const HomeScreen = ({match}) => {
   const dispatch = useDispatch()
+  const keyword = match.params.keyword
   // const [products,setProducts] = useState([])
   const productList = useSelector(state => state.productList)
   const {loading, error, products} = productList
   useEffect(()=>{
-    dispatch(listProducts())
+    dispatch(listProducts(keyword))
 
     // axios.get('/api/products')
     //   .then(res => {
     //   setProducts(res.data);
     // })
     // .catch(err => console.log(err))
-  },[dispatch])
+  },[dispatch, keyword])
 
 
   return (

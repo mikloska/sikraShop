@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import { Route } from 'react-router-dom'
 import { alpha, makeStyles, withStyles } from '@material-ui/core/styles';
 import {AppBar, Toolbar, IconButton, Menu, MenuItem, Typography, Button, TextField, Badge} from '@material-ui/core';
 import Image from "material-ui-image";
@@ -11,6 +12,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import { changeBadge } from '../actions/itemCountActions'
 import {signOut} from '../actions/userActions'
+import SearchBox from './SearchBox'
 
 const MyBadge = withStyles((theme) => ({
   badge: {
@@ -279,10 +281,13 @@ const Navbar= () => {
             />
           </Typography>
           <div className={classes.search}>
+          <Route render={({ history }) => <SearchBox history={history} className={classes.SearchBox}/>} />
+          </div>
+          {/* <div className={classes.search}> */}
             {/* <div className={classes.searchIcon}>
               <SearchIcon style={{color:"black"}}/>
             </div> */}
-            <TextField
+            {/* <TextField
               size="small"
               className={classes.SearchBox}
               variant="outlined"
@@ -295,7 +300,7 @@ const Navbar= () => {
               // }}
               inputProps={{ 'aria-label': 'search' }}
             />
-          </div>
+          </div> */}
           
           <div className={classes.grow} />
           {/* {userInformation?(
