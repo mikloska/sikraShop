@@ -77,7 +77,11 @@ const App = (showBelow) => {
               <Route path ='/login' component={SignInScreen} />
               <Route path ='/signup' component={SignUpScreen} />
               <Route path ='/basket/:id?' component={BasketScreen}/>
-              <Route path ='/necklaces/page/:pageNumber' component={CategoryScreen}/>
+              <Route path ='/necklaces/page/:pageNumber' render={ (props)=><CategoryScreen {...props} handleScrollClick={handleScrollClick}/>} />
+              <Route path ='/earrings/page/:pageNumber' component={CategoryScreen}/>
+              <Route path ='/rings/page/:pageNumber' component={CategoryScreen}/>
+              <Route path ='/bracelets/page/:pageNumber' component={CategoryScreen}/>
+              <Route path ='/necklaces' component={CategoryScreen} handleScrollClick={handleScrollClick}/>
               <Route path ='/earrings' component={CategoryScreen}/>
               <Route path ='/rings' component={CategoryScreen}/>
               <Route path ='/bracelets' component={CategoryScreen}/>

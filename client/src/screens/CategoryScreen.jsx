@@ -21,36 +21,24 @@ const CategoryScreen = ({match}) => {
   const {loading, error, productsCategory, catPage, catPages} = productListCategory
 
   let history = useHistory();
-  const [paginationPage, setpaginationPage] = React.useState(catPage);
-  const handleChange = (event, value) => {
-    history.push(`/${current}/page/${value}`)
-    // history.push()
-    // if(!isAdmin){
-    //   if(keyword){
-    //     history.push(`/search/${keyword}/page/${value}`)
-    //   }else{
-    //     history.push(`/page/${value}`)
-    //   }
-    // }else{
-    //   history.push(`/admin/productlist/${value}`)
-    // }
+  const [paginationPage, setpaginationPage] = useState(catPage);
 
-    
-    setpaginationPage(value);
-    
-  };
+  const handleScrollClick = () => {
+    window[`scrollTo`]({ top: 0, behavior: `smooth` })
+  }
+
 
   useEffect(()=>{
-    // dispatch({ type: PRODUCT_CATEGORY_LIST_RESET })
+
     dispatch(listProductByCategory(current, pageNumber))
-    // console.log(current)
-    // axios.get('/api/products')
-    console.log(catPages)
-    //   .then(res => {
-    //   setProducts(res.data);
-    // })
-    // .catch(err => console.log(err))
+
   },[dispatch, match, pageNumber])
+
+  const handleChange = (event, value) => {
+    history.push(`/${current}/page/${value}`)
+    handleScrollClick()
+    setpaginationPage(value);
+  };
 
 
   return (
@@ -73,7 +61,7 @@ const CategoryScreen = ({match}) => {
 
       {catPages > 1 && (
       <Grid container justifyContent='center' style={{marginTop: 30}}> 
-        <Grid item md={11} display='flex' justifyContent='center'>
+        <Grid item md={11} style={{display:'flex',justifyContent:'center'}}>
           <Pagination count={catPages} page={catPage} onChange={handleChange}/>
         </Grid>
       </Grid>

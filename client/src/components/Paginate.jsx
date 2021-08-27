@@ -13,6 +13,7 @@ const Paginate = ({ pages, page, isAdmin = false, keyword = '' }) => {
     if(!isAdmin){
       if(keyword){
         history.push(`/search/${keyword}/page/${value}`)
+        // setpaginationPage(value);
       }else{
         history.push(`/page/${value}`)
       }
