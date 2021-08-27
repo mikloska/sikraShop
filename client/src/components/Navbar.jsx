@@ -132,13 +132,24 @@ const Navbar= () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [adminAnchorEl, setAdminAnchorEl] = React.useState(null);
+  const [collectionAnchorEl, setCollectionAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const isAdminMenuOpen = Boolean(adminAnchorEl);
+  const isCollectionMenuOpen = Boolean(collectionAnchorEl);
 
   const handleAdminMenuOpen = (event) =>{
     setAdminAnchorEl(event.currentTarget);
+  }
+
+  const handleCollectionMenuOpen = (event)=>{
+    setCollectionAnchorEl(event.currentTarget)
+  }
+
+  const handleCollectionMenuClose = (event)=>{
+    setCollectionAnchorEl(null)
+    handleNavMenuClose()
   }
 
   const handleAdminMenuClose = () =>{
@@ -259,13 +270,18 @@ const Navbar= () => {
             <MenuIcon style={{color:"black"}}/>
           </IconButton>
           <Menu justify = "center" anchorEl={mainNavanchorEl} keepMounted open={Boolean(mainNavanchorEl)} onClose={handleNavMenuClose}>
-            <MenuItem onClick={handleNavMenuClose} className={classes.Link} component={RouterLink} to='/necklaces'>Necklaces & Pendants</MenuItem>
-            <MenuItem onClick={handleNavMenuClose} className={classes.Link} component={RouterLink} to='/earrings'>Earrings</MenuItem>
-            <MenuItem onClick={handleNavMenuClose} className={classes.Link} component={RouterLink} to='/rings'>Rings</MenuItem>
-            <MenuItem onClick={handleNavMenuClose} className={classes.Link} component={RouterLink} to='/bracelets'>Bracelets</MenuItem>
+            <MenuItem onClick={handleCollectionMenuOpen}>Collection</MenuItem>
             <MenuItem onClick={handleNavMenuClose} className={classes.Link} component={RouterLink} to='/about'>About Us</MenuItem>
             <MenuItem onClick={handleNavMenuClose} className={classes.Link} component={RouterLink} to='/custom'>Custom Work</MenuItem>
             <MenuItem onClick={handleNavMenuClose} className={classes.Link} component={RouterLink} to='/contact'>Contact Us</MenuItem>
+          </Menu>
+          <Menu title='Collection' anchorEl={collectionAnchorEl} anchorOrigin={{ vertical: 'top', horizontal: 'left' }} id='collectionnMenu'
+              keepMounted transformOrigin={{ vertical: 'top', horizontal: 'left' }} open={isCollectionMenuOpen} onClose={handleCollectionMenuClose}
+          >
+            <MenuItem onClick={handleCollectionMenuClose} className={classes.Link} component={RouterLink} to='/necklaces'>Necklaces & Pendants</MenuItem>
+            <MenuItem onClick={handleCollectionMenuClose} className={classes.Link} component={RouterLink} to='/earrings'>Earrings</MenuItem>
+            <MenuItem onClick={handleCollectionMenuClose} className={classes.Link} component={RouterLink} to='/rings'>Rings</MenuItem>
+            <MenuItem onClick={handleCollectionMenuClose} className={classes.Link} component={RouterLink} to='/bracelets'>Bracelets</MenuItem>
           </Menu>
           
           {/* <Image alt="Example Alt" src="https://sikra.s3.us-east-2.amazonaws.com/logo-%2Bhigh%2Bres4.png" /> */}
@@ -377,6 +393,25 @@ const Navbar= () => {
                 Orders
               </MenuItem>
             </Menu>
+            {/* <Menu title='Collection'
+              anchorEl={collectionAnchorEl}
+              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+              id='collectionnMenu'
+              keepMounted
+              transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+              open={isCollectionMenuOpen}
+              onClose={handleCollectionMenuClose}
+            >
+              <MenuItem component={RouterLink} onClick={handleAdminMenuClose} to='/admin/userlist'>
+                Users
+              </MenuItem>
+              <MenuItem component={RouterLink} onClick={handleAdminMenuClose} to='/admin/productlist'>
+                Products
+              </MenuItem>
+              <MenuItem component={RouterLink} onClick={handleAdminMenuClose} to='/admin/orderlist'>
+                Orders
+              </MenuItem>
+            </Menu> */}
             </Toolbar>
             )}
 
