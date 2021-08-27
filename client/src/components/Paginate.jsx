@@ -5,7 +5,7 @@ import { Link } from '@material-ui/core';
 
 import { Link as RouterLink } from 'react-router-dom'
 
-const Paginate = ({ pages, page, isAdmin = false, keyword = '' }) => {
+const Paginate = ({ pages, page, isAdmin = false, keyword = '', handleScrollClick }) => {
   let history = useHistory();
   const [paginationPage, setpaginationPage] = React.useState(page);
   const handleChange = (event, value) => {
@@ -21,7 +21,7 @@ const Paginate = ({ pages, page, isAdmin = false, keyword = '' }) => {
       history.push(`/admin/productlist/${value}`)
     }
 
-    
+    handleScrollClick()
     setpaginationPage(value);
     
   };

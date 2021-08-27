@@ -11,6 +11,9 @@ import Paginate from '../components/Paginate'
 
 
 const HomeScreen = ({match}) => {
+  const handleScrollClick = () => {
+    window[`scrollTo`]({ top: 0, behavior: `smooth` })
+  }
   const dispatch = useDispatch()
   const keyword = match.params.keyword
   const pageNumber = match.params.pageNumber || 1
@@ -39,7 +42,9 @@ const HomeScreen = ({match}) => {
             <Product product = {product} key ={product.id}/>
           </Grid>
         ))}
-        <Grid item lg={11} md={11} style={{display:'flex',justifyContent:'center'}} ><Paginate pages={pages} page={page} keyword={keyword ? keyword : ''}/></Grid>
+        <Grid item lg={11} md={11} style={{display:'flex',justifyContent:'center'}} >
+          <Paginate pages={pages} page={page} handleScrollClick={handleScrollClick} keyword={keyword ? keyword : ''}/>
+        </Grid>
       </Grid>}
     </div>
   )

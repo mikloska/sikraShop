@@ -60,7 +60,7 @@ const CategoryScreen = ({match}) => {
       {/* <Pagination count={catPages} page={catPage} onChange={handleChange}/> */}
 
       {catPages > 1 && (
-      <Grid container justifyContent='center' style={{marginTop: 30}}> 
+      <Grid container justifyContent='center' style={{marginTop: 50}}> 
         <Grid item md={11} style={{display:'flex',justifyContent:'center'}}>
           <Pagination count={catPages} page={catPage} onChange={handleChange}/>
         </Grid>

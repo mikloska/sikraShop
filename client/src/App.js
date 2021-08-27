@@ -70,7 +70,7 @@ const App = (showBelow) => {
           <Container className='main-container'>
             <Switch>
               <Route path ='/' component={HomeScreen} exact/>
-              <Route path='/search/:keyword' component={HomeScreen} />
+              <Route path='/search/:keyword' component={HomeScreen} exact/>
               <Route path='/page/:pageNumber' component={HomeScreen} exact />
               <Route path='/search/:keyword/page/:pageNumber' component={HomeScreen} exact />
               <Route path ='/product/:id' component={ProductScreen} />
