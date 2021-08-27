@@ -28,10 +28,10 @@ export const listProducts = (keyword='', pageNumber = '') => async (dispatch) =>
 
 }
 
-export const listProductByCategory = (cat) => async (dispatch) => {
+export const listProductByCategory = (cat, pageNumber = '') => async (dispatch) => {
   try {
     dispatch({type: PRODUCT_CATEGORY_LIST_REQUEST})
-    const {data} = await axios.get(`/api/products/category/${cat}`)
+    const {data} = await axios.get(`/api/products/category/${cat}?pageNumber=${pageNumber}`)
     await dispatch({
       type: PRODUCT_CATEGORY_LIST_SUCCESS,
       payload: data,

@@ -5,10 +5,12 @@ import {protectUser, admin} from '../middleware/authMiddleware.js'
 
 const router=express.Router()
 
-router.get('/category/:id', getProductsByCategory,
-  (req,res)=>{
-    return res.status(200).json(res.locals.productsByCategory)
-  })
+router.route('/category/:id').get(getProductsByCategory)
+
+// router.get('/category/:id', getProductsByCategory,
+//   (req,res)=>{
+//     return res.status(200).json(res.locals.productsByCategory)
+//   })
 router.route('/').get(getProducts).post(protectUser, admin, createProduct)
 // router.get('/', 
   // getProducts,

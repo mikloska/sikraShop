@@ -7,10 +7,17 @@ import Product from '../models/productModel.js'
 const getProductsByCategory = async(req,res, next) => {
   // console.log('In get product by id controller. Req.params is: ', req.params)
   try{
-    res.locals.productsByCategory=await Product.find({"category":req.params.id})
+    const catPageSize = 1
+    const catPage = Number(req.query.pageNumber) || 1
+    const catCount = await Product.countDocuments({"category":req.params.id})
+    //Skip over the exact amount per page that is before
+    const productsCategory = await Product.find({"category":req.params.id}).limit(catPageSize).skip(catPageSize * (catPage - 1))
+
+    res.json({ productsCategory, catPage, catPages: Math.ceil(catCount / catPageSize) })
+    // res.locals.productsByCategory=await Product.find({"category":req.params.id})
     // console.log('In get product by id controller. Res.locals is: ', res.locals)
     // if(product) return res.json(product)
-    return next()
+    // return next()
   }catch(error){
     // return res.status(500).json(error.message);
     return next(new Error(`Products in category '${req.params.id}' not found`))

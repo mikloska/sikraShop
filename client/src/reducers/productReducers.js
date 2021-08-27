@@ -27,7 +27,7 @@ export const productListCategoryReducer = (state={productsCategory: []},action) 
     case PRODUCT_CATEGORY_LIST_REQUEST:
       return {loading:true, productsCategory:[]}
     case PRODUCT_CATEGORY_LIST_SUCCESS:
-      return {loading:false, productsCategory: action.payload}
+      return {loading:false, productsCategory: action.payload.productsCategory, catPages: action.payload.catPages, catPage: action.payload.catPage}
     case PRODUCT_CATEGORY_LIST_FAILURE:
       return {loading: false, error: action.payload}
     case PRODUCT_CATEGORY_LIST_RESET:

@@ -259,7 +259,7 @@ const Navbar= () => {
             <MenuIcon style={{color:"black"}}/>
           </IconButton>
           <Menu justify = "center" anchorEl={mainNavanchorEl} keepMounted open={Boolean(mainNavanchorEl)} onClose={handleNavMenuClose}>
-            <MenuItem onClick={handleNavMenuClose} className={classes.Link} component={RouterLink} to='/necklaces'>Necklaces & Pendants</MenuItem>
+            <MenuItem onClick={handleNavMenuClose} className={classes.Link} component={RouterLink} to='/necklaces/page/1'>Necklaces & Pendants</MenuItem>
             <MenuItem onClick={handleNavMenuClose} className={classes.Link} component={RouterLink} to='/earrings'>Earrings</MenuItem>
             <MenuItem onClick={handleNavMenuClose} className={classes.Link} component={RouterLink} to='/rings'>Rings</MenuItem>
             <MenuItem onClick={handleNavMenuClose} className={classes.Link} component={RouterLink} to='/bracelets'>Bracelets</MenuItem>

@@ -7,26 +7,50 @@ import {listProductByCategory} from '../actions/productActions'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { PRODUCT_CATEGORY_LIST_RESET } from '../constants/productConstants'
-import Paginate from '../components/Paginate'
+import Pagination from '@material-ui/lab/Pagination';
+import { useHistory } from "react-router-dom";
 
 
 
 const CategoryScreen = ({match}) => {
+  const pageNumber = match.params.pageNumber || 1
   const dispatch = useDispatch()
   const current = match.path.split('/')[1]
   // const [products,setProducts] = useState([])
   const productListCategory = useSelector(state => state.productListCategory)
-  const {loading, error, productsCategory} = productListCategory
+  const {loading, error, productsCategory, catPage, catPages} = productListCategory
+
+  let history = useHistory();
+  const [paginationPage, setpaginationPage] = React.useState(catPage);
+  const handleChange = (event, value) => {
+    history.push(`/${current}/page/${value}`)
+    // history.push()
+    // if(!isAdmin){
+    //   if(keyword){
+    //     history.push(`/search/${keyword}/page/${value}`)
+    //   }else{
+    //     history.push(`/page/${value}`)
+    //   }
+    // }else{
+    //   history.push(`/admin/productlist/${value}`)
+    // }
+
+    
+    setpaginationPage(value);
+    
+  };
+
   useEffect(()=>{
     // dispatch({ type: PRODUCT_CATEGORY_LIST_RESET })
-    dispatch(listProductByCategory(current))
+    dispatch(listProductByCategory(current, pageNumber))
     // console.log(current)
     // axios.get('/api/products')
+    console.log(catPages)
     //   .then(res => {
     //   setProducts(res.data);
     // })
     // .catch(err => console.log(err))
-  },[dispatch, match])
+  },[dispatch, match, pageNumber])
 
 
   return (
@@ -45,6 +69,16 @@ const CategoryScreen = ({match}) => {
         ))}
         {/* <Grid item lg={11} md={11} style={{display:'flex',justifyContent:'center'}} ><Paginate pages={pages} page={page} keyword={keyword ? keyword : ''}/></Grid> */}
       </Grid>}
+      {/* <Pagination count={catPages} page={catPage} onChange={handleChange}/> */}
+
+      {catPages > 1 && (
+      <Grid container justifyContent='center' style={{marginTop: 30}}> 
+        <Grid item md={11} display='flex' justifyContent='center'>
+          <Pagination count={catPages} page={catPage} onChange={handleChange}/>
+        </Grid>
+      </Grid>
+
+    )}
     </div>
   )
 }
