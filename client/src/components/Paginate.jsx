@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {Pagination, PaginationItem} from '@material-ui/lab';
 import { useHistory } from "react-router-dom";
-import { Link } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
 import { Link as RouterLink } from 'react-router-dom'
 
@@ -28,7 +28,9 @@ const Paginate = ({ pages, page, isAdmin = false, keyword = '', handleScrollClic
   // useEffect
   return (
     pages > 1 && (
-      <Pagination count={pages} page={page} onChange={handleChange}/>
+      <Grid item lg={11} md={11} style={{display:'flex',justifyContent:'center'}} >
+        <Pagination count={pages} page={page} onChange={handleChange}/>
+      </Grid>
 
     )
   )

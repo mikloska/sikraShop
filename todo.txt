@@ -1,5 +1,4 @@
--Fix horrendously ugle grid issues on product screen
--Add submenu to top left main nav bar to separate category screens to decrease clutter on dropdown
+-Fix horrendously ugly grid issues on product screen
 -style check mark and x on admin userlist screen
 -style photo upload button in admin product edit screen
 -forgot password

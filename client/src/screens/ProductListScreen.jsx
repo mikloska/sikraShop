@@ -13,6 +13,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import {listProducts, deleteProduct, createProduct} from '../actions/productActions'
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
+import Paginate from '../components/Paginate'
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -56,10 +57,11 @@ const StyledTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 const ProductListScreen = ({history, match}) => {
+  const pageNumber = match.params.pageNumber || 1  
   const dispatch = useDispatch()
   const classes = useStyles();
   const productList = useSelector((state) => state.productList)
-  const { loading, error, products } = productList
+  const { loading, error, products, page, pages } = productList
 
   const productDelete = useSelector((state) => state.productDelete)
   const {loading: loadingDelete, error: errorDelete, success: successDelete} = productDelete
@@ -69,6 +71,10 @@ const ProductListScreen = ({history, match}) => {
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInformation } = userLogin
+
+  const handleScrollClick = () => {
+    window[`scrollTo`]({ top: 0, behavior: `smooth` })
+  }
 
   const createProductHandler = () => {
     dispatch(createProduct())
@@ -84,9 +90,10 @@ const ProductListScreen = ({history, match}) => {
     if (successCreate) {
       history.push(`/admin/product/${createdProduct._id}/edit`)
     } else {
-      dispatch(listProducts())
+      //Empty string bc first arg is keyword
+      dispatch(listProducts('', pageNumber))
     }
-  }, [dispatch, history, userInformation, successDelete, successCreate, createdProduct])
+  }, [dispatch, history, userInformation, successDelete, successCreate, createdProduct, pageNumber])
 
   const deleteHandler = (id) => {
     if (window.confirm('Are you sure')) {
@@ -153,6 +160,9 @@ const ProductListScreen = ({history, match}) => {
     </Table>
     </TableContainer>
     )}
+    <Grid container style = {{marginTop: 30}}>
+      <Paginate pages={pages} page={page} isAdmin={true} handleScrollClick={handleScrollClick} />
+    </Grid>
   </div>
 
   )

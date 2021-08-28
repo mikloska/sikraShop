@@ -42,9 +42,9 @@ const HomeScreen = ({match}) => {
             <Product product = {product} key ={product.id}/>
           </Grid>
         ))}
-        <Grid item lg={11} md={11} style={{display:'flex',justifyContent:'center'}} >
-          <Paginate pages={pages} page={page} handleScrollClick={handleScrollClick} keyword={keyword ? keyword : ''}/>
-        </Grid>
+        
+        <Paginate pages={pages} page={page} handleScrollClick={handleScrollClick} keyword={keyword ? keyword : ''}/>
+        
       </Grid>}
     </div>
   )
