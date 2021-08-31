@@ -35,7 +35,7 @@ const CategoryScreen = ({match}) => {
   },[dispatch, match, pageNumber])
 
   const handleChange = (event, value) => {
-    history.push(`/${current}/page/${value}`)
+    history.push(`/${current}/page${value}`)
     handleScrollClick()
     setpaginationPage(value);
   };

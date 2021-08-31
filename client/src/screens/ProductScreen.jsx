@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {listProductDetails, createProductReview} from '../actions/productActions'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants'
+// import { PRODUCT_DETAILS_RESET } from '../constants/productConstants'
 // import axios from 'axios'
 
 const useStyles = makeStyles((theme)=>({
@@ -48,6 +48,7 @@ const ProductScreen = ({history, match}) =>{
   // const [product,setProduct] = useState({})
 
   useEffect(()=>{
+    // dispatch({type:PRODUCT_DETAILS_RESET})
     if (successProductReview) {
       setRating(0)
       setComment('')

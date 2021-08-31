@@ -71,20 +71,26 @@ const App = (showBelow) => {
             <Switch>
               <Route path ='/' component={HomeScreen} exact/>
               <Route path='/search/:keyword' component={HomeScreen} exact/>
-              <Route path='/page/:pageNumber' component={HomeScreen} exact />
-              <Route path='/search/:keyword/page/:pageNumber' component={HomeScreen} exact />
-              <Route path ='/product/:id' component={ProductScreen} />
+              <Route path='/page:pageNumber' component={HomeScreen} exact />
+              <Route path='/search/:keyword/page:pageNumber' component={HomeScreen} exact />
+              <Route path ='/search/:keyword/product/:id' component={ProductScreen} exact/>
+              <Route path ='/:id/product/:id' component={ProductScreen} exact/>
+              <Route path ='/product/:id' component={ProductScreen} exact/>
               <Route path ='/login' component={SignInScreen} />
               <Route path ='/signup' component={SignUpScreen} />
               <Route path ='/basket/:id?' component={BasketScreen}/>
-              <Route path ='/necklaces/page/:pageNumber' render={ (props)=><CategoryScreen {...props} handleScrollClick={handleScrollClick}/>} />
-              <Route path ='/earrings/page/:pageNumber' component={CategoryScreen}/>
-              <Route path ='/rings/page/:pageNumber' component={CategoryScreen}/>
-              <Route path ='/bracelets/page/:pageNumber' component={CategoryScreen}/>
+              <Route path ='/necklaces/page:pageNumber' render={ (props)=><CategoryScreen {...props} handleScrollClick={handleScrollClick}/>} />
+              <Route path ='/earrings/page:pageNumber' component={CategoryScreen}/>
+              <Route path ='/rings/page:pageNumber' component={CategoryScreen}/>
+              <Route path ='/bracelets/page:pageNumber' component={CategoryScreen}/>
               <Route path ='/necklaces' component={CategoryScreen} handleScrollClick={handleScrollClick}/>
               <Route path ='/earrings' component={CategoryScreen}/>
               <Route path ='/rings' component={CategoryScreen}/>
               <Route path ='/bracelets' component={CategoryScreen}/>
+              {/* <Route path ='/necklaces' component={ProductScreen}/>
+              <Route path ='/earrings' component={ProductScreen}/>
+              <Route path ='/rings' component={ProductScreen}/>
+              <Route path ='/bracelets' component={ProductScreen}/> */}
               <Route path ='/custom' component={CustomScreen}/>
               <Route path ='/about' component={AboutScreen}/>
               <Route path ='/contact' component={ContactScreen}/>
@@ -99,7 +105,7 @@ const App = (showBelow) => {
               <Route path='/admin/userlist' component={UserListScreen}/>
               <Route path='/admin/user/:id/edit' component={UserEditScreen}/>
               <Route path='/admin/productlist' component={ProductListScreen} exact/>
-              <Route path='/admin/productlist/:pageNumber' component={ProductListScreen}/>
+              <Route path='/admin/productlist/page:pageNumber' component={ProductListScreen}/>
               <Route path='/admin/product/:id/edit' component={ProductEditScreen}/>
               
               {/* <Route >

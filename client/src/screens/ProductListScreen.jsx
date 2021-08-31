@@ -160,7 +160,7 @@ const ProductListScreen = ({history, match}) => {
     </Table>
     </TableContainer>
     )}
-    <Grid container style = {{marginTop: 30}}>
+    <Grid container justifyContent='center' style = {{marginTop: 30}}>
       <Paginate pages={pages} page={page} isAdmin={true} handleScrollClick={handleScrollClick} />
     </Grid>
   </div>
