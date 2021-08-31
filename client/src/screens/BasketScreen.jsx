@@ -7,6 +7,7 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import Message from '../components/Message'
 import { addToBasket, removeFromBasket } from '../actions/basketActions'
 import { changeBadge } from '../actions/itemCountActions'
+import Loader from '../components/Loader'
 
 const useStyles = makeStyles((theme)=>({
   CheckoutButton: {
@@ -89,7 +90,7 @@ const BasketScreen = ({ match, location, history }) => {
             <Grid item xs={12}sm = {12} md = {6} lg = {3} xl = {3} key={item.product}>
               <Paper elevation={7} className = {classes.Card} ml={6} >
               <RouterLink to={`/product/${item.product}`} variant='h6' className={classes.Link}>
-                  <img src={item.image} className={classes.Media}/> 
+                {item.image ? <img src={item.image[0]} className={classes.Media}/> : <Loader/>} 
                 <Typography variant = "subtitle2">
                   <strong >{item.name}</strong>
                 </Typography>
@@ -111,7 +112,7 @@ const BasketScreen = ({ match, location, history }) => {
                   </Select>
                 </FormControl>
                 <IconButton onClick={() => removeFromBasketHandler(item.product)} style={{bottom:-10, marginLeft: 20}}> 
-                  <DeleteForeverIcon style={{color:"black"}}/>
+                  <DeleteForeverIcon style={{color:"#d11919"}}/>
                 </IconButton>
                 </div>
               </Paper>

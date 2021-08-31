@@ -10,7 +10,7 @@ import { useHistory } from 'react-router-dom'
 import LabelIcon from '@material-ui/icons/Label';
 import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
-import { listProductDetails, updateProduct } from '../actions/productActions'
+import { listProductDetails, updateProduct, deleteProductImage } from '../actions/productActions'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 // import {DropzoneArea} from 'material-ui-dropzone'
@@ -52,7 +52,7 @@ const ProductEditScreen = ({ match, history }) => {
 
   const [name, setName] = useState('')
   const [price, setPrice] = useState(0)
-  const [image, setImage] = useState('')
+  const [image, setImage] = useState()
   const [category, setCategory] = useState('')
   const [countInStock, setCountInStock] = useState(5)
   const [description, setDescription] = useState('')
@@ -117,6 +117,11 @@ const ProductEditScreen = ({ match, history }) => {
     }
   }
 
+  const handleImageDelete = (pic) => {
+    // dispatch(deleteProductImage({_id:productId, pic}))
+    console.log(productId, pic)
+  }
+
 
 
   return (
@@ -148,10 +153,12 @@ const ProductEditScreen = ({ match, history }) => {
                       setPrice(e.target.value);
                     }}
                   />
-                  {image ? image.map(pic=>
+                  {image!==undefined ? image.map(pic=>
                     <div key={pic} style={{position: 'relative'}}>
                       <img style={{display:'block',width:'100%', padding:4}} src={pic}/>
-                      <IconButton style={{color:'red',zIndex:10,position:'absolute',top:0,right:0}}><DeleteForeverIcon style={{cursor: 'pointer',color:'red',zIndex:10,position:'absolute',top:10,right:0}}/></IconButton>
+                      <IconButton style={{color:'#d11919',zIndex:10,position:'absolute',top:0,right:0}} onClick={()=>handleImageDelete(pic)}>
+                        <DeleteForeverIcon />
+                      </IconButton>
                     </div>) : <Loader/>}
                   <TextField variant="outlined" margin="normal" required fullWidth id="image"
                     label="Enter Image URL" name="image" value={image? image[0]: ''}

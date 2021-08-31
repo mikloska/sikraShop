@@ -5,7 +5,8 @@ import {PRODUCT_LIST_REQUEST ,PRODUCT_LIST_SUCCESS, PRODUCT_LIST_FAILURE,
   PRODUCT_UPDATE_REQUEST, PRODUCT_UPDATE_SUCCESS, PRODUCT_UPDATE_FAILURE, PRODUCT_UPDATE_RESET,
   PRODUCT_CREATE_REVIEW_REQUEST, PRODUCT_CREATE_REVIEW_SUCCESS, PRODUCT_CREATE_REVIEW_FAILURE, PRODUCT_CREATE_REVIEW_RESET,
   PRODUCT_TOP_REQUEST, PRODUCT_TOP_SUCCESS, PRODUCT_TOP_FAILURE,
-  PRODUCT_CATEGORY_LIST_REQUEST, PRODUCT_CATEGORY_LIST_SUCCESS, PRODUCT_CATEGORY_LIST_FAILURE
+  PRODUCT_CATEGORY_LIST_REQUEST, PRODUCT_CATEGORY_LIST_SUCCESS, PRODUCT_CATEGORY_LIST_FAILURE,
+  PRODUCT_IMAGE_DELETE_REQUEST, PRODUCT_IMAGE_DELETE_SUCCESS, PRODUCT_IMAGE_DELETE_FAILURE
 } from '../constants/productConstants'
 import axios from 'axios'
 
@@ -240,5 +241,50 @@ export const listTopProducts = () => async (dispatch) => {
           ? error.response.data.message
           : error.message,
     })
+  }
+}
+
+
+export const deleteProductImage = (product) => async (dispatch, getState) => {
+  // console.log('action')
+  try {
+  dispatch({
+    type: PRODUCT_IMAGE_DELETE_REQUEST,
+  })
+
+  const {
+    userLogin: { userInformation },
+  } = getState()
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${userInformation.token}`,
+    },
+  }
+
+  const { data } = await axios.put(
+    `/api/products/${product._id}/removeimg`,
+    product,
+    config
+  )
+
+  dispatch({
+    type: PRODUCT_IMAGE_DELETE_SUCCESS,
+    payload: data,
+  })
+  dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: data })
+  } catch (error) {
+  const message =
+    error.response && error.response.data.message
+      ? error.response.data.message
+      : error.message
+  if (message === 'Not authorized, token failed') {
+    dispatch(logout())
+  }
+  dispatch({
+    type: PRODUCT_IMAGE_DELETE__FAILURE,
+    payload: message,
+  })
   }
 }

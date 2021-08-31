@@ -150,7 +150,7 @@ const ProductListScreen = ({history, match}) => {
               <RouterLink to={`/admin/product/${product._id}/edit`}>
                 <IconButton ><EditIcon/></IconButton>
               </RouterLink>
-              <IconButton onClick={() => deleteHandler(product._id)}><DeleteForeverIcon style={{color:'red'}}/></IconButton>
+              <IconButton onClick={() => deleteHandler(product._id)}><DeleteForeverIcon style={{color:'#d11919'}}/></IconButton>
             </div>
           </StyledTableCell>
           

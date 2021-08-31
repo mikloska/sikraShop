@@ -224,6 +224,33 @@ const createProductReview = async (req, res, next) => {
 }
 
 
+const deleteProductImage = async (req, res, next) => {
+  try{
+    const {pic} = req.body
+
+    const product = await Product.findById(req.params.id)
+
+    if (product) {
+      // console.log(product.image, 'product: ',req.body)
+      product.image=product.image.filter(img=>img!==pic)
 
 
-export {getProducts,getProductById, deleteProduct, createProduct, updateProduct, getProductsByCategory, createProductReview}
+      const updatedProduct = await product.save()
+      res.json(updatedProduct)
+    } else {
+      res.status(404)
+      throw new Error('Product not found')
+    }
+  }catch(error){
+    // return res.status(500).json(error.message);
+    return next(new Error(`Product '${req.params.id}' not found`))
+    // return next(error)
+    // console.error(`Error: ${error.message}`.red.underline.bold)
+    // process.exit(1)
+  }
+}
+
+
+
+
+export {getProducts,getProductById, deleteProduct, createProduct, updateProduct, getProductsByCategory, createProductReview, deleteProductImage}

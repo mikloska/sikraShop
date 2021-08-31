@@ -1,6 +1,6 @@
 import express from 'express'
 // import products from '../data/products.js'
-import {getProducts, getProductById, deleteProduct, createProduct, updateProduct, getProductsByCategory} from '../controllers/productController.js'
+import {getProducts, getProductById, deleteProduct, createProduct, updateProduct, getProductsByCategory, deleteProductImage} from '../controllers/productController.js'
 import {protectUser, admin} from '../middleware/authMiddleware.js'
 
 const router=express.Router()
@@ -61,6 +61,7 @@ router.get('/:id',
   
 });
 router.route('/:id').delete(protectUser, admin, deleteProduct).put(protectUser, admin, updateProduct)
+router.route('/:id/removeimg').put(protectUser, admin, deleteProductImage)
 
 
 
