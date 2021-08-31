@@ -72,9 +72,9 @@ const ProductScreen = ({history, match}) =>{
     history.push(`/basket/${match.params.id}?qty=${qty}`)
   }
 
-  const updateImage = (e) =>{
-    console.log(e)
-    setCurrentImage(e)
+  const updateImage = (pic) =>{
+    // console.log(e)
+    setCurrentImage(pic)
     setFirstRender(false)
   }
 
@@ -98,7 +98,7 @@ const ProductScreen = ({history, match}) =>{
           product.image&&firstRender===false ? <img src={currentImage} alt={product.name} className={classes.Image}/> : <Loader/>}
         </Grid>
         {product.image ? product.image.map(image =>(
-          <Grid item md={1} key={image}><img src={image} className={classes.Image} alt={product.name} onClick={()=>updateImage(image)}/></Grid>
+          <Grid item md={1} key={image}><img src={image} style={{cursor: 'pointer'}} className={classes.Image} alt={product.name} onClick={()=>updateImage(image)}/></Grid>
         )) 
         
         
