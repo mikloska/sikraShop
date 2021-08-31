@@ -53,6 +53,7 @@ const ProductEditScreen = ({ match, history }) => {
   const [name, setName] = useState('')
   const [price, setPrice] = useState(0)
   const [image, setImage] = useState()
+  const [images, setImages] = useState()
   const [category, setCategory] = useState('')
   const [countInStock, setCountInStock] = useState(5)
   const [description, setDescription] = useState('')
@@ -77,7 +78,7 @@ const ProductEditScreen = ({ match, history }) => {
       } else {
         setName(product.name)
         setPrice(product.price)
-        setImage(product.image)
+        setImages(product.image)
         setCategory(product.category)
         setCountInStock(product.countInStock)
         setDescription(product.description)
@@ -116,11 +117,26 @@ const ProductEditScreen = ({ match, history }) => {
       setUploading(false)
     }
   }
-
   const handleImageDelete = (pic) => {
-    // dispatch(deleteProductImage({_id:productId, pic}))
-    console.log(productId, pic)
+    imagesArr.pop()
+    dispatch(deleteProductImage({_id:productId, pic}))
+
   }
+  let imagesArr;
+
+  if(images!==undefined&&Array.isArray(images)){
+    imagesArr = (images.map(pic=>
+      <div key={pic} style={{position: 'relative'}}>
+        <img style={{display:'block',width:'100%', padding:4}} src={pic} />
+        <IconButton onClick={()=>handleImageDelete(pic)} style={{color:'#d11919',zIndex:10,position:'absolute',top:0,right:0}}>
+          <DeleteForeverIcon/>
+        </IconButton>
+      </div>))
+
+    }  else{
+      imagesArr = (<Loader/>)
+    } 
+
 
 
 
@@ -153,15 +169,17 @@ const ProductEditScreen = ({ match, history }) => {
                       setPrice(e.target.value);
                     }}
                   />
-                  {image!==undefined ? image.map(pic=>
+                  {/* {images!==undefined&&Array.isArray(images) ? images.map(pic=>
                     <div key={pic} style={{position: 'relative'}}>
-                      <img style={{display:'block',width:'100%', padding:4}} src={pic}/>
-                      <IconButton style={{color:'#d11919',zIndex:10,position:'absolute',top:0,right:0}} onClick={()=>handleImageDelete(pic)}>
-                        <DeleteForeverIcon />
+                      <img style={{display:'block',width:'100%', padding:4}} src={pic} />
+                      <IconButton style={{color:'#d11919',zIndex:10,position:'absolute',top:0,right:0}} onClick={()=>console.log(e.target)}>
+                        <DeleteForeverIcon onClick={()=>console.log()}/>
                       </IconButton>
-                    </div>) : <Loader/>}
+                    </div>) : <Loader/>} */}
+                    {/* {images!==undefined&&Array.isArray(images) ? imagesArray : <Loader/>} */}
+                    {imagesArr}
                   <TextField variant="outlined" margin="normal" required fullWidth id="image"
-                    label="Enter Image URL" name="image" value={image? image[0]: ''}
+                    label="Enter Image URL" name="image" value={image? image: ''}
                     onChange={(e) => {
                       setImage(e.target.value);
                     }}
