@@ -4,6 +4,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 import Rating from './Rating'
+import Loader from '../components/Loader'
 
 const useStyles = makeStyles({
   Card: {
@@ -23,7 +24,8 @@ const Product = ({product}) => {
       <Paper elevation={7} className = {classes.Card} ml={6}>
         <Link component={RouterLink} to={`product/${product._id}`} variant='h6' style={{ color: 'inherit', textDecoration: 'inherit'}}>
           {/* <a href={`product/${product._id}`} > */}
-            <img src={product.image} className={classes.Media}/> 
+          {product.image ? <img src={product.image[0]} alt={product.name} className={classes.Media}/> : <Loader/>}
+            {/* <img src={product.image} className={classes.Media}/>  */}
           <Typography variant = "subtitle2">
             <strong >{product.name}</strong>
           </Typography>

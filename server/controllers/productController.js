@@ -7,7 +7,7 @@ import Product from '../models/productModel.js'
 const getProductsByCategory = async(req,res, next) => {
   // console.log('In get product by id controller. Req.params is: ', req.params)
   try{
-    const catPageSize = 1
+    const catPageSize = 5
     const catPage = Number(req.query.pageNumber) || 1
     const catCount = await Product.countDocuments({"category":req.params.id})
     //Skip over the exact amount per page that is before
@@ -33,7 +33,7 @@ const getProductsByCategory = async(req,res, next) => {
 
 const getProducts = async(req,res, next) => {
   try{
-    const pageSize = 1
+    const pageSize = 5
     const page = Number(req.query.pageNumber) || 1
     const keyword = req.query.keyword
 
@@ -152,7 +152,7 @@ const updateProduct = async (req, res, next) => {
       product.name = name
       product.price = price
       product.description = description
-      product.image = image
+      product.image.push(image)
       product.brand = brand
       product.category = category
       product.countInStock = countInStock

@@ -44,6 +44,8 @@ const ProductScreen = ({history, match}) =>{
   const productReviewCreate = useSelector((state) => state.productReviewCreate)
   const {success: successProductReview, loading: loadingProductReview, error: errorProductReview} = productReviewCreate
   const {loading, error, product} = productDetails
+  const [currentImage, setCurrentImage] = useState('')
+  const [firstRender, setFirstRender] = useState(true)
   const classes = useStyles()
   // const [product,setProduct] = useState({})
 
@@ -52,19 +54,28 @@ const ProductScreen = ({history, match}) =>{
     if (successProductReview) {
       setRating(0)
       setComment('')
+      
     }
     // axios.get(`/api/products/${match.params.id}`)
     //   .then(res => {
     //   setProduct(res.data);
     // })
     // .catch(err => console.log(err))
-    
+    // console.log(product.image)
     dispatch(listProductDetails(match.params.id))
+    if(product.image) setCurrentImage(product.image[0])
+    
   },[dispatch, match, successProductReview])
 
   const handleAddToBasket = () => {
     
     history.push(`/basket/${match.params.id}?qty=${qty}`)
+  }
+
+  const updateImage = (e) =>{
+    console.log(e)
+    setCurrentImage(e)
+    setFirstRender(false)
   }
 
   const submitHandler = (e) => {
@@ -82,8 +93,16 @@ const ProductScreen = ({history, match}) =>{
       {loading ? <Loader/> : error ? <Message severity='error'>{error}</Message> :
       <Grid container >
         <Grid item md={6}>
-          <img src={product.image} alt={product.name} className={classes.Image}/>
+          {/* {product.image ? <img src={product.image[0]} alt={product.name} className={classes.Image}/> : <Loader/>} */}
+          {product.image&&firstRender===true ? <img src={product.image[0]} alt={product.name} className={classes.Image}/> :
+          product.image&&firstRender===false ? <img src={currentImage} alt={product.name} className={classes.Image}/> : <Loader/>}
         </Grid>
+        {product.image ? product.image.map(image =>(
+          <Grid item md={1} key={image}><img src={image} className={classes.Image} alt={product.name} onClick={()=>updateImage(image)}/></Grid>
+        )) 
+        
+        
+        : <Loader/>}
         <Grid item md={3}>
           <List>
             <ListItem>
