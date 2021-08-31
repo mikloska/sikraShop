@@ -1,7 +1,7 @@
 
 import axios from 'axios'
 import React, { useState, useEffect } from 'react';
-import {Avatar, Button, Card, TextField, Link, Grid, Box, Paper, Typography, Divider, Container, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core';
+import {IconButton, Avatar, Button, Card, TextField, Link, Grid, Box, Paper, Typography, Divider, Container, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles, styled } from '@material-ui/core/styles';
 import Message from '../components/Message'
@@ -12,7 +12,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import { listProductDetails, updateProduct } from '../actions/productActions'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
-import { Description } from '@material-ui/icons';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 // import {DropzoneArea} from 'material-ui-dropzone'
 
 const useStyles = makeStyles((theme) => ({
@@ -148,8 +148,13 @@ const ProductEditScreen = ({ match, history }) => {
                       setPrice(e.target.value);
                     }}
                   />
+                  {image ? image.map(pic=>
+                    <div key={pic} style={{position: 'relative'}}>
+                      <img style={{display:'block',width:'100%', padding:4}} src={pic}/>
+                      <IconButton style={{color:'red',zIndex:10,position:'absolute',top:0,right:0}}><DeleteForeverIcon style={{cursor: 'pointer',color:'red',zIndex:10,position:'absolute',top:10,right:0}}/></IconButton>
+                    </div>) : <Loader/>}
                   <TextField variant="outlined" margin="normal" required fullWidth id="image"
-                    label="Enter Image URL" name="image" value={image}
+                    label="Enter Image URL" name="image" value={image? image[0]: ''}
                     onChange={(e) => {
                       setImage(e.target.value);
                     }}

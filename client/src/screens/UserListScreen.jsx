@@ -123,7 +123,7 @@ const UserListScreen = ({history}) => {
               <RouterLink to={`/admin/user/${user._id}/edit`}>
                 <IconButton ><EditIcon/></IconButton>
               </RouterLink>
-              <IconButton onClick={() => deleteHandler(user._id)}><DeleteForeverIcon/></IconButton>
+              <IconButton onClick={() => deleteHandler(user._id)}><DeleteForeverIcon style={{color:'red'}}/></IconButton>
             </div>
           </StyledTableCell>
           
