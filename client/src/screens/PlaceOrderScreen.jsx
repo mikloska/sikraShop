@@ -144,7 +144,7 @@ const PlaceOrderScreen = ({ history }) => {
 
   return (
     <>
-      <CheckoutSteps step1 step2 step3 step4 tab={3} />
+      <CheckoutSteps step1 step2 step3 tab={2} />
       <Grid container justifyContent="center" spacing={6}>
         <Grid item md={6} sm={10} xs={12}>
         <Paper elevation={7} className={classes.paper} style={{padding:20}}>
@@ -192,7 +192,7 @@ const PlaceOrderScreen = ({ history }) => {
                   <StyledTableCell>
 
                     <RouterLink style={{color:'#067e78'}} to={`/product/${item.product}`}>
-                    <Box className={classes.Box}><img src={item.image} alt={item.name} className={classes.Media}/></Box>
+                    {item.image ? <Box className={classes.Box}><img src={item.image[0]} alt={item.name} className={classes.Media}/></Box> : <Loader/>}
                       {item.name}
                     </RouterLink>
                   </StyledTableCell>

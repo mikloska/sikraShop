@@ -13,7 +13,7 @@ import ShippingScreen from '../screens/ShippingScreen'
 import PaymentScreen from '../screens/PaymentScreen'
 
 const CheckoutSteps = (props)=>{
-  const { step1, step2, step3, step4, tab} = props
+  const { step1, step2, step3, tab} = props
   const basket = useSelector((state) => state.basket)
   const {basketItems} = basket
   const { shippingAddress } = basket
@@ -21,7 +21,7 @@ const CheckoutSteps = (props)=>{
   // const tabObj = {login:<SignInScreen/>, shipping: <ShippingScreen/>}
   const tabObj = {login:0, shipping: 1}
   const [value,setValue] = useState(tab)
-  const routes = ['/login','/shipping','/payment','/completeorder']
+  const routes = ['/login','/shipping','/placeorder'] //'/payment',
   // const { children, value, index, ...other } = props;
   const handleTabs = (e,val) =>{
     setValue(val)
@@ -46,14 +46,14 @@ const CheckoutSteps = (props)=>{
       ) : (
         <Tab label="Shipping" disabled />
       )}
-
+{/* 
       {step3&&shippingAddress ? (
           <Tab label="Payment"  component={RouterLink} to={routes[2]}/>
       ) : (
         <Tab label="Payment" disabled />
-      )}
+      )} */}
 
-      {step4 ? (
+      {step3&&shippingAddress ? (
           <Tab label="Complete Order"/>
       ) : (
         <Tab label="Complete Order" disabled/>

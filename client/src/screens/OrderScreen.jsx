@@ -248,7 +248,7 @@ const OrderScreen = ({ match, history}) => {
                 <StyledTableRow key={index}>
                   <StyledTableCell>
                     <RouterLink style={{color:'#067e78'}} to={`/product/${item.product}`}>
-                    <Box className={classes.Box}><img src={item.image} alt={item.name} className={classes.Media}/></Box>
+                    {item.image?<Box className={classes.Box}><img src={item.image[0]} alt={item.name} className={classes.Media}/></Box>:<Loader/>}
                       {item.name}
                     </RouterLink>
                   </StyledTableCell>

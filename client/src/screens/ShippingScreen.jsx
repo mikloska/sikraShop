@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom'
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
-import { saveShippingAddress } from '../actions/basketActions'
+import { saveShippingAddress, savePaymentMethod } from '../actions/basketActions'
 import CheckoutSteps from '../components/CheckoutSteps';
 
 const useStyles = makeStyles((theme) => ({
@@ -68,7 +68,8 @@ const ShippingScreen = ({history}) =>{
   const handleSubmit = (e) => {
     e.preventDefault()
     dispatch(saveShippingAddress({ address, city, zip, country }))
-    history.push('/payment')
+    dispatch(savePaymentMethod('PayPal'))
+    history.push('/placeorder')
   }
 
 
