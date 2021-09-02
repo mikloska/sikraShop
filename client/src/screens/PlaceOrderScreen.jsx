@@ -143,7 +143,7 @@ const PlaceOrderScreen = ({ history }) => {
   }
 
   return (
-    <>
+    <div style={{marginTop:35, marginBottom: 45, padding:20}}>
       <CheckoutSteps step1 step2 step3 tab={2} />
       <Grid container justifyContent="center" spacing={6}>
         <Grid item md={6} sm={10} xs={12}>
@@ -286,7 +286,7 @@ const PlaceOrderScreen = ({ history }) => {
           </Paper>
         </Grid>
       </Grid>
-    </>
+    </div>
   )
 }
 

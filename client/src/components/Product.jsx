@@ -9,7 +9,8 @@ import StarIcon from '@material-ui/icons/Star';
 
 const useStyles = makeStyles({
   Card: {
-    textAlign: 'center'
+    textAlign: 'center',
+    
   },
 
   Media: {
@@ -34,14 +35,14 @@ const Product = ({product}) => {
               </Typography>
             </Grid>
             
-            {product.reviews.length > 0 && <Grid item md={3} ><Rating value={product.rating}/></Grid>}
+            {product.reviews.length > 0 && <Grid item md={4} ><Rating value={product.rating}/></Grid>}
                     
           </Grid>
            
           
           
-          <Typography>
-            <strong>{product.price}</strong>
+          <Typography style={{paddingBottom:9}}>
+            <strong>${product.price}</strong>
           </Typography>
         </Link>
           {/* </a> */}

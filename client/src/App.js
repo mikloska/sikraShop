@@ -65,9 +65,9 @@ const App = (showBelow) => {
     
     <Router>
       <>
-        <div className = 'page-wrap'>
+        <div className = 'page-wrap' style={{padding:0}}>
         <Navbar/>
-          <Container className='main-container'>
+          <Container className='main-container' style={{padding:0}}>
             <Switch>
               <Route path ='/' component={HomeScreen} exact/>
               <Route path='/search/:keyword' component={HomeScreen} exact/>

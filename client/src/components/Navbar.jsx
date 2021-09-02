@@ -256,7 +256,7 @@ const Navbar= () => {
   );
 
   return (
-    <div className={classes.grow} style={{marginBottom:35}}>
+    <div className={classes.grow} >
       <AppBar position="static" className={classes.stylebar}>
         <Toolbar>
           <IconButton

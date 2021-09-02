@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
 const AboutScreen = () =>{
   const classes = useStyles();
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={{marginTop:35, marginBottom: 45, padding:20}}>
        <Typography variant='h4' style={{marginBottom:40}}>About Us</Typography>
     
     <Paper pt={0} elevation={7}>

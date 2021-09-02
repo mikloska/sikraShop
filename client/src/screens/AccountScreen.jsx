@@ -146,7 +146,7 @@ const AccountScreen = ({ location, history }) => {
   // if (isLoggedIn) return <Redirect to="/" />;
 
   return (
-    <Grid container justifyContent="center" spacing={6}>
+    <Grid container justifyContent="center" spacing={6} style={{marginTop:35, marginBottom: 45, padding:20}}>
       <Grid item sm={12} xs={12} md={4}>
         <Paper elevation={7} style={{padding:20}}>
         <Typography variant="h5">

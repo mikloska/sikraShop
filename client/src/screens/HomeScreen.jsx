@@ -4,36 +4,77 @@ import Product from '../components/Product'
 import Grid from '@material-ui/core/Grid'
 // import axios from 'axios'
 import {listProducts} from '../actions/productActions'
+import { Parallax, Background } from 'react-parallax';
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import Paginate from '../components/Paginate'
+// import airpods from '../../../images/airpods.jpg'
 
 
 
 const HomeScreen = ({match}) => {
-  const handleScrollClick = () => {
-    window[`scrollTo`]({ top: 0, behavior: `smooth` })
-  }
-  const dispatch = useDispatch()
-  const keyword = match.params.keyword
-  const pageNumber = match.params.pageNumber || 1
-  // const [products,setProducts] = useState([])
-  const productList = useSelector(state => state.productList)
-  const {loading, error, products, page, pages} = productList
-  useEffect(()=>{
-    dispatch(listProducts(keyword, pageNumber))
+  // const handleScrollClick = () => {
+  //   window[`scrollTo`]({ top: 0, behavior: `smooth` })
+  // }
+  // const dispatch = useDispatch()
+  // const keyword = match.params.keyword
+  // const pageNumber = match.params.pageNumber || 1
+  // // const [products,setProducts] = useState([])
+  // const productList = useSelector(state => state.productList)
+  // const {loading, error, products, page, pages} = productList
+  // useEffect(()=>{
+  //   dispatch(listProducts(keyword, pageNumber))
 
-    // axios.get('/api/products')
-    //   .then(res => {
-    //   setProducts(res.data);
-    // })
-    // .catch(err => console.log(err))
-  },[dispatch, keyword, pageNumber])
+  //   // axios.get('/api/products')
+  //   //   .then(res => {
+  //   //   setProducts(res.data);
+  //   // })
+  //   // .catch(err => console.log(err))
+  // },[dispatch, keyword, pageNumber])
 
 
   return (
-    <div>
-      <h1>Latest Products</h1>
+    <div >
+      <Parallax
+        
+        blur={{ min: -15, max: 15 }}
+        bgImage={'/uploads/owl ring.jpg'}
+        bgImageAlt="the dog"
+        strength={-200}
+      >
+        
+        <div style={{width:'100%', height: '350px'}} />
+      </Parallax>
+      <Parallax
+        
+        blur={{ min: 15, max: -15 }}
+        bgImage={'/uploads/ammonite.jpg'}
+        bgImageAlt="the dog"
+        strength={-200}
+      >
+      <div style={{width:'100%', height: '350px'}} />
+      </Parallax>
+      <Parallax
+        
+        blur={{ min: 15, max: -15 }}
+        bgImage={'/uploads/owl ring.jpg'}
+        bgImageAlt="the dog"
+        strength={-200}
+      >
+        
+        <div style={{width:'100%', height: '350px'}} />
+      </Parallax>
+      <Parallax
+        
+        blur={{ min: 10, max: -15 }}
+        bgImage={'/uploads/owl front and back.jpg'}
+        bgImageAlt="the dog"
+        strength={-200}
+      >
+        
+        <div style={{width:'100vw', height: '350px'}} />
+      </Parallax>
+      {/* <h1>Latest Products</h1>
       {loading ? <Loader/> : error ? <Message severity='error'>{error}</Message> : 
       <Grid container spacing={6} justifyContent="center">
         {products.map((product) => (
@@ -45,7 +86,7 @@ const HomeScreen = ({match}) => {
         
         <Paginate pages={pages} page={page} handleScrollClick={handleScrollClick} keyword={keyword ? keyword : ''}/>
         
-      </Grid>}
+      </Grid>} */}
     </div>
   )
 }

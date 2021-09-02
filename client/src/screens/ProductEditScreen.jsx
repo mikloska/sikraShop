@@ -141,7 +141,7 @@ const ProductEditScreen = ({ match, history }) => {
 
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs"  style={{marginTop:35, marginBottom: 45, padding:20}}>
       <Paper pt={0} elevation={7}>
         <Card className={classes.card} >
           <Box p={6} >

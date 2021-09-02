@@ -104,7 +104,7 @@ const ProductListScreen = ({history, match}) => {
   
 
   return(
-    <div>
+    <div style={{marginTop:35, marginBottom: 45, padding:20}}>
       <Grid container spacing={10}>
         <Grid item md={6} sm={6}>
           <Typography variant='h4'>Products</Typography>

@@ -70,7 +70,7 @@ const OrderListScreen = ({history}) => {
   }, [dispatch, history, userInformation])
 
   return(
-    <div>
+    <div style={{marginTop:35, marginBottom: 45, padding:20}}>
       <Typography variant='h4'>Orders</Typography>
 
       {loading ? (

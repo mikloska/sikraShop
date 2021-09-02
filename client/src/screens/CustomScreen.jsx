@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
 const CustomScreen = () =>{
   const classes = useStyles();
   return (
-    <div>
+    <div style={{marginTop:35, marginBottom: 45, padding:20}}>
       <Typography variant='h4' style={{marginBottom:40}}>Custom Pieces</Typography>
       
       <Paper pt={0} elevation={7}>

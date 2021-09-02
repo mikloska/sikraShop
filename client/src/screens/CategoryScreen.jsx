@@ -42,7 +42,7 @@ const CategoryScreen = ({match}) => {
 
 
   return (
-    <div>
+    <div style={{marginTop:35, marginBottom: 45, padding:20}}>
       
       <Typography variant='h4' style={{marginBottom:40}}>
         {current==='necklaces' ? 'Neckalces & Pendants':current.charAt(0).toUpperCase() + current.slice(1)}
@@ -51,7 +51,7 @@ const CategoryScreen = ({match}) => {
       <Grid container spacing={6} justifyContent="center">
         {productsCategory.map((product) => (
           
-          <Grid item xs={12}sm = {12} md = {6} lg = {4} xl = {3} key ={product.price} style={{textAlign:"center"}}>
+          <Grid item xs={12}sm = {12} md = {4} lg = {4} xl = {4} key ={product.price} style={{textAlign:"center"}}>
             <Product product = {product} key ={product.id}/>
           </Grid>
         ))}

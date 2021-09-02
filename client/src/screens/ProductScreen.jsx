@@ -91,7 +91,7 @@ const ProductScreen = ({history, match}) =>{
   }
   
   return (
-    <div className={classes.root}>
+    <div className={classes.root}  style={{marginTop:35, marginBottom: 45, padding:20}}>
       {loading ? <Loader/> : error ? <Message severity='error'>{error}</Message> :
       <Grid container spacing={3}>``
         <Grid item md={6}>

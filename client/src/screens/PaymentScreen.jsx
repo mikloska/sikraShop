@@ -73,7 +73,7 @@ const PaymentScreen = ({ history }) => {
 
 
   return (
-    <div>
+    <div style={{marginTop:35, marginBottom: 45, padding:20}}>
       <CheckoutSteps step2 step3 tab={2}/>
     
     <Container component="main" maxWidth="xs">

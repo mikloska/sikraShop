@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { Link as RouterLink } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import {Grid, ListItem, List, Paper, FormControl, Select, Button, MenuItem, Typography, IconButton, InputLabel} from '@material-ui/core/';
+import {Grid, ListItem, List, Container, Paper, FormControl, Select, Button, MenuItem, Typography, IconButton, InputLabel} from '@material-ui/core/';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import Message from '../components/Message'
 import { addToBasket, removeFromBasket } from '../actions/basketActions'
@@ -70,10 +70,9 @@ const BasketScreen = ({ match, location, history }) => {
   }
 
   return (
-    
-      <Paper elevation ={7} style={{padding:30}} >
+      <Container style={{marginTop:35, marginBottom: 45, padding:20}}>
       {/* <Grid item md={8}> */}
-        <Typography style={{marginTop:0}} variant='h4'> Shopping Basket</Typography>
+        <Typography style={{marginBottom:20}} variant='h4'> Shopping Basket</Typography>
         {basketItems.length === 0 ? (
         <List>
           <ListItem>
@@ -87,7 +86,7 @@ const BasketScreen = ({ match, location, history }) => {
           <Grid container spacing={6} justifyContent="center" >
             {basketItems.map((item) => (
           
-            <Grid item xs={12}sm = {12} md = {6} lg = {3} xl = {3} key={item.product}>
+            <Grid item xs={12}sm = {12} md = {4} lg = {4} xl = {4} key={item.product}>
               <Paper elevation={7} className = {classes.Card} ml={6} >
               <RouterLink to={`/product/${item.product}`} variant='h6' className={classes.Link}>
                 {item.image ? <img src={item.image[0]} className={classes.Media}/> : <Loader/>} 
@@ -96,7 +95,7 @@ const BasketScreen = ({ match, location, history }) => {
                 </Typography>
       
                 <Typography>
-                  <strong>{item.price}</strong>
+                  <strong>${item.price}</strong>
                 </Typography>
               </RouterLink>
               <div style={{padding:20}}>
@@ -150,7 +149,7 @@ const BasketScreen = ({ match, location, history }) => {
         </Paper>
       </Grid>
      </Grid>
-    </Paper>
+    </Container>
   )
 }
 

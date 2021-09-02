@@ -67,7 +67,7 @@ const ContactScreen = () => {
 
 
   return (
-    <div>
+    <div style={{marginTop:35, marginBottom: 45, padding:20}}>
     <Container component="main" maxWidth="xs" >
       <Paper pt={0} elevation={7} >
         <Card className={classes.card}>

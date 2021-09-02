@@ -83,7 +83,7 @@ const SignInScreen = ({ location, history }) => {
 
 
   return (
-    <div>
+    <div style={{marginTop:35, marginBottom: 45, padding:20}}>
     {basketItems.length>0 && <CheckoutSteps step1 step2 step3 tab={0}/>}
     <Container component="main" maxWidth="xs" >
       <Paper pt={0} elevation={7} >

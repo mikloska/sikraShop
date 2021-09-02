@@ -17,11 +17,10 @@ const useStyles = makeStyles({
   root: {
     bottom: 0,
     marginTop:'auto',
-    backgroundColor: '#c8d4e8',
     width: "100%",
-    marginTop : 35,
-    paddingTop: 35,
-    height: 260
+    // marginTop : 35,
+    // paddingTop: 35,
+    height: 170
   },
   FooterNav: {
     // marginTop: 70
@@ -29,7 +28,7 @@ const useStyles = makeStyles({
   ScrollIcon: {
     '&:hover':{opacity:0.5},
     cursor: 'pointer',
-    bottom: -53,
+    bottom: 21,
     position: 'relative',
     display: 'block',
     margin: 'auto',
@@ -50,7 +49,7 @@ export default function Footer({handleScrollClick}) {
   };
 
   return (
-    <div>
+    <div style={{backgroundColor: '#c8d4e8'}}>
     <CustomScroll lg={12} fontSize="large" className={classes.ScrollIcon} onClick={handleScrollClick}/>
     <Grid container alignItems="center" justifyContent="center" value={value} onChange={(event, newValue) => {setValue(newValue);}} className={classes.root}>
       {/* <Grid item component={PlayCircleFilledIcon} lg={12} fontSize="large" className={classes.ScrollIcon}/> */}

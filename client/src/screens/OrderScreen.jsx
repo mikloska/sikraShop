@@ -137,7 +137,7 @@ const OrderScreen = ({ match, history}) => {
   ) : error ? (
     <Message severity='error'>{error}</Message>
   ) : (
-    <div>
+    <div  style={{marginTop:35, marginBottom: 45, padding:20}}>
       <Grid container justifyContent="center" spacing={6}>
         <Grid item md={6} sm={2} xs={12}>
         <Paper elevation={7} className={classes.paper}>
