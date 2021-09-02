@@ -38,8 +38,8 @@ const HomeScreen = ({match}) => {
       <Grid container spacing={6} justifyContent="center">
         {products.map((product) => (
           
-          <Grid item xs={12}sm = {12} md = {6} lg = {4} xl = {3} key ={product.price} style={{textAlign:"center"}}>
-            <Product product = {product} key ={product.id}/>
+          <Grid item xs={12}sm = {12} md = {6} lg = {4} xl = {3} key ={product._id} style={{textAlign:"center"}}>
+            <Product product = {product} />
           </Grid>
         ))}
         

@@ -128,9 +128,9 @@ const ProductEditScreen = ({ match, history }) => {
     imagesArr = (images.map(pic=>
       <div key={pic} style={{position: 'relative'}}>
         <img style={{display:'block',width:'100%', padding:4}} src={pic} />
-        <IconButton onClick={()=>handleImageDelete(pic)} style={{color:'#d11919',zIndex:10,position:'absolute',top:0,right:0}}>
+        {pic&&<IconButton onClick={()=>handleImageDelete(pic)} style={{color:'#d11919',zIndex:10,position:'absolute',top:0,right:0}}>
           <DeleteForeverIcon/>
-        </IconButton>
+        </IconButton>}
       </div>))
 
     }  else{
