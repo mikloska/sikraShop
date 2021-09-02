@@ -152,7 +152,7 @@ const updateProduct = async (req, res, next) => {
       product.name = name
       product.price = price
       product.description = description
-      product.image.push(image)
+      if(image) product.image.push(image)
       product.brand = brand
       product.category = category
       product.countInStock = countInStock
