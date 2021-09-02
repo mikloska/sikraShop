@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {listProductDetails, createProductReview} from '../actions/productActions'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-
+import ReactImageMagnify from 'react-image-magnify';
 
 // import { PRODUCT_DETAILS_RESET } from '../constants/productConstants'
 // import axios from 'axios'
@@ -96,8 +96,43 @@ const ProductScreen = ({history, match}) =>{
       <Grid container spacing={3}>``
         <Grid item md={6}>
           {/* {product.image ? <img src={product.image[0]} alt={product.name} className={classes.Image}/> : <Loader/>} */}
-          {product.image&&firstRender===true ? <img src={product.image[0]} alt={product.name} className={classes.Image}/> :
-          product.image&&firstRender===false ? <img src={currentImage} alt={product.name} className={classes.Image}/> : <Loader/>}
+          {product.image&&firstRender===true ? 
+            <>
+              <ReactImageMagnify className={classes.Image} enlargedImagePosition='over' {...{
+                  smallImage: {
+                      alt: 'product.name',
+                      isFluidWidth: true,
+                      src: product.image[0]
+                  },
+                  largeImage: {
+                      src: product.image[0],
+                      width: 1400,
+                      height: 1000
+                  }
+              }} />
+            </>
+          
+          
+           :
+          //  <img src={product.image[0]} alt={product.name} className={classes.Image}/>
+          product.image&&firstRender===false ? 
+            <div>
+              <ReactImageMagnify className={classes.Image} enlargedImagePosition='over' {...{
+                smallImage: {
+                    alt: 'product.name',
+                    isFluidWidth: true,
+                    src: currentImage
+                },
+                largeImage: {
+                    src: currentImage,
+                    width: 1400,
+                    height: 1000
+                }
+              }} />
+            </div>
+              // <img src={currentImage} alt={product.name} className={classes.Image}/> : 
+          
+          :<Loader/>}
           {product.image ? product.image.map(image =>(
           <img src={image} key={image} style={{width:'100px', padding:'4px', cursor: 'pointer'}} className={classes.Image} alt={product.name} onClick={()=>updateImage(image)}/>
         )) : <Loader/>}
