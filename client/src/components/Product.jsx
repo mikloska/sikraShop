@@ -29,7 +29,7 @@ const Product = ({product}) => {
             {/* <img src={product.image} className={classes.Media}/>  */}
           <Grid container justifyContent='center' spacing={1}>
             <Grid item  >
-              <Typography style={{paddingTop:4, paddingBottom:7.4}} variant = "subtitle2">
+              <Typography style={{paddingTop:4, paddingBottom:8}} variant = "subtitle2">
               <strong >{product.name}</strong>
               </Typography>
             </Grid>
