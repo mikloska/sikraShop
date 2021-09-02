@@ -192,7 +192,7 @@ const ProductEditScreen = ({ match, history }) => {
                     <Select defaultValue={''} onChange={e=>setCategory(e.target.value)}>
                       <MenuItem value={'necklaces'}>Necklaces & Pendants</MenuItem>
                       <MenuItem value={'earrings'}>Earrings</MenuItem>
-                      <MenuItem value={'ring'}>Rings</MenuItem>
+                      <MenuItem value={'rings'}>Rings</MenuItem>
                       <MenuItem value={'bracelets'}>Bracelets</MenuItem>
                     </Select>
                   </FormControl>

@@ -4,3 +4,4 @@
 -forgot password
 -Google oAuth
 -Email users when account created, order placed and order delivered
+-checkout as guest

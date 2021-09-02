@@ -1,6 +1,6 @@
 import express from 'express'
 // import products from '../data/products.js'
-import {getProducts, getProductById, deleteProduct, createProduct, updateProduct, getProductsByCategory, deleteProductImage} from '../controllers/productController.js'
+import {getProducts, getProductById, deleteProduct, createProduct, updateProduct, getProductsByCategory, deleteProductImage, createProductReview} from '../controllers/productController.js'
 import {protectUser, admin} from '../middleware/authMiddleware.js'
 
 const router=express.Router()
@@ -30,6 +30,7 @@ router.route('/').get(getProducts).post(protectUser, admin, createProduct)
 // });
 
 // router.route('/').post(protectUser, admin, createProduct)
+router.route('/:id/reviews').post(protectUser, createProductReview)
 router.get('/:id',
   getProductById,
   (req, res) => {

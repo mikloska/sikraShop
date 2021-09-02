@@ -1,13 +1,15 @@
 import React, {useState, useEffect} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import{Paper, Link, Card, Button, Grid}  from '@material-ui/core/'
+import{Paper, Link, Card, Button, Grid, Typography, List, ListItem, ListItemIcon, ListItemText, 
+Divider, FormControl, Select, MenuItem, InputLabel, TextField}  from '@material-ui/core/'
 import { Link as RouterLink } from 'react-router-dom';
 import Rating from '../components/Rating'
-import {List, ListItem, ListItemIcon, ListItemText, Divider, FormControl, Select, MenuItem, InputLabel, TextField} from '@material-ui/core/';
 import { useDispatch, useSelector } from 'react-redux';
 import {listProductDetails, createProductReview} from '../actions/productActions'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
+
+
 // import { PRODUCT_DETAILS_RESET } from '../constants/productConstants'
 // import axios from 'axios'
 
@@ -17,7 +19,7 @@ const useStyles = makeStyles((theme)=>({
     marginTop: theme.spacing(1),
   },
   submit: {
-    
+    width:'100px',
     background:'linear-gradient(120deg, #28ccc4, #067e78)',
     margin: theme.spacing(3, 0, 2),
   },
@@ -91,28 +93,39 @@ const ProductScreen = ({history, match}) =>{
   return (
     <div className={classes.root}>
       {loading ? <Loader/> : error ? <Message severity='error'>{error}</Message> :
-      <Grid container >
+      <Grid container spacing={3}>``
         <Grid item md={6}>
           {/* {product.image ? <img src={product.image[0]} alt={product.name} className={classes.Image}/> : <Loader/>} */}
           {product.image&&firstRender===true ? <img src={product.image[0]} alt={product.name} className={classes.Image}/> :
           product.image&&firstRender===false ? <img src={currentImage} alt={product.name} className={classes.Image}/> : <Loader/>}
+          {product.image ? product.image.map(image =>(
+          <img src={image} key={image} style={{width:'100px', padding:'4px', cursor: 'pointer'}} className={classes.Image} alt={product.name} onClick={()=>updateImage(image)}/>
+        )) : <Loader/>}
         </Grid>
-        {product.image ? product.image.map(image =>(
-          <Grid item md={1} key={image}><img src={image} style={{cursor: 'pointer'}} className={classes.Image} alt={product.name} onClick={()=>updateImage(image)}/></Grid>
+        
+        {/* {product.image ? product.image.map(image =>(
+          <Grid item md={1} xs={2} key={image}><img src={image} style={{width:'max-100%', cursor: 'pointer'}} className={classes.Image} alt={product.name} onClick={()=>updateImage(image)}/></Grid>
         )) 
         
         
-        : <Loader/>}
-        <Grid item md={3}>
+        : <Loader/>} */}
+        <Grid item xs={12} md={5} style={{marginLeft:'20px'}}>
           <List>
             <ListItem>
-              <ListItemText>{product.name}</ListItemText>
+              <Typography style={{fontSize:'30px'}}>{product.name}</Typography>
             </ListItem>
             <Divider light />
+            {product.reviews.length > 1 &&
             <ListItem>
-              <Rating value={product.rating} text={`${product.numReviews} reviews`}/>
-            </ListItem>
-            <Divider light />
+              <Rating value={product.rating}/>
+              <ListItemText style={{marginLeft:10}} >{`${product.numReviews} reviews`}</ListItemText>
+            </ListItem>}
+            {product.reviews.length === 1 &&
+            <ListItem>
+              <Rating value={product.rating}/>
+              <ListItemText style={{marginLeft:10}} >{`${product.numReviews} review`}</ListItemText>
+            </ListItem>}
+            {product.reviews.length > 0 &&<Divider light />}
             <ListItem>
               <ListItemText>Price: ${product.price}</ListItemText>
             </ListItem>
@@ -122,12 +135,14 @@ const ProductScreen = ({history, match}) =>{
             </ListItem>
           </List>
         </Grid>
-        <Grid item md={3}>
-          <Grid container >
-            <Grid item md={5}>
+        <Grid item xs={12} md={6}>
+          <Grid container>
+            <Grid item xs={6} md={4}>
+          {/* <Grid container > */}
+            {/* <Grid item md={5}> */}
           <List>
             <ListItem>
-              <ListItemText>Price:   <strong>${product.price}</strong></ListItemText>
+              <ListItemText>Price:   <strong>${product.price*qty}</strong></ListItemText>
             </ListItem>
           </List>
           <List>
@@ -136,6 +151,10 @@ const ProductScreen = ({history, match}) =>{
             </ListItem>
           </List>
           </Grid>
+          {/* </Grid> */}
+        {/* </Grid> */}
+        {/* <Grid item xs={4} md={4}> */}
+        <Grid item xs={6} md={4}>
           {product.countInStock > 0 && (
           <List>
             <ListItem>
@@ -159,23 +178,36 @@ const ProductScreen = ({history, match}) =>{
           {/* </Grid> */}
           </List>)}
 
+        {/* </Grid> */}
         </Grid>
         </Grid>
-        <Grid item md={6} sm={11}>
+        </Grid>
+        <Grid item md={9} xs={11} style={{marginTop:50}}>
+          <Typography style={{fontSize:'25px'}}>Reviews</Typography>
           <List>
-          {product.reviews.length === 0 && <Message>No Reviews</Message>}
- 
+          {product.reviews.length === 0 && <Message style={{margin:20}}>No Reviews</Message>}
+            
                 {product.reviews.map((review) => (
-                  <ListItem key={review._id}>
-                    <strong>{review.name}</strong>
-                    <Rating value={review.rating} />
-                    <p>{review.createdAt.substring(0, 10)}</p>
-                    <p>{review.comment}</p>
-                  </ListItem>
+                  <List key={review._id}>
+                    <ListItem>
+                      <div style={{marginRight: 10}}><strong >{review.name}</strong></div>
+                      {review.createdAt.substring(0, 10)}
+                    
+                      
+                    </ListItem>
+                    <ListItem>
+                      <Rating value={review.rating} />
+                    </ListItem>
+                    <ListItem>
+                      <p>{review.comment}</p>
+                    </ListItem>
+                  </List>
                 ))}
+             
+            {successProductReview && ( <Message severity='success'>Review submitted successfully</Message>)}
+            <Typography style={{fontSize:'25px',marginTop:20}}>Write a review</Typography>
             <ListItem>
-              <ListItemText>Write a Review</ListItemText>
-              {successProductReview && ( <Message severity='success'>Review submitted successfully</Message>)}
+                          
               {loadingProductReview && <Loader />}
               {errorProductReview && (<Message severity='error'>{errorProductReview}</Message>)}
               {userInformation ? (

@@ -1,10 +1,11 @@
 import React from 'react'
-import{Paper, Link}  from '@material-ui/core/'
+import{Paper, Link, Grid}  from '@material-ui/core/'
 import { Link as RouterLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 import Rating from './Rating'
 import Loader from '../components/Loader'
+import StarIcon from '@material-ui/icons/Star';
 
 const useStyles = makeStyles({
   Card: {
@@ -26,13 +27,19 @@ const Product = ({product}) => {
           {/* <a href={`product/${product._id}`} > */}
           {product.image ? <img src={product.image[0]} alt={product.name} className={classes.Media}/> : <Loader/>}
             {/* <img src={product.image} className={classes.Media}/>  */}
-          <Typography variant = "subtitle2">
-            <strong >{product.name}</strong>
-          </Typography>
-          <Typography component={'span'}>
-            <Rating value={product.rating} text={` ${product.numReviews} reviews`} />
-            {/* {product.rating} from {product.numReviews} reviews */}
-          </Typography>
+          <Grid container justifyContent='center' spacing={1}>
+            <Grid item  >
+              <Typography style={{paddingTop:4, paddingBottom:7.4}} variant = "subtitle2">
+              <strong >{product.name}</strong>
+              </Typography>
+            </Grid>
+            
+            {product.reviews.length > 0 && <Grid item md={3} ><Rating value={product.rating}/></Grid>}
+                    
+          </Grid>
+           
+          
+          
           <Typography>
             <strong>{product.price}</strong>
           </Typography>
