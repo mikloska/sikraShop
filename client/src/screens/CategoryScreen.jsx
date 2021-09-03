@@ -21,7 +21,7 @@ const CategoryScreen = ({match}) => {
   const {loading, error, productsCategory, catPage, catPages} = productListCategory
 
   let history = useHistory();
-  const [paginationPage, setpaginationPage] = useState(catPage);
+  // const [paginationPage, setpaginationPage] = useState(catPage);
 
   const handleScrollClick = () => {
     window[`scrollTo`]({ top: 0, behavior: `smooth` })
@@ -37,7 +37,7 @@ const CategoryScreen = ({match}) => {
   const handleChange = (event, value) => {
     history.push(`/${current}/page${value}`)
     handleScrollClick()
-    setpaginationPage(value);
+    // setpaginationPage(value);
   };
 
 

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import{Paper, Link, Card, Button, Grid, Typography, List, ListItem, ListItemIcon, ListItemText, 
-Divider, FormControl, Select, MenuItem, InputLabel, TextField}  from '@material-ui/core/'
+import{Paper, Link, Card, Button, Grid, Typography, List, ListItem, ListItemIcon, ListItemText, Radio,
+Divider, RadioGroup, FormControl, FormLabel, FormControlLabel, Select, MenuItem, InputLabel, TextField}  from '@material-ui/core/'
 import { Link as RouterLink } from 'react-router-dom';
 import Rating from '../components/Rating'
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,9 +19,10 @@ const useStyles = makeStyles((theme)=>({
     marginTop: theme.spacing(1),
   },
   submit: {
-    width:'100px',
+    width:'80%',
     background:'linear-gradient(120deg, #28ccc4, #067e78)',
-    margin: theme.spacing(3, 0, 2),
+    marginTop:13
+    // margin: theme.spacing(3, 0, 2),
   },
   root: {
     marginTop:50
@@ -37,6 +38,9 @@ const useStyles = makeStyles((theme)=>({
 
 const ProductScreen = ({history, match}) =>{
   const [qty, setQty] = useState(1)
+  // const [productPrice, setproductPrice] = useState(product.price)
+  // const [total, setTotal] = useState(product.price)
+  const [chain, setChain] = useState('silver')
   const [rating, setRating] = useState(0)
   const [comment, setComment] = useState('')
   const dispatch = useDispatch()
@@ -48,10 +52,12 @@ const ProductScreen = ({history, match}) =>{
   const {loading, error, product} = productDetails
   const [currentImage, setCurrentImage] = useState('')
   const [firstRender, setFirstRender] = useState(true)
+  const chainObj = {'silver':35,'cord':10,'none':0}
   const classes = useStyles()
   // const [product,setProduct] = useState({})
 
   useEffect(()=>{
+    console.log(chainObj[chain])
     // dispatch({type:PRODUCT_DETAILS_RESET})
     if (successProductReview) {
       setRating(0)
@@ -90,6 +96,10 @@ const ProductScreen = ({history, match}) =>{
     )
   }
   
+  const handleChainSubmit = () => {
+        
+  }
+
   return (
     <div className={classes.root}  style={{marginTop:35, marginBottom: 45, padding:20}}>
       {loading ? <Loader/> : error ? <Message severity='error'>{error}</Message> :
@@ -162,7 +172,10 @@ const ProductScreen = ({history, match}) =>{
             </ListItem>}
             {product.reviews.length > 0 &&<Divider light />}
             <ListItem>
-              <ListItemText>Price: ${product.price}</ListItemText>
+              <ListItemText>
+                {/* Price: ${chain==='silver'&&product.price+35} */}
+                Price: ${(product.price+chainObj[chain]).toFixed(2)}
+                </ListItemText>
             </ListItem>
             <Divider light />
             <ListItem>
@@ -172,17 +185,44 @@ const ProductScreen = ({history, match}) =>{
         </Grid>
         <Grid item xs={12} md={6}>
           <Grid container>
+            <Grid item md={7}>
+              {product.category==='necklaces'&&
+              <FormControl className={classes.form} noValidate onSubmit={handleChainSubmit} style={{border:'1px'}}>
+                <FormLabel component="legend">Necklace Material</FormLabel>
+                <RadioGroup row onChange={(e)=>setChain(e.target.value)} value={chain}>
+                  <FormControlLabel control={<Radio  id='silver' value='silver' name="chain" />}label='silver'>Silver</FormControlLabel>
+                  <FormControlLabel control={<Radio  id='cord' value='cord' name="chain" />}label='cord'>Cord</FormControlLabel>
+                  <FormControlLabel control={<Radio  id='none' value='none' name="chain" />}label='none'>none</FormControlLabel>
+                </RadioGroup>
+              </FormControl>}
+            </Grid>
             <Grid item xs={6} md={4}>
           {/* <Grid container > */}
             {/* <Grid item md={5}> */}
-          <List>
-            <ListItem>
-              <ListItemText>Price:   <strong>${product.price*qty}</strong></ListItemText>
-            </ListItem>
-          </List>
-          <List>
-            <ListItem>
+            <List>
+
+            {/* <ListItem >
               <ListItemText>Status:   {product.countInStock > 0 ? 'In Stock' : 'Out of Stock'}</ListItemText>
+            </ListItem> */}
+            {chain!=='none'&&<ListItem>
+              <FormControl className={classes.formControl} value={length} >
+                <InputLabel>Length</InputLabel>
+                <Select defaultValue='15' onChange={e=>setLength(e.target.value)}>
+                  <MenuItem value={15}>15"</MenuItem>
+                  <MenuItem value={16}>16"</MenuItem>
+                  <MenuItem value={18}>18"</MenuItem>
+                </Select>
+              </FormControl>
+            </ListItem>}
+          </List>
+          </Grid>
+          <Grid item md={5}>
+          <List>
+            <ListItem>
+              <ListItemText>Price:   <strong>${(product.price+chainObj[chain]).toFixed(2)}</strong></ListItemText>
+            </ListItem>
+            <ListItem>
+              <ListItemText>Price:   <strong>${((product.price*qty) + (chainObj[chain]*qty)).toFixed(2)}</strong></ListItemText>
             </ListItem>
           </List>
           </Grid>
@@ -205,13 +245,19 @@ const ProductScreen = ({history, match}) =>{
               </FormControl>
             </ListItem>
             {/* <Grid item md={5}>  */}
-          <ListItem>
-            <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} style={{width:'80%'}} disabled={product.countInStock===0} onClick={handleAddToBasket}>
+
+
+
+          {/* </Grid> */}
+          </List>
+          
+          
+          )}
+          <Grid style={{marginTop:20}} item md={12}>
+            <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} disabled={product.countInStock===0} onClick={handleAddToBasket}>
               Add To Basket
             </Button>
-          </ListItem>
-          {/* </Grid> */}
-          </List>)}
+            </Grid>
 
         {/* </Grid> */}
         </Grid>
