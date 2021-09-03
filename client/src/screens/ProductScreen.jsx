@@ -41,6 +41,7 @@ const ProductScreen = ({history, match}) =>{
   // const [productPrice, setproductPrice] = useState(product.price)
   // const [total, setTotal] = useState(product.price)
   const [chain, setChain] = useState('silver')
+  const [ringSize, setRingSize] = useState(5)
   const [rating, setRating] = useState(0)
   const [comment, setComment] = useState('')
   const dispatch = useDispatch()
@@ -195,6 +196,15 @@ const ProductScreen = ({history, match}) =>{
                   <FormControlLabel control={<Radio  id='none' value='none' name="chain" />}label='none'>none</FormControlLabel>
                 </RadioGroup>
               </FormControl>}
+              {product.category==='rings'&&
+              <FormControl className={classes.formControl} style={{border:'1px'}}>
+                <InputLabel>Size</InputLabel>
+                <Select onChange={(e)=>setRingSize(e.target.value)} defaultValue='5.5'>
+                  <MenuItem value={5}>5</MenuItem>
+                  <MenuItem value={5.5}>5.5</MenuItem>
+                  <MenuItem value={6}>6</MenuItem>
+                </Select>
+              </FormControl>}
             </Grid>
             <Grid item xs={6} md={4}>
           {/* <Grid container > */}
@@ -204,7 +214,7 @@ const ProductScreen = ({history, match}) =>{
             {/* <ListItem >
               <ListItemText>Status:   {product.countInStock > 0 ? 'In Stock' : 'Out of Stock'}</ListItemText>
             </ListItem> */}
-            {chain!=='none'&&<ListItem>
+            {product.category==='necklaces'&&chain!=='none'&&<ListItem>
               <FormControl className={classes.formControl} value={length} >
                 <InputLabel>Length</InputLabel>
                 <Select defaultValue='15' onChange={e=>setLength(e.target.value)}>
