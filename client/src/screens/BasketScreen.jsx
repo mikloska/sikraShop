@@ -39,7 +39,7 @@ const BasketScreen = ({ match, location, history }) => {
   const qty = location.search ? Number(location.search.split('qty=')[1]) : 1
   const chain = location.search.match(/\s*(?:chain=[a-zA-Z])\s*/) ? location.search.match(/\s*(?:chain=[a-zA-Z]+)\s*/)[0].split('chain=')[1] : ''
   const length = location.search.match(/\s*(?:length=\d)\s*/) ? location.search.match(/\s*(?:length=\d+)\s*/)[0].split('length=')[1] : 0
-  const size = location.search.match(/\s*(?:size=\d)\s*/) ? location.search.match(/\s*(?:size=\d+)\s*/)[0].split('size=')[1] : 0
+  const size = location.search.match(/\s*(?:size=\d)\s*/) ? location.search.match(/\s*(?:size=[+-]?([0-9]+\.?[0-9]*|\.[0-9]+))\s*/)[0].split('size=')[1] : 0
   const updateBasket = (e, item) => {
     dispatch(changeBadge(total))
     dispatch(addToBasket(item.product, Number(e)))

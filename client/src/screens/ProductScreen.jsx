@@ -41,7 +41,7 @@ const ProductScreen = ({history, match}) =>{
   // const [productPrice, setproductPrice] = useState(product.price)
   // const [total, setTotal] = useState(product.price)
   const [chain, setChain] = useState('silver')
-  const [ringSize, setRingSize] = useState(5)
+  const [ringSize, setRingSize] = useState(7)
   const [length, setLength] = useState(15)
   const [rating, setRating] = useState(0)
   const [comment, setComment] = useState('')
@@ -86,6 +86,14 @@ const ProductScreen = ({history, match}) =>{
       history.push(`/basket/${match.params.id}?qty=${qty}`)
     }
   }
+
+  const ringSizes = []
+  for(let i = 5; i< 14; i++){
+    ringSizes.push(
+      <MenuItem key={i} value={i}>{i}</MenuItem>,
+      <MenuItem key={i+'a'} value={i+.5}>{i+.5}</MenuItem>
+    )
+  }
     
 
   const updateImage = (pic) =>{
@@ -111,7 +119,7 @@ const ProductScreen = ({history, match}) =>{
   return (
     <div className={classes.root}  style={{marginTop:35, marginBottom: 45, padding:20}}>
       {loading ? <Loader/> : error ? <Message severity='error'>{error}</Message> :
-      <Grid container spacing={3}>``
+      <Grid container spacing={3}>
         <Grid item md={6}>
           {/* {product.image ? <img src={product.image[0]} alt={product.name} className={classes.Image}/> : <Loader/>} */}
           {product.image&&firstRender===true ? 
@@ -206,10 +214,11 @@ const ProductScreen = ({history, match}) =>{
               {product.category==='rings'&&
               <FormControl className={classes.formControl} style={{border:'1px'}}>
                 <InputLabel>Size</InputLabel>
-                <Select onChange={(e)=>setRingSize(e.target.value)} defaultValue='5.5'>
-                  <MenuItem value={5}>5</MenuItem>
+                <Select onChange={(e)=>setRingSize(e.target.value)} defaultValue='7'>
+                  {ringSizes}
+                  {/* <MenuItem value={5}>5</MenuItem>
                   <MenuItem value={5.5}>5.5</MenuItem>
-                  <MenuItem value={6}>6</MenuItem>
+                  <MenuItem value={6}>6</MenuItem> */}
                 </Select>
               </FormControl>}
             </Grid>
