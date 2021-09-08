@@ -7,8 +7,10 @@ export const basketReducer = (
   switch (action.type) {
     case BASKET_ADD_ITEM:
       const item = action.payload
-
-      const exists = state.basketItems.find(x => x.product === item.product)
+      let exists=false;
+      // const exists = state.basketItems.find(x => x.product === item.product)
+      state.basketItems.find(x => 
+        x.product === item.product && x.chain===item.chain && x.length===item.length &&  x.size===item.size)?exists=true:false
 
       if (exists) {
         return {

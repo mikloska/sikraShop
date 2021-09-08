@@ -86,15 +86,15 @@ const BasketScreen = ({ match, location, history }) => {
           <Grid container spacing={6} justifyContent="center" >
             {basketItems.map((item) => (
           
-            <Grid item xs={12}sm = {12} md = {4} lg = {4} xl = {4} key={item.product}>
+            <Grid item xs={12}sm = {12} md = {4} lg = {4} xl = {4} key={item.product+item.length+item.size}>
               <Paper elevation={7} className = {classes.Card} ml={6} >
               <RouterLink to={`/product/${item.product}`} variant='h6' className={classes.Link}>
                 {item.image ? <img src={item.image[0]} className={classes.Media}/> : <Loader/>} 
                 <Typography variant = "subtitle2">
                   <strong >{item.name}</strong>
                  {item.size>0&&` size ${item.size}`}
-                 {item.chain==='silver'&&` on ${item.length}" ${item.chain} chain`}
-                 {item.chain==='cord'&&` on ${item.length}" ${item.chain}`}
+                 {item.chain==='silver'&&` ${item.length}" ${item.chain} chain`}
+                 {item.chain==='cord'&&` ${item.length}" ${item.chain}`}
                    
                 </Typography>
       
