@@ -195,11 +195,14 @@ const PlaceOrderScreen = ({ history }) => {
                     {item.image ? <Box className={classes.Box}><img src={item.image[0]} alt={item.name} className={classes.Media}/></Box> : <Loader/>}
                       {item.name}
                     </RouterLink>
+                    {item.chain==='silver'&&`- ${item.length}" silver chain`}
+                    {item.chain==='cord'&&` -${item.length}" cord`}
+                    {item.size>0&&` -size ${item.size}`}
                   </StyledTableCell>
                   {/* <TableCell><Box className={classes.Box}><img src={item.image} alt={item.name} className={classes.Media}/></Box></TableCell> */}
                   <StyledTableCell>{item.qty}</StyledTableCell>
-                  <StyledTableCell>${item.price}</StyledTableCell>
-                  <StyledTableCell>${item.qty * item.price}</StyledTableCell>
+                  <StyledTableCell>${item.price.toFixed(2)}</StyledTableCell>
+                  <StyledTableCell>${(item.qty * item.price).toFixed(2)}</StyledTableCell>
                 </StyledTableRow>
               ))}
               </TableBody>

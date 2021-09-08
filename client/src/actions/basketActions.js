@@ -10,7 +10,7 @@ export const addToBasket=(id,qty, chain, length, size)=>async(dispatch,getState)
       product:data._id,
       name:data.name,
       image:data.image,
-      price:chain==='silver'?data.price+35:data.price,
+      price:chain==='silver'?data.price+35:chain==='cord'?data.price+10:data.price,
       countInStock:data.countInStock,
       chain,
       length,
