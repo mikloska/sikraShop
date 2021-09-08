@@ -36,7 +36,10 @@ const BasketScreen = ({ match, location, history }) => {
   const classes=useStyles()
   const productId = match.params.id
   const itemCount = useSelector(state => state.itemCount)
-  const qty = location.search ? Number(location.search.split('=')[1]) : 1
+  const qty = location.search ? Number(location.search.split('qty=')[1]) : 1
+  const chain = location.search.match(/\s*(?:chain=[a-zA-Z])\s*/) ? location.search.match(/\s*(?:chain=[a-zA-Z]+)\s*/)[0].split('chain=')[1] : ''
+  const length = location.search.match(/\s*(?:length=\d)\s*/) ? location.search.match(/\s*(?:length=\d+)\s*/)[0].split('length=')[1] : 0
+  const size = location.search.match(/\s*(?:size=\d)\s*/) ? location.search.match(/\s*(?:size=\d+)\s*/)[0].split('size=')[1] : 0
   const updateBasket = (e, item) => {
     dispatch(changeBadge(total))
     dispatch(addToBasket(item.product, Number(e)))
@@ -47,17 +50,14 @@ const BasketScreen = ({ match, location, history }) => {
   const total = basketItems.reduce((acc, curr) => acc + curr.qty, 0)
 
   useEffect(() => {
+    if(chain && chain!=='') console.log('chain: ', chain)
+    if(length>0) console.log('length: ', length)
+    if(size>0) console.log('size: ', size)
+
     dispatch(changeBadge(total))
-    // console.log(initial)
-    // console.log(match.params.id)
-    // console.log('quantity: ', 7, 'productId: ',productId)
-    // dispatch(addToBasket('60f729e897ee944ab06f2346', 7))
     if (productId) {
-      // console.log('productId: ', productId)
-      
-      dispatch(addToBasket(productId, qty))
-      
-      // dispatch(changeBadge(basketItems.reduce((acc, item) => acc + item.qty, 0)))
+      dispatch(addToBasket(productId, qty, chain, length, size))
+
     }
   }, [dispatch, productId, qty])
 
@@ -92,6 +92,10 @@ const BasketScreen = ({ match, location, history }) => {
                 {item.image ? <img src={item.image[0]} className={classes.Media}/> : <Loader/>} 
                 <Typography variant = "subtitle2">
                   <strong >{item.name}</strong>
+                 {item.size>0&&` size ${item.size}`}
+                 {item.chain==='silver'&&` on ${item.length}" ${item.chain} chain`}
+                 {item.chain==='cord'&&` on ${item.length}" ${item.chain}`}
+                   
                 </Typography>
       
                 <Typography>

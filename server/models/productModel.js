@@ -27,6 +27,15 @@ const productSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    chain: {
+      type: String
+    },
+    size: {
+      type: Number
+    },
+    length: {
+      type: Number
+    },
     image: {
       type: [{
         type: String

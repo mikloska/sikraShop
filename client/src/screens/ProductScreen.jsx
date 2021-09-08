@@ -42,6 +42,7 @@ const ProductScreen = ({history, match}) =>{
   // const [total, setTotal] = useState(product.price)
   const [chain, setChain] = useState('silver')
   const [ringSize, setRingSize] = useState(5)
+  const [length, setLength] = useState(15)
   const [rating, setRating] = useState(0)
   const [comment, setComment] = useState('')
   const dispatch = useDispatch()
@@ -58,7 +59,7 @@ const ProductScreen = ({history, match}) =>{
   // const [product,setProduct] = useState({})
 
   useEffect(()=>{
-    console.log(chainObj[chain])
+    // console.log(chainObj[chain])
     // dispatch({type:PRODUCT_DETAILS_RESET})
     if (successProductReview) {
       setRating(0)
@@ -77,9 +78,15 @@ const ProductScreen = ({history, match}) =>{
   },[dispatch, match, successProductReview])
 
   const handleAddToBasket = () => {
-    
-    history.push(`/basket/${match.params.id}?qty=${qty}`)
+    if(product.category==='necklaces'){
+      history.push(`/basket/${match.params.id}?chain=${chain}?length=${length}?qty=${qty}`)
+    }else if(product.category==='rings'){
+      history.push(`/basket/${match.params.id}?size=${ringSize}?qty=${qty}`)
+    }else{
+      history.push(`/basket/${match.params.id}?qty=${qty}`)
+    }
   }
+    
 
   const updateImage = (pic) =>{
     // console.log(e)
@@ -174,8 +181,8 @@ const ProductScreen = ({history, match}) =>{
             {product.reviews.length > 0 &&<Divider light />}
             <ListItem>
               <ListItemText>
-                {/* Price: ${chain==='silver'&&product.price+35} */}
-                Price: ${(product.price+chainObj[chain]).toFixed(2)}
+
+                Price: ${product.category==='necklaces'? (product.price+chainObj[chain]).toFixed(2) : product.price}
                 </ListItemText>
             </ListItem>
             <Divider light />
@@ -229,10 +236,10 @@ const ProductScreen = ({history, match}) =>{
           <Grid item md={5}>
           <List>
             <ListItem>
-              <ListItemText>Price:   <strong>${(product.price+chainObj[chain]).toFixed(2)}</strong></ListItemText>
+              <ListItemText>Unit Price:   <strong>${product.category==='necklaces'? (product.price+chainObj[chain]).toFixed(2) : product.price}</strong></ListItemText>
             </ListItem>
             <ListItem>
-              <ListItemText>Price:   <strong>${((product.price*qty) + (chainObj[chain]*qty)).toFixed(2)}</strong></ListItemText>
+              <ListItemText>Total Price:   <strong>${product.category==='necklaces'? ((product.price*qty) + (chainObj[chain]*qty)).toFixed(2) : ((product.price*qty).toFixed(2))}</strong></ListItemText>
             </ListItem>
           </List>
           </Grid>
