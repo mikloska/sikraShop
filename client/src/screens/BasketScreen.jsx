@@ -86,7 +86,7 @@ const BasketScreen = ({ match, location, history }) => {
           <Grid container spacing={6} justifyContent="center" >
             {basketItems.map((item) => (
           
-            <Grid item xs={12}sm = {12} md = {4} lg = {4} xl = {4} key={item.product+item.length+item.size}>
+            <Grid item xs={12}sm = {12} md = {4} lg = {4} xl = {4} key={item.product+item.length+item.size+item.chain}>
               <Paper elevation={7} className = {classes.Card} ml={6} >
               <RouterLink to={`/product/${item.product}`} variant='h6' className={classes.Link}>
                 {item.image ? <img src={item.image[0]} className={classes.Media}/> : <Loader/>} 

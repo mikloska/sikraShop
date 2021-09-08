@@ -7,10 +7,10 @@ export const basketReducer = (
   switch (action.type) {
     case BASKET_ADD_ITEM:
       const item = action.payload
-      let exists=false;
+      
       // const exists = state.basketItems.find(x => x.product === item.product)
-      state.basketItems.find(x => 
-        x.product === item.product && x.chain===item.chain && x.length===item.length &&  x.size===item.size)?exists=true:false
+      const exists= state.basketItems.find((x,el) => 
+        x.product === item.product && x.chain===item.chain && x.length===item.length &&  x.size===item.size)
 
       if (exists) {
         return {
@@ -26,9 +26,14 @@ export const basketReducer = (
         }
       }
     case BASKET_REMOVE_ITEM:
-      return {
-        ...state,
-        basketItems: state.basketItems.filter((x) => x.product !== action.payload),
+      if(exists){
+
+      }else{
+        return {
+          ...state,
+          basketItems: state.basketItems.filter((x) => x.product !== action.payload && x.chain!==action.payload.chain && x.length!==action.payload.length &&  x.size!==action.payload.size),
+        }
+
       }
     case BASKET_SAVE_SHIPPING_ADDRESS:
       return {
