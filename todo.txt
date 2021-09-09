@@ -5,3 +5,4 @@
 -Google oAuth
 -Email users when account created, order placed and order delivered
 -checkout as guest
+-prevent users from going back after deleting items from cart and adding them back

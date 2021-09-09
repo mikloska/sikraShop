@@ -22,10 +22,10 @@ export const addToBasket=(id,qty, chain, length, size)=>async(dispatch,getState)
   localStorage.setItem('basketItems',JSON.stringify(getState().basket.basketItems))
 }
 
-export const removeFromBasket = (id) => (dispatch, getState) => {
+export const removeFromBasket = (id, chain, length, size) => (dispatch, getState) => {
   dispatch({
     type: BASKET_REMOVE_ITEM,
-    payload: id,
+    payload: {id, chain, length, size},
   })
 
   localStorage.setItem('basketItems', JSON.stringify(getState().basket.basketItems))

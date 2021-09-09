@@ -26,15 +26,23 @@ export const basketReducer = (
         }
       }
     case BASKET_REMOVE_ITEM:
-      if(exists){
-
-      }else{
-        return {
-          ...state,
-          basketItems: state.basketItems.filter((x) => x.product !== action.payload && x.chain!==action.payload.chain && x.length!==action.payload.length &&  x.size!==action.payload.size),
-        }
+      console.log(action.payload.id)
+      return {
+        ...state,
+        basketItems: state.basketItems.filter((x) => 
+          x.product !== action.payload.id && x.chain!==action.payload.chain && x.length!==action.payload.length &&  x.size!==action.payload.size),
 
       }
+
+      // if(exists){
+
+      // }else{
+      //   return {
+      //     ...state,
+      //     basketItems: state.basketItems.filter((x) => x.product !== action.payload && x.chain!==action.payload.chain && x.length!==action.payload.length &&  x.size!==action.payload.size),
+      //   }
+
+      // }
     case BASKET_SAVE_SHIPPING_ADDRESS:
       return {
         ...state,

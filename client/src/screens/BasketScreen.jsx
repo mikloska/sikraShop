@@ -61,8 +61,10 @@ const BasketScreen = ({ match, location, history }) => {
     }
   }, [dispatch, productId, qty])
 
-  const removeFromBasketHandler = (id) => {
-    dispatch(removeFromBasket(id))
+  const removeFromBasketHandler = (id, chain, length, size) => {
+    // console.log(id, chain, length, size)
+    dispatch(removeFromBasket(id, chain, length, size))
+    // history.push('/basket')
   }
 
   const checkoutHandler = () => {
@@ -114,7 +116,7 @@ const BasketScreen = ({ match, location, history }) => {
                     </MenuItem>))}
                   </Select>
                 </FormControl>
-                <IconButton onClick={() => removeFromBasketHandler(item.product)} style={{bottom:-10, marginLeft: 20}}> 
+                <IconButton onClick={() => removeFromBasketHandler(item.product, item.chain, item.length, item.size)} style={{bottom:-10, marginLeft: 20}}> 
                   <DeleteForeverIcon style={{color:"#d11919"}}/>
                 </IconButton>
                 </div>
