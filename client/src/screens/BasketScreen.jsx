@@ -62,6 +62,7 @@ const BasketScreen = ({ match, location, history }) => {
     }
   }, [dispatch, productId, qty])
 
+  // item.product, Number(e), item.chain, item.length, item.size, item.category
   const removeFromBasketHandler = (id, chain, length, size) => {
     // console.log(id, chain, length, size)
     dispatch(removeFromBasket(id, chain, length, size))

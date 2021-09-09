@@ -26,23 +26,16 @@ export const basketReducer = (
         }
       }
     case BASKET_REMOVE_ITEM:
-      console.log(action.payload.id)
+      const newArr=[]
+      for(let i =0; i< state.basketItems.length; i++){
+        if(state.basketItems[i].product === action.payload.id && state.basketItems[i].chain===action.payload.chain && state.basketItems[i].length===action.payload.length &&  state.basketItems[i].size===action.payload.size){
+          continue;
+        }else newArr.push(state.basketItems[i])
+      } 
       return {
         ...state,
-        basketItems: state.basketItems.filter((x) => 
-          x.product !== action.payload.id && x.chain!==action.payload.chain && x.length!==action.payload.length &&  x.size!==action.payload.size),
-
+        basketItems: newArr
       }
-
-      // if(exists){
-
-      // }else{
-      //   return {
-      //     ...state,
-      //     basketItems: state.basketItems.filter((x) => x.product !== action.payload && x.chain!==action.payload.chain && x.length!==action.payload.length &&  x.size!==action.payload.size),
-      //   }
-
-      // }
     case BASKET_SAVE_SHIPPING_ADDRESS:
       return {
         ...state,

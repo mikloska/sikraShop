@@ -24,6 +24,7 @@ export const addToBasket=(id,qty, chain, length, size, category)=>async(dispatch
 }
 
 export const removeFromBasket = (id, chain, length, size) => (dispatch, getState) => {
+  // console.log(id, chain, length, size)
   dispatch({
     type: BASKET_REMOVE_ITEM,
     payload: {id, chain, length, size},
