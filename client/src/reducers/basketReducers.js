@@ -16,7 +16,7 @@ export const basketReducer = (
         return {
           ...state,
           basketItems: state.basketItems.map((x) =>
-            x.product === exists.product ? item : x
+            x.product === exists.product && x.chain===exists.chain && x.length===exists.length &&  x.size===exists.size? item : x
           ),
         }
       } else {

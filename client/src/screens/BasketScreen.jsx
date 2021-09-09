@@ -42,12 +42,13 @@ const BasketScreen = ({ match, location, history }) => {
   const size = location.search.match(/\s*(?:size=\d)\s*/) ? location.search.match(/\s*(?:size=[+-]?([0-9]+\.?[0-9]*|\.[0-9]+))\s*/)[0].split('size=')[1] : 0
   const updateBasket = (e, item) => {
     dispatch(changeBadge(total))
-    dispatch(addToBasket(item.product, Number(e)))
+    dispatch(addToBasket(item.product, Number(e), item.chain, item.length, item.size, item.category))
   }
   const dispatch = useDispatch()
   const basket = useSelector((state) => state.basket)
   const { basketItems } = basket
   const total = basketItems.reduce((acc, curr) => acc + curr.qty, 0)
+
 
   useEffect(() => {
     if(chain && chain!=='') console.log('chain: ', chain)
@@ -56,7 +57,7 @@ const BasketScreen = ({ match, location, history }) => {
 
     dispatch(changeBadge(total))
     if (productId) {
-      dispatch(addToBasket(productId, qty, chain, length, size))
+      // dispatch(addToBasket(productId, qty, chain, length, size))
 
     }
   }, [dispatch, productId, qty])
@@ -86,7 +87,7 @@ const BasketScreen = ({ match, location, history }) => {
         ) : (
    
           <Grid container spacing={6} justifyContent="center" >
-            {basketItems.map((item) => (
+            {basketItems.map((item,ind) => (
           
             <Grid item xs={12}sm = {12} md = {4} lg = {4} xl = {4} key={item.product+item.length+item.size+item.chain}>
               <Paper elevation={7} className = {classes.Card} ml={6} >
@@ -94,14 +95,14 @@ const BasketScreen = ({ match, location, history }) => {
                 {item.image ? <img src={item.image[0]} className={classes.Media}/> : <Loader/>} 
                 <Typography variant = "subtitle2">
                   <strong >{item.name}</strong>
-                 {item.size>0&&` size ${item.size}`}
-                 {item.chain==='silver'&&` ${item.length}" ${item.chain} chain`}
-                 {item.chain==='cord'&&` ${item.length}" ${item.chain}`}
+                 {item.category==='rings'&&` size ${item.size}`}
+                 {(item.category==='necklaces'&&item.chain==='silver')&&` ${item.length}" ${item.chain} chain`}
+                 {(item.category==='necklaces'&&item.chain==='cord')&&` ${item.length}" ${item.chain}`}
                    
                 </Typography>
       
                 <Typography>
-                  <strong>${item.price}</strong>
+                  <strong>${item.price.toFixed(2)}</strong>
                 </Typography>
               </RouterLink>
               <div style={{padding:20}}>

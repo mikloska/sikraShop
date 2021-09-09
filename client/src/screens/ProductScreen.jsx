@@ -9,6 +9,7 @@ import {listProductDetails, createProductReview} from '../actions/productActions
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import ReactImageMagnify from 'react-image-magnify';
+import { addToBasket } from '../actions/basketActions'
 
 // import { PRODUCT_DETAILS_RESET } from '../constants/productConstants'
 // import axios from 'axios'
@@ -78,13 +79,15 @@ const ProductScreen = ({history, match}) =>{
   },[dispatch, match, successProductReview])
 
   const handleAddToBasket = () => {
-    if(product.category==='necklaces'){
-      history.push(`/basket/${match.params.id}?chain=${chain}?length=${length}?qty=${qty}`)
-    }else if(product.category==='rings'){
-      history.push(`/basket/${match.params.id}?size=${ringSize}?qty=${qty}`)
-    }else{
-      history.push(`/basket/${match.params.id}?qty=${qty}`)
-    }
+    dispatch(addToBasket(match.params.id, qty, chain, length, ringSize, product.category))
+    history.push('/basket')
+    // if(product.category==='necklaces'){
+    //   history.push(`/basket/${match.params.id}?chain=${chain}?length=${length}?qty=${qty}`)
+    // }else if(product.category==='rings'){
+    //   history.push(`/basket/${match.params.id}?size=${ringSize}?qty=${qty}`)
+    // }else{
+    //   history.push(`/basket/${match.params.id}?qty=${qty}`)
+    // }
   }
 
   const ringSizes = []

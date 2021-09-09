@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { BASKET_ADD_ITEM, BASKET_REMOVE_ITEM, BASKET_SAVE_SHIPPING_ADDRESS, BASKET_SAVE_PAYMENT_METHOD,} from '../constants/basketConstants'
 
-export const addToBasket=(id,qty, chain, length, size)=>async(dispatch,getState)=>{
+export const addToBasket=(id,qty, chain, length, size, category)=>async(dispatch,getState)=>{
   const {data}=await axios.get(`api/products/${id}`)
 
   dispatch({
@@ -16,6 +16,7 @@ export const addToBasket=(id,qty, chain, length, size)=>async(dispatch,getState)
       length,
       size,
       qty,
+      category
     }
   })
   //Can only save strings to local storage.  Must be parsed upon retrieval in store
