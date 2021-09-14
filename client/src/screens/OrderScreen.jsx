@@ -184,9 +184,9 @@ const OrderScreen = ({ match, history}) => {
               <ListItemText>
                 <Grid container justifyContent="flex-start" >
                   <Grid item><strong>Shipping Address: </strong>
-                  {' '}{order.shippingAddress.address} {order.shippingAddress.city}{' '}
-                  {order.shippingAddress.zip},{' '}
-                  {order.shippingAddress.country}
+                  {' '}{order.shippingAddress.address} {order.shippingAddress.city},{' '}
+                  {order.shippingAddress.state!==''&& order.shippingAddress.state}{order.shippingAddress.province!==''&& order.shippingAddress.province}{' '}
+                  {order.shippingAddress.zip}{' '}{order.shippingAddress.country}
                   </Grid>
                 </Grid>
 

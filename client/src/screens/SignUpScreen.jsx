@@ -126,10 +126,10 @@ const SignUpScreen = ({ isLoggedIn, setIsLoggedIn }) => {
                   </Grid>
                 </Grid>
               </form>
-              <Button fullWidth variant="contained" color="primary" className={classes.submit} style={{marginTop: 40}}>
+              {/* <Button fullWidth variant="contained" color="primary" className={classes.submit} style={{marginTop: 40}}>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google Logo" style={{marginRight: 10}}/>
                 Sign Up With Google
-              </Button>
+              </Button> */}
             </div>
           </Box>
         </Card>

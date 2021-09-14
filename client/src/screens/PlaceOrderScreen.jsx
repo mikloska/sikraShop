@@ -153,9 +153,9 @@ const PlaceOrderScreen = ({ history }) => {
               <ListItemText>
                 <Grid container justifyContent="center" >
                   <Grid item><strong>Shipping Address: </strong>
-                  {' '}{basket.shippingAddress.address} {basket.shippingAddress.city}{' '}
-                  {basket.shippingAddress.zip},{' '}
-                  {basket.shippingAddress.country}
+                  {' '}{basket.shippingAddress.address} {basket.shippingAddress.city},{' '}
+                  {basket.shippingAddress.state!==''&& basket.shippingAddress.state}{basket.shippingAddress.province!==''&& basket.shippingAddress.province}{' '}
+                  {basket.shippingAddress.zip}{' '}{basket.shippingAddress.country}
                   </Grid>
                 </Grid>
 
@@ -234,7 +234,9 @@ const PlaceOrderScreen = ({ history }) => {
           <Paper elevation={7} className={classes.paper}>
             <List  >
               <ListItem>
-                <h2>Order Summary</h2>
+                <Grid container justifyContent="center" >
+                  <Grid item><h2>Order Summary</h2></Grid>
+                </Grid>
               </ListItem>
               <ListItem>
                 <Grid container justifyContent="center" >

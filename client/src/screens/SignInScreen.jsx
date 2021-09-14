@@ -129,10 +129,10 @@ const SignInScreen = ({ location, history }) => {
                 </Grid>
               </form>
 
-              <Button fullWidth variant="contained" color="primary" className={classes.submit}  >
+              {/* <Button fullWidth variant="contained" color="primary" className={classes.submit}  >
                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google Logo" style={{marginRight: 10}}/>
                 Sign In With Google
-              </Button>
+              </Button> */}
             </div>
           </Box>
         </Card>
