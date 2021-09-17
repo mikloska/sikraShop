@@ -7,6 +7,7 @@ import { basketReducer } from './reducers/basketReducers';
 import {itemCountReducer} from './reducers/itemCountReducers'
 import { userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateReducer, userListReducer, userDeleteReducer, userAdminUpdateReducer } from './reducers/userReducers';
 import { orderCreateReducer, orderDetailsReducer, orderPayReducer, orderListOfUserReducer, orderListReducer, orderDeliverReducer } from './reducers/orderReducers';
+import {statesReducer,provincesReducer,countriesReducer} from './reducers/locationReducers'
 
 //Create the item in state as the key and link it to its reducer
 const reducer =  combineReducers({
@@ -34,6 +35,9 @@ const reducer =  combineReducers({
   orderListOfUser: orderListOfUserReducer,
   orderList:orderListReducer,
   userList: userListReducer,
+  states: statesReducer,
+  provinces: provincesReducer,
+  countries: countriesReducer,
 })
 //Check to see if it`s in state. If so, put it into state.
 const basketFromStorage = localStorage.getItem('basketItems')?JSON.parse(localStorage.getItem('basketItems')) : []

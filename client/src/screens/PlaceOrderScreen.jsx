@@ -58,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
 const PlaceOrderScreen = ({ history }) => {
   const classes = useStyles();
   const dispatch = useDispatch()
+  const states=useSelector(state=>state.states)
   const basket = useSelector((state) => state.basket)
   const [sdkReady, setSdkReady] = useState(false)
 
@@ -74,8 +75,16 @@ const PlaceOrderScreen = ({ history }) => {
   basket.itemsPrice = addDecimals(
     basket.basketItems.reduce((acc, item) => acc + item.price * item.qty, 0)
   )
+  const taxRate = 
+    basket.shippingAddress.city.toUpperCase().includes('NEW YORK')&&basket.shippingAddress.state.toUpperCase().includes('NEW YORK')?.08875
+    :basket.shippingAddress.city.toUpperCase().includes('LOS ANGELES')?.095
+    :basket.shippingAddress.city.toUpperCase().includes('SAN FRANCISCO')?.08625
+    :(basket.shippingAddress.state!==''&&!basket.shippingAddress.city.toUpperCase().includes('NEW YORK')&&!basket.shippingAddress.city.toUpperCase().includes('Los Angeles')&&!basket.shippingAddress.city.toUpperCase().includes('San Francisco'))?states[basket.shippingAddress.state]
+    :basket.shippingAddress.province!==''&&basket.shippingAddress.province.toUpperCase()!=='ONTARIO'?.015
+    :basket.shippingAddress.province.toUpperCase()==='ONTARIO'?.013
+    :0
   basket.shippingPrice = addDecimals(basket.itemsPrice > 100 ? 0 : 100)
-  basket.taxPrice = addDecimals(Number((0.15 * basket.itemsPrice).toFixed(2)))
+  basket.taxPrice = addDecimals(Number((taxRate * basket.itemsPrice).toFixed(2)))
   basket.totalPrice = (
     Number(basket.itemsPrice) +
     Number(basket.shippingPrice) +
