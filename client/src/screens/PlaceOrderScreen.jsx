@@ -79,9 +79,9 @@ const PlaceOrderScreen = ({ history }) => {
     basket.shippingAddress.city.toUpperCase().includes('NEW YORK')&&basket.shippingAddress.state.toUpperCase().includes('NEW YORK')?.08875
     :basket.shippingAddress.city.toUpperCase().includes('LOS ANGELES')?.095
     :basket.shippingAddress.city.toUpperCase().includes('SAN FRANCISCO')?.08625
-    :(basket.shippingAddress.state!==''&&!basket.shippingAddress.city.toUpperCase().includes('NEW YORK')&&!basket.shippingAddress.city.toUpperCase().includes('Los Angeles')&&!basket.shippingAddress.city.toUpperCase().includes('San Francisco'))?states[basket.shippingAddress.state]
-    :basket.shippingAddress.province!==''&&basket.shippingAddress.province.toUpperCase()!=='ONTARIO'?.015
-    :basket.shippingAddress.province.toUpperCase()==='ONTARIO'?.013
+    :(basket.shippingAddress.state!==''&&!basket.shippingAddress.city.toUpperCase().includes('NEW YORK')&&!basket.shippingAddress.city.toUpperCase().includes('LOS ANGELES')&&!basket.shippingAddress.city.toUpperCase().includes('SAN FRANCISCO'))?states[basket.shippingAddress.state]
+    :basket.shippingAddress.province!==''&&basket.shippingAddress.province!=='Ontario'?.015
+    :basket.shippingAddress.province==='Ontario'?.013
     :0
   basket.shippingPrice = addDecimals(basket.itemsPrice > 100 ? 0 : 100)
   basket.taxPrice = addDecimals(Number((taxRate * basket.itemsPrice).toFixed(2)))
