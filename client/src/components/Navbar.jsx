@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { changeBadge } from '../actions/itemCountActions'
 import {signOut} from '../actions/userActions'
 import SearchBox from './SearchBox'
+import { BASKET_RESET } from '../constants/basketConstants';
 
 const MyBadge = withStyles((theme) => ({
   badge: {
@@ -175,6 +176,7 @@ const Navbar= () => {
   const handleSignOut = ()=>{
     handleMenuClose()
     dispatch(signOut())
+    dispatch({type:BASKET_RESET})
   }
 
   const handleMenuClose = () => {

@@ -1,4 +1,4 @@
-import {BASKET_ADD_ITEM, BASKET_REMOVE_ITEM, BASKET_SAVE_SHIPPING_ADDRESS, BASKET_SAVE_PAYMENT_METHOD, BASKET_CLEAR_ITEMS,} from '../constants/basketConstants'
+import {BASKET_ADD_ITEM, BASKET_REMOVE_ITEM, BASKET_SAVE_SHIPPING_ADDRESS, BASKET_SAVE_PAYMENT_METHOD, BASKET_CLEAR_ITEMS,BASKET_CLEAR_ADDRESS,BASKET_RESET} from '../constants/basketConstants'
 
 export const basketReducer = (
   state = { basketItems: [], shippingAddress: {} },
@@ -51,6 +51,13 @@ export const basketReducer = (
         ...state,
         basketItems: [],
       }
+    case BASKET_CLEAR_ADDRESS:
+      return {
+        ...state,
+        shippingAddress: {},
+      }
+    case BASKET_RESET:
+      return {}
     default:
       return state
   }

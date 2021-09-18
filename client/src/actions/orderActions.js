@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { BASKET_CLEAR_ITEMS } from '../constants/basketConstants'
+import { BASKET_CLEAR_ITEMS, BASKET_CLEAR_ADDRESS } from '../constants/basketConstants'
 import { ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS, ORDER_CREATE_FAILURE, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS,
   ORDER_DETAILS_FAILURE, ORDER_PAY_REQUEST, ORDER_PAY_FAILURE, ORDER_PAY_SUCCESS, ORDER_PAY_RESET, ORDER_LIST_OF_USER_REQUEST,
   ORDER_LIST_OF_USER_SUCCESS, ORDER_LIST_OF_USER_FAILURE, ORDER_LIST_OF_USER_RESET, ORDER_LIST_FAILURE, ORDER_LIST_SUCCESS,
@@ -35,6 +35,11 @@ export const createOrder = (order) => async (dispatch, getState) => {
       type: BASKET_CLEAR_ITEMS,
       payload: data,
     })
+    dispatch({
+      type: BASKET_CLEAR_ADDRESS,
+      payload:data,
+    })
+    dispatch({})
     localStorage.removeItem('basketItems')
   } catch (error) {
     const message =

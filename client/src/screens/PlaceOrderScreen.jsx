@@ -9,7 +9,8 @@ import { createOrder } from '../actions/orderActions'
 import { getOrderDetails, payOrder, deliverOrder,} from '../actions/orderActions'
 import axios from 'axios'
 import { PayPalButton } from 'react-paypal-button-v2'
-import {ORDER_PAY_RESET,  ORDER_DELIVER_RESET } from '../constants/orderConstants'
+import {ORDER_PAY_RESET,  ORDER_DELIVER_RESET,  ORDER_CREATE_RESET } from '../constants/orderConstants'
+import {BASKET_RESET} from '../constants/basketConstants'
 import Loader from '../components/Loader'
 
 
@@ -109,9 +110,11 @@ const PlaceOrderScreen = ({ history }) => {
     document.body.appendChild(script)
   }
 
-  useEffect(() => {
+  useEffect(async() => {
     if (success) {
       // dispatch(payOrder(order._id, paymentResult))
+      dispatch({type: BASKET_RESET})
+      dispatch({type: ORDER_CREATE_RESET})
       axios.post('/api/email/order', {usersName:userInformation.name,userEmail:userInformation.email,price:basket.totalPrice})
       history.push(`/orders/${order._id}`)
       // dispatch({ type: USER_DETAILS_RESET })

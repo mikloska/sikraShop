@@ -18,7 +18,7 @@ const signUpEmail = (req,res,next)=>{
     });
     let mailOptions = {
       from: '"Sara " info@sikrajewelry.com', // sender address (who sends)
-      to: 'mikloska973@gmail.com', // list of receivers (who receives)
+      to: 'mikloskertesz@hotmail.com', // list of receivers (who receives)
       subject: '', // Subject line
       text: 'Welcome to Sikra Jewelry', // plaintext body
       html: `<b>Hello ${usersName} </b><br> Thanks for signing up at Sikra Jewelry ${userEmail}` // html body
@@ -57,7 +57,7 @@ const orderEmail = (req,res,next)=>{
     });
     let mailOptions = {
       from: '"Yo dude " info@sikrajewelry.com', // sender address (who sends)
-      to: 'mikloslkertesz@gmail.com', // list of receivers (who receives)
+      to: 'mikloskertesz@hotmail.com', // list of receivers (who receives)
       subject: '', // Subject line
       text: `Hello ${usersName}, thanks for purchasing from Sikra Jewelry`, // plaintext body
       html: `<b>Thanks for your purchase! </b><br> We bled you for $${price}` // html body

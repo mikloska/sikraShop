@@ -5,3 +5,4 @@
 -checkout as guest
 -taxes
 -shipping options
+-send email to us when purchase is made
