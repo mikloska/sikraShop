@@ -12,6 +12,7 @@ import { PayPalButton } from 'react-paypal-button-v2'
 import {ORDER_PAY_RESET,  ORDER_DELIVER_RESET } from '../constants/orderConstants'
 import Loader from '../components/Loader'
 
+
 // import { ORDER_CREATE_RESET } from '../constants/orderConstants'
 // import { USER_DETAILS_RESET } from '../constants/userConstants'
 const StyledTableCell = withStyles((theme) => ({
@@ -93,6 +94,8 @@ const PlaceOrderScreen = ({ history }) => {
 
   const orderCreate = useSelector((state) => state.orderCreate)
   const { order, success, error } = orderCreate
+  const userLogin=useSelector((state)=>state.userLogin)
+  const {userInformation} = userLogin
 
   const addPayPalScript = async () => {
     const { data: clientId } = await axios.get('/api/config/paypal')
@@ -109,6 +112,7 @@ const PlaceOrderScreen = ({ history }) => {
   useEffect(() => {
     if (success) {
       // dispatch(payOrder(order._id, paymentResult))
+      axios.post('/api/email/order', {usersName:userInformation.name,userEmail:userInformation.email,price:basket.totalPrice})
       history.push(`/orders/${order._id}`)
       // dispatch({ type: USER_DETAILS_RESET })
       // dispatch({ type: ORDER_CREATE_RESET })
@@ -134,6 +138,7 @@ const PlaceOrderScreen = ({ history }) => {
       })
     )
     dispatch(payOrder(order._id, paymentResult))
+    // 
     // console.log(paymentResult)
     // dispatch(payOrder(orderId, paymentResult))
   }

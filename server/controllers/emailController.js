@@ -42,7 +42,7 @@ const signUpEmail = (req,res,next)=>{
 
 const orderEmail = (req,res,next)=>{
   try{
-    const {usersName, userEmail, } = req.body
+    const {usersName, userEmail, price } = req.body
     let transporter = nodemailer.createTransport({
       host: "smtp-mail.outlook.com", // hostname
       secureConnection: false, // TLS requires secureConnection to be false
@@ -56,11 +56,11 @@ const orderEmail = (req,res,next)=>{
       }
     });
     let mailOptions = {
-      from: '"Our Code World " info@sikrajewelry.com', // sender address (who sends)
-      to: userEmail, // list of receivers (who receives)
+      from: '"Yo dude " info@sikrajewelry.com', // sender address (who sends)
+      to: 'mikloslkertesz@gmail.com', // list of receivers (who receives)
       subject: '', // Subject line
-      text: `Hello ${usersName}, thanks for signing up at Sikra Jewelry`, // plaintext body
-      html: '<b>Hello world </b><br> This is the first email sent with Nodemailer in Node.js' // html body
+      text: `Hello ${usersName}, thanks for purchasing from Sikra Jewelry`, // plaintext body
+      html: `<b>Thanks for your purchase! </b><br> We bled you for $${price}` // html body
     };
     transporter.sendMail(mailOptions, function(error, info){
       if(error){
