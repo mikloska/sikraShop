@@ -9,6 +9,7 @@ import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import {register} from '../actions/userActions'
+import axios from 'axios'
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -69,6 +70,7 @@ const SignUpScreen = ({ isLoggedIn, setIsLoggedIn }) => {
       setMessage('Passwords do not match!')
     }else{
       dispatch(register(name,email,password))
+      axios.post('/api/email/signup',{usersName:name,userEmail:email})
     }
 
   };
