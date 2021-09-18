@@ -19,6 +19,7 @@ import orderRoutes from './routes/orderRoutes.js'
 import {notFound, errorHandler} from './middleware/errorHandler.js'
 import uploadRoutes from './routes/uploadRoutes.js'
 import morgan from 'morgan'
+import nodemailer from 'nodemailer'
 
 dotenv.config();
 connectDB()

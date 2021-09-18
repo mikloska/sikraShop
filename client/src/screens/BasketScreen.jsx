@@ -35,7 +35,6 @@ const useStyles = makeStyles((theme)=>({
 const BasketScreen = ({ match, location, history }) => {
   const classes=useStyles()
   const productId = match.params.id
-  const itemCount = useSelector(state => state.itemCount)
   const qty = location.search ? Number(location.search.split('qty=')[1]) : 1
   const chain = location.search.match(/\s*(?:chain=[a-zA-Z])\s*/) ? location.search.match(/\s*(?:chain=[a-zA-Z]+)\s*/)[0].split('chain=')[1] : ''
   const length = location.search.match(/\s*(?:length=\d)\s*/) ? location.search.match(/\s*(?:length=\d+)\s*/)[0].split('length=')[1] : 0
