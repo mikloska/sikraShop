@@ -22,6 +22,7 @@ import UserListScreen from './screens/UserListScreen';
 import UserEditScreen from './screens/UserEditScreen';
 import ProductListScreen from './screens/ProductListScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
+import SearchScreen from './screens/SearchScreen';
 import CategoryScreen from './screens/CategoryScreen';
 import ContactScreen from './screens/ContactScreen';
 import CustomScreen from './screens/CustomScreen';
@@ -70,9 +71,9 @@ const App = (showBelow) => {
           <Container className='main-container' style={{padding:0}}>
             <Switch>
               <Route path ='/' component={HomeScreen} exact/>
-              <Route path='/search/:keyword' component={HomeScreen} exact/>
+              <Route path='/search/:keyword' component={SearchScreen} exact/>
               <Route path='/page:pageNumber' component={HomeScreen} exact />
-              <Route path='/search/:keyword/page:pageNumber' component={HomeScreen} exact />
+              <Route path='/search/:keyword/page:pageNumber' component={SearchScreen} />
               <Route path ='/search/:keyword/product/:id' component={ProductScreen} exact/>
               <Route path ='/:id/product/:id' component={ProductScreen} exact/>
               <Route path ='/product/:id' component={ProductScreen} exact/>

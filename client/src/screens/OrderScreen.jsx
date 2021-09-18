@@ -214,7 +214,7 @@ const OrderScreen = ({ match, history}) => {
                 )}
             <ListItem>
             {order.isShipped ? (
-                <Message severity='success'>Shipped on {order.shippedAt}<br></br><b>Click to view tracking:</b> <a href={order.trackingLink} target="_blank" style={{color:'#067e78'}}>{order.trackingNumber}</a></Message>
+                <Message severity='success'>Shipped on {order.shippedAt}<br></br><b>Click to view tracking information:</b> <a href={order.trackingLink} target="_blank" style={{color:'#067e78'}}>{order.trackingNumber}</a></Message>
                 
               ) : (
                 <Message severity='warning'>Not Shipped</Message>
