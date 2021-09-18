@@ -99,7 +99,7 @@ const OrderListScreen = ({history}) => {
           <StyledTableCell>{order.createdAt.substring(0, 10)}</StyledTableCell>
           <StyledTableCell>${order.totalPrice}</StyledTableCell>
           <StyledTableCell> 
-            {order.isDelivered ? ( order.deliveredAt.substring(0, 10)) : (
+            {order.isShipped ? ( order.shippedAt.substring(0, 10)) : (
               <CloseIcon/>
             )}
           </StyledTableCell>

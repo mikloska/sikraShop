@@ -108,8 +108,8 @@ const updateOrderToDelivered = async (req, res, next) => {
     const order = await Order.findById(req.params.id)
 
     if (order) {
-      order.isDelivered = true
-      order.deliveredAt = Date.now()
+      order.isShipped = true
+      order.shippedAt = Date.now()
 
       const updatedOrder = await order.save()
 

@@ -286,8 +286,8 @@ const AccountScreen = ({ location, history }) => {
                     )}
                   
                   
-                    {order.isDelivered ? (
-                      <StyledTableCell>{order.deliveredAt.substring(0, 10)}</StyledTableCell>
+                    {order.isShipped ? (
+                      <StyledTableCell>{order.shippedAt.substring(0, 10)}</StyledTableCell>
                     ) : (
                       <StyledTableCell><CloseIcon className={classes.Icon}/></StyledTableCell>
                     )}

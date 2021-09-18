@@ -196,7 +196,7 @@ const OrderScreen = ({ match, history}) => {
             {userInformation &&
                 userInformation.isAdmin &&
                 order.isPaid &&
-                !order.isDelivered && (
+                !order.isShipped && (
                   <ListItem>
                     <Button className={classes.submit}
                       onClick={deliverHandler}
@@ -207,10 +207,10 @@ const OrderScreen = ({ match, history}) => {
                 )}
             <ListItem>
 
-            {order.isDelivered ? (
-                <Message severity='success'>Delivered on {order.deliveredAt}</Message>
+            {order.isShipped ? (
+                <Message severity='success'>Shipped on {order.shippedAt}</Message>
               ) : (
-                <Message severity='warning'>Not Delivered</Message>
+                <Message severity='warning'>Not Shipped</Message>
               )}
             </ListItem>
 

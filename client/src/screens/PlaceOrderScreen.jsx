@@ -113,10 +113,11 @@ const PlaceOrderScreen = ({ history }) => {
   useEffect(async() => {
     if (success) {
       // dispatch(payOrder(order._id, paymentResult))
+      axios.post('/api/email/order', {usersName:userInformation.name,userEmail:userInformation.email,price:basket.totalPrice, orderId:order._id})
+      axios.post('/api/email/ordernotification', {orderId:order._id})
+      history.push(`/orders/${order._id}`)
       dispatch({type: BASKET_RESET})
       dispatch({type: ORDER_CREATE_RESET})
-      axios.post('/api/email/order', {usersName:userInformation.name,userEmail:userInformation.email,price:basket.totalPrice})
-      history.push(`/orders/${order._id}`)
       // dispatch({ type: USER_DETAILS_RESET })
       // dispatch({ type: ORDER_CREATE_RESET })
     }
