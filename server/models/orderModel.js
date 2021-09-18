@@ -69,7 +69,10 @@ const orderSchema = mongoose.Schema(
       required: true,
       default: false,
     },
-    tracking:{
+    trackingNumber:{
+      type:String
+    },
+    trackingLink:{
       type:String
     },
     shippedAt: {

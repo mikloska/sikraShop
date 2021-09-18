@@ -1,7 +1,7 @@
 import { ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS, ORDER_CREATE_FAILURE, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS,
   ORDER_DETAILS_FAILURE, ORDER_PAY_REQUEST, ORDER_PAY_FAILURE, ORDER_PAY_SUCCESS, ORDER_PAY_RESET, ORDER_LIST_OF_USER_REQUEST,
   ORDER_LIST_OF_USER_SUCCESS, ORDER_LIST_OF_USER_FAILURE, ORDER_LIST_OF_USER_RESET, ORDER_LIST_FAILURE, ORDER_LIST_SUCCESS,
-  ORDER_LIST_REQUEST, ORDER_DELIVER_FAILURE, ORDER_DELIVER_SUCCESS, ORDER_DELIVER_REQUEST, ORDER_DELIVER_RESET,
+  ORDER_LIST_REQUEST, ORDER_SHIP_FAILURE, ORDER_SHIP_SUCCESS, ORDER_SHIP_REQUEST, ORDER_SHIP_RESET,
   ORDER_CREATE_RESET,
 } from '../constants/orderConstants'
 
@@ -79,21 +79,21 @@ export const orderPayReducer = (state = {}, action) => {
 
 export const orderDeliverReducer = (state = {}, action) => {
   switch (action.type) {
-    case ORDER_DELIVER_REQUEST:
+    case ORDER_SHIP_REQUEST:
       return {
         loading: true,
       }
-    case ORDER_DELIVER_SUCCESS:
+    case ORDER_SHIP_SUCCESS:
       return {
         loading: false,
         success: true,
       }
-    case ORDER_DELIVER_FAILURE:
+    case ORDER_SHIP_FAILURE:
       return {
         loading: false,
         error: action.payload,
       }
-    case ORDER_DELIVER_RESET:
+    case ORDER_SHIP_RESET:
       return {}
     default:
       return state

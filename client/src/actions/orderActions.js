@@ -3,7 +3,7 @@ import { BASKET_CLEAR_ITEMS, BASKET_CLEAR_ADDRESS } from '../constants/basketCon
 import { ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS, ORDER_CREATE_FAILURE, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS,
   ORDER_DETAILS_FAILURE, ORDER_PAY_REQUEST, ORDER_PAY_FAILURE, ORDER_PAY_SUCCESS, ORDER_PAY_RESET, ORDER_LIST_OF_USER_REQUEST,
   ORDER_LIST_OF_USER_SUCCESS, ORDER_LIST_OF_USER_FAILURE, ORDER_LIST_OF_USER_RESET, ORDER_LIST_FAILURE, ORDER_LIST_SUCCESS,
-  ORDER_LIST_REQUEST, ORDER_DELIVER_FAILURE, ORDER_DELIVER_SUCCESS, ORDER_DELIVER_REQUEST, ORDER_DELIVER_RESET,
+  ORDER_LIST_REQUEST, ORDER_SHIP_FAILURE, ORDER_SHIP_SUCCESS, ORDER_SHIP_REQUEST, ORDER_SHIP_RESET,
   ORDER_CREATE_RESET,
 } from '../constants/orderConstants'
 import { signOut } from './userActions'
@@ -134,10 +134,11 @@ export const payOrder = (orderId, paymentResult) => async (
   }
 }
 
-export const deliverOrder = (order) => async (dispatch, getState) => {
+export const shipOrder = (order, trackingNumber, trackingLink) => async (dispatch, getState) => {
   try {
+    // console.log('trackingNumber: ', trackingNumber)
     dispatch({
-      type: ORDER_DELIVER_REQUEST,
+      type: ORDER_SHIP_REQUEST,
     })
 
     const {
@@ -151,13 +152,13 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
     }
 
     const { data } = await axios.put(
-      `/api/orders/${order._id}/deliver`,
-      {},
+      `/api/orders/${order._id}/ship`,
+      {trackingNumber, trackingLink},
       config
     )
 
     dispatch({
-      type: ORDER_DELIVER_SUCCESS,
+      type: ORDER_SHIP_SUCCESS,
       payload: data,
     })
   } catch (error) {
@@ -169,7 +170,7 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
       dispatch(signOut())
     }
     dispatch({
-      type: ORDER_DELIVER_FAILURE,
+      type: ORDER_SHIP_FAILURE,
       payload: message,
     })
   }

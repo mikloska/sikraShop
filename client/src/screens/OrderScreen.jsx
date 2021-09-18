@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { withStyles, makeStyles } from '@material-ui/core/styles';
-import {Typography,Button, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, List, ListItem, ListItemIcon, ListItemText, Divider, FormControl, Select, MenuItem, InputLabel, Grid, Paper} from '@material-ui/core/';
+import {Typography,Button, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, List, ListItem, ListItemIcon, ListItemText, Divider, FormControl, Select, MenuItem, InputLabel, Grid, Paper} from '@material-ui/core/';
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { getOrderDetails, payOrder, deliverOrder,} from '../actions/orderActions'
+import { getOrderDetails, payOrder, shipOrder,} from '../actions/orderActions'
 import axios from 'axios'
 // import { PayPalButton } from 'react-paypal-button-v2'
-import {ORDER_PAY_RESET,  ORDER_DELIVER_RESET } from '../constants/orderConstants'
+import {ORDER_PAY_RESET,  ORDER_SHIP_RESET } from '../constants/orderConstants'
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -59,6 +59,8 @@ const OrderScreen = ({ match, history}) => {
   const classes = useStyles();
   const dispatch = useDispatch()
   const [sdkReady, setSdkReady] = useState(false)
+  const [trackingNumber, setTrackingNumber] = useState('')
+  const [trackingLink, setTrackingLink] = useState('')
 
   // if (!basket.shippingAddress.address) {
   //   history.push('/shipping')
@@ -77,8 +79,9 @@ const OrderScreen = ({ match, history}) => {
   const orderDetails = useSelector((state) => state.orderDetails)
   const { order, loading, error } = orderDetails
 
-  const deliverHandler = () => {
-    dispatch(deliverOrder(order))
+  const shipHandler = () => {
+    dispatch(shipOrder(order, trackingNumber,trackingLink))
+    axios.post('/api/email/shippingnotification', {usersName:order.user.name,userEmail:order.user.email,orderId:order._id})
   }
 
 
@@ -115,7 +118,7 @@ const OrderScreen = ({ match, history}) => {
     if (!order || successPay || order._id !== orderId || successDeliver) {
       //Prevent useEffect loop
       dispatch({ type: ORDER_PAY_RESET })
-      dispatch({ type: ORDER_DELIVER_RESET })
+      dispatch({ type: ORDER_SHIP_RESET })
       dispatch(getOrderDetails(orderId))
     } 
     //else if (!order.isPaid) {
@@ -199,16 +202,20 @@ const OrderScreen = ({ match, history}) => {
                 !order.isShipped && (
                   <ListItem>
                     <Button className={classes.submit}
-                      onClick={deliverHandler}
+                      onClick={shipHandler}
                     >
-                      Mark As Delivered
+                      Mark As Shipped
                     </Button>
+                    <TextField style={{marginLeft:20}} id="outlined-basic" label="Enter Tracking #" variant="outlined" 
+                    value={trackingNumber} onChange={(e) => {setTrackingNumber(e.target.value);}}/>
+                    <TextField style={{marginLeft:20}} id="outlined-basic" label="Enter Tracking link" variant="outlined" 
+                    value={trackingLink} onChange={(e) => {setTrackingLink(e.target.value);}}/>
                   </ListItem>
                 )}
             <ListItem>
-
             {order.isShipped ? (
-                <Message severity='success'>Shipped on {order.shippedAt}</Message>
+                <Message severity='success'>Shipped on {order.shippedAt}<br></br><b>Click to view tracking:</b> <a href={order.trackingLink} target="_blank" style={{color:'#067e78'}}>{order.trackingNumber}</a></Message>
+                
               ) : (
                 <Message severity='warning'>Not Shipped</Message>
               )}

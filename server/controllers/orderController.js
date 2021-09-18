@@ -100,14 +100,19 @@ const updateOrderToPaid = async (req, res, next) => {
   }
 }
 
-// @desc    Update order to delivered
-// @route   GET /api/orders/:id/deliver
+// @desc    Update order to shiped
+// @route   GET /api/orders/:id/ship
 // @access  Private/Admin
-const updateOrderToDelivered = async (req, res, next) => {
+const updateOrderToShipped = async (req, res, next) => {
   try{
     const order = await Order.findById(req.params.id)
+    console.log('req.params: ', req.params)
+    // const {trackingNumber, trackingLink} = req.body
+    console.log('req.body: ',req.body)
 
     if (order) {
+      order.trackingNumber=req.body.trackingNumber
+      order.trackingLink=req.body.trackingLink
       order.isShipped = true
       order.shippedAt = Date.now()
 
@@ -121,7 +126,7 @@ const updateOrderToDelivered = async (req, res, next) => {
     }
   }catch(error){
     console.error(`Error: ${error.message}`.red.underline.bold)
-    return next(`Error updating order to delivered: ${error.message}`)
+    return next(`Error updating order to shiped: ${error.message}`)
   }
 }
 
@@ -157,7 +162,7 @@ export {
   addOrderItems,
   getOrderById,
   updateOrderToPaid,
-  updateOrderToDelivered,
+  updateOrderToShipped,
   getMyOrders,
   getOrders,
 }

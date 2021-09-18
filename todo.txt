@@ -1,7 +1,7 @@
 -style photo upload button in admin product edit screen
 -forgot password
 -Google oAuth
--Email users when account created, order placed and order delivered
+-Email users when account created, order placed and order shiped
 -checkout as guest
 -taxes
 -shipping options
