@@ -1,5 +1,5 @@
 import express from 'express'
-import {authenticateUser, getProfile, registerUser, updateProfile, getUsers, deleteUser, updateUser, getUserById, resetPassword} from '../controllers/userController.js'
+import {authenticateUser, getProfile, registerUser, updateProfile, getUsers, deleteUser, updateUser, getUserById, forgotPassword, resetPassword} from '../controllers/userController.js'
 import {protectUser, admin} from '../middleware/authMiddleware.js'
 
 const router=express.Router()
@@ -29,9 +29,14 @@ router
   
   // }
   // );
+  router.post('/forgotpassword',forgotPassword,
+  (req,res)=>{
+    return res.status(200).json(res.locals.user)
+  })
+
   router.post('/passwordreset',resetPassword,
-    (req,res)=>{
-      return res.status(200).json(res.locals.user)
+  (req,res)=>{
+    return res.status(200).json(res.locals.user)
   })
 
 export default router

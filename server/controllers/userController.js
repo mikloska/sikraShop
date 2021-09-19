@@ -1,6 +1,8 @@
 import User from '../models/userModel.js'
 import generateToken from '../utils/generateToken.js'
-
+import crypto from 'crypto'
+import nodemailer from 'nodemailer'
+import bcrypt from 'bcryptjs'
 // Desc: Authorize user and provide token
 // Route: POST api/users/login
 // Access: public
@@ -219,25 +221,91 @@ const updateUser = async (req, res, next) => {
   }
 }
 
-// @desc    Delete user
-// @route   DELETE /api/users/passwordreset
+// @desc    Reset user pw
+// @route   POST /api/users/forgotpassword
 // @access  Public
-const resetPassword = async (req, res, next) => {
+const forgotPassword = (req, res, next) => {
+  // console.log('req.body: ',req.body)
   try{
-    const {email, password} = req.body
-  const user = await User.findOne(email)
-
-    if (user) {
-      await user.remove()
-      res.locals.user=(`Password for ${req.body.email} updated`)
-    } else {
-      res.status(404)
-      throw new Error('User not found')
+  crypto.randomBytes(32,(err,buffer)=>{
+    if(err){
+        console.log(err)
     }
+    const token = buffer.toString("hex")
+    User.findOne({email:req.body.email})
+    .then(user=>{
+        if(!user){
+            return res.status(422).json({error:"User dont exists with that email"})
+        }
+        user.resetToken = token
+        user.expiryResetToken = Date.now() + 3600000
+        user.save().then((result)=>{
+          let transporter = nodemailer.createTransport({
+            host: "smtp-mail.outlook.com", // hostname
+            secureConnection: false, // TLS requires secureConnection to be false
+            port: 587, // port for secure SMTP
+            tls: {
+               ciphers:'SSLv3'
+            },
+            auth: {
+                user: 'info@sikrajewelry.com',
+                pass: process.env.PW
+            }
+          });
+          let mailOptions = {
+            from: '"Sikra Jewelry " info@sikrajewelry.com', // sender address (who sends)
+            to: 'mikloskertesz@hotmail.com', // list of receivers (who receives)
+            subject: '', // Subject line
+            text: `Hello Miklos & Sara, You have a new order!`, // plaintext body
+            html: `<b>Hello,</b><br>click <a href="http://www.sikrajewelry.com/passwordreset/${req.body.email}/${token}">this link</a> to reset your password.` // html body
+          };
+          transporter.sendMail(mailOptions, function(error, info){
+            if(error){
+                return console.log(error);
+            }
+        
+            console.log('Message sent: ' + info.response);
+          })
+          res.json('sent')
+        })
+
+    })
+})
+}catch(error){
+  console.error(`Error: ${error.message}`.red.underline.bold)
+  return next(new Error(`Error in reset password user controller: ${error.message}`))
+}
+}
+
+
+// @desc    Reset user pw
+// @route   POST /api/users/passwordreset
+// @access  Public
+const resetPassword = async (req, res, next)=>{
+  // console.log('req.body: ',req.body)
+  try{
+  User.findOne({resetToken:req.body.token,expiryResetToken:{$gt:Date.now()}})
+  .then(user=>{
+      if(!user){
+          return res.status(422).json({error:"Try again session expired"})
+      }
+      
+      // this.password=await bcrypt.hash(this.password, salt)
+
+         user.password = req.body.password
+         user.resetToken = undefined
+         user.expiryResetToken = undefined
+         user.save().then((saveduser)=>{
+             res.json({message:"password updated successfully"})
+         })
+
+  }).catch(err=>{
+      console.log(err)
+  })
   }catch(error){
     console.error(`Error: ${error.message}`.red.underline.bold)
     return next(new Error(`Error in reset password user controller: ${error.message}`))
   }
 }
 
-export {authenticateUser, getProfile, registerUser, updateProfile, getUsers, deleteUser, updateUser, getUserById, resetPassword}
+export {authenticateUser, getProfile, registerUser, updateProfile, getUsers, deleteUser, updateUser, getUserById, forgotPassword, resetPassword}

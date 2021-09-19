@@ -6,7 +6,7 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { useHistory } from 'react-router-dom'
 import VpnKey from '@material-ui/icons/VpnKey';
-import { Link as RouterLink, useParams } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import {register} from '../actions/userActions'
 import axios from 'axios'
@@ -42,17 +42,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ResetPasswordScreen = ({ isLoggedIn, setIsLoggedIn }) => {
+const ForgotPasswordScreen = ({ isLoggedIn, setIsLoggedIn }) => {
   const redirect= location.search ? location.search.split('=')[1] : '/'
   const classes = useStyles();
   const history = useHistory();
-  const {token} = useParams()
   //state to store input field values
 
-  const [password, setPassword] = useState('');
-  const [confirm, setConfirm] = useState('');
+  const [email, setEmail] = useState('');
   //For customer messages in Message component. Default to null to use in conditional rendering
   const [message, setMessage]=useState(null)
+  const [sentMessage, setSentMessage]=useState(null)
 
   const dispatch=useDispatch()
   //Get userRegister from state and destructure what we need from it
@@ -66,17 +65,17 @@ const ResetPasswordScreen = ({ isLoggedIn, setIsLoggedIn }) => {
   
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(password!==confirm){
-      setMessage('Passwords do not match!')
+    if(email===''){
+      setMessage('Enter email address')
     }else{
-      // dispatch(register(name,email,password))
-      axios.post('/api/users/passwordreset',{password:password, token:token})
-      history.push('/login')
+     axios.post('/api/users/forgotpassword',{email:email})
+     setEmail('')
+     setSentMessage('Check your email for the password reset link')
     }
 
   };
 
-  // if (isLoggedIn) return <Redirect to="/" />;
+  if (isLoggedIn) return <Redirect to="/" />;
 
   return (
     <Container component="main" maxWidth="xs" style={{marginTop:35, marginBottom: 45, padding:20}}>
@@ -88,27 +87,24 @@ const ResetPasswordScreen = ({ isLoggedIn, setIsLoggedIn }) => {
                 <VpnKey/>
               </Avatar>
                <Typography component="h1" variant="h5" style={{marginTop:20}}>
-                Create Password
+                Enter Email Address
               </Typography>
-              {message && <div style={{margin:8}}><Message severity='error' >{message}</Message></div>}
-              {error && <Message severity='error'>{error}</Message>}
+
+              {message && <Message style={{marginTop:8}} severity='error' >{message}</Message>}
+              {sentMessage!==null && <Message severity='success' style={{marginTop:8}}>{sentMessage}</Message>}
+              {error && <Message severity='error' style={{marginTop:8}}>{error}</Message>}
               {loading && <Loader />}
+
               <form className={classes.form} noValidate onSubmit={handleSubmit} >
 
-                <TextField variant="outlined" margin="normal" required fullWidth name="password" label="Password"
-                  type="password" id="password" value={password}
+                <TextField variant="outlined" margin="normal" required fullWidth name="email" label="Email"
+                  type="email" id="email" value={email}
                   onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
-                />
-                <TextField variant="outlined" margin="normal" required fullWidth name="confirm" label="Confirm Password" type="password"
-                  id="confirm" value={confirm}
-                  onChange={(e) => {
-                    setConfirm(e.target.value);
+                    setEmail(e.target.value);
                   }}
                 />
                 <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
-                  Save Password
+                  Send Password Reset Link
                 </Button>
 
               </form>
@@ -124,4 +120,4 @@ const ResetPasswordScreen = ({ isLoggedIn, setIsLoggedIn }) => {
   );
 }
 
-export default ResetPasswordScreen
+export default ForgotPasswordScreen
