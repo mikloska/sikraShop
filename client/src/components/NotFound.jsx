@@ -11,7 +11,7 @@ const NotFound = () =>{
     <div style={{marginTop:35}}>         
       <Grid container justifyContent='center'>
         <Grid item md={11} sm={11}>
-          <Alert severity='error'><Typography variant='h6'><b>'{location.pathname.slice(1)}'</b>   not found</Typography></Alert>
+          <Alert severity='error'><Typography variant='h6'>404 <b>'{location.pathname.slice(1)}'</b>   not found</Typography></Alert>
         </Grid>
       </Grid>
     </div>

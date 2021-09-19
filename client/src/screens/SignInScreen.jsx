@@ -71,7 +71,7 @@ const SignInScreen = ({ location, history }) => {
 
   //Redirect if logged in 
   useEffect(()=>{
-    console.log(redirect)
+    // console.log(redirect)
     if(userInformation) history.push(redirect)
   },[history, userInformation, redirect])
 

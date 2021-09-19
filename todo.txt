@@ -6,3 +6,4 @@
 -taxes
 -shipping options
 -send email to us when purchase is made
+-all field filled in shipping page
