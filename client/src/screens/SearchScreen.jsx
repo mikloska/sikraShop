@@ -1,10 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import Product from '../components/Product'
-import Grid from '@material-ui/core/Grid'
+import {Grid, Typography} from '@material-ui/core'
 import axios from 'axios'
 import {listProducts} from '../actions/productActions'
-import { Parallax, Background } from 'react-parallax';
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import Paginate from '../components/Paginate'
@@ -27,7 +26,7 @@ const SearchScreen = ({match}) => {
 
     axios.get('/api/products')
       .then(res => {
-      setProducts(res.data);
+      // setProducts(res.data);
     })
     .catch(err => console.log(err))
   },[dispatch, keyword, pageNumber])
@@ -36,6 +35,7 @@ const SearchScreen = ({match}) => {
   return (
     <div style={{marginTop:35, marginBottom: 45, padding:20}}>
       {/* <h1>Latest Products</h1> */}
+      {products.length===0&&<Typography variant='h4'>No results for '{keyword}'</Typography>}
       {loading ? <Loader/> : error ? <Message severity='error'>{error}</Message> : 
       <Grid container spacing={6} justifyContent="center">
         {products.map((product) => (
