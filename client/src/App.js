@@ -109,9 +109,8 @@ const App = (showBelow) => {
               <Route path='/admin/productlist/page:pageNumber' component={ProductListScreen}/>
               <Route path='/admin/product/:id/edit' component={ProductEditScreen}/>
               
-              {/* <Route >
-                  <NotFound/>
-                </Route> */}
+              <Route component={NotFound}/>
+
             </Switch>
           </Container>
           
