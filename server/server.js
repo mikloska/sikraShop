@@ -34,35 +34,6 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json())
 
 app.get('/', (req, res) => res.send('API is running'));
-app.post('/send',(req,res)=>{
-  let transporter = nodemailer.createTransport({
-    host: "smtp-mail.outlook.com", // hostname
-    secureConnection: false, // TLS requires secureConnection to be false
-    port: 587, // port for secure SMTP
-    tls: {
-       ciphers:'SSLv3'
-    },
-    auth: {
-        user: 'info@sikrajewelry.com',
-        pass: process.env.PW
-    }
-  });
-  let mailOptions = {
-    from: '"Our Code World " info@sikrajewelry.com', // sender address (who sends)
-    to: 'mikloska973@gmail.com', // list of receivers (who receives)
-    subject: 'Hello ', // Subject line
-    text: 'Hello world ', // plaintext body
-    html: '<b>Hello world </b><br> This is the first email sent with Nodemailer in Node.js' // html body
-  };
-  transporter.sendMail(mailOptions, function(error, info){
-    if(error){
-        return console.log(error);
-    }
-
-    console.log('Message sent: ' + info.response);
-  })
-  res.send('sent')
-})
 app.use('/api/email', emailRoutes)
 app.use('/api/products', productRoutes)
 app.use('/api/users', userRoutes)

@@ -224,57 +224,27 @@ const updateUser = async (req, res, next) => {
 // @desc    Reset user pw
 // @route   POST /api/users/forgotpassword
 // @access  Public
-const forgotPassword = (req, res, next) => {
+const forgotPassword = async (req, res, next) => {
   // console.log('req.body: ',req.body)
   try{
-  crypto.randomBytes(32,(err,buffer)=>{
-    if(err){
-        console.log(err)
-    }
+    const buffer = crypto.randomBytes(32)
     const token = buffer.toString("hex")
-    User.findOne({email:req.body.email})
-    .then(user=>{
-        if(!user){
-            return res.status(422).json({error:"User dont exists with that email"})
-        }
-        user.resetToken = token
-        user.expiryResetToken = Date.now() + 3600000
-        user.save().then((result)=>{
-          let transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
-            secureConnection: false, // TLS requires secureConnection to be false
-            port: 587, // port for secure SMTP
-            tls: {
-               ciphers:'SSLv3'
-            },
-            auth: {
-                user: 'info@sikrajewelry.com',
-                pass: process.env.PW
-            }
-          });
-          let mailOptions = {
-            from: '"Sikra Jewelry " info@sikrajewelry.com', // sender address (who sends)
-            to: 'mikloskertesz@hotmail.com', // list of receivers (who receives)
-            subject: '', // Subject line
-            text: `Hello Miklos & Sara, You have a new order!`, // plaintext body
-            html: `<b>Hello,</b><br>click <a href="http://www.sikrajewelry.com/passwordreset/${req.body.email}/${token}">this link</a> to reset your password.` // html body
-          };
-          transporter.sendMail(mailOptions, function(error, info){
-            if(error){
-                return console.log(error);
-            }
-        
-            console.log('Message sent: ' + info.response);
-          })
-          res.json('sent')
-        })
+    res.locals.token=token
+    console.log('token: ',token)
+    const user = await User.findOne({email:req.body.email})
 
-    })
-})
-}catch(error){
-  console.error(`Error: ${error.message}`.red.underline.bold)
-  return next(new Error(`Error in reset password user controller: ${error.message}`))
-}
+    if(!user) return res.status(422).json({error:"No user with that email"})
+    user.resetToken = token
+    
+    user.expiryResetToken = Date.now() + 3600000
+    await user.save()
+    // res.json('sent')
+    return next()
+  
+  }catch(error){
+    console.error(`Error: ${error.message}`.red.underline.bold)
+    return next(new Error(`Error in reset password user controller: ${error.message}`))
+  }
 }
 
 
@@ -284,24 +254,34 @@ const forgotPassword = (req, res, next) => {
 const resetPassword = async (req, res, next)=>{
   // console.log('req.body: ',req.body)
   try{
-  User.findOne({resetToken:req.body.token,expiryResetToken:{$gt:Date.now()}})
-  .then(user=>{
-      if(!user){
-          return res.status(422).json({error:"Try again session expired"})
-      }
+    const user = await User.findOne({resetToken:req.body.token,expiryResetToken:{$gt:Date.now()}})
+     if(!user) return res.status(422).json({error:"Try again session expired"})
+    user.password = req.body.password
+    user.resetToken = undefined
+    user.expiryResetToken = undefined
+    await user.save()
+    res.locals.message='password updated successfully'
+    return next()
+    
+
+  // User.findOne({resetToken:req.body.token,expiryResetToken:{$gt:Date.now()}})
+  // .then(user=>{
+  //     if(!user){
+  //         return res.status(422).json({error:"Try again session expired"})
+  //     }
       
-      // this.password=await bcrypt.hash(this.password, salt)
+  //     // this.password=await bcrypt.hash(this.password, salt)
 
-         user.password = req.body.password
-         user.resetToken = undefined
-         user.expiryResetToken = undefined
-         user.save().then((saveduser)=>{
-             res.json({message:"password updated successfully"})
-         })
+  //        user.password = req.body.password
+  //        user.resetToken = undefined
+  //        user.expiryResetToken = undefined
+  //        user.save().then((saveduser)=>{
+  //            res.json({message:"password updated successfully"})
+  //        })
 
-  }).catch(err=>{
-      console.log(err)
-  })
+  // }).catch(err=>{
+  //     console.log(err)
+  // })
   }catch(error){
     console.error(`Error: ${error.message}`.red.underline.bold)
     return next(new Error(`Error in reset password user controller: ${error.message}`))

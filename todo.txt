@@ -1,9 +1,5 @@
--style photo upload button in admin product edit screen
--forgot password
 -Google oAuth
--Email users when account created, order placed and order shiped
+-combine repetitive nodemailer code
 -checkout as guest
 -taxes
 -shipping options
--send email to us when purchase is made
--all field filled in shipping page

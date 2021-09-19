@@ -1,5 +1,6 @@
 import express from 'express'
 import {authenticateUser, getProfile, registerUser, updateProfile, getUsers, deleteUser, updateUser, getUserById, forgotPassword, resetPassword} from '../controllers/userController.js'
+import {emailResetLink} from '../controllers/emailController.js'
 import {protectUser, admin} from '../middleware/authMiddleware.js'
 
 const router=express.Router()
@@ -29,9 +30,10 @@ router
   
   // }
   // );
-  router.post('/forgotpassword',forgotPassword,
+  router.post('/forgotpassword',forgotPassword, emailResetLink,
   (req,res)=>{
-    return res.status(200).json(res.locals.user)
+    // console.log(res.locals.token)
+    return res.status(200).json(res.locals.token)
   })
 
   router.post('/passwordreset',resetPassword,
