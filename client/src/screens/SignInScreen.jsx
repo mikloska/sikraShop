@@ -117,7 +117,7 @@ const SignInScreen = ({ location, history }) => {
                 </Button>
                 <Grid container>
                   <Grid item xs={11}>
-                    <Link href="#" variant="body2" color='inherit'>
+                    <Link component={RouterLink} to='/forgotpassword' variant="body2" color='inherit'>
                       Forgot password?
                     </Link>
                   </Grid>

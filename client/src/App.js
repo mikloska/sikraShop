@@ -27,6 +27,7 @@ import CategoryScreen from './screens/CategoryScreen';
 import ContactScreen from './screens/ContactScreen';
 import CustomScreen from './screens/CustomScreen';
 import ResetPasswordScreen from './screens/ResetPasswordScreen';
+import ForgotPasswordScreen from './screens/ForgotPasswordScreen'
 import CheckoutSteps from './components/CheckoutSteps';
 
 const useStyles = makeStyles({
@@ -109,7 +110,8 @@ const App = (showBelow) => {
               <Route path='/admin/productlist' component={ProductListScreen} exact/>
               <Route path='/admin/productlist/page:pageNumber' component={ProductListScreen}/>
               <Route path='/admin/product/:id/edit' component={ProductEditScreen}/>
-              <Route path ='/passwordreset' component={ResetPasswordScreen}/>
+              <Route path ='/forgotpassword' component={ForgotPasswordScreen}/>
+              <Route path ='/passwordreset/:email/:token' component={ResetPasswordScreen}/>
               
               <Route component={NotFound}/>
 
