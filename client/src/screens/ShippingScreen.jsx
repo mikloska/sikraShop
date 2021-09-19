@@ -70,6 +70,7 @@ const ShippingScreen = ({history}) =>{
   const [country,setCountry]=useState(defaultCountry)
   const [state,setState]=useState(defaultState)
   const [province,setProvince]=useState(defaultProvince)
+  const [message, setMessage]=useState(null)
   const tab = 1
   // if(shippingAddress){
   //   setAddress(address)
@@ -82,9 +83,15 @@ const ShippingScreen = ({history}) =>{
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    dispatch(saveShippingAddress({ address, city, zip, country, state, province }))
-    dispatch(savePaymentMethod('PayPal'))
-    history.push('/placeorder')
+    if((country==='United States'&&state==='')||(country==='Canada'&&province==='')||address===''||city===''||zip===''||country===''){
+      setMessage('Please fill out all fields!')
+    }
+    else{
+      e.preventDefault()
+      dispatch(saveShippingAddress({ address, city, zip, country, state, province }))
+      dispatch(savePaymentMethod('PayPal'))
+      history.push('/placeorder')
+    }
   }
 
   useEffect(() => {
@@ -156,10 +163,12 @@ const ShippingScreen = ({history}) =>{
                   setCountry(e.target.value);
                 }}
               /> */}
+              
               <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} style={{marginTop: 40}}>
                 Continue to Payment
               </Button>
             </form>
+            {message && <Message style={{width:'100%',marginTop:8}} severity='error' >{message}</Message>}
           </div>
         </Box>
       </Card>

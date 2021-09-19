@@ -1,4 +1,3 @@
-import { DeckRounded } from '@material-ui/icons'
 import jwt from 'jsonwebtoken'
 import User from '../models/userModel.js'
 

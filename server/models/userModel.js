@@ -20,6 +20,8 @@ const userSchema= mongoose.Schema({
     required: true,
     default: false
     },
+    resetToken:String,
+    expiryResetToken:Date,
 }, {
   //automatically create a 'Created At' and 'Updated At'
   timestamps: true
