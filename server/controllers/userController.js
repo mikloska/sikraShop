@@ -219,4 +219,25 @@ const updateUser = async (req, res, next) => {
   }
 }
 
-export {authenticateUser, getProfile, registerUser, updateProfile, getUsers, deleteUser, updateUser, getUserById}
+// @desc    Delete user
+// @route   DELETE /api/users/passwordreset
+// @access  Public
+const resetPassword = async (req, res, next) => {
+  try{
+    const {email, password} = req.body
+  const user = await User.findOne(email)
+
+    if (user) {
+      await user.remove()
+      res.locals.user=(`Password for ${req.body.email} updated`)
+    } else {
+      res.status(404)
+      throw new Error('User not found')
+    }
+  }catch(error){
+    console.error(`Error: ${error.message}`.red.underline.bold)
+    return next(new Error(`Error in reset password user controller: ${error.message}`))
+  }
+}
+
+export {authenticateUser, getProfile, registerUser, updateProfile, getUsers, deleteUser, updateUser, getUserById, resetPassword}

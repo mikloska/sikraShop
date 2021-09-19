@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignUpScreen = ({ isLoggedIn, setIsLoggedIn }) => {
+const ResetPasswordScreen = ({ isLoggedIn, setIsLoggedIn }) => {
   const redirect= location.search ? location.search.split('=')[1] : '/'
   const classes = useStyles();
   const history = useHistory();
@@ -122,4 +122,4 @@ const SignUpScreen = ({ isLoggedIn, setIsLoggedIn }) => {
   );
 }
 
-export default SignUpScreen
+export default ResetPasswordScreen
