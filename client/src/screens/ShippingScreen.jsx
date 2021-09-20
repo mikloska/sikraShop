@@ -11,6 +11,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import { saveShippingAddress, savePaymentMethod } from '../actions/basketActions'
 import CheckoutSteps from '../components/CheckoutSteps';
+// import easyship from 'easyship'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -165,7 +166,7 @@ const ShippingScreen = ({history}) =>{
               /> */}
               
               <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} style={{marginTop: 40}}>
-                Continue to Payment
+                {shippingAddress?'Update Shipping Address':'Continue to Payment'}
               </Button>
             </form>
             {message && <Message style={{width:'100%',marginTop:8}} severity='error' >{message}</Message>}

@@ -3,6 +3,7 @@ export {signUpEmail, orderEmail, orderNotificationEmail, shippingNotificationEma
 
 const signUpEmail = (req,res,next)=>{
   try{
+    // console.log('req.body: ', req.body)
     const {usersName, userEmail} = req.body
     let transporter = nodemailer.createTransport({
       host: "smtp-mail.outlook.com", // hostname
@@ -18,10 +19,10 @@ const signUpEmail = (req,res,next)=>{
     });
     let mailOptions = {
       from: '"Sikra Jewelry " info@sikrajewelry.com', // sender address (who sends)
-      to: 'mikloskertesz@hotmail.com', // list of receivers (who receives)
+      to: `${userEmail}`, // list of receivers (who receives)
       subject: '', // Subject line
       text: 'Welcome to Sikra Jewelry', // plaintext body
-      html: `<b>Hello ${usersName} </b><br> Thanks for signing up at Sikra Jewelry ${userEmail}` // html body
+      html: `<b>Hello ${usersName} </b><br> Thanks for signing up at Sikra Jewelry` // html body
     };
     transporter.sendMail(mailOptions, function(error, info){
       if(error){
@@ -57,7 +58,7 @@ const orderEmail = (req,res,next)=>{
     });
     let mailOptions = {
       from: '"Sikra Jewelry " info@sikrajewelry.com', // sender address (who sends)
-      to: 'mikloskertesz@hotmail.com', // list of receivers (who receives)
+      to: `${userEmail}`, // list of receivers (who receives)
       subject: '', // Subject line
       text: `Hello ${usersName}, thanks for purchasing from Sikra Jewelry`, // plaintext body
       html: `<b>Hello ${usersName},</b><br>Thanks for supporting a small business by purchasing from Sikra Jewelry. Look at the order here: <a href = 'http://www.sikrajewelry.com/orders/${orderId}'>${orderId}<a/>` // html body
@@ -133,7 +134,7 @@ const shippingNotificationEmail = (req,res,next)=>{
     });
     let mailOptions = {
       from: '"Sikra Jewelry " info@sikrajewelry.com', // sender address (who sends)
-      to: 'mikloskertesz@hotmail.com', // list of receivers (who receives)
+      to: `${userEmail}`, // list of receivers (who receives)
       subject: '', // Subject line
       text: `Hello ${usersName}, Your order has shipped!`, // plaintext body
       html: `<b>Hello ${usersName},</b><br>Your order has shipped!  Check order status and tracking here: <a href = 'http://www.sikrajewelry.com/orders/${orderId}'>${orderId}<a/>` // html body

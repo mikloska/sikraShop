@@ -54,9 +54,9 @@ const CheckoutSteps = (props)=>{
       )} */}
 
       {step3&&shippingAddress ? (
-          <Tab label="Complete Order"/>
+          <Tab label="Place Order"/>
       ) : (
-        <Tab label="Complete Order" disabled/>
+        <Tab label="Place Order" disabled/>
       )}
 
     {/* <TabPanel value={0} index={0}>

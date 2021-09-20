@@ -85,7 +85,8 @@ const PlaceOrderScreen = ({ history }) => {
     :basket.shippingAddress.province!==''&&basket.shippingAddress.province!=='Ontario'?.015
     :basket.shippingAddress.province==='Ontario'?.013
     :0
-  basket.shippingPrice = addDecimals(basket.itemsPrice > 100 ? 0 : 100)
+  basket.shippingPrice = basket.shippingAddress.country==='United States'?0:basket.shippingAddress.country==='Canada'?addDecimals(13):basket.shippingAddress.country==='United Kingdom'?addDecimals(16):addDecimals(18)
+  // basket.shippingPrice = addDecimals(basket.itemsPrice > 100 ? 0 : 100)
   basket.taxPrice = addDecimals(Number((taxRate * basket.itemsPrice).toFixed(2)))
   basket.totalPrice = (
     Number(basket.itemsPrice) +

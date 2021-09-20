@@ -21,6 +21,8 @@ const __dirname = path.dirname(__filename);
     }),
   ],
   resolve: {
+    // fallback: { "path": false },
+    // fallback: { "http": require.resolve("stream-http") },
     extensions: ['.js', '.jsx'],
   },
   mode: process.env.NODE_ENV,

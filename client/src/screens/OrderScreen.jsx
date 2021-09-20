@@ -101,6 +101,7 @@ const OrderScreen = ({ match, history}) => {
     if (!userInformation) {
       history.push('/login')
     }
+    // if(userInformation.email!==order.user.email) history.push('/')
 
 
     // const addPayPalScript = async () => {

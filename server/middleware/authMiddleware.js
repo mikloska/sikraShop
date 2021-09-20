@@ -1,35 +1,35 @@
 import jwt from 'jsonwebtoken'
+import asyncHandler from 'express-async-handler'
 import User from '../models/userModel.js'
 
-const protectUser = async (req,res,next) => {
-  try {
-    let token
-    //Convention to check if bearer token exits
-    if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){   
-      try{
-        //This splits the Bearer word from the token by the space.  Bearer word is index 0, token is index 1
-        token=req.headers.authorization.split(' ')[1]
-        //Decode token to get id from it
-        const decoded = jwt.verify(token, process.env.JWT_SECRET)
-        //Don't unnecessarily send user pw
-        req.user=await User.findById(decoded.id).select('-password')
-        // console.log('Decoded: ',decoded)
-        return next()
-      }catch(error){
-        res.status(401)
-        return next(new Error(`Not authorized, token failed: ${error.message}`))
-      }
-    }else{
-      throw new Error('Not authorized: no token found')
-    }
+const protectUser = asyncHandler(async (req, res, next) => {
+  let token
 
-  }catch(error) {
-    return next(new Error(`Error in protect user middleware: ${error.message}`))
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    try {
+      token = req.headers.authorization.split(' ')[1]
+
+      const decoded = jwt.verify(token, process.env.JWT_SECRET)
+
+      req.user = await User.findById(decoded.id).select('-password')
+
+      next()
+    } catch (error) {
+      console.error(error)
+      res.status(401)
+      throw new Error('Not authorized, token failed')
+    }
   }
 
-}
+  if (!token) {
+    res.status(401)
+    throw new Error('Not authorized, no token')
+  }
+})
 
-//Check if user requesting all users is an admin
 const admin = (req, res, next) => {
   if (req.user && req.user.isAdmin) {
     next()
@@ -39,4 +39,4 @@ const admin = (req, res, next) => {
   }
 }
 
-export {protectUser, admin}
+export { protectUser, admin }
