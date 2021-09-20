@@ -47,9 +47,9 @@ export default function Footer({handleScrollClick}) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+//old footer color '#c8d4e8'
   return (
-    <div style={{backgroundColor: '#c8d4e8'}}>
+    <div style={{backgroundColor: '#F5F5F5'}}>
     <CustomScroll lg={12} fontSize="large" className={classes.ScrollIcon} onClick={handleScrollClick}/>
     <Grid container alignItems="center" justifyContent="center" value={value} onChange={(event, newValue) => {setValue(newValue);}} className={classes.root}>
       {/* <Grid item component={PlayCircleFilledIcon} lg={12} fontSize="large" className={classes.ScrollIcon}/> */}

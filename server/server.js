@@ -20,7 +20,12 @@ import {notFound, errorHandler} from './middleware/errorHandler.js'
 import uploadRoutes from './routes/uploadRoutes.js'
 import emailRoutes from './routes/emailRoutes.js'
 import morgan from 'morgan'
-import nodemailer from 'nodemailer'
+// import nodemailer from 'nodemailer'
+// import passport from 'passport'
+// import session from 'express-session'
+// import passportConfig from "./config/passport";
+// import { default as connectMongoDBSession} from 'connect-mongodb-session';
+// const MongoDBStore = connectMongoDBSession(session);
 
 dotenv.config();
 connectDB()
@@ -47,6 +52,18 @@ app.use('/api/upload', uploadRoutes)
 app.use(notFound)
 app.use(errorHandler)
 
+// app.use(express.urlencoded({extended:true}))
+// app.use(
+//     session({
+//       secret: 'keyboard cat',
+//       resave: false,
+//       saveUninitialized: false,
+//       store: new MongoStore({ mongooseConnection: mongoose.connection }),
+//     })
+//   )
+  // Passport middleware
+// app.use(passport.initialize())
+// app.use(passport.session())
 
 // statically serve everything in the build folder on the route '/build'
 // app.use('/build', express.static(path.join(__dirname, '../build')));
