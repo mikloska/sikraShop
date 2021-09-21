@@ -60,7 +60,7 @@ const getOrderById = async (req, res, next) => {
       'user',
       'name email'
     )
-    // console.log('order: ',order.user.email)
+    // console.log('order: ',order)
     if(req.user.email!==order.user.email){
       res.status(404)
       throw new Error('Not authorized')

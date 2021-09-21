@@ -68,6 +68,8 @@ const SignUpScreen = ({ isLoggedIn, setIsLoggedIn }) => {
     e.preventDefault();
     if(password!==confirm){
       setMessage('Passwords do not match!')
+    }else if(name===''||email===''||password===''){
+      setMessage('Please fill out all fields!')    
     }else{
       dispatch(register(name,email,password))
       axios.post('/api/email/signup',{usersName:name,userEmail:email})
@@ -89,8 +91,8 @@ const SignUpScreen = ({ isLoggedIn, setIsLoggedIn }) => {
                <Typography component="h1" variant="h5">
                 Sign Up
               </Typography>
-              {message && <div style={{margin:8}}><Message severity='error' >{message}</Message></div>}
-              {error && <Message severity='error'>{error}</Message>}
+              {message && <Message severity='error' style={{marginTop:20}}>{message}</Message>}
+              {error && <Message severity='error' style={{marginTop:20}}>{error}</Message>}
               {loading && <Loader />}
               <form className={classes.form} noValidate onSubmit={handleSubmit} >
               <TextField variant="outlined" margin="normal" required fullWidth id="name" label="Name"
