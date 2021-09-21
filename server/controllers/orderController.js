@@ -52,12 +52,19 @@ const addOrderItems = async (req, res, next) => {
 // @route   GET /api/orders/:id
 // @access  Private
 const getOrderById = async (req, res, next) => {
+  // console.log('req.user: ',req.user.email)
+  // console.log('in getOrderById controller')
   try{
     //Almost like a foreign key, this goes into the connected user table and grabs the name and email address of buyer. Name and emaila are 2 separate fields.
     const order = await Order.findById(req.params.id).populate(
       'user',
       'name email'
     )
+    // console.log('order: ',order.user.email)
+    if(req.user.email!==order.user.email){
+      res.status(404)
+      throw new Error('Not authorized')
+    } 
 
     if (order) {
       res.json(order)
@@ -65,7 +72,7 @@ const getOrderById = async (req, res, next) => {
       res.status(404)
       throw new Error('Order not found')
     }
-    // return next()
+    // next()
   } catch(error){
       console.error(`Error: ${error.message}`.red.underline.bold)
       return next(`Error getting order: ${error.message}`)
@@ -126,7 +133,7 @@ const updateOrderToShipped = async (req, res, next) => {
     }
   }catch(error){
     console.error(`Error: ${error.message}`.red.underline.bold)
-    return next(`Error updating order to shiped: ${error.message}`)
+    return next(`Error updating order to shipped: ${error.message}`)
   }
 }
 

@@ -80,7 +80,7 @@ const BasketScreen = ({ match, location, history }) => {
         <List>
           <ListItem>
             <Message style={{width:'100%'}}>
-              Your basket is empty <RouterLink to='/'>Go Back</RouterLink>
+              Your basket is empty
             </Message>
           </ListItem>
         </List>
