@@ -47,16 +47,17 @@ const CategoryScreen = ({match}) => {
       <Typography variant='h4' style={{marginBottom:40}}>
         {current==='necklaces' ? 'Neckalces & Pendants':current.charAt(0).toUpperCase() + current.slice(1)}
       </Typography>
-      {loading ? <Loader/> : error ? <Message severity='error'>{error}</Message> : 
+      
       <Grid container spacing={6} justifyContent="center">
-        {productsCategory.map((product) => (
+      {loading ? <Loader/> : error ? <Message severity='error' style={{width:'100%'}}>{error}</Message> : 
+        productsCategory.map((product) => (
           
           <Grid item xs={12}sm = {12} md = {4} lg = {4} xl = {4} key ={product.price} style={{textAlign:"center"}}>
             <Product product = {product} key ={product.id}/>
           </Grid>
         ))}
         {/* <Grid item lg={11} md={11} style={{display:'flex',justifyContent:'center'}} ><Paginate pages={pages} page={page} keyword={keyword ? keyword : ''}/></Grid> */}
-      </Grid>}
+      </Grid>
       {/* <Pagination count={catPages} page={catPage} onChange={handleChange}/> */}
 
       {catPages > 1 && (
