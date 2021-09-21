@@ -20,7 +20,7 @@ const signUpEmail = (req,res,next)=>{
     let mailOptions = {
       from: '"Sikra Jewelry " info@sikrajewelry.com', // sender address (who sends)
       to: `${userEmail}`, // list of receivers (who receives)
-      subject: '', // Subject line
+      subject: 'Welcome to Sikra Jewelry', // Subject line
       text: 'Welcome to Sikra Jewelry', // plaintext body
       html: `<b>Hello ${usersName} </b><br> Thanks for signing up at Sikra Jewelry` // html body
     };
@@ -59,9 +59,9 @@ const orderEmail = (req,res,next)=>{
     let mailOptions = {
       from: '"Sikra Jewelry " info@sikrajewelry.com', // sender address (who sends)
       to: `${userEmail}`, // list of receivers (who receives)
-      subject: '', // Subject line
+      subject: 'Order Confirmation', // Subject line
       text: `Hello ${usersName}, thanks for purchasing from Sikra Jewelry`, // plaintext body
-      html: `<b>Hello ${usersName},</b><br>Thanks for supporting a small business by purchasing from Sikra Jewelry. Look at the order here: <a href = 'http://www.sikrajewelry.com/orders/${orderId}'>${orderId}<a/>` // html body
+      html: `<b>Hello ${usersName},</b><br>Thanks for supporting a small business by purchasing from Sikra Jewelry. Look at your order here: <a href = 'http://www.sikrajewelry.com/orders/${orderId}'>${orderId}<a/>` // html body
     };
     transporter.sendMail(mailOptions, function(error, info){
       if(error){
@@ -97,7 +97,7 @@ const orderNotificationEmail = (req,res,next)=>{
     let mailOptions = {
       from: '"Us " info@sikrajewelry.com', // sender address (who sends)
       to: 'info@sikrajewelry.com', // list of receivers (who receives)
-      subject: '', // Subject line
+      subject: 'New Order', // Subject line
       text: `Hello Miklos & Sara, You have a new order!`, // plaintext body
       html: `<b>Hello Miklos & Sara, You have a new order!</b><br>Look at the order here: <a href = 'http://www.sikrajewelry.com/orders/${orderId}'>${orderId}<a/>` // html body
     };
@@ -135,7 +135,7 @@ const shippingNotificationEmail = (req,res,next)=>{
     let mailOptions = {
       from: '"Sikra Jewelry " info@sikrajewelry.com', // sender address (who sends)
       to: `${userEmail}`, // list of receivers (who receives)
-      subject: '', // Subject line
+      subject: 'your order has shipped', // Subject line
       text: `Hello ${usersName}, Your order has shipped!`, // plaintext body
       html: `<b>Hello ${usersName},</b><br>Your order has shipped!  Check order status and tracking here: <a href = 'http://www.sikrajewelry.com/orders/${orderId}'>${orderId}<a/>` // html body
     };
@@ -173,7 +173,7 @@ const emailResetLink = (req,res,next)=>{
     let mailOptions = {
       from: '"Sikra Jewelry " info@sikrajewelry.com', // sender address (who sends)
       to: 'mikloskertesz@hotmail.com', // list of receivers (who receives)
-      subject: '', // Subject line
+      subject: 'Password reset link', // Subject line
       text: `Hello Miklos & Sara, You have a new order!`, // plaintext body
       html: `<b>Hello,</b><br>click <a href="http://www.sikrajewelry.com/passwordreset/${req.body.email}/${res.locals.token}">this link</a> to reset your password.` // html body
     };
