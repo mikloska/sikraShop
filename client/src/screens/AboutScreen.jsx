@@ -12,7 +12,7 @@ const AboutScreen = () =>{
   return (
     <div className={classes.root} style={{marginTop:35, marginBottom: 45, padding:20}}>
        <Typography variant='h4' style={{marginBottom:40}}>About Us</Typography>
-      <Grid container justifyContent='center' spacing={3}>
+      <Grid container justifyContent='center' spacing={5}>
         <Grid item md={5} sm={12} xs={12}>
           <img style={{width:'100%'}}src='../../images/Bodiam_029_large.jpg'/>
         </Grid>
@@ -24,7 +24,7 @@ const AboutScreen = () =>{
 
           <Typography variant='h6' style={{marginTop:20}}>Sikra Jewelry</Typography>
           <Typography>
-          Sikra Jewelry was founded in 2014 and our designer Sara Vajda has been working on perfecting her unique, handcrafted pieces ever since. She draws her inspiration from nature and her jewelry reflects the patterns and forms she encounters in diverse landscapes like forests, deserts, rivers and oceans. All of these pieces are crafted from high quality recycled gold and nickel-free silver and are finished with lead-free enamel.  At Sikra Jewelry we are always dreaming up unique ways to blend elements from nature, folk motifs and the modern world in a way that brings to life unique wearable works of art.  We invite you to celebrate nature by adding our unique pieces to your own collection or giving them as gifts.
+          Sikra Jewelry was founded in 2014 and our designer Sára Vajda has been working on perfecting her unique, handcrafted pieces ever since. She draws her inspiration from nature and her jewelry reflects the patterns and forms she encounters in diverse landscapes like forests, deserts, rivers and oceans. All of these pieces are crafted from high quality recycled gold and nickel-free silver and are finished with lead-free enamel.  At Sikra Jewelry we are always dreaming up unique ways to blend elements from nature, folk motifs and the modern world in a way that brings to life unique wearable works of art.  We invite you to celebrate nature by adding our unique pieces to your own collection or giving them as gifts.
           </Typography>
         </Grid>
       </Grid>

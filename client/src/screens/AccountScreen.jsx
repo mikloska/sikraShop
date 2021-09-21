@@ -263,7 +263,7 @@ const AccountScreen = ({ location, history }) => {
                 <StyledTableCell>DATE</StyledTableCell>
                 <StyledTableCell>TOTAL</StyledTableCell>
                 <StyledTableCell>PAID</StyledTableCell>
-                <StyledTableCell>DELIVERED</StyledTableCell>
+                <StyledTableCell>SHIPPED</StyledTableCell>
                 {/* <StyledTableCell></StyledTableCell> */}
               </StyledTableRow>
             </TableHead>
