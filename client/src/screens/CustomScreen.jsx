@@ -1,24 +1,22 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles';
-import {Avatar, Button, Card, CssBaseline, TextField, Link, Grid, Box, Paper, Checkbox, Typography, Divider, Container} from '@material-ui/core';
-import { Carousel } from 'react-responsive-carousel';
 
-const useStyles = makeStyles((theme) => ({
-  Image:{
-    width:'80px'
-  }
-}));
+import {Avatar, Button, Card, CssBaseline, TextField, Link, Grid, Box, Paper, Checkbox, Typography, Divider, Container} from '@material-ui/core';
+import CustomGallery from '../components/CustomGallery'
+
+
 
 const CustomScreen = () =>{
-  const classes = useStyles();
+
+  
   return (
     <div style={{marginTop:35, marginBottom: 45, padding:20}}>
+      
       <Typography variant='h4' style={{marginBottom:40}}>Custom Pieces</Typography>
       
-      <Paper pt={0} elevation={7}>
-
-      <Carousel>
-        <div style={{width:400}}>
+      {/* <Paper pt={0} elevation={7}> */}
+      <CustomGallery/>
+      {/* <ImageGallery items={images} /> */}
+        {/* <div style={{width:400}}>
             <img className={classes.Images} src="https://sikra.s3.us-east-2.amazonaws.com/favorites/custom1.jpg" />
             <p className="legend">Legend 1</p>
         </div>
@@ -53,12 +51,13 @@ const CustomScreen = () =>{
         <div>
             <img className={classes.Images} src="https://sikra.s3.us-east-2.amazonaws.com/favorites/custom9.jpg" />
             <p className="legend">Legend 3</p>
-        </div>
-            </Carousel>
+        </div> */}
+            
 
     
         
-      </Paper>
+      {/* </Paper> */}
+      
     </div>
 
   )
