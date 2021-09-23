@@ -163,7 +163,7 @@ const ProductScreen = ({history, match}) =>{
           
           :<Loader/>}
           {product.image ? product.image.map(image =>(
-          <img src={image} key={image} style={{width:'100px', padding:'4px', cursor: 'pointer'}} className={classes.Image} alt={product.name} onClick={()=>updateImage(image)}/>
+          <img src={image} key={image} style={{width:'100px', paddingRight:4, paddingTop:4,cursor: 'pointer'}} className={classes.Image} alt={product.name} onClick={()=>updateImage(image)}/>
         )) : <Loader/>}
         </Grid>
         

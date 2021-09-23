@@ -293,7 +293,7 @@ const Navbar= () => {
 
           <Typography variant="h6" className={classes.title} component={RouterLink} to='/'>
             <img
-              src={'./images/logo.png'}
+              src={'https://sikra.s3.us-east-2.amazonaws.com/logo-%2Bhigh%2Bres4.png'}
               alt="logo"
               className={classes.logo}
             />

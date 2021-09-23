@@ -38,7 +38,7 @@ const PORT = process.env.PORT || 3000;
 //Needed to be able to use JSON data in request body
 app.use(express.json())
 
-app.get('/', (req, res) => res.send('API is running'));
+// app.get('/', (req, res) => res.send('API is running'));
 app.use('/api/email', emailRoutes)
 app.use('/api/products', productRoutes)
 app.use('/api/users', userRoutes)
@@ -47,10 +47,6 @@ app.get('/api/config/paypal', (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
 )
 app.use('/api/upload', uploadRoutes)
-//Error handling
-//Error handling for non-existant routes
-app.use(notFound)
-app.use(errorHandler)
 
 // app.use(express.urlencoded({extended:true}))
 // app.use(
@@ -66,10 +62,24 @@ app.use(errorHandler)
 // app.use(passport.session())
 
 // statically serve everything in the build folder on the route '/build'
-// app.use('/build', express.static(path.join(__dirname, '../build')));
-app.use('/build', express.static('../build'));
 const __dirname = path.resolve()
+// app.use('/build', express.static(path.join(__dirname, '/build')));
+// app.use('/build', express.static('../build'));
+
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
+
+if (process.env.NODE_ENV === 'production') {
+  // console.log('In production')
+  app.use(express.static(path.join(__dirname, '/build')))
+
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, 'build', 'index.html'))
+  )
+} else {
+  app.get('/', (req, res) => {
+    res.send('API is running....')
+  })
+}
 
 // app.get('/', (req, res) => {
 //   res.sendFile(path.join(__dirname, '../index.html'));
@@ -79,8 +89,11 @@ app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 //Start Server
 
 
-
+//Error handling
+//Error handling for non-existant routes
 // Catch-all to unknown routes (404)
+app.use(notFound)
+app.use(errorHandler)
 app.use((req,res) => res.status(404).send('not found'))
 
 //This has has been moved to db.js

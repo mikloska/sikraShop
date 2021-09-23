@@ -47,7 +47,7 @@ const __dirname = path.dirname(__filename);
   },
   devServer: {
     historyApiFallback: true,
-    publicPath: '/build',
+    publicPath: '/build/',
     proxy: {
       '/api': {
         target: 'http://localhost:3000',
