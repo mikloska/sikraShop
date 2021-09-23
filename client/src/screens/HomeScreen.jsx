@@ -44,7 +44,7 @@ const HomeScreen = ({match}) => {
         strength={-200}
       >
         
-        <div style={{width:'100%', height: '750px'}} />
+        <div style={{width:'100vw', height: '750px'}} />
       </Parallax>
       <Parallax
         
@@ -54,7 +54,7 @@ const HomeScreen = ({match}) => {
         strength={-200}
       >
         
-        <div style={{width:'100%', height: '750px'}} />
+        <div style={{width:'100vw', height: '750px'}} />
       </Parallax>
       <Parallax
         
@@ -63,7 +63,7 @@ const HomeScreen = ({match}) => {
         bgImageAlt="owls"
         strength={-200}
       >
-      <div style={{width:'100%', height: '750px'}} />
+      <div style={{width:'100%vw', height: '750px'}} />
       </Parallax>
       <Parallax
         
@@ -73,7 +73,7 @@ const HomeScreen = ({match}) => {
         strength={-200}
       >
         
-        <div style={{width:'100%', height: '750px'}} />
+        <div style={{width:'100vw', height: '750px'}} />
       </Parallax>
       <Parallax
         
