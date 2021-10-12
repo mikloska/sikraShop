@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import {Table, TableBody, TableCell, TableContainer, TableHead, Button, TableRow, IconButton, Grid, Box, Paper, Typography, Divider, Container} from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import {Table, TableBody, TableCell, TableContainer, TableHead, Button, TableRow, IconButton, Grid, Box, Paper, Tabs,Tab, Typography, Radio, RadioGroup} from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Message from '../components/Message'
@@ -11,8 +11,8 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
 import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
-import {listProducts, deleteProduct, createProduct} from '../actions/productActions'
-import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
+import {listProducts, deleteProduct, createProduct, listProductByCategory} from '../actions/productActions'
+import { PRODUCT_CREATE_RESET, PRODUCT_CATEGORY_LIST_RESET } from '../constants/productConstants'
 import Paginate from '../components/Paginate'
 
 const useStyles = makeStyles((theme) => ({
@@ -57,7 +57,13 @@ const StyledTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 const ProductListScreen = ({history, match}) => {
+  const [category, setCategory]=useState('')
   const pageNumber = match.params.pageNumber || 1  
+  //Grab category from url
+  const current = match.path.split('/admin/productlist')[1]
+  //Grab redux category to update with current category from url in useEffect
+  const productListCategory = useSelector(state => state.productListCategory)
+  const {loading:loadingCat, error: catErr, productsCategory, catPage, catPages} = productListCategory
   const dispatch = useDispatch()
   const classes = useStyles();
   const productList = useSelector((state) => state.productList)
@@ -88,17 +94,36 @@ const ProductListScreen = ({history, match}) => {
     }
 
     if (successCreate) {
+      dispatch({type:PRODUCT_CATEGORY_LIST_RESET})
       history.push(`/admin/product/${createdProduct._id}/edit`)
-    } else {
+    } 
+    else {
+      if(current.includes('necklaces')||current.includes('earrings')||current.includes('rings')||current.includes('bracelets')){
+        dispatch(listProductByCategory(current.split('/')[1], pageNumber))
+      }
+      // else{
+      //   dispatch(listProducts('', pageNumber))
+      // }
+      dispatch({type:PRODUCT_CATEGORY_LIST_RESET})
       //Empty string bc first arg is keyword
       dispatch(listProducts('', pageNumber))
     }
-  }, [dispatch, history, userInformation, successDelete, successCreate, createdProduct, pageNumber])
+  }, [dispatch, history, userInformation, successDelete, successCreate, createdProduct, match, pageNumber])
 
   const deleteHandler = (id) => {
     if (window.confirm('Are you sure')) {
       //Delete product here
       dispatch(deleteProduct(id))
+    }
+  }
+  const sort=(route)=>{
+    if(route==='all'){
+      dispatch({type:PRODUCT_CATEGORY_LIST_RESET})
+      dispatch(listProducts('', pageNumber))
+      history.push('/admin/productlist')
+    }
+    else{
+      history.push(`/admin/productlist/${route}`)
     }
   }
   
@@ -115,6 +140,15 @@ const ProductListScreen = ({history, match}) => {
           </Button>
         </Grid>
       </Grid>
+      {/* <Grid container spacing={10}> */}
+        <RadioGroup value={(current.includes('necklaces')||current.includes('earrings')||current.includes('rings')||current.includes('bracelets'))?current.split('/')[1]:'all'} onChange={(e) => sort(e.target.value)} row>
+          <FormControlLabel control={<Radio  id='necklaces' value='all' name="category" />} label='All' />
+          <FormControlLabel control={<Radio  id='necklaces' value='necklaces' name="category" />} label='Necklaces & Pendants' />
+          <FormControlLabel control={<Radio  id='earrings' value='earrings' name="category" />} label='Earrings' />
+          <FormControlLabel control={<Radio  id='rings' value='rings' name="category" />} label='Rings' />
+          <FormControlLabel control={<Radio  id='bracelets' value='bracelets' name="category" />} label='Bracelets' />
+        </RadioGroup>
+
       {loadingDelete && <Loader/>}
       {errorDelete && <Message severity='error'>{errorDelete}</Message>}
       {loadingCreate && <Loader/>}
@@ -137,7 +171,30 @@ const ProductListScreen = ({history, match}) => {
         </StyledTableRow>
       </TableHead>
       <TableBody>
-      {products.map((product) => (
+      {/* Display products by category if displaying by cat, if not display all */}
+      {productsCategory && productsCategory.length>0?(
+        productsCategory.map((product) => (
+          <StyledTableRow key={product._id}>
+            <StyledTableCell>
+              <RouterLink style={{color:'#067e78'}} to={`/product/${product._id}`}>{product._id}</RouterLink>
+            </StyledTableCell>
+            <StyledTableCell>{product.name}</StyledTableCell>
+            <StyledTableCell>${product.price}</StyledTableCell>
+            <StyledTableCell>{product.category}</StyledTableCell>
+            <StyledTableCell>
+              <div style={{float:'right'}}>
+                <RouterLink to={`/admin/product/${product._id}/edit`}>
+                  <IconButton ><EditIcon/></IconButton>
+                </RouterLink>
+                <IconButton onClick={() => deleteHandler(product._id)}><DeleteForeverIcon style={{color:'#d11919'}}/></IconButton>
+              </div>
+            </StyledTableCell>
+            
+          </StyledTableRow>
+        ))
+
+      ):
+      products.map((product) => (
         <StyledTableRow key={product._id}>
           <StyledTableCell>
             <RouterLink style={{color:'#067e78'}} to={`/product/${product._id}`}>{product._id}</RouterLink>
@@ -160,9 +217,17 @@ const ProductListScreen = ({history, match}) => {
     </Table>
     </TableContainer>
     )}
+    {/* {((!current.includes('necklaces')||!current.includes('earrings')||!current.includes('rings')||!current.includes('bracelets')))? ( */}
     <Grid container justifyContent='center' style = {{marginTop: 30}}>
-      <Paginate pages={pages} page={page} isAdmin={true} handleScrollClick={handleScrollClick} />
+      <Paginate keyword={current.includes('necklaces')?'necklaces':current.includes('earrings')?'earrings':current.includes('rings')?'rings':current.includes('bracelets')?'bracelets':''} 
+      pages={!current.includes('necklaces')||!current.includes('earrings')||!current.includes('rings')||!current.includes('bracelets')?pages:catPages} page={!current.includes('necklaces')||!current.includes('earrings')||!current.includes('rings')||!current.includes('bracelets')?page:catPage} isAdmin={true} handleScrollClick={handleScrollClick} />
     </Grid>
+    {/* ):
+    (current.includes('necklaces')||current.includes('earrings')||current.includes('rings')||current.includes('bracelets'))? (
+    <Grid container justifyContent='center' style = {{marginTop: 30}}>
+      <Paginate pages={catPages} page={catPage} keyword={current} isAdmin={true} handleScrollClick={handleScrollClick} />
+    </Grid>
+    ):null} */}
   </div>
 
   )

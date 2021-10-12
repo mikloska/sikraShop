@@ -177,6 +177,7 @@ const ProductScreen = ({history, match}) =>{
           <List>
             <ListItem>
               <Typography style={{fontSize:'30px'}}>{product.name}</Typography>
+              {userInformation.isAdmin&&<Button onClick={()=>history.push(`/admin/product/${product._id}/edit`)} style={{marginLeft:30, color:'white',backgroundColor:'#067e78',}}>Edit Product</Button>}
             </ListItem>
             <Divider light />
             {product.reviews.length > 1 &&

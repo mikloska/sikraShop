@@ -15,8 +15,10 @@ import { useHistory } from "react-router-dom";
 const CategoryScreen = ({match}) => {
   const pageNumber = match.params.pageNumber || 1
   const dispatch = useDispatch()
+  //Grab category from url
   const current = match.path.split('/')[1]
   // const [products,setProducts] = useState([])
+  //Grab redux category to update with current category from url in useEffect
   const productListCategory = useSelector(state => state.productListCategory)
   const {loading, error, productsCategory, catPage, catPages} = productListCategory
 
