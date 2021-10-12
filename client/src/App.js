@@ -108,6 +108,14 @@ const App = (showBelow) => {
               <Route path='/admin/userlist' component={UserListScreen}/>
               <Route path='/admin/user/:id/edit' component={UserEditScreen}/>
               <Route path='/admin/productlist' component={ProductListScreen} exact/>
+              <Route path='/admin/productlist/necklaces/page:pageNumber' component={ProductListScreen}/>
+              <Route path='/admin/productlist/earrings/page:pageNumber' component={ProductListScreen}/>
+              <Route path='/admin/productlist/rings/page:pageNumber' component={ProductListScreen}/>
+              <Route path='/admin/productlist/bracelets/page:pageNumber' component={ProductListScreen}/>
+              <Route path='/admin/productlist/necklaces' component={ProductListScreen}/>
+              <Route path='/admin/productlist/earrings' component={ProductListScreen}/>
+              <Route path='/admin/productlist/rings' component={ProductListScreen}/>
+              <Route path='/admin/productlist/bracelets' component={ProductListScreen}/>
               <Route path='/admin/productlist/page:pageNumber' component={ProductListScreen}/>
               <Route path='/admin/product/:id/edit' component={ProductEditScreen}/>
               <Route path ='/forgotpassword' component={ForgotPasswordScreen}/>

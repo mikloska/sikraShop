@@ -17,6 +17,8 @@ const Paginate = ({ pages, page, isAdmin = false, keyword = '', handleScrollClic
       }else{
         history.push(`/page${value}`)
       }
+    }else if(isAdmin && keyword){
+      history.push(`/admin/productlist/${keyword}/page${value}`)
     }else{
       history.push(`/admin/productlist/page${value}`)
     }
