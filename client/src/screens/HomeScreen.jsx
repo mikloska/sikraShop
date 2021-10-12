@@ -8,9 +8,17 @@ import { Parallax, Background } from 'react-parallax';
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import Paginate from '../components/Paginate'
+import { makeStyles} from '@material-ui/core/styles';
 // import airpods from '../../../images/airpods.jpg'
 
+// import {DropzoneArea} from 'material-ui-dropzone'
 
+const useStyles = makeStyles((theme) => ({
+  Image:{
+    
+  }
+
+}));
 
 const HomeScreen = ({match}) => {
   // const handleScrollClick = () => {

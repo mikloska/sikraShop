@@ -72,20 +72,25 @@ const ProductEditScreen = ({ match, history }) => {
     if (successUpdate) {
       dispatch({ type: PRODUCT_UPDATE_RESET })
       // history.push('/admin/productlist')
+      //Clear out image in state to be able to add new image
       setImage('')
     } else {
       if (!product || product._id !== productId) {
+        //Attempt to get product details if ids don't match
         dispatch(listProductDetails(productId))
-      } else {
+      } 
+      else {
         setName(product.name)
         setPrice(product.price)
-        setImages(product.image)
+        if(imagesArr)setImages(product.image)
         setCategory(product.category)
         setCountInStock(product.countInStock)
         setDescription(product.description)
       }
     }
   }, [dispatch, history, productId, product, successUpdate])
+  //Back to product list screen when done editing
+  const leave=()=>history.push('/admin/productlist')
   
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -117,9 +122,11 @@ const ProductEditScreen = ({ match, history }) => {
       console.error(error)
       setUploading(false)
     }
+    //Clear out image in state to be clear file name from form
+    // setImage('')
   }
   const handleImageDelete = (pic) => {
-    imagesArr.pop()
+    // imagesArr.pop()
     dispatch(deleteProductImage({_id:productId, pic}))
 
   }
@@ -134,7 +141,8 @@ const ProductEditScreen = ({ match, history }) => {
         </IconButton>
       </div>))
 
-    }  else{
+    }  
+    else{
       imagesArr = (<Loader/>)
     } 
 
@@ -210,6 +218,9 @@ const ProductEditScreen = ({ match, history }) => {
                   />
                   <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
                     Update
+                  </Button>
+                  <Button fullWidth variant="contained" color="primary" className={classes.submit} onClick={()=>leave()}>
+                    Done
                   </Button>
                 </form>
               )}

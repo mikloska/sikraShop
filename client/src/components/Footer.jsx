@@ -63,7 +63,7 @@ export default function Footer({handleScrollClick}) {
       </Grid>
       <Grid item xs={12} style={{textAlign:"center"}}><Typography>Copyright © {new Date().getFullYear()} Sikra Jewelry</Typography></Grid>
 
-    </Grid>
+    </Grid>npm 
     </div>
     
   );

@@ -118,10 +118,10 @@ const createProduct = async(req,res, next) => {
   // console.log('In get product by id controller. Req.params is: ', req.params)
   try{
     const product = new Product({
-      name: 'Sample name',
+      name: 'New',
       price: 0,
       user: req.user._id,
-      image: '/images/sample.jpg',
+      // image: '',
       // category: 'Sample category',
       // brand: "brand",
       countInStock: 5,
