@@ -199,6 +199,13 @@ const ProductScreen = ({history, match}) =>{
             </ListItem>
             <Divider light />
             <ListItem>
+              <ListItemText>
+
+                Category: {product.category==='necklaces'?'Necklaces & Pendants':product.category==='earrings'?'Earrings':product.category==='rings'?'Rings':product.category==='bracelets'?'Bracelets':''}
+                </ListItemText>
+            </ListItem>
+            <Divider light />
+            <ListItem>
               <ListItemText>{product.description}</ListItemText>
             </ListItem>
           </List>
