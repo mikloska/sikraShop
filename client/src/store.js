@@ -5,7 +5,7 @@ import { productDetailsReducer, productListReducer, productDeleteReducer, produc
 productReviewCreateReducer, productTopRatedReducer, productListCategoryReducer, productImageDeleteReducer} from './reducers/productReducers';
 import { basketReducer } from './reducers/basketReducers';
 import {itemCountReducer} from './reducers/itemCountReducers'
-import { userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateReducer, userListReducer, userDeleteReducer, userAdminUpdateReducer } from './reducers/userReducers';
+import { userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateReducer, userListReducer, userDeleteReducer, userAdminUpdateReducer,guestReducer } from './reducers/userReducers';
 import { orderCreateReducer, orderDetailsReducer, orderPayReducer, orderListOfUserReducer, orderListReducer, orderDeliverReducer } from './reducers/orderReducers';
 import {statesReducer,provincesReducer,countriesReducer} from './reducers/locationReducers'
 
@@ -38,6 +38,7 @@ const reducer =  combineReducers({
   states: statesReducer,
   provinces: provincesReducer,
   countries: countriesReducer,
+  guest: guestReducer
 })
 //Check to see if it`s in state. If so, put it into state.
 const basketFromStorage = localStorage.getItem('basketItems')?JSON.parse(localStorage.getItem('basketItems')) : []

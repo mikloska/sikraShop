@@ -5,7 +5,7 @@ import {Typography,Button, Box, Table, TableBody, TableCell, TableContainer, Tab
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { getOrderDetails, payOrder, shipOrder,} from '../actions/orderActions'
+import { getOrderDetails, getGuestOrderDetails,payOrder, shipOrder,} from '../actions/orderActions'
 import axios from 'axios'
 // import { PayPalButton } from 'react-paypal-button-v2'
 import {ORDER_PAY_RESET,  ORDER_SHIP_RESET } from '../constants/orderConstants'
@@ -96,11 +96,12 @@ const OrderScreen = ({ match, history}) => {
   }
 
   useEffect(() => {
+    console.log('match: ',match)
     // dispatch(payOrder(orderId, paymentResult))
-
-    if (!userInformation) {
-      history.push('/login')
-    }
+    //Commented out below so guests can view order. May need to figure out alternate way to protect users
+    // if (!userInformation) {
+    //   history.push('/login')
+    // }
     // if(userInformation.email!==order.user.email) history.push('/')
 
 
@@ -120,7 +121,8 @@ const OrderScreen = ({ match, history}) => {
       //Prevent useEffect loop
       dispatch({ type: ORDER_PAY_RESET })
       dispatch({ type: ORDER_SHIP_RESET })
-      dispatch(getOrderDetails(orderId))
+      dispatch(getGuestOrderDetails(orderId))
+      // dispatch(getOrderDetails(orderId))
     } 
     //else if (!order.isPaid) {
       // if (!window.paypal) {

@@ -9,7 +9,7 @@ import { useHistory } from 'react-router-dom'
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
-import { saveShippingAddress, savePaymentMethod } from '../actions/basketActions'
+import { saveShippingAddress, savePaymentMethod, saveGuestInfo } from '../actions/basketActions'
 import CheckoutSteps from '../components/CheckoutSteps';
 // import easyship from 'easyship'
 
@@ -48,10 +48,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ShippingScreen = ({history}) =>{
+  const guest=useSelector(state=>state.guest.guestCheckout)
   const userLogin = useSelector((state) => state.userLogin)
   const { userInformation } = userLogin
   //Redirect to login if userInfo is empty
-  if(!userInformation) history.push('/login')
+  if(!userInformation&&!guest) history.push('/login')
   const basket = useSelector((state) => state.basket)
   const {basketItems} = basket
   const { shippingAddress } = basket
@@ -59,6 +60,9 @@ const ShippingScreen = ({history}) =>{
   if (basketItems.length === 0) history.push('/')
   const classes = useStyles();
   const dispatch = useDispatch()
+  //Only need email and name here if guest
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const defaultAddress =  shippingAddress ? shippingAddress.address : ''
   const defaultCity =  shippingAddress ? shippingAddress.city : ''
   const defaultZip =  shippingAddress ? shippingAddress.zip : ''
@@ -91,6 +95,7 @@ const ShippingScreen = ({history}) =>{
       e.preventDefault()
       dispatch(saveShippingAddress({ address, city, zip, country, state, province }))
       dispatch(savePaymentMethod('PayPal'))
+      dispatch(saveGuestInfo({name:name, email:email}))
       history.push('/placeorder')
     }
   }
@@ -117,6 +122,22 @@ const ShippingScreen = ({history}) =>{
             {/* {error && <Message severity='error'>{error}</Message>}
             {loading && <Loader />} */}
             <form className={classes.form} noValidate onSubmit={handleSubmit} >
+              {guest&&(
+                <div>
+                <TextField variant="outlined" margin="normal" required fullWidth id="name" label="Name"
+                  name="name" autoComplete="name" value={name}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
+                />
+                <TextField variant="outlined" margin="normal" required fullWidth id="email" label="Email Address"
+                  name="email" autoComplete="email" value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                />
+                </div>
+              )}
               <TextField autoComplete="address" variant="outlined" margin="normal" required fullWidth id="address"
                 label="Address" name="address" autoComplete="address" value={address}
                 onChange={(e) => {

@@ -6,7 +6,7 @@ import {
   USER_UPDATE_SUCCESS, USER_UPDATE_REQUEST, USER_UPDATE_FAILURE, USER_UPDATE_RESET, 
   USER_DETAILS_RESET, USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_LIST_FAILURE, USER_LIST_RESET,
   USER_DELETE_REQUEST, USER_DELETE_SUCCESS, USER_DELETE_FAILURE, USER_ADMIN_UPDATE_REQUEST, USER_ADMIN_UPDATE_SUCCESS, 
-  USER_ADMIN_UPDATE_FAILURE, USER_ADMIN_UPDATE_RESET
+  USER_ADMIN_UPDATE_FAILURE, USER_ADMIN_UPDATE_RESET, GUEST_REQUEST, GUEST_SUCCESS, GUEST_FAILURE, GUEST_RESET
 } from "../constants/userConstants"
 
 import { ORDER_LIST_OF_USER_RESET } from '../constants/orderConstants'
@@ -245,4 +245,21 @@ export const adminUpdateUser = (user) => async (dispatch, getState) => {
       payload: message,
     })
   }
+}
+
+export const guestUpdate=()=>{
+  try{
+    dispatch({type: GUEST_SUCCESS})
+  }
+  catch(error){
+    const message =
+    error.response && error.response.data.message
+      ? error.response.data.message
+      : error.message
+    // dispatch({
+    //   type: GUEST_FAILURE,
+    //   payload: message,
+    // })
+  }
+  
 }

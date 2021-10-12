@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 import User from '../models/userModel.js'
 
 const protectUser = async (req, res, next) => {
-  // console.log('in protectUser controller')
+  console.log('in protectUser controller')
   try{
   let token
 

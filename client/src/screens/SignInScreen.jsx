@@ -10,7 +10,9 @@ import {signIn} from '../actions/userActions'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import CheckoutSteps from '../components/CheckoutSteps'
-import {getUserDetails} from '../actions/userActions'
+import {getUserDetails, guestUpdate} from '../actions/userActions'
+import { guestReducer } from '../reducers/userReducers';
+import { GUEST_SUCCESS } from '../constants/userConstants';
 // import CheckoutScreen from './CheckoutScreen';
 // const CustomLock = withStyles((theme) => ({
 //   lock: {
@@ -55,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SignInScreen = ({ location, history }) => {
   const basketItems=useSelector(state=>state.basket.basketItems)
+  const guest=useSelector(state=>state.guest.guestCheckout)
   const tab = 0
   //Define redirect to send users to route if there is an added redirect
   // const redirect= '/'
@@ -63,6 +66,11 @@ const SignInScreen = ({ location, history }) => {
   const classes = useStyles();
   //state to store input field values
   const dispatch=useDispatch()
+  const guestCheckout=()=>{
+    dispatch({type:GUEST_SUCCESS})
+    history.push('/shipping')
+    // dispatch(guestUpdate())
+  }
   //Get userLogin from state and destructure what we need from it
   const userLogin=useSelector(state=>state.userLogin)
   const {loading,error,userInformation}=userLogin
@@ -71,7 +79,8 @@ const SignInScreen = ({ location, history }) => {
 
   //Redirect if logged in 
   useEffect(()=>{
-    // console.log(redirect)
+    // console.log('guest: ',guest)
+    // if(guest) history.push('/shipping')
     if(userInformation) history.push(redirect)
   },[history, userInformation, redirect])
 
@@ -84,7 +93,7 @@ const SignInScreen = ({ location, history }) => {
 
   return (
     <div style={{marginTop:35, marginBottom: 45, padding:20}}>
-    {basketItems.length>0 && <CheckoutSteps step1 step2 step3 tab={0}/>}
+    {basketItems.length>0 && <CheckoutSteps step1 step2 step3 tab={tab}/>}
     <Container component="main" maxWidth="xs" >
       <Paper pt={0} elevation={7} >
         <Card className={classes.card}>
@@ -125,6 +134,11 @@ const SignInScreen = ({ location, history }) => {
                     <Link component = {RouterLink} to={redirect ? `/signup?redirect=${redirect}`:'/signup'} variant="body2" color='inherit'>
                       {"Don't have an account? Sign Up"}
                     </Link>
+                  </Grid>
+                  <Grid item xs={11} style={{paddingLeft:0,marginBottom: 20}}>
+                    <Button variant="contained" color='inherit' onClick={()=>guestCheckout()}>
+                      <strong>{"Check out as guest"}</strong>
+                    </Button>
                   </Grid>
                 </Grid>
               </form>

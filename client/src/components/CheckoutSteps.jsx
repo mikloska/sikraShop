@@ -13,6 +13,7 @@ import ShippingScreen from '../screens/ShippingScreen'
 import PaymentScreen from '../screens/PaymentScreen'
 
 const CheckoutSteps = (props)=>{
+  
   const { step1, step2, step3, tab} = props
   const basket = useSelector((state) => state.basket)
   const {basketItems} = basket

@@ -56,6 +56,44 @@ export const createOrder = (order) => async (dispatch, getState) => {
   }
 }
 
+export const createGuestOrder = (order) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ORDER_CREATE_REQUEST,
+    })
+
+
+    const { data } = await axios.post(`/api/orders/guest`, order)
+
+    dispatch({
+      type: ORDER_CREATE_SUCCESS,
+      payload: data,
+    })
+    dispatch({
+      type: BASKET_CLEAR_ITEMS,
+      payload: data,
+    })
+    dispatch({
+      type: BASKET_CLEAR_ADDRESS,
+      payload:data,
+    })
+    dispatch({})
+    localStorage.removeItem('basketItems')
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+    if (message === 'Not authorized, token failed') {
+      dispatch(signOut())
+    }
+    dispatch({
+      type: ORDER_CREATE_FAILURE,
+      payload: message,
+    })
+  }
+}
+
 export const getOrderDetails = (id) => async (dispatch, getState) => {
   try {
     dispatch({
@@ -92,6 +130,65 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
     })
   }
 }
+
+export const getGuestOrderDetails = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ORDER_DETAILS_REQUEST,
+    })
+
+
+
+    const { data } = await axios.get(`/api/orders/${id}/guest`)
+
+    dispatch({
+      type: ORDER_DETAILS_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+
+    dispatch({
+      type: ORDER_DETAILS_FAILURE,
+      payload: message,
+    })
+  }
+}
+
+
+export const guestOrder = (orderId, paymentResult) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({
+      type: ORDER_PAY_REQUEST,
+    })
+
+
+    const { data } = await axios.put(`/api/orders/${orderId}/guest/pay`,paymentResult)
+
+    dispatch({
+      type: ORDER_PAY_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+    dispatch({
+      type: ORDER_PAY_FAILURE,
+      payload: message,
+    })
+  }
+}
+
+
+
 
 export const payOrder = (orderId, paymentResult) => async (
   dispatch,

@@ -5,8 +5,7 @@ import {Button, Box, List, ListItem, Table, TableBody, TableCell, TableContainer
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import CheckoutSteps from '../components/CheckoutSteps'
-import { createOrder } from '../actions/orderActions'
-import { getOrderDetails, payOrder, shipOrder,} from '../actions/orderActions'
+import { getOrderDetails, payOrder, payGuestOrder, shipOrder,createOrder, createGuestOrder } from '../actions/orderActions'
 import axios from 'axios'
 import { PayPalButton } from 'react-paypal-button-v2'
 import {ORDER_PAY_RESET,  ORDER_SHIP_RESET,  ORDER_CREATE_RESET } from '../constants/orderConstants'
@@ -58,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const PlaceOrderScreen = ({ history }) => {
+  const guest=useSelector(state=>state.guest.guestCheckout)
   const classes = useStyles();
   const dispatch = useDispatch()
   const states=useSelector(state=>state.states)
@@ -114,8 +114,10 @@ const PlaceOrderScreen = ({ history }) => {
   useEffect(async() => {
     if (success) {
       // dispatch(payOrder(order._id, paymentResult))
-      axios.post('/api/email/order', {usersName:userInformation.name,userEmail:userInformation.email,price:basket.totalPrice, orderId:order._id})
-      axios.post('/api/email/ordernotification', {orderId:order._id})
+      if(!guest) axios.post('/api/email/order', {usersName:userInformation.name,userEmail:userInformation.email,price:basket.totalPrice, orderId:order._id})
+      if(!guest) axios.post('/api/email/ordernotification', {orderId:order._id})
+      if(guest) axios.post('/api/email/order', {usersName:basket.guestInfo.name,userEmail:basket.guestInfo.email,price:basket.totalPrice, orderId:order._id})
+      if(guest) axios.post('/api/email/ordernotification', {orderId:order._id})
       history.push(`/orders/${order._id}`)
       dispatch({type: BASKET_RESET})
       dispatch({type: ORDER_CREATE_RESET})
@@ -129,8 +131,25 @@ const PlaceOrderScreen = ({ history }) => {
     }
   }, [history, success])
   const successPaymentHandler = (paymentResult) => {
+    if(guest){
+      dispatch(
+        createGuestOrder({
+          name:basket.guestInfo.name,
+          email:basket.guestInfo.email,
+          orderItems: basket.basketItems,
+          shippingAddress: basket.shippingAddress,
+          paymentMethod: basket.paymentMethod,
+          itemsPrice: basket.itemsPrice,
+          shippingPrice: basket.shippingPrice,
+          taxPrice: basket.taxPrice,
+          totalPrice: basket.totalPrice,
+          paymentResult: paymentResult
+        })
+    )}
+    if(guest) dispatch(payGuestOrder(order._id, paymentResult))
     
-    dispatch(
+    if(!guest){
+      dispatch(
       createOrder({
         orderItems: basket.basketItems,
         shippingAddress: basket.shippingAddress,
@@ -141,8 +160,9 @@ const PlaceOrderScreen = ({ history }) => {
         totalPrice: basket.totalPrice,
         paymentResult: paymentResult
       })
-    )
-    dispatch(payOrder(order._id, paymentResult))
+    )}
+    if(!guest) dispatch(payOrder(order._id, paymentResult))
+    
     // 
     // console.log(paymentResult)
     // dispatch(payOrder(orderId, paymentResult))

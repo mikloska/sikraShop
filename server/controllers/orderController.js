@@ -19,7 +19,7 @@ const addOrderItems = async (req, res, next) => {
     if (orderItems && orderItems.length === 0) {
       res.status(400)
       throw new Error('No order items')
-      return
+      
     } else {
       const order = new Order({
         orderItems,
@@ -48,6 +48,79 @@ const addOrderItems = async (req, res, next) => {
   }
 }
 
+const addGuestOrderItems = async (req, res, next) => {
+  try{
+    const {
+      name,email,
+      orderItems,
+      shippingAddress,
+      paymentMethod,
+      itemsPrice,
+      taxPrice,
+      shippingPrice,
+      totalPrice,
+      paymentResult
+    } = req.body
+
+    if (orderItems && orderItems.length === 0) {
+      res.status(400)
+      throw new Error('No order items')
+      
+    } else {
+      const order = new Order({
+        name:name,email:email,
+        orderItems,
+        shippingAddress,
+        paymentMethod,
+        itemsPrice,
+        taxPrice,
+        shippingPrice,
+        totalPrice,
+        isPaid : true,
+        paidAt: Date.now(),
+        paymentResult,
+
+
+    })
+
+      const createdOrder = await order.save()
+
+      res.status(201).json(createdOrder)
+      // return next()
+    }
+  } catch(error){
+    console.error(`Error: ${error.message}`.red.underline.bold)
+    return next(`Error adding order items: ${error.message}`)
+  }
+}
+
+// @desc    Get order by ID
+// @route   GET /api/guest/orders/:id
+// @access  Public
+const getGuestOrderById = async (req, res, next) => {
+  // console.log('req.user: ',req.user.email)
+  // console.log('in getOrderById controller')
+  try{
+    //Almost like a foreign key, this goes into the connected user table and grabs the name and email address of buyer. Name and emaila are 2 separate fields.
+    const order = await Order.findById(req.params.id).populate(
+      'user',
+      'name email'
+    )
+    // console.log('order: ',order)
+
+
+    if (order) {
+      res.json(order)
+    } else {
+      res.status(404)
+      throw new Error('Order not found')
+    }
+    // next()
+  } catch(error){
+      console.error(`Error: ${error.message}`.red.underline.bold)
+      return next(`Error getting order: ${error.message}`)
+  }
+}
 // @desc    Get order by ID
 // @route   GET /api/orders/:id
 // @access  Private
@@ -83,6 +156,7 @@ const getOrderById = async (req, res, next) => {
 // @route   GET /api/orders/:id/pay
 // @access  Private
 const updateOrderToPaid = async (req, res, next) => {
+  console.log('In updateOrderToPaid controller')
   try{
     const order = await Order.findById(req.params.id)
 
@@ -103,7 +177,7 @@ const updateOrderToPaid = async (req, res, next) => {
     // return next()
   }catch(error){
     console.error(`Error: ${error.message}`.red.underline.bold)
-    return next(`Error updatting order to paid: ${error.message}`)
+    return next(`Error updateing order to paid: ${error.message}`)
   }
 }
 
@@ -167,9 +241,11 @@ const getOrders = async (req, res, next) => {
 
 export {
   addOrderItems,
+  addGuestOrderItems,
   getOrderById,
   updateOrderToPaid,
   updateOrderToShipped,
   getMyOrders,
   getOrders,
+  getGuestOrderById
 }
