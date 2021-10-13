@@ -159,7 +159,7 @@ export const getGuestOrderDetails = (id) => async (dispatch, getState) => {
 }
 
 
-export const guestOrder = (orderId, paymentResult) => async (
+export const payGuestOrder = (orderId, paymentResult) => async (
   dispatch,
   getState
 ) => {

@@ -10,6 +10,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import {register} from '../actions/userActions'
 import axios from 'axios'
+import {GUEST_FALSE} from '../constants/userConstants';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -72,6 +73,7 @@ const SignUpScreen = ({ isLoggedIn, setIsLoggedIn }) => {
       setMessage('Please fill out all fields!')    
     }else{
       dispatch(register(name,email,password))
+      dispatch({type:GUEST_FALSE})
       axios.post('/api/email/signup',{usersName:name,userEmail:email})
     }
 

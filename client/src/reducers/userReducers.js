@@ -5,7 +5,7 @@ import {
   USER_UPDATE_SUCCESS, USER_UPDATE_REQUEST, USER_UPDATE_FAILURE, USER_UPDATE_RESET, 
   USER_DETAILS_RESET, USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_LIST_FAILURE, USER_LIST_RESET,
   USER_DELETE_REQUEST, USER_DELETE_SUCCESS, USER_DELETE_FAILURE, USER_ADMIN_UPDATE_REQUEST, USER_ADMIN_UPDATE_SUCCESS, 
-  USER_ADMIN_UPDATE_FAILURE, USER_ADMIN_UPDATE_RESET, GUEST_REQUEST, GUEST_SUCCESS, GUEST_FAILURE, GUEST_RESET
+  USER_ADMIN_UPDATE_FAILURE, USER_ADMIN_UPDATE_RESET, GUEST_FALSE, GUEST_TRUE, GUEST_FAILURE, GUEST_RESET
 } from "../constants/userConstants"
 
 
@@ -117,12 +117,15 @@ export const userAdminUpdateReducer = (state = { user: {} }, action) => {
 
 export const guestReducer = (state = {guestCheckout:false}, action) => {
   switch (action.type) {
-    case GUEST_REQUEST:
-      return {
-        loading: true,
+    case GUEST_FALSE:
+      return{
+        guestCheckout: false
       }
-    case GUEST_SUCCESS: return{
-      guestCheckout: true}
+      
+    case GUEST_TRUE: 
+      return{
+        guestCheckout: true
+      }
     case GUEST_FAILURE:
       return {
         loading: false,
