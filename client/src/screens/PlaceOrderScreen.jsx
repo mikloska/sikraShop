@@ -114,11 +114,19 @@ const PlaceOrderScreen = ({ history }) => {
   useEffect(async() => {
     if (success) {
       // dispatch(payOrder(order._id, paymentResult))
-      if(!guest) axios.post('/api/email/order', {usersName:userInformation.name,userEmail:userInformation.email,price:basket.totalPrice, orderId:order._id})
-      if(!guest) axios.post('/api/email/ordernotification', {orderId:order._id})
-      if(guest) axios.post('/api/email/order', {usersName:basket.guestInfo.name,userEmail:basket.guestInfo.email,price:basket.totalPrice, orderId:order._id})
-      if(guest) axios.post('/api/email/ordernotification', {orderId:order._id})
-      history.push(`/orders/${order._id}`)
+      if(!guest){
+        axios.post('/api/email/order', {usersName:userInformation.name,userEmail:userInformation.email,price:basket.totalPrice, orderId:order._id})
+        if(!guest) axios.post('/api/email/ordernotification', {orderId:order._id})
+        history.push(`/orders/${order._id}`)
+      } 
+      
+      if(guest){
+        axios.post('/api/email/order', {usersName:basket.guestInfo.name,userEmail:basket.guestInfo.email,price:basket.totalPrice, orderId:order._id})
+        axios.post('/api/email/ordernotification', {orderId:order._id})
+        history.push(`/orders/${order._id}/guest`)
+      } 
+
+      
       dispatch({type: BASKET_RESET})
       dispatch({type: ORDER_CREATE_RESET})
       // dispatch({ type: USER_DETAILS_RESET })
@@ -134,7 +142,7 @@ const PlaceOrderScreen = ({ history }) => {
     if(guest){
       dispatch(
         createGuestOrder({
-          name:basket.guestInfo.name,
+          guest:basket.guestInfo.name,
           email:basket.guestInfo.email,
           orderItems: basket.basketItems,
           shippingAddress: basket.shippingAddress,

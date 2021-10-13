@@ -51,7 +51,7 @@ const addOrderItems = async (req, res, next) => {
 const addGuestOrderItems = async (req, res, next) => {
   try{
     const {
-      name,email,
+      guest,email,
       orderItems,
       shippingAddress,
       paymentMethod,
@@ -68,7 +68,8 @@ const addGuestOrderItems = async (req, res, next) => {
       
     } else {
       const order = new Order({
-        name:name,email:email,
+        guest:guest,
+        email:email,
         orderItems,
         shippingAddress,
         paymentMethod,
