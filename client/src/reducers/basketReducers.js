@@ -1,8 +1,8 @@
-import {BASKET_ADD_ITEM, BASKET_REMOVE_ITEM, BASKET_SAVE_SHIPPING_ADDRESS, BASKET_SAVE_PAYMENT_METHOD, BASKET_CLEAR_ITEMS,BASKET_CLEAR_ADDRESS,BASKET_RESET, BASKET_SAVE_GUEST_INFO} from '../constants/basketConstants'
-
+import {BASKET_ADD_ITEM, BASKET_REMOVE_ITEM, BASKET_SAVE_SHIPPING_ADDRESS, BASKET_SAVE_PAYMENT_METHOD, BASKET_CLEAR_ITEMS, BASKET_CLEAR_AFTER_ORDER,BASKET_RESET, BASKET_SAVE_GUEST_INFO, BASKET_CLEAR_GUEST_INFO,} from '../constants/basketConstants'
+// BASKET_CLEAR_ADDRESS,BASKET_CLEAR_SHIPPING_PRICE, BASKET_CLEAR_ITEMS_PRICE, BASKET_CLEAR_TOTAL_PRICE, BASKET_CLEAR_TAX_PRICE} 
+const initialState = { basketItems: [], shippingAddress: {} }
 export const basketReducer = (
-  state = { basketItems: [], shippingAddress: {} },
-  action
+  state = { basketItems: [], shippingAddress: {}}, action
 ) => {
   switch (action.type) {
     case BASKET_ADD_ITEM:
@@ -56,10 +56,25 @@ export const basketReducer = (
         ...state,
         basketItems: [],
       }
-    case BASKET_CLEAR_ADDRESS:
+    case BASKET_CLEAR_AFTER_ORDER:
+      delete state.shippingAddress
+      delete state.itemsPrice
+      delete state.shippingPrice
+      delete state.taxPrice
+      delete state.totalPrice
+    // case BASKET_CLEAR_ITEMS_PRICE:
+    //   delete state.itemsPrice
+    // case BASKET_CLEAR_SHIPPING_PRICE:
+    //   delete state.shippingPrice
+    // case BASKET_CLEAR_TAX_PRICE:
+    //   delete state.taxPrice
+    // case BASKET_CLEAR_TOTAL_PRICE:
+    //   delete state.totalPrice
+      
+    case BASKET_CLEAR_GUEST_INFO:
       return {
         ...state,
-        shippingAddress: {},
+        guestInfo: {name:' ',email:' '},
       }
     case BASKET_RESET:
       return {}

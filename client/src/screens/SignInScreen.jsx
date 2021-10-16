@@ -12,7 +12,7 @@ import Loader from '../components/Loader'
 import CheckoutSteps from '../components/CheckoutSteps'
 import {getUserDetails, guestUpdate} from '../actions/userActions'
 import { guestReducer } from '../reducers/userReducers';
-import { GUEST_SUCCESS } from '../constants/userConstants';
+import { GUEST_TRUE, GUEST_FALSE } from '../constants/userConstants';
 // import CheckoutScreen from './CheckoutScreen';
 // const CustomLock = withStyles((theme) => ({
 //   lock: {
@@ -67,7 +67,7 @@ const SignInScreen = ({ location, history }) => {
   //state to store input field values
   const dispatch=useDispatch()
   const guestCheckout=()=>{
-    dispatch({type:GUEST_SUCCESS})
+    dispatch({type:GUEST_TRUE})
     history.push('/shipping')
     // dispatch(guestUpdate())
   }
@@ -87,6 +87,7 @@ const SignInScreen = ({ location, history }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     dispatch(signIn(email,password))
+    dispatch({type:GUEST_FALSE})
     // dispatch(getUserDetails('profile'))
   };
 

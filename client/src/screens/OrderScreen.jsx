@@ -54,7 +54,7 @@ const StyledTableRow = withStyles((theme) => ({
 
 
 
-const OrderScreen = ({ match, history}) => {
+const OrderScreen = ({ match, location, history}) => {
   const orderId= match.params.id
   const classes = useStyles();
   const dispatch = useDispatch()
@@ -81,7 +81,7 @@ const OrderScreen = ({ match, history}) => {
 
   const shipHandler = () => {
     dispatch(shipOrder(order, trackingNumber,trackingLink))
-    axios.post('/api/email/shippingnotification', {usersName:order.user.name,userEmail:order.user.email,orderId:order._id})
+    axios.post('/api/email/shippingnotification', {usersName:location.pathname.includes('guest')?order.guest:order.user.name,userEmail:location.pathname.includes('guest')?order.email:order.user.email,orderId:order._id})
   }
 
 
@@ -94,14 +94,15 @@ const OrderScreen = ({ match, history}) => {
       order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
     )
   }
+  
 
   useEffect(() => {
-    console.log('match: ',match)
+    // console.log('location: ' , location.pathname.includes('guest'))
     // dispatch(payOrder(orderId, paymentResult))
     //Commented out below so guests can view order. May need to figure out alternate way to protect users
-    // if (!userInformation) {
-    //   history.push('/login')
-    // }
+    if (!userInformation&&!location.pathname.includes('guest')) {
+      history.push('/login')
+    }
     // if(userInformation.email!==order.user.email) history.push('/')
 
 
@@ -168,7 +169,7 @@ const OrderScreen = ({ match, history}) => {
               <ListItemText>
                 <Grid container justifyContent="flex-start" >
                   <Grid item><strong>Name: </strong>
-                  {' '}{order.user.name}
+                  {' '}{location.pathname.includes('guest')? order.guest:order.user.name}
                   </Grid>
                 </Grid>
 
@@ -179,7 +180,7 @@ const OrderScreen = ({ match, history}) => {
               <ListItemText>
                 <Grid container justifyContent="flex-start" >
                   <Grid item><strong>Email: </strong>
-                  {' '}<a href={`mailto:${order.user.email}`} style={{color:'#067e78'}}>{order.user.email}</a>
+                  {' '}<a href={`mailto:${location.pathname.includes('guest')?order.email:order.user.email}`} style={{color:'#067e78'}}>{location.pathname.includes('guest')?order.email:order.user.email}</a>
                   </Grid>
                 </Grid>
 
