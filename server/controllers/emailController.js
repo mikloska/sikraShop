@@ -43,7 +43,8 @@ const signUpEmail = (req,res,next)=>{
 
 const orderEmail = (req,res,next)=>{
   try{
-    const {usersName, userEmail, price, orderId } = req.body
+    console.log(req.body)
+    const {usersName, userEmail, price, orderId,guest } = req.body
     let transporter = nodemailer.createTransport({
       host: "smtp-mail.outlook.com", // hostname
       secureConnection: false, // TLS requires secureConnection to be false
@@ -56,12 +57,15 @@ const orderEmail = (req,res,next)=>{
           pass: process.env.PW
       }
     });
+    if(guest){
+
+    }
     let mailOptions = {
       from: '"Sikra Jewelry " info@sikrajewelry.com', // sender address (who sends)
       to: `${userEmail}`, // list of receivers (who receives)
       subject: 'Order Confirmation', // Subject line
       text: `Hello ${usersName}, thanks for purchasing from Sikra Jewelry`, // plaintext body
-      html: `<b>Hello ${usersName},</b><br>Thanks for supporting a small business by purchasing from Sikra Jewelry. Look at your order here: <a href = 'http://www.sikrajewelry.com/orders/${orderId}'>${orderId}<a/>` // html body
+      html: `<b>Hello ${usersName},</b><br>Thanks for supporting a small business by purchasing from Sikra Jewelry. Look at your order here: <a href = 'http://www.sikrajewelry.com/orders/${orderId}${guest?`/guest`:''}'>${orderId}<a/>` // html body
     };
     transporter.sendMail(mailOptions, function(error, info){
       if(error){
@@ -81,7 +85,8 @@ const orderEmail = (req,res,next)=>{
 
 const orderNotificationEmail = (req,res,next)=>{
   try{
-    const {orderId} = req.body
+    console.log(req.body)
+    const {orderId, guest} = req.body
     let transporter = nodemailer.createTransport({
       host: "smtp-mail.outlook.com", // hostname
       secureConnection: false, // TLS requires secureConnection to be false
@@ -94,12 +99,13 @@ const orderNotificationEmail = (req,res,next)=>{
           pass: process.env.PW
       }
     });
+    
     let mailOptions = {
       from: '"Us " info@sikrajewelry.com', // sender address (who sends)
       to: 'info@sikrajewelry.com', // list of receivers (who receives)
       subject: 'New Order', // Subject line
       text: `Hello Miklos & Sara, You have a new order!`, // plaintext body
-      html: `<b>Hello Miklos & Sara, You have a new order!</b><br>Look at the order here: <a href = 'http://www.sikrajewelry.com/orders/${orderId}'>${orderId}<a/>` // html body
+      html: `<img src='https://sikra.s3.us-east-2.amazonaws.com/logo-%2Bhigh%2Bres4.png'/><br></br><b>Hello Miklos & Sara, You have a new order!</b><br>Look at the order here: <a href = 'http://www.sikrajewelry.com/orders/${orderId}'>${orderId}<a/>` // html body
     };
     transporter.sendMail(mailOptions, function(error, info){
       if(error){

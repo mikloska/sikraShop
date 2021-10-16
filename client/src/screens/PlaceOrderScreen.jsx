@@ -13,7 +13,7 @@ import {BASKET_RESET} from '../constants/basketConstants'
 import Loader from '../components/Loader'
 
 
-// import { ORDER_CREATE_RESET } from '../constants/orderConstants'
+
 // import { USER_DETAILS_RESET } from '../constants/userConstants'
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -113,23 +113,23 @@ const PlaceOrderScreen = ({ history }) => {
 
   useEffect(async() => {
     if (success) {
+
+      // dispatch({ type: USER_DETAILS_RESET })
+     
       // dispatch(payOrder(order._id, paymentResult))
       if(!guest){
-        axios.post('/api/email/order', {usersName:userInformation.name,userEmail:userInformation.email,price:basket.totalPrice, orderId:order._id})
-        if(!guest) axios.post('/api/email/ordernotification', {orderId:order._id})
+        axios.post('/api/email/order', {usersName:userInformation.name,userEmail:userInformation.email,price:basket.totalPrice, orderId:order._id, guest:guest})
         history.push(`/orders/${order._id}`)
       } 
       
       if(guest){
-        axios.post('/api/email/order', {usersName:basket.guestInfo.name,userEmail:basket.guestInfo.email,price:basket.totalPrice, orderId:order._id})
-        axios.post('/api/email/ordernotification', {orderId:order._id})
+        axios.post('/api/email/order', {usersName:basket.guestInfo.name,userEmail:basket.guestInfo.email,price:basket.totalPrice, orderId:order._id, guest:guest})
         history.push(`/orders/${order._id}/guest`)
       } 
+      axios.post('/api/email/ordernotification', {orderId:order._id})
 
-      
-      dispatch({type: BASKET_RESET})
-      dispatch({type: ORDER_CREATE_RESET})
-      // dispatch({ type: USER_DETAILS_RESET })
+
+      // // dispatch({ type: USER_DETAILS_RESET })
       // dispatch({ type: ORDER_CREATE_RESET })
     }
     if (!window.paypal) {
@@ -140,6 +140,8 @@ const PlaceOrderScreen = ({ history }) => {
   }, [history, success])
   const successPaymentHandler = (paymentResult) => {
     if(guest){
+      // dispatch({type: BASKET_RESET})
+      // dispatch({type: ORDER_CREATE_RESET})
       dispatch(
         createGuestOrder({
           guest:basket.guestInfo.name,
@@ -157,23 +159,26 @@ const PlaceOrderScreen = ({ history }) => {
     if(guest) dispatch(payGuestOrder(order._id, paymentResult))
     
     if(!guest){
+      // dispatch({type: BASKET_RESET})
+      // dispatch({type: ORDER_CREATE_RESET})
       dispatch(
-      createOrder({
-        orderItems: basket.basketItems,
-        shippingAddress: basket.shippingAddress,
-        paymentMethod: basket.paymentMethod,
-        itemsPrice: basket.itemsPrice,
-        shippingPrice: basket.shippingPrice,
-        taxPrice: basket.taxPrice,
-        totalPrice: basket.totalPrice,
-        paymentResult: paymentResult
-      })
+        createOrder({
+          orderItems: basket.basketItems,
+          shippingAddress: basket.shippingAddress,
+          paymentMethod: basket.paymentMethod,
+          itemsPrice: basket.itemsPrice,
+          shippingPrice: basket.shippingPrice,
+          taxPrice: basket.taxPrice,
+          totalPrice: basket.totalPrice,
+          paymentResult: paymentResult
+        })
     )}
     if(!guest) dispatch(payOrder(order._id, paymentResult))
     
     // 
     // console.log(paymentResult)
     // dispatch(payOrder(orderId, paymentResult))
+    // dispatch({type: BASKET_RESET})
   }
   const placeOrderHandler = () => {
     // dispatch(
@@ -199,6 +204,16 @@ const PlaceOrderScreen = ({ history }) => {
             <ListItem>
               <ListItemText>
                 <Grid container justifyContent="center" >
+                  <Grid item>
+                    {guest?basket.guestInfo.name:userInformation.name}
+                  </Grid>
+                </Grid>
+              </ListItemText>
+            </ListItem>
+            <ListItem>
+              <ListItemText>
+                <Grid container justifyContent="center" >
+                  
                   <Grid item><strong>Shipping Address: </strong>
                   {' '}{basket.shippingAddress.address} {basket.shippingAddress.city},{' '}
                   {basket.shippingAddress.state!==''&& basket.shippingAddress.state}{basket.shippingAddress.province!==''&& basket.shippingAddress.province}{' '}

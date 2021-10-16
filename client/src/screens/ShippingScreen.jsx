@@ -61,8 +61,8 @@ const ShippingScreen = ({history}) =>{
   const classes = useStyles();
   const dispatch = useDispatch()
   //Only need email and name here if guest
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  const [name, setName] = useState(' ');
+  const [email, setEmail] = useState(' ');
   const defaultAddress =  shippingAddress ? shippingAddress.address : ''
   const defaultCity =  shippingAddress ? shippingAddress.city : ''
   const defaultZip =  shippingAddress ? shippingAddress.zip : ''
@@ -93,12 +93,16 @@ const ShippingScreen = ({history}) =>{
     }
     else{
       e.preventDefault()
+      dispatch(saveGuestInfo({name:name, email:email}))
       dispatch(saveShippingAddress({ address, city, zip, country, state, province }))
       dispatch(savePaymentMethod('PayPal'))
-      dispatch(saveGuestInfo({name:name, email:email}))
+      
       history.push('/placeorder')
     }
   }
+
+
+  
 
   useEffect(() => {
 
@@ -125,13 +129,16 @@ const ShippingScreen = ({history}) =>{
               {guest&&(
                 <div>
                 <TextField variant="outlined" margin="normal" required fullWidth id="name" label="Name"
-                  name="name" autoComplete="name" value={name}
+                  /*The dispatch function causes issues if the user is not a guest and it dispatches an empty string. Therefore, 
+                  I added 'name' and 'email' to be default values of name and email. This ternary makes sure that nothing is in 
+                  the text box as default value instead of the word name and email*/
+                  name="name" autoComplete="name" value={name==='name'?'':name}
                   onChange={(e) => {
                     setName(e.target.value);
                   }}
                 />
                 <TextField variant="outlined" margin="normal" required fullWidth id="email" label="Email Address"
-                  name="email" autoComplete="email" value={email}
+                  name="email" autoComplete="email" value={email==='email'?'':email}
                   onChange={(e) => {
                     setEmail(e.target.value);
                   }}
