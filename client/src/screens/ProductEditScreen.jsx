@@ -220,7 +220,7 @@ const ProductEditScreen = ({ match, history }) => {
                     onChange={(e) => {setDescription(e.target.value);}} placeholder={'Description'} name="description"
                   />
                   <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
-                    Update
+                    Save
                   </Button>
                   <Button fullWidth variant="contained" color="primary" className={classes.submit} onClick={()=>leave()}>
                     Done

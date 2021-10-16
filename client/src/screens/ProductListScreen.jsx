@@ -87,6 +87,7 @@ const ProductListScreen = ({history, match}) => {
   }
 
   useEffect(() => {
+    // console.log('current: ',current)
     dispatch({ type: PRODUCT_CREATE_RESET })
 
     if (!userInformation || !userInformation.isAdmin) {
@@ -220,7 +221,9 @@ const ProductListScreen = ({history, match}) => {
     {/* {((!current.includes('necklaces')||!current.includes('earrings')||!current.includes('rings')||!current.includes('bracelets')))? ( */}
     <Grid container justifyContent='center' style = {{marginTop: 30}}>
       <Paginate keyword={current.includes('necklaces')?'necklaces':current.includes('earrings')?'earrings':current.includes('rings')?'rings':current.includes('bracelets')?'bracelets':''} 
-      pages={!current.includes('necklaces')||!current.includes('earrings')||!current.includes('rings')||!current.includes('bracelets')?pages:catPages} page={!current.includes('necklaces')||!current.includes('earrings')||!current.includes('rings')||!current.includes('bracelets')?page:catPage} isAdmin={true} handleScrollClick={handleScrollClick} />
+      // count={(current.includes('necklaces')||current.includes('earrings')||current.includes('rings')||current.includes('bracelets'))?catPages:0}
+      pages={(!current.includes('necklaces')&&!current.includes('earrings')&&!current.includes('rings')&&!current.includes('bracelets'))?pages:catPages} 
+      page={(!current.includes('necklaces')||!current.includes('earrings')||!current.includes('rings')||!current.includes('bracelets'))?page:catPage} isAdmin={true} handleScrollClick={handleScrollClick} />
     </Grid>
     {/* ):
     (current.includes('necklaces')||current.includes('earrings')||current.includes('rings')||current.includes('bracelets'))? (
