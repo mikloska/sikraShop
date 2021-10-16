@@ -1,5 +1,2 @@
 -Google oAuth
--combine repetitive nodemailer code
--checkout as guest
--taxes
--shipping options
+-fix admin product page pagination issues
