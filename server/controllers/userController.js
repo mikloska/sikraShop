@@ -40,13 +40,13 @@ const authenticateUser = async(req,res, next) => {
 
 const registerUser = async(req,res, next) => {
   try{
-    // console.log(req.body)
-    const{name, email, password}=req.body
+    console.log('In registerUser controller. Re.body is: ',req.body)
+    const{name, email, password, mailingList, shippingAddress}=req.body
     const exists=await User.findOne({email})
     if(exists){
       throw new Error('User already exists')
     }
-    const user=await User.create({name,email,password})
+    const user=await User.create({name,email,password, mailingList, shippingAddress})
     if(user){
       res.status(201).json({
         _id:user._id,
@@ -82,6 +82,8 @@ const getProfile = async(req,res, next) => {
        _id:user._id,
        name:user.name,
        email:user.email,
+       shippingAddress:user.shippingAddress,
+       mailingList:user.mailingList,
        isAdmin:user.isAdmin,
      })
     }else{
