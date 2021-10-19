@@ -108,10 +108,11 @@ const updateProfile = async(req,res, next) => {
     const user= await User.findById(req.user._id)
     if(user){
     //Change name or email
+    user.mailingList = req.body.mailingList 
     user.name = req.body.name || user.name
     user.email = req.body.email || user.email
     user.shippingAddress = req.body.shippingAddress || user.shippingAddress
-    user.mailingList = req.body.mailingList || user.mailingList
+    
     if (req.body.password) {
       //Will automatically be encrypted due to presave middleware
       user.password = req.body.password

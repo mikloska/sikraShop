@@ -114,14 +114,15 @@ const AccountScreen = ({ location, history }) => {
 
   const classes = useStyles();
   // const history = useHistory();
-  const [shippingAddress, setShippingAddress] = useState({address:user.shippingAddress.address,city:user.shippingAddress.city,state:user.shippingAddress.state,province:user.shippingAddress.province,country:user.shippingAddress.country,zip:user.shippingAddress.zip})
-  const [address,setAddress]=useState(user.shippingAddress.address)
-  const [city,setCity]=useState(user.shippingAddress.city)
-  const [zip,setZip]=useState(user.shippingAddress.zip)
-  const [country,setCountry]=useState(user.shippingAddress.country)
-  const [state,setState]=useState(user.shippingAddress.state)
-  const [province,setProvince]=useState(user.shippingAddress.province)
-  const [mailingList, setMailingList] = useState(user.mailingList)
+  
+  const [address,setAddress]=useState('')
+  const [city,setCity]=useState('')
+  const [zip,setZip]=useState('')
+  const [country,setCountry]=useState('')
+  const [state,setState]=useState('')
+  const [province,setProvince]=useState('')
+  const [mailingList, setMailingList] = useState('')
+  const [shippingAddress, setShippingAddress] = useState({address:address,city:city,state:state,province:province,country:country,zip:zip})
 
 
 
@@ -130,13 +131,21 @@ const AccountScreen = ({ location, history }) => {
     if(!userInformation) {
       history.push('/login')
     }else{
-      if(!user || !user.name || success){
+      if(!user || !user.name||success){
         dispatch({ type: USER_UPDATE_RESET })
         dispatch(getUserDetails('profile'))
         dispatch(listMyOrders())
       }else {
         setName(user.name)
         setEmail(user.email)
+        setMailingList(user.mail)
+        setAddress(user.shippingAddress.address)
+        setCity(user.shippingAddress.city)
+        setState(user.shippingAddress.state)
+        setProvince(user.shippingAddress.province)
+        setCountry(user.shippingAddress.country)
+        setZip(user.shippingAddress.zip)
+        setShippingAddress(user.shippingAddress)
       }
     }
 
@@ -145,10 +154,11 @@ const AccountScreen = ({ location, history }) => {
   
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(password!==confirm){
+    //In case chrome autofills pw, it will not throw an error if drop down to change pw is not open
+    if(password!==confirm&&userUpdatePassword){
       setMessage('Passwords do not match!')
     }else{
-      dispatch(updateUser({id:user._id,name,email,password,shippingAddress,mailingList}))
+      dispatch(updateUser({id:user._id,name,email,password,mailingList,shippingAddress}))
     }
 
   };
@@ -183,7 +193,7 @@ const AccountScreen = ({ location, history }) => {
           </FormGroup>
           {userUpdatePassword&&
             <div>
-              <TextField variant="outlined" margin="normal" required fullWidth name="password" label="Password"
+              <TextField variant="outlined" margin="normal" required autocomplete='' fullWidth name="password" label="Password"
                 type="password" id="password" value={password}
                 onChange={(e) => {
                 setPassword(e.target.value);
@@ -254,10 +264,10 @@ const AccountScreen = ({ location, history }) => {
             }}
           />
           {user.mailingList?
-            <FormGroup onChange={(e) => setMailingList(!mailingList)} >
+            <FormGroup onChange={(e) => setMailingList(false)} >
               <FormControlLabel control={<Checkbox />} label='Unsubscribe from mailing list' />
             </FormGroup>:  
-            <FormGroup onChange={(e) => setMailingList(!mailingList)} >
+            <FormGroup onChange={(e) => setMailingList(true)} >
               <FormControlLabel control={<Checkbox />} label='Sign up for mailing list' />
             </FormGroup> 
           
