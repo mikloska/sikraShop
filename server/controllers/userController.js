@@ -102,6 +102,7 @@ const getProfile = async(req,res, next) => {
 // Access: private
 
 const updateProfile = async(req,res, next) => {
+  console.log('In updateProfile: ',req.body)
   // res.send('It worked!')
   try{
     const user= await User.findById(req.user._id)
@@ -109,6 +110,8 @@ const updateProfile = async(req,res, next) => {
     //Change name or email
     user.name = req.body.name || user.name
     user.email = req.body.email || user.email
+    user.shippingAddress = req.body.shippingAddress || user.shippingAddress
+    user.mailingList = req.body.mailingList || user.mailingList
     if (req.body.password) {
       //Will automatically be encrypted due to presave middleware
       user.password = req.body.password
@@ -118,6 +121,8 @@ const updateProfile = async(req,res, next) => {
       _id:updated._id,
       name:updated.name,
       email:updated.email,
+      shippingAddress:updated.shippingAddress,
+      mailingList:updated.mailingList,
       isAdmin:updated.isAdmin,
       token:generateToken(updated._id),
     })

@@ -48,9 +48,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ShippingScreen = ({history}) =>{
+  const [usingSavedAddress, setUsingSavedAddress] = useState(false)
   const guest=useSelector(state=>state.guest.guestCheckout)
   const userLogin = useSelector((state) => state.userLogin)
   const { userInformation } = userLogin
+  const userDetails=useSelector(state=>state.userDetails)
+  const {loading,error,user}=userDetails
   //Redirect to login if userInfo is empty
   if(!userInformation&&!guest) history.push('/login')
   const basket = useSelector((state) => state.basket)
@@ -100,6 +103,17 @@ const ShippingScreen = ({history}) =>{
       history.push('/placeorder')
     }
   }
+  const useSavedAddress=(e)=>{
+    e.preventDefault
+    setUsingSavedAddress(true)
+    setAddress(user.shippingAddress.address)
+    setCity(user.shippingAddress.city)
+    setZip(user.shippingAddress.zip)
+    setCountry(user.shippingAddress.country)
+    setState(user.shippingAddress.state)
+    setProvince(user.shippingAddress.province)
+  }
+
 
 
   
@@ -125,6 +139,11 @@ const ShippingScreen = ({history}) =>{
             </Typography>
             {/* {error && <Message severity='error'>{error}</Message>}
             {loading && <Loader />} */}
+            {(user.shippingAddress&&user.shippingAddress.address!==''&&!usingSavedAddress)&&
+              <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} style={{marginTop: 40}} onClick={useSavedAddress}>
+                Use Saved Address
+              </Button>
+            }
             <form className={classes.form} noValidate onSubmit={handleSubmit} >
               {guest&&(
                 <div>

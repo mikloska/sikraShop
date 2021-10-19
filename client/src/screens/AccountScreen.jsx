@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect as redirect } from 'react-router-dom';
 import {Avatar, Button, Card, CssBaseline, TextField, Link, Grid, Box, Paper, Checkbox, 
-Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Divider, Container} from '@material-ui/core';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Divider, FormGroup, FormControlLabel} from '@material-ui/core';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Message from '../components/Message'
 import Loader from '../components/Loader'
@@ -13,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {getUserDetails, updateUser} from '../actions/userActions'
 import { listMyOrders } from '../actions/orderActions'
 import CloseIcon from '@material-ui/icons/Close';
-
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { USER_UPDATE_RESET } from '../constants/userConstants'
 // const CustomLock = withStyles((theme) => ({
 //   lock: {
@@ -86,6 +85,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AccountScreen = ({ location, history }) => {
+  let states=useSelector(state=>state.states)
+  states = Object.keys(states)
+  const [userUpdatePassword, setUserUpdatePassword] = useState(false)
+  const provinces=useSelector(state=>state.provinces)
+  const countries=useSelector(state=>state.countries)
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -110,8 +114,14 @@ const AccountScreen = ({ location, history }) => {
 
   const classes = useStyles();
   // const history = useHistory();
-  //state to store input field values
-
+  const [shippingAddress, setShippingAddress] = useState({address:user.shippingAddress.address,city:user.shippingAddress.city,state:user.shippingAddress.state,province:user.shippingAddress.province,country:user.shippingAddress.country,zip:user.shippingAddress.zip})
+  const [address,setAddress]=useState(user.shippingAddress.address)
+  const [city,setCity]=useState(user.shippingAddress.city)
+  const [zip,setZip]=useState(user.shippingAddress.zip)
+  const [country,setCountry]=useState(user.shippingAddress.country)
+  const [state,setState]=useState(user.shippingAddress.state)
+  const [province,setProvince]=useState(user.shippingAddress.province)
+  const [mailingList, setMailingList] = useState(user.mailingList)
 
 
 
@@ -138,7 +148,7 @@ const AccountScreen = ({ location, history }) => {
     if(password!==confirm){
       setMessage('Passwords do not match!')
     }else{
-      dispatch(updateUser({id:user._id,name,email,password}))
+      dispatch(updateUser({id:user._id,name,email,password,shippingAddress,mailingList}))
     }
 
   };
@@ -157,75 +167,103 @@ const AccountScreen = ({ location, history }) => {
         {error && <Message severity='error'>{error}</Message>}
         {loading && <Loader />}
         <form className={classes.form} noValidate onSubmit={handleSubmit} >
-        <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="name"
-            label="Name"
-            name="name"
-            autoComplete="name"
-            value={name}
+        <TextField variant="outlined" margin="normal" required fullWidth id="name" label="Name" name="name" autoComplete="name" value={name}
             onChange={(e) => {
               setName(e.target.value);
             }}
           />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            value={email}
+          <TextField variant="outlined" margin="normal" required fullWidth id="email" label="Email Address" name="email" autoComplete="email" value={email}
             onChange={(e) => {
               setEmail(e.target.value);
             }}
           />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            // autoComplete="current-password"
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="confirm"
-            label="Confirm Password"
-            type="password"
-            id="confirm"
-            // autoComplete="confirm"
-            value={confirm}
-            onChange={(e) => {
-              setConfirm(e.target.value);
-            }}
-          />
+
+          <FormGroup onChange={(e) => setUserUpdatePassword(!userUpdatePassword)} >
+            <FormControlLabel control={<Checkbox />} label='Update Password' />
+          </FormGroup>
+          {userUpdatePassword&&
+            <div>
+              <TextField variant="outlined" margin="normal" required fullWidth name="password" label="Password"
+                type="password" id="password" value={password}
+                onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+              />
+              <TextField variant="outlined" margin="normal" required fullWidth name="confirm" label="Confirm Password" type="password"
+                id="confirm" value={confirm}
+                onChange={(e) => {
+                  setConfirm(e.target.value);
+                }}
+              />
+            </div>
+
+          }
+
+
           {/* <FormControlLabel
       control={<Checkbox value="remember" color="primary" />}
       label="Remember me"
     /> */}
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
+                            
+          <TextField autoComplete="address" variant="outlined" margin="normal" required fullWidth id="address"
+            label="Address" name="address" autoComplete="address" value={address}
+            onChange={(e) => {
+              setAddress(e.target.value);
+              setShippingAddress({...shippingAddress,address:e.target.value})
+            }}
+          />
+          <TextField variant="outlined" margin="normal" required fullWidth id="city"
+            label="City" name="city" autoComplete="address" value={city}
+            onChange={(e) => {
+              setCity(e.target.value);
+              setShippingAddress({...shippingAddress,city:e.target.value})
+            }}
+          />
+          <Autocomplete id="Country" options={countries} value={country} getOptionLabel={(option) => option} className={classes.Additional}
+            onChange={(e, newInputValue) => {
+              setCountry(newInputValue);
+              setShippingAddress({...shippingAddress,country:newInputValue})
+              
+            }}
+            renderInput={(params) => <TextField {...params} label="Country" variant="outlined" />}
+          />
+          {country==='United States' &&
+          <Autocomplete id="States" options={states} value={state} getOptionLabel={(option) => option} className={classes.Additional}
+            onChange={(event, newInputValue) => {
+              setState(newInputValue);
+              setShippingAddress({...shippingAddress,state:e.target.value})
+            }}
+            renderInput={(params) => <TextField {...params} label="State" variant="outlined" />}
+            
+          />}
+          {country==='Canada' &&
+          <Autocomplete id="Province" options={provinces} value={province} getOptionLabel={(option) => option} className={classes.Additional}
+            onChange={(event, newInputValue) => {
+              setProvince(newInputValue);
+              setShippingAddress({...shippingAddress,province:e.target.value})
+            }}
+            renderInput={(params) => <TextField {...params} label="Province" variant="outlined"/>}
+            
+          />}
+          <TextField variant="outlined" margin="normal" required fullWidth id="zip"
+            label="Postal Code" name="zip" autoComplete="zip" value={zip}
+            onChange={(e) => {
+              setZip(e.target.value);
+              setShippingAddress({...shippingAddress,zip:e.target.value})
+              // console.log(shippingAddress)
+            }}
+          />
+          {user.mailingList?
+            <FormGroup onChange={(e) => setMailingList(!mailingList)} >
+              <FormControlLabel control={<Checkbox />} label='Unsubscribe from mailing list' />
+            </FormGroup>:  
+            <FormGroup onChange={(e) => setMailingList(!mailingList)} >
+              <FormControlLabel control={<Checkbox />} label='Sign up for mailing list' />
+            </FormGroup> 
+          
+          }
+
+          <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
             Udpate
           </Button>
 
