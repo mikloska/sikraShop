@@ -116,6 +116,7 @@ const AccountScreen = ({ location, history }) => {
   // const history = useHistory();
   
   const [address,setAddress]=useState('')
+  const [updated,setUpdated]=useState(false)
   const [city,setCity]=useState('')
   const [zip,setZip]=useState('')
   const [country,setCountry]=useState('')
@@ -131,14 +132,16 @@ const AccountScreen = ({ location, history }) => {
     if(!userInformation) {
       history.push('/login')
     }else{
-      if(!user || !user.name||success){
+      if(!user || !user.name || (success&&updated)){
+        //This keeps it from going on an infinite loop after updating
+        setUpdated(false)
         dispatch({ type: USER_UPDATE_RESET })
         dispatch(getUserDetails('profile'))
         dispatch(listMyOrders())
       }else {
         setName(user.name)
         setEmail(user.email)
-        setMailingList(user.mail)
+        setMailingList(user.mailingList)
         setAddress(user.shippingAddress.address)
         setCity(user.shippingAddress.city)
         setState(user.shippingAddress.state)
@@ -160,6 +163,7 @@ const AccountScreen = ({ location, history }) => {
     }else{
       dispatch(updateUser({id:user._id,name,email,password,mailingList,shippingAddress}))
     }
+    setUpdated(true)
 
   };
 
@@ -172,9 +176,12 @@ const AccountScreen = ({ location, history }) => {
         <Typography variant="h5">
           {name}'s Account
         </Typography>
-        {message && <div style={{margin:8}}><Message severity='error' >{message}</Message></div>}
-        {success && <div style={{margin:8}}><Message severity='success' >Profile Successfully Updated!</Message></div>}
-        {error && <Message severity='error'>{error}</Message>}
+        {/* <div style={{width:'300px', margin:8,padding:0}}><Message severity='success' >Profile Successfully Updated!</Message></div> */}
+        <Grid item>
+          {message && <div style={{width:'300px', margin:8}}><Message severity='error' >{message}</Message></div>}
+          {success && <div style={{width:'300px', marginTop:8}}><Message severity='success' >Profile Successfully Updated!</Message></div>}
+          {error && <Message severity='error'>{error}</Message>}
+        </Grid>
         {loading && <Loader />}
         <form className={classes.form} noValidate onSubmit={handleSubmit} >
         <TextField variant="outlined" margin="normal" required fullWidth id="name" label="Name" name="name" autoComplete="name" value={name}
@@ -193,7 +200,7 @@ const AccountScreen = ({ location, history }) => {
           </FormGroup>
           {userUpdatePassword&&
             <div>
-              <TextField variant="outlined" margin="normal" required autocomplete='' fullWidth name="password" label="Password"
+              <TextField variant="outlined" margin="normal" required autoComplete='' fullWidth name="password" label="Password"
                 type="password" id="password" value={password}
                 onChange={(e) => {
                 setPassword(e.target.value);
@@ -263,15 +270,16 @@ const AccountScreen = ({ location, history }) => {
               // console.log(shippingAddress)
             }}
           />
-          {user.mailingList?
-            <FormGroup onChange={(e) => setMailingList(false)} >
-              <FormControlLabel control={<Checkbox />} label='Unsubscribe from mailing list' />
-            </FormGroup>:  
+          {/* {user.mailingList? */}
+            <FormGroup onChange={(e) => setMailingList(!mailingList)} >
+              <FormControlLabel control={<Checkbox />} label='On mailing list' />
+            </FormGroup>
+             {/* :  
             <FormGroup onChange={(e) => setMailingList(true)} >
               <FormControlLabel control={<Checkbox />} label='Sign up for mailing list' />
-            </FormGroup> 
+            </FormGroup>  */}
           
-          }
+          {/* } */}
 
           <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
             Udpate

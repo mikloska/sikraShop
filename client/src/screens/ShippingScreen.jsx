@@ -139,7 +139,7 @@ const ShippingScreen = ({history}) =>{
             </Typography>
             {/* {error && <Message severity='error'>{error}</Message>}
             {loading && <Loader />} */}
-            {(user.shippingAddress&&user.shippingAddress.address!==''&&!usingSavedAddress)&&
+            {(user&&user.shippingAddress&&user.shippingAddress.address!==''&&!usingSavedAddress)&&
               <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} style={{marginTop: 40}} onClick={useSavedAddress}>
                 Use Saved Address
               </Button>
