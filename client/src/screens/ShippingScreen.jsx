@@ -48,12 +48,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ShippingScreen = ({history}) =>{
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInformation } = userLogin
+  useEffect(() => {
+    if(userInformation){
+      // dispatch(listMyOrders())
+      dispatch(getUserDetails('profile'))
+    } 
+    // setAddress(user.shippingAddress.address)
+    // if(!user.shippingAddress&&!guest)dispatch(getUserDetails('profile'))
+    // setNewShippingAddress(address,city,state,province,country,zip)
+  }, [country])
+
   const [newShippingAddress, setNewShippingAddress] = useState({address:address,city:city,state:state,province:province,country:country,zip:zip})
   const [updateSavedAddress, setUpdateSavedAddress] = useState(false)
   const [usingSavedAddress, setUsingSavedAddress] = useState(false)
   const guest=useSelector(state=>state.guest.guestCheckout)
-  const userLogin = useSelector((state) => state.userLogin)
-  const { userInformation } = userLogin
+
   const userDetails=useSelector(state=>state.userDetails)
   const {loading,error,user}=userDetails
   //Redirect to login if userInfo is empty
@@ -123,11 +134,6 @@ const ShippingScreen = ({history}) =>{
 
   
 
-  useEffect(() => {
-    // setAddress(user.shippingAddress.address)
-    if(!user&&!guest)dispatch(getUserDetails('profile'))
-    // setNewShippingAddress(address,city,state,province,country,zip)
-  }, [country])
 
 
   return (
@@ -146,10 +152,15 @@ const ShippingScreen = ({history}) =>{
             </Typography>
             {/* {error && <Message severity='error'>{error}</Message>}
             {loading && <Loader />} */}
-            {(user&&user.shippingAddress&&user.shippingAddress.address!==''&&!usingSavedAddress)&&
+            {(user&&user.shippingAddress&&user.shippingAddress.address!==''&&!updateSavedAddress)&&
               <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} style={{marginTop: 40}} onClick={useSavedAddress}>
                 Use Saved Address
               </Button>
+            }
+            {(user&&user.shippingAddress.address!==''&&usingSavedAddress)&&
+              <FormGroup onChange={(e) => setUpdateSavedAddress(!updateSavedAddress)}>
+                <FormControlLabel control={<Checkbox checked={updateSavedAddress} onClick={()=>{setAddress(''),setCity('');setState('');setProvince('');setZip('');setCountry('')}}/>} label='Update Saved Address'/>
+              </FormGroup>
             }
             <form className={classes.form} noValidate onSubmit={handleSubmit} >
               {guest&&(
@@ -229,11 +240,7 @@ const ShippingScreen = ({history}) =>{
                 <FormControlLabel control={<Checkbox checked={updateSavedAddress} />} label='Save Address' />
               </FormGroup>
             }
-            {(user&&user.shippingAddress.address!=='')&&
-              <FormGroup onChange={(e) => setUpdateSavedAddress(!updateSavedAddress)}>
-                <FormControlLabel control={<Checkbox checked={updateSavedAddress} onClick={()=>{setAddress(''),setCity('');setState('');setProvince('');setZip('');setCountry('')}}/>} label={user.shippingAddress.address===''?'Save Address':'Update Saved Address'} />
-              </FormGroup>
-            }
+
               
               <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} style={{marginTop: 40}}>
                 {shippingAddress?'Update Shipping Address':'Continue to Payment'}
