@@ -122,7 +122,7 @@ const AccountScreen = ({ location, history }) => {
   const [country,setCountry]=useState('')
   const [state,setState]=useState('')
   const [province,setProvince]=useState('')
-  const [mailingList, setMailingList] = useState('')
+  const [mailingList, setMailingList] = useState(false)
   const [shippingAddress, setShippingAddress] = useState({address:address,city:city,state:state,province:province,country:country,zip:zip})
 
 
@@ -272,7 +272,7 @@ const AccountScreen = ({ location, history }) => {
           />
           {/* {user.mailingList? */}
             <FormGroup onChange={(e) => setMailingList(!mailingList)} >
-              <FormControlLabel control={<Checkbox />} label='On mailing list' />
+              <FormControlLabel control={<Checkbox checked={mailingList}/>} label='On mailing list' />
             </FormGroup>
              {/* :  
             <FormGroup onChange={(e) => setMailingList(true)} >
