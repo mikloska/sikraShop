@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { listProductDetails, updateProduct, deleteProductImage } from '../actions/productActions'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import AWS from 'aws-sdk'
+// import AWS from 'aws-sdk'
 // import {DropzoneArea} from 'material-ui-dropzone'
 
 
