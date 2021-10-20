@@ -22,7 +22,7 @@ const signUpEmail = (req,res,next)=>{
       to: `${userEmail}`, // list of receivers (who receives)
       subject: 'Welcome to Sikra Jewelry', // Subject line
       text: 'Welcome to Sikra Jewelry', // plaintext body
-      html: `<b>Hello ${usersName} </b><br> Thanks for signing up at Sikra Jewelry` // html body
+      html: `<b>Hello ${usersName} </b><br> Thanks for signing up at Sikra Jewelry. You can view and modify your account here: <a href = 'http://www.sikrajewelry.com/account'>account<a/>` // html body
     };
     transporter.sendMail(mailOptions, function(error, info){
       if(error){

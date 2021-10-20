@@ -13,7 +13,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { listProductDetails, updateProduct, deleteProductImage } from '../actions/productActions'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import AWS from 'aws-sdk'
 // import {DropzoneArea} from 'material-ui-dropzone'
+
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -47,6 +49,35 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ProductEditScreen = ({ match, history }) => {
+  const BUCKET_NAME = '';
+  const IAM_USER_KEY = '';
+  const IAM_USER_SECRET = '';
+
+  const uploadToS3=(file)=> {
+    let s3bucket = new AWS.S3({
+      accessKeyId: IAM_USER_KEY,
+      secretAccessKey: IAM_USER_SECRET,
+      Bucket: BUCKET_NAME
+    });
+    s3bucket.createBucket(function () {
+        var params = {
+          Bucket: BUCKET_NAME,
+          Key: file.name,
+          Body: file.data
+        };
+        s3bucket.upload(params, function (err, data) {
+          if (err) {
+            console.log('error in callback');
+            console.log(err);
+          }
+          console.log('success');
+          console.log(data);
+        });
+    });
+  }
+
+
+
   const classes = useStyles();
   const productId = match.params.id
 
