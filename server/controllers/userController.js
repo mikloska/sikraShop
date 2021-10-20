@@ -40,13 +40,13 @@ const authenticateUser = async(req,res, next) => {
 
 const registerUser = async(req,res, next) => {
   try{
-    // console.log(req.body)
-    const{name, email, password}=req.body
+    console.log('In registerUser controller. Re.body is: ',req.body)
+    const{name, email, password, mailingList, shippingAddress}=req.body
     const exists=await User.findOne({email})
     if(exists){
       throw new Error('User already exists')
     }
-    const user=await User.create({name,email,password})
+    const user=await User.create({name,email,password, mailingList, shippingAddress})
     if(user){
       res.status(201).json({
         _id:user._id,
@@ -82,6 +82,8 @@ const getProfile = async(req,res, next) => {
        _id:user._id,
        name:user.name,
        email:user.email,
+       shippingAddress:user.shippingAddress,
+       mailingList:user.mailingList,
        isAdmin:user.isAdmin,
      })
     }else{
@@ -100,13 +102,17 @@ const getProfile = async(req,res, next) => {
 // Access: private
 
 const updateProfile = async(req,res, next) => {
+  console.log('In updateProfile: ',req.body)
   // res.send('It worked!')
   try{
     const user= await User.findById(req.user._id)
     if(user){
-    //Change name or email
-    user.name = req.body.name || user.name
-    user.email = req.body.email || user.email
+      //Change name or email
+      user.mailingList = req.body.mailingList 
+      user.name = req.body.name || user.name
+      user.email = req.body.email || user.email
+      user.shippingAddress = req.body.shippingAddress || user.shippingAddress
+    
     if (req.body.password) {
       //Will automatically be encrypted due to presave middleware
       user.password = req.body.password
@@ -116,6 +122,8 @@ const updateProfile = async(req,res, next) => {
       _id:updated._id,
       name:updated.name,
       email:updated.email,
+      shippingAddress:updated.shippingAddress,
+      mailingList:updated.mailingList,
       isAdmin:updated.isAdmin,
       token:generateToken(updated._id),
     })

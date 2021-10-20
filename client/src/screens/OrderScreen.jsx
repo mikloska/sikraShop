@@ -9,6 +9,7 @@ import { getOrderDetails, getGuestOrderDetails,payOrder, shipOrder,} from '../ac
 import axios from 'axios'
 // import { PayPalButton } from 'react-paypal-button-v2'
 import {ORDER_PAY_RESET,  ORDER_SHIP_RESET } from '../constants/orderConstants'
+import { listMyOrders } from '../actions/orderActions'
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -97,6 +98,7 @@ const OrderScreen = ({ match, location, history}) => {
   
 
   useEffect(() => {
+    if(userInformation) dispatch(listMyOrders())
     // console.log('location: ' , location.pathname.includes('guest'))
     // dispatch(payOrder(orderId, paymentResult))
     //Commented out below so guests can view order. May need to figure out alternate way to protect users

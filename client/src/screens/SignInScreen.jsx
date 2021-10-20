@@ -81,14 +81,18 @@ const SignInScreen = ({ location, history }) => {
   useEffect(()=>{
     // console.log('guest: ',guest)
     // if(guest) history.push('/shipping')
-    if(userInformation) history.push(redirect)
+    if(userInformation){
+      
+      history.push(redirect)
+      
+    } 
   },[history, userInformation, redirect])
 
   const handleSubmit = (e) => {
     e.preventDefault()
     dispatch(signIn(email,password))
     dispatch({type:GUEST_FALSE})
-    // dispatch(getUserDetails('profile'))
+    
   };
 
 

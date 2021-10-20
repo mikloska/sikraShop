@@ -9,6 +9,8 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import Paginate from '../components/Paginate'
 import { makeStyles} from '@material-ui/core/styles';
+import {getUserDetails} from '../actions/userActions'
+import { listMyOrders } from '../actions/orderActions'
 // import airpods from '../../../images/airpods.jpg'
 
 // import {DropzoneArea} from 'material-ui-dropzone'
@@ -21,6 +23,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const HomeScreen = ({match}) => {
+  const dispatch=useDispatch()
+  const userLogin=useSelector(state=>state.userLogin)
+  const {loading,error,userInformation}=userLogin
+  useEffect(()=>{
+    if(userInformation){
+      dispatch(listMyOrders())
+      dispatch(getUserDetails('profile'))
+    } 
+  })
   // const handleScrollClick = () => {
   //   window[`scrollTo`]({ top: 0, behavior: `smooth` })
   // }

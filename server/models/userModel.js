@@ -20,6 +20,19 @@ const userSchema= mongoose.Schema({
     required: true,
     default: false
     },
+  mailingList: {
+    type: Boolean,
+    required: true,
+    default: false
+    },
+  shippingAddress: {
+    address: { type: String, required: true },
+    city: { type: String, required: true },
+    state: { type: String},
+    province: { type: String},
+    zip: { type: String, required: true },
+    country: { type: String, required: true },
+  },
     resetToken:String,
     expiryResetToken:Date,
 }, {

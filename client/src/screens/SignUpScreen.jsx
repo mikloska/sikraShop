@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import {Avatar, Button, Card, TextField, Link, Grid, Box, Paper, Typography, Divider, Container} from '@material-ui/core';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { makeStyles, styled } from '@material-ui/core/styles';
+import {Avatar, Button, Card, TextField, Link, Grid, Box, Paper, Typography, Divider, Container, FormGroup, FormControlLabel, Checkbox} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { useHistory } from 'react-router-dom'
@@ -11,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {register} from '../actions/userActions'
 import axios from 'axios'
 import {GUEST_FALSE} from '../constants/userConstants';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -44,6 +44,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignUpScreen = ({ isLoggedIn, setIsLoggedIn }) => {
+  let states=useSelector(state=>state.states)
+  states = Object.keys(states)
+  const provinces=useSelector(state=>state.provinces)
+  const countries=useSelector(state=>state.countries)
+  const [submitAddress, setSubmitAddress] = useState(false)
+  const [mailingList, setMailingList] = useState(false)
+  const [shippingAddress, setShippingAddress] = useState({address:'',city:'',state:'',province:'',country:'',zip:''})
   const redirect= location.search ? location.search.split('=')[1] : '/'
   const classes = useStyles();
   const history = useHistory();
@@ -60,6 +67,13 @@ const SignUpScreen = ({ isLoggedIn, setIsLoggedIn }) => {
   const userRegister=useSelector(state=>state.userRegister)
   const {loading,error,userInformation}=userRegister
 
+  const [address,setAddress]=useState('')
+  const [city,setCity]=useState('')
+  const [zip,setZip]=useState('')
+  const [country,setCountry]=useState('')
+  const [state,setState]=useState('')
+  const [province,setProvince]=useState('')
+
   useEffect(()=>{
     if(userInformation) history.push(redirect)
   },[history, userInformation, redirect])
@@ -72,7 +86,8 @@ const SignUpScreen = ({ isLoggedIn, setIsLoggedIn }) => {
     }else if(name===''||email===''||password===''){
       setMessage('Please fill out all fields!')    
     }else{
-      dispatch(register(name,email,password))
+       dispatch(register(name,email,password,mailingList, shippingAddress))
+
       dispatch({type:GUEST_FALSE})
       axios.post('/api/email/signup',{usersName:name,userEmail:email})
     }
@@ -121,6 +136,65 @@ const SignUpScreen = ({ isLoggedIn, setIsLoggedIn }) => {
                     setConfirm(e.target.value);
                   }}
                 />
+                <FormGroup onChange={(e) => setMailingList(!mailingList)} >
+                  <FormControlLabel control={<Checkbox />} label='Sign up for mailing list' />
+                </FormGroup>
+                <FormGroup onChange={(e) => setSubmitAddress(!submitAddress)} >
+                  <FormControlLabel control={<Checkbox />} label='Save shipping address' />
+                </FormGroup>
+
+                {submitAddress&&
+                  <div>
+                    <TextField autoComplete="address" variant="outlined" margin="normal" required fullWidth id="address"
+                      label="Address" name="address" autoComplete="address" value={address}
+                      onChange={(e) => {
+                        setAddress(e.target.value);
+                        setShippingAddress({...shippingAddress,address:e.target.value})
+                      }}
+                    />
+                    <TextField variant="outlined" margin="normal" required fullWidth id="city"
+                      label="City" name="city" autoComplete="address" value={city}
+                      onChange={(e) => {
+                        setCity(e.target.value);
+                        setShippingAddress({...shippingAddress,city:e.target.value})
+                      }}
+                    />
+                    <Autocomplete id="Country" options={countries} value={country} getOptionLabel={(option) => option} className={classes.Additional}
+                      onChange={(e, newInputValue) => {
+                        setCountry(newInputValue);
+                        setShippingAddress({...shippingAddress,country:newInputValue})
+                        
+                      }}
+                      renderInput={(params) => <TextField {...params} label="Country" variant="outlined" />}
+                    />
+                    {country==='United States' &&
+                    <Autocomplete id="States" options={states} value={state} getOptionLabel={(option) => option} className={classes.Additional}
+                      onChange={(event, newInputValue) => {
+                        setState(newInputValue);
+                        setShippingAddress({...shippingAddress,state:e.target.value})
+                      }}
+                      renderInput={(params) => <TextField {...params} label="State" variant="outlined" />}
+                      
+                    />}
+                    {country==='Canada' &&
+                    <Autocomplete id="Province" options={provinces} value={province} getOptionLabel={(option) => option} className={classes.Additional}
+                      onChange={(event, newInputValue) => {
+                        setProvince(newInputValue);
+                        setShippingAddress({...shippingAddress,province:e.target.value})
+                      }}
+                      renderInput={(params) => <TextField {...params} label="Province" variant="outlined"/>}
+                      
+                    />}
+                    <TextField variant="outlined" margin="normal" required fullWidth id="zip"
+                      label="Postal Code" name="zip" autoComplete="zip" value={zip}
+                      onChange={(e) => {
+                        setZip(e.target.value);
+                        setShippingAddress({...shippingAddress,zip:e.target.value})
+                        // console.log(shippingAddress)
+                      }}
+                    />
+                  </div>
+                }
                 <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
                   Sign Up
                 </Button>
