@@ -18,6 +18,7 @@ const authenticateUser = async(req,res, next) => {
         name:user.name,
         email:user.email,
         isAdmin:user.isAdmin,
+        // shippingAddress:user.shippingAddress,
         token:generateToken(user._id),
       })
       
