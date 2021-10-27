@@ -18,6 +18,23 @@ const getPromo= async (req,res,next)=>{
 
 }
 
+const getPromoById= async(req, res, next)=>{
+  console.log('req.params is: ', req.params.id)
+  try{
+    const promo=await Promo.findOne({promoCode:req.params.id})
+    if(promo){
+      res.json(promo)
+    }else{
+      res.status(404)
+      throw new Error('Invalid Code')
+    }
+  }catch(error){
+    console.error(`Error: ${error.message}`.red.underline.bold)
+    return next(new Error(`Error in post promo controller: ${error.message}`))
+  }
+}
+
+
 const postPromo= async (req,res,next)=>{
   try{
     // console.log('in post promo controller. req.body is: ',req.body)
@@ -55,4 +72,4 @@ const deletePromo= async (req,res,next)=>{
 
 }
 
-export {getPromo, postPromo, deletePromo}
+export {getPromo, postPromo, deletePromo, getPromoById}

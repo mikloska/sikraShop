@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import {Button, Box, List, ListItem, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, ListItemIcon, ListItemText, Divider, FormControl, Select, MenuItem, InputLabel, Grid, Paper} from '@material-ui/core/';
+import {Button, Box, List, ListItem, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
+ListItemIcon, ListItemText, Divider, FormControl, Select, MenuItem, InputLabel, Grid, Paper} from '@material-ui/core/';
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import CheckoutSteps from '../components/CheckoutSteps'
@@ -36,9 +37,8 @@ const StyledTableRow = withStyles((theme) => ({
 
 const useStyles = makeStyles((theme) => ({
   submit: {
-    
     background:'linear-gradient(120deg, #28ccc4, #067e78)',
-    margin: theme.spacing(3, 0, 2),
+    // margin: theme.spacing(3, 0, 2),
   },
   Box: {
     width:50
@@ -53,6 +53,10 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
+  form: {
+    width: '200px',
+    // marginTop: theme.spacing(1),
+  },
   
 }))
 
@@ -63,6 +67,7 @@ const PlaceOrderScreen = ({ history }) => {
   const states=useSelector(state=>state.states)
   const basket = useSelector((state) => state.basket)
   const [sdkReady, setSdkReady] = useState(false)
+  const [discount, setDiscount] = useState(0)
   useEffect(()=>{
     if (!basket.shippingAddress) {
       history.push('/shipping')
@@ -120,6 +125,12 @@ const PlaceOrderScreen = ({ history }) => {
       setSdkReady(true)
     }
     document.body.appendChild(script)
+  }
+  const handleCodeSubmit=async(e)=>{
+    e.preventDefault()
+    const discountPercentage=await axios.get(`/api/promocode/${promoCode}`)
+    setDiscount(discountPercentage.percentage)
+    setPromoCode('')
   }
 
   useEffect(() => {
@@ -318,13 +329,20 @@ const PlaceOrderScreen = ({ history }) => {
                   <Grid item><strong>Total: </strong> ${basket.totalPrice}</Grid>
                 </Grid>
               </ListItem>
-
-              <TextField variant="outlined" margin="normal" required fullWidth id="email" label="Enter Promo Code"
-                  name="promo" value={promoCode}
-                  onChange={(e) => {
-                    setPromoCode(e.target.value);
-                  }}
-                />
+              <ListItem>
+                <Grid container justifyContent="center" >
+                  <Grid item >
+                    <form className={classes.form} noValidate onSubmit={handleCodeSubmit}>
+                      <TextField variant="outlined" margin="normal" required fullWidth id="email" label="Enter Promo Code"
+                        name="promo" value={promoCode} onChange={(e) => setPromoCode(e.target.value)}
+                      />
+                      <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+                        Add Promo Code
+                      </Button>
+                    </form>
+                  </Grid>
+                </Grid>
+              </ListItem>
 
 
 
