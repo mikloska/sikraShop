@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import {Button, Box, List, ListItem, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, ListItemIcon, ListItemText, Divider, FormControl, Select, MenuItem, InputLabel, Grid, Paper} from '@material-ui/core/';
+import {Button, Box, List, ListItem, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, ListItemIcon, ListItemText, Divider, FormControl, Select, MenuItem, InputLabel, Grid, Paper} from '@material-ui/core/';
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import CheckoutSteps from '../components/CheckoutSteps'
@@ -70,7 +70,7 @@ const PlaceOrderScreen = ({ history }) => {
       history.push('/payment')
     }
 
-  })
+  },[])
 
   // if (!basket.shippingAddress) {
   //   history.push('/shipping')
@@ -86,6 +86,8 @@ const PlaceOrderScreen = ({ history }) => {
     basket.basketItems.reduce((acc, item) => acc + item.price * item.qty, 0)
   )
   const taxRate = 
+    //Had to add this conditional to check if there is a basket shippingAddress to prevent crash if user refreshes
+    (basket.shippingAddress)&&(
     basket.shippingAddress.country!=='United States'&&basket.shippingAddress.country!=='Canada'?0
     :basket.shippingAddress.city.toUpperCase().includes('NEW YORK')&&basket.shippingAddress.state.toUpperCase().includes('NEW YORK')?.08875
     :basket.shippingAddress.city.toUpperCase().includes('LOS ANGELES')?.095
@@ -93,8 +95,8 @@ const PlaceOrderScreen = ({ history }) => {
     :(basket.shippingAddress.state!==''&&!basket.shippingAddress.city.toUpperCase().includes('NEW YORK')&&!basket.shippingAddress.city.toUpperCase().includes('LOS ANGELES')&&!basket.shippingAddress.city.toUpperCase().includes('SAN FRANCISCO'))?states[basket.shippingAddress.state]
     :basket.shippingAddress.province!==''&&basket.shippingAddress.province!=='Ontario'?.015
     :basket.shippingAddress.province==='Ontario'?.013
-    :0
-  basket.shippingPrice = basket.shippingAddress.country==='United States'?0:basket.shippingAddress.country==='Canada'?addDecimals(13):basket.shippingAddress.country==='United Kingdom'?addDecimals(16):addDecimals(18)
+    :0)
+  basket.shippingPrice = (basket.shippingAddress)&&(basket.shippingAddress.country==='United States'?0:basket.shippingAddress.country==='Canada'?addDecimals(13):basket.shippingAddress.country==='United Kingdom'?addDecimals(16):addDecimals(18))
   // basket.shippingPrice = addDecimals(basket.itemsPrice > 100 ? 0 : 100)
   basket.taxPrice = addDecimals(Number((taxRate * basket.itemsPrice).toFixed(2)))
   basket.totalPrice = (
@@ -120,7 +122,7 @@ const PlaceOrderScreen = ({ history }) => {
     document.body.appendChild(script)
   }
 
-  useEffect(async() => {
+  useEffect(() => {
     if (success) {
 
       // dispatch({ type: USER_DETAILS_RESET })
@@ -219,6 +221,7 @@ const PlaceOrderScreen = ({ history }) => {
                 </Grid>
               </ListItemText>
             </ListItem>
+            {basket.shippingAddress&&
             <ListItem>
               <ListItemText>
                 <Grid container justifyContent="center" >
@@ -231,7 +234,7 @@ const PlaceOrderScreen = ({ history }) => {
                 </Grid>
 
               </ListItemText>
-            </ListItem>
+            </ListItem>}
 
             <ListItem>
               <ListItemText>
@@ -287,20 +290,6 @@ const PlaceOrderScreen = ({ history }) => {
           </Paper>
         </Grid>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         <Grid item md={5} sm={10} xs={12}>
           <Paper elevation={7} className={classes.paper}>
             <List  >
@@ -329,6 +318,13 @@ const PlaceOrderScreen = ({ history }) => {
                   <Grid item><strong>Total: </strong> ${basket.totalPrice}</Grid>
                 </Grid>
               </ListItem>
+
+              <TextField variant="outlined" margin="normal" required fullWidth id="email" label="Promo Code"
+                  name="promo" value='promo'
+                  onChange={(e) => {
+                    console.log(e.target.value);
+                  }}
+                />
 
 
 

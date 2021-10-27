@@ -53,7 +53,8 @@ const ShippingScreen = ({history}) =>{
   const userDetails=useSelector(state=>state.userDetails)
   const {loading,error,user}=userDetails
   useEffect(() => {
-    if(userInformation&&!user){
+    //Get user details in case user is logged in and app was refreshed
+    if(userInformation&&(!user.shippingAddress||!user)){
       // dispatch(listMyOrders())
       dispatch(getUserDetails('profile'))
     } 
