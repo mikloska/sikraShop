@@ -394,6 +394,9 @@ const Navbar= () => {
               <MenuItem component={RouterLink} onClick={handleAdminMenuClose} to='/admin/orderlist'>
                 Orders
               </MenuItem>
+              <MenuItem component={RouterLink} onClick={handleAdminMenuClose} to='/admin/promocode'>
+                Promo Code
+              </MenuItem>
             </Menu>
             {/* <Menu title='Collection'
               anchorEl={collectionAnchorEl}

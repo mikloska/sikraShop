@@ -104,7 +104,7 @@ const PlaceOrderScreen = ({ history }) => {
     Number(basket.shippingPrice) +
     Number(basket.taxPrice)
   ).toFixed(2)
-
+  const [promoCode, setPromoCode]=useState('')
   const orderCreate = useSelector((state) => state.orderCreate)
   const { order, success, error } = orderCreate
   const userLogin=useSelector((state)=>state.userLogin)
@@ -319,10 +319,10 @@ const PlaceOrderScreen = ({ history }) => {
                 </Grid>
               </ListItem>
 
-              <TextField variant="outlined" margin="normal" required fullWidth id="email" label="Promo Code"
-                  name="promo" value='promo'
+              <TextField variant="outlined" margin="normal" required fullWidth id="email" label="Enter Promo Code"
+                  name="promo" value={promoCode}
                   onChange={(e) => {
-                    console.log(e.target.value);
+                    setPromoCode(e.target.value);
                   }}
                 />
 
