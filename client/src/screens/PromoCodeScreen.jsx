@@ -41,39 +41,44 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
+
 const PromoCodeScreen = () =>{
-  
-  useEffect(async()=>{
-    const promos=await axios.get('/api/promocode')
-    setPromoCodes(promos.data.promos)
-    
-  },[promoCodes])
   const [promoCodes, setPromoCodes]=useState([])
-  const classes = useStyles();
   const [promoCode, setPromoCode]=useState('')
   const [percentage, setPercentage]=useState(0)
   const [message, setMessage]=useState(null)
+  const classes = useStyles();
+  const getCodes= async ()=>{
+    const promos=await axios.get('/api/promocode')
+    setPromoCodes(promos.data.promos)
+  }
+  //Get codes on first render
+  useEffect( ()=>{
+    getCodes()
+  },[])
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if(promoCode===''||percentage===0){
       setMessage('Please fill out all fields!')
     }
     else{
-      axios.post('/api/promocode', {promoCode:promoCode, percentage:percentage})
-      // setPromoCode('')
-      // setPercentage(0)
+      await axios.post('/api/promocode', {promoCode:promoCode, percentage:percentage})
+      getCodes()
+      setPromoCode('')
+      setPercentage(0)
     }
   }
-  const deleteCode=(codeId)=>{
+  const deleteCode= async (codeId)=>{
     // console.log(codeId)
-    axios.delete(`/api/promocode/${codeId}`, )
+    await axios.delete(`/api/promocode/${codeId}`, )
+    getCodes()
   }
 
   return (
     <div style={{marginTop:35, marginBottom: 45, padding:20}}>
       <Grid container justifyContent="center">
-      <Grid item md={6} sm={10} xs={12}>
+      <Grid item lg={6} md={6} sm={12} xs={12}>
           <Container component="main" maxWidth="xs">
             <Paper>
               <Card>
@@ -99,7 +104,7 @@ const PromoCodeScreen = () =>{
             </Paper>
           </Container>
         </Grid>
-        <Grid item md={6} sm={10} xs={12}>
+        <Grid item lg={6} md={6} sm={12} xs={12}>
           <Container component="main" maxWidth="xs">
             <Paper>
               <Card>
