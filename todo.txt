@@ -1,2 +1,2 @@
 -Google oAuth
--fix admin product page pagination issues
+-allow users to update their saved address on the shipping screen or add a saved address in one step if they do not currently have one.

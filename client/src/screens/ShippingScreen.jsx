@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import {Avatar, Button, Card, TextField, Link, Grid, Box, Paper, Typography, Divider, Container} from '@material-ui/core';
+import {Avatar, Button, Card, TextField, Link, Grid, Box, Paper, Typography, Divider, Container,Checkbox,FormGroup, FormControlLabel} from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles, styled } from '@material-ui/core/styles';
 import Message from '../components/Message'
 import Loader from '../components/Loader'
@@ -11,6 +10,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import { saveShippingAddress, savePaymentMethod, saveGuestInfo } from '../actions/basketActions'
 import CheckoutSteps from '../components/CheckoutSteps';
+import {updateUser,getUserDetails} from '../actions/userActions'
 // import easyship from 'easyship'
 
 
@@ -48,12 +48,27 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ShippingScreen = ({history}) =>{
-  const [usingSavedAddress, setUsingSavedAddress] = useState(false)
-  const guest=useSelector(state=>state.guest.guestCheckout)
   const userLogin = useSelector((state) => state.userLogin)
   const { userInformation } = userLogin
   const userDetails=useSelector(state=>state.userDetails)
   const {loading,error,user}=userDetails
+  useEffect(() => {
+    if(userInformation&&!user){
+      // dispatch(listMyOrders())
+      dispatch(getUserDetails('profile'))
+    } 
+    // setAddress(user.shippingAddress.address)
+    // if(!user.shippingAddress&&!guest)dispatch(getUserDetails('profile'))
+    // setNewShippingAddress(address,city,state,province,country,zip)
+  }, [country])
+
+  const [newShippingAddress, setNewShippingAddress] = useState({address:address,city:city,state:state,province:province,country:country,zip:zip})
+  const [updateSavedAddress, setUpdateSavedAddress] = useState(false)
+  const [usingSavedAddress, setUsingSavedAddress] = useState(false)
+  const guest=useSelector(state=>state.guest.guestCheckout)
+
+  // const userDetails=useSelector(state=>state.userDetails)
+  // const {loading,error,user}=userDetails
   //Redirect to login if userInfo is empty
   if(!userInformation&&!guest) history.push('/login')
   const basket = useSelector((state) => state.basket)
@@ -96,6 +111,9 @@ const ShippingScreen = ({history}) =>{
     }
     else{
       e.preventDefault()
+      //Update user address here if previous was blank or if they want to update saved.
+      if(updateSavedAddress) dispatch(updateUser({id:user._id,mailingList:user.mailingList,shippingAddress:newShippingAddress}))
+      
       dispatch(saveGuestInfo({name:name, email:email}))
       dispatch(saveShippingAddress({ address, city, zip, country, state, province }))
       dispatch(savePaymentMethod('PayPal'))
@@ -118,9 +136,6 @@ const ShippingScreen = ({history}) =>{
 
   
 
-  useEffect(() => {
-
-  }, [country])
 
 
   return (
@@ -139,10 +154,15 @@ const ShippingScreen = ({history}) =>{
             </Typography>
             {/* {error && <Message severity='error'>{error}</Message>}
             {loading && <Loader />} */}
-            {(user&&user.shippingAddress&&user.shippingAddress.address!==''&&!usingSavedAddress)&&
+            {(user&&user.shippingAddress&&user.shippingAddress.address!==''&&!updateSavedAddress)&&
               <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} style={{marginTop: 40}} onClick={useSavedAddress}>
                 Use Saved Address
               </Button>
+            }
+            {(user&&user.shippingAddress&&user.shippingAddress.address!==''&&usingSavedAddress)&&
+              <FormGroup onChange={(e) => setUpdateSavedAddress(!updateSavedAddress)}>
+                <FormControlLabel control={<Checkbox checked={updateSavedAddress} onClick={()=>{setAddress(''),setCity('');setState('');setProvince('');setZip('');setCountry('')}}/>} label='Update Saved Address'/>
+              </FormGroup>
             }
             <form className={classes.form} noValidate onSubmit={handleSubmit} >
               {guest&&(
@@ -168,32 +188,38 @@ const ShippingScreen = ({history}) =>{
                 label="Address" name="address" autoComplete="address" value={address}
                 onChange={(e) => {
                   setAddress(e.target.value);
+                  setNewShippingAddress({...newShippingAddress,address:e.target.value});
                 }}
               />
               <TextField variant="outlined" margin="normal" required fullWidth id="city"
                 label="City" name="city" autoComplete="address" value={city}
                 onChange={(e) => {
                   setCity(e.target.value);
+                  setNewShippingAddress({...newShippingAddress,city:e.target.value});
                 }}
               />
               <Autocomplete id="Country" options={countries} value={country} getOptionLabel={(option) => option} className={classes.Additional}
                 onChange={(event, newInputValue) => {
                   setCountry(newInputValue);
+                  setNewShippingAddress({...newShippingAddress,country:newInputValue})
                 }}
                 renderInput={(params) => <TextField {...params} label="Country" variant="outlined" />}
               />
               {country==='United States' &&
               <Autocomplete id="States" options={states} value={state} getOptionLabel={(option) => option} className={classes.Additional}
-                onChange={(event, newInputValue) => {
+                onChange={(e, newInputValue) => {
+                  console.log(newInputValue)
                   setState(newInputValue);
+                  setNewShippingAddress({...newShippingAddress,state:newInputValue})
                 }}
                 renderInput={(params) => <TextField {...params} label="State" variant="outlined" />}
                 
               />}
               {country==='Canada' &&
               <Autocomplete id="Province" options={provinces} value={province} getOptionLabel={(option) => option} className={classes.Additional}
-                onChange={(event, newInputValue) => {
+                onChange={(e, newInputValue) => {
                   setProvince(newInputValue);
+                  setNewShippingAddress({...newShippingAddress,province:newInputValue})
                 }}
                 renderInput={(params) => <TextField {...params} label="Province" variant="outlined"/>}
                 
@@ -202,6 +228,7 @@ const ShippingScreen = ({history}) =>{
                 label="Postal Code" name="zip" autoComplete="zip" value={zip}
                 onChange={(e) => {
                   setZip(e.target.value);
+                  setNewShippingAddress({...newShippingAddress,zip:e.target.value})
                 }}
               />
 
@@ -211,6 +238,12 @@ const ShippingScreen = ({history}) =>{
                   setCountry(e.target.value);
                 }}
               /> */}
+            {(user&&user.shippingAddress&&user.shippingAddress.address==='')&&
+              <FormGroup onChange={(e) => setUpdateSavedAddress(!updateSavedAddress)}>
+                <FormControlLabel control={<Checkbox checked={updateSavedAddress} />} label='Save Address' />
+              </FormGroup>
+            }
+
               
               <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} style={{marginTop: 40}}>
                 {shippingAddress?'Update Shipping Address':'Continue to Payment'}

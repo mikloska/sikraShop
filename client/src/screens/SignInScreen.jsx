@@ -82,7 +82,7 @@ const SignInScreen = ({ location, history }) => {
     // console.log('guest: ',guest)
     // if(guest) history.push('/shipping')
     if(userInformation){
-      
+      dispatch(getUserDetails('profile'))
       history.push(redirect)
       
     } 
