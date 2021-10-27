@@ -63,12 +63,20 @@ const PlaceOrderScreen = ({ history }) => {
   const states=useSelector(state=>state.states)
   const basket = useSelector((state) => state.basket)
   const [sdkReady, setSdkReady] = useState(false)
+  useEffect(()=>{
+    if (!basket.shippingAddress) {
+      history.push('/shipping')
+    } else if (!basket.paymentMethod) {
+      history.push('/payment')
+    }
 
-  if (!basket.shippingAddress.address) {
-    history.push('/shipping')
-  } else if (!basket.paymentMethod) {
-    history.push('/payment')
-  }
+  })
+
+  // if (!basket.shippingAddress) {
+  //   history.push('/shipping')
+  // } else if (!basket.paymentMethod) {
+  //   history.push('/payment')
+  // }
   //   Calculate prices
   const addDecimals = (num) => {
     return (Math.round(num * 100) / 100).toFixed(2)
@@ -78,7 +86,8 @@ const PlaceOrderScreen = ({ history }) => {
     basket.basketItems.reduce((acc, item) => acc + item.price * item.qty, 0)
   )
   const taxRate = 
-    basket.shippingAddress.city.toUpperCase().includes('NEW YORK')&&basket.shippingAddress.state.toUpperCase().includes('NEW YORK')?.08875
+    basket.shippingAddress.country!=='United States'&&basket.shippingAddress.country!=='Canada'?0
+    :basket.shippingAddress.city.toUpperCase().includes('NEW YORK')&&basket.shippingAddress.state.toUpperCase().includes('NEW YORK')?.08875
     :basket.shippingAddress.city.toUpperCase().includes('LOS ANGELES')?.095
     :basket.shippingAddress.city.toUpperCase().includes('SAN FRANCISCO')?.08625
     :(basket.shippingAddress.state!==''&&!basket.shippingAddress.city.toUpperCase().includes('NEW YORK')&&!basket.shippingAddress.city.toUpperCase().includes('LOS ANGELES')&&!basket.shippingAddress.city.toUpperCase().includes('SAN FRANCISCO'))?states[basket.shippingAddress.state]

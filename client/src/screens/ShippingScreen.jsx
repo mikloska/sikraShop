@@ -50,8 +50,10 @@ const useStyles = makeStyles((theme) => ({
 const ShippingScreen = ({history}) =>{
   const userLogin = useSelector((state) => state.userLogin)
   const { userInformation } = userLogin
+  const userDetails=useSelector(state=>state.userDetails)
+  const {loading,error,user}=userDetails
   useEffect(() => {
-    if(userInformation){
+    if(userInformation&&!user){
       // dispatch(listMyOrders())
       dispatch(getUserDetails('profile'))
     } 
@@ -65,8 +67,8 @@ const ShippingScreen = ({history}) =>{
   const [usingSavedAddress, setUsingSavedAddress] = useState(false)
   const guest=useSelector(state=>state.guest.guestCheckout)
 
-  const userDetails=useSelector(state=>state.userDetails)
-  const {loading,error,user}=userDetails
+  // const userDetails=useSelector(state=>state.userDetails)
+  // const {loading,error,user}=userDetails
   //Redirect to login if userInfo is empty
   if(!userInformation&&!guest) history.push('/login')
   const basket = useSelector((state) => state.basket)
@@ -157,7 +159,7 @@ const ShippingScreen = ({history}) =>{
                 Use Saved Address
               </Button>
             }
-            {(user&&user.shippingAddress.address!==''&&usingSavedAddress)&&
+            {(user&&user.shippingAddress&&user.shippingAddress.address!==''&&usingSavedAddress)&&
               <FormGroup onChange={(e) => setUpdateSavedAddress(!updateSavedAddress)}>
                 <FormControlLabel control={<Checkbox checked={updateSavedAddress} onClick={()=>{setAddress(''),setCity('');setState('');setProvince('');setZip('');setCountry('')}}/>} label='Update Saved Address'/>
               </FormGroup>
@@ -205,18 +207,19 @@ const ShippingScreen = ({history}) =>{
               />
               {country==='United States' &&
               <Autocomplete id="States" options={states} value={state} getOptionLabel={(option) => option} className={classes.Additional}
-                onChange={(event, newInputValue) => {
+                onChange={(e, newInputValue) => {
+                  console.log(newInputValue)
                   setState(newInputValue);
-                  setNewShippingAddress({...newShippingAddress,state:e.target.value})
+                  setNewShippingAddress({...newShippingAddress,state:newInputValue})
                 }}
                 renderInput={(params) => <TextField {...params} label="State" variant="outlined" />}
                 
               />}
               {country==='Canada' &&
               <Autocomplete id="Province" options={provinces} value={province} getOptionLabel={(option) => option} className={classes.Additional}
-                onChange={(event, newInputValue) => {
+                onChange={(e, newInputValue) => {
                   setProvince(newInputValue);
-                  setNewShippingAddress({...newShippingAddress,province:e.target.value})
+                  setNewShippingAddress({...newShippingAddress,province:newInputValue})
                 }}
                 renderInput={(params) => <TextField {...params} label="Province" variant="outlined"/>}
                 
@@ -235,7 +238,7 @@ const ShippingScreen = ({history}) =>{
                   setCountry(e.target.value);
                 }}
               /> */}
-            {(user&&user.shippingAddress.address==='')&&
+            {(user&&user.shippingAddress&&user.shippingAddress.address==='')&&
               <FormGroup onChange={(e) => setUpdateSavedAddress(!updateSavedAddress)}>
                 <FormControlLabel control={<Checkbox checked={updateSavedAddress} />} label='Save Address' />
               </FormGroup>
