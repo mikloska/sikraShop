@@ -236,7 +236,7 @@ const AccountScreen = ({ location, history }) => {
               setShippingAddress({...shippingAddress,city:e.target.value})
             }}
           />
-          <Autocomplete id="Country" options={countries} value={country} getOptionLabel={(option) => option} className={classes.Additional}
+          <Autocomplete id="Country" style={{marginBottom:10}}options={countries} value={country} getOptionLabel={(option) => option} className={classes.Additional}
             onChange={(e, newInputValue) => {
               setCountry(newInputValue);
               setShippingAddress({...shippingAddress,country:newInputValue})
