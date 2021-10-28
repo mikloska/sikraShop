@@ -71,9 +71,11 @@ const PlaceOrderScreen = ({ history }) => {
   useEffect(()=>{
     if (!basket.shippingAddress) {
       history.push('/shipping')
-    } else if (!basket.paymentMethod) {
-      history.push('/payment')
-    }
+    } 
+    //This will be used if and when alternative payment options are implelemnted in the future i.e. Stripe
+    // else if (!basket.paymentMethod) {
+    //   history.push('/payment')
+    // }
 
   },[])
 
@@ -110,6 +112,8 @@ const PlaceOrderScreen = ({ history }) => {
     Number(basket.taxPrice)
   ).toFixed(2)
   const [promoCode, setPromoCode]=useState('')
+  const [promoPercentage, setPromoPercentage]=useState(0)
+  const [promoError, setPromoError]=useState(null)
   const orderCreate = useSelector((state) => state.orderCreate)
   const { order, success, error } = orderCreate
   const userLogin=useSelector((state)=>state.userLogin)
@@ -129,7 +133,15 @@ const PlaceOrderScreen = ({ history }) => {
   const handleCodeSubmit=async(e)=>{
     e.preventDefault()
     const discountPercentage=await axios.get(`/api/promocode/${promoCode}`)
-    setDiscount(discountPercentage.percentage)
+    if(discountPercentage.data==='Invalid Code'){
+      setPromoError(discountPercentage.data)
+    }else{
+      setPromoError(null)
+      setPromoCode(discountPercentage.data.promoCode)
+      setPromoPercentage(discountPercentage.data.percentage)
+    }
+    // console.log(discountPercentage)
+    // setDiscount(discountPercentage.percentage)
     setPromoCode('')
   }
 
@@ -301,33 +313,44 @@ const PlaceOrderScreen = ({ history }) => {
           </Paper>
         </Grid>
 
-        <Grid item md={5} sm={10} xs={12}>
+        <Grid item md={6} sm={10} xs={12}>
+         {/* <Grid container justifyContent="center" >  */}
           <Paper elevation={7} className={classes.paper}>
             <List  >
               <ListItem>
-                <Grid container justifyContent="center" >
-                  <Grid item><h2>Order Summary</h2></Grid>
-                </Grid>
+                {/* <Grid container justifyContent="center" >
+                  <Grid item> */}
+                    <h2>Order Summary</h2>
+                  {/* </Grid>
+                </Grid> */}
               </ListItem>
               <ListItem>
-                <Grid container justifyContent="center" >
-                  <Grid item><strong>Items: </strong> ${basket.itemsPrice}</Grid>
-                </Grid>
+                {/* <Grid container justifyContent="center" >
+                  <Grid item> */}
+                    <strong>Items: </strong> ${basket.itemsPrice}
+                  {/* </Grid>
+                </Grid> */}
               </ListItem>
               <ListItem>
-                <Grid container justifyContent="center" >
-                  <Grid item><strong>Shipping: </strong> ${basket.shippingPrice}</Grid>
-                </Grid>
+                {/* <Grid container justifyContent="center" >
+                  <Grid item> */}
+                    <strong>Shipping: </strong> ${basket.shippingPrice}
+                  {/* </Grid>
+                </Grid> */}
               </ListItem>
               <ListItem>
-                <Grid container justifyContent="center" >
-                  <Grid item><strong>Tax: </strong> ${basket.taxPrice}</Grid>
-                </Grid>
+                {/* <Grid container justifyContent="center" >
+                  <Grid item> */}
+                    <strong>Tax: </strong> ${basket.taxPrice}
+                  {/* </Grid>
+                </Grid> */}
               </ListItem>
               <ListItem>
-                <Grid container justifyContent="center" >
-                  <Grid item><strong>Total: </strong> ${basket.totalPrice}</Grid>
-                </Grid>
+                {/* <Grid container justifyContent="center" >
+                  <Grid item> */}
+                    <strong>Total: </strong> ${basket.totalPrice}
+                  {/* </Grid>
+                </Grid> */}
               </ListItem>
               <ListItem>
                 <Grid container justifyContent="center" >
@@ -339,7 +362,11 @@ const PlaceOrderScreen = ({ history }) => {
                       <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
                         Add Promo Code
                       </Button>
+                      
                     </form>
+                  </Grid>
+                  <Grid item>
+                    {promoError && <Message severity='error'>{promoError}</Message>}
                   </Grid>
                 </Grid>
               </ListItem>
@@ -374,6 +401,7 @@ const PlaceOrderScreen = ({ history }) => {
             </List>
 
           </Paper>
+          {/* </Grid> */}
         </Grid>
       </Grid>
     </div>

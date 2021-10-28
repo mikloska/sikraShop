@@ -25,8 +25,8 @@ const getPromoById= async(req, res, next)=>{
     if(promo){
       res.json(promo)
     }else{
-      res.status(404)
-      throw new Error('Invalid Code')
+      res.json('Invalid Code')
+      // throw new Error('Invalid Code')
     }
   }catch(error){
     console.error(`Error: ${error.message}`.red.underline.bold)
