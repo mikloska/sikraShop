@@ -314,68 +314,42 @@ const PlaceOrderScreen = ({ history }) => {
         </Grid>
 
         <Grid item md={6} sm={10} xs={12}>
-         {/* <Grid container justifyContent="center" >  */}
+
           <Paper elevation={7} className={classes.paper}>
-            <List  >
+            <List>
               <ListItem>
-                {/* <Grid container justifyContent="center" >
-                  <Grid item> */}
-                    <h2>Order Summary</h2>
-                  {/* </Grid>
-                </Grid> */}
+                <h2>Order Summary</h2>
               </ListItem>
               <ListItem>
-                {/* <Grid container justifyContent="center" >
-                  <Grid item> */}
-                    <strong>Items: </strong> ${basket.itemsPrice}
-                  {/* </Grid>
-                </Grid> */}
+                <strong>Items: </strong> ${basket.itemsPrice}
               </ListItem>
               <ListItem>
-                {/* <Grid container justifyContent="center" >
-                  <Grid item> */}
-                    <strong>Shipping: </strong> ${basket.shippingPrice}
-                  {/* </Grid>
-                </Grid> */}
+                <strong>Shipping: </strong> ${basket.shippingPrice}
               </ListItem>
               <ListItem>
-                {/* <Grid container justifyContent="center" >
-                  <Grid item> */}
-                    <strong>Tax: </strong> ${basket.taxPrice}
-                  {/* </Grid>
-                </Grid> */}
+                <strong>Tax: </strong> ${basket.taxPrice}
               </ListItem>
               <ListItem>
-                {/* <Grid container justifyContent="center" >
-                  <Grid item> */}
-                    <strong>Total: </strong> ${basket.totalPrice}
-                  {/* </Grid>
-                </Grid> */}
+                <strong>Sub Total: </strong> ${basket.totalPrice}
               </ListItem>
               <ListItem>
-                <Grid container justifyContent="center" >
-                  <Grid item >
-                    <form className={classes.form} noValidate onSubmit={handleCodeSubmit}>
-                      <TextField variant="outlined" margin="normal" required fullWidth id="email" label="Enter Promo Code"
-                        name="promo" value={promoCode} onChange={(e) => setPromoCode(e.target.value)}
-                      />
-                      <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
-                        Add Promo Code
-                      </Button>
-                      
-                    </form>
-                  </Grid>
-                  <Grid item>
-                    {promoError && <Message severity='error'>{promoError}</Message>}
-                  </Grid>
-                </Grid>
+                <strong>Total: </strong> ${basket.totalPrice}
               </ListItem>
-
-
-
               <ListItem>
+                <form className={classes.form} noValidate onSubmit={handleCodeSubmit}>
+                  <TextField variant="outlined" margin="normal" required fullWidth id="email" label="Enter Promo Code"
+                    name="promo" value={promoCode} onChange={(e) => setPromoCode(e.target.value)}
+                  />
+                  <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+                    Add Promo Code
+                  </Button>
+                  {promoError && <Message severity='error'>{promoError}</Message>}
+                </form>
+                  
+              </ListItem>
+              {/* <ListItem> */}
                 {error && <Message severity='error'>{error}</Message>}
-              </ListItem>
+              {/* </ListItem> */}
               <ListItem>
               {!sdkReady && (
                     <Loader />
@@ -398,10 +372,12 @@ const PlaceOrderScreen = ({ history }) => {
                   Place Order
                 </Button>
               </ListItem> */}
+              {/* </Grid>
+              </Grid> */}
             </List>
+            
 
           </Paper>
-          {/* </Grid> */}
         </Grid>
       </Grid>
     </div>

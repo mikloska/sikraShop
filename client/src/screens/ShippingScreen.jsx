@@ -54,7 +54,7 @@ const ShippingScreen = ({history}) =>{
   const {loading,error,user}=userDetails
   useEffect(() => {
     //Get user details in case user is logged in and app was refreshed
-    if(userInformation&&(!user.shippingAddress||!user)){
+    if(userInformation&&!user){
       // dispatch(listMyOrders())
       dispatch(getUserDetails('profile'))
     } 
@@ -211,6 +211,7 @@ const ShippingScreen = ({history}) =>{
                 onChange={(e, newInputValue) => {
                   console.log(newInputValue)
                   setState(newInputValue);
+                  setProvince('')
                   setNewShippingAddress({...newShippingAddress,state:newInputValue})
                 }}
                 renderInput={(params) => <TextField {...params} label="State" variant="outlined" />}
@@ -220,6 +221,7 @@ const ShippingScreen = ({history}) =>{
               <Autocomplete id="Province" options={provinces} value={province} getOptionLabel={(option) => option} className={classes.Additional}
                 onChange={(e, newInputValue) => {
                   setProvince(newInputValue);
+                  setState('')
                   setNewShippingAddress({...newShippingAddress,province:newInputValue})
                 }}
                 renderInput={(params) => <TextField {...params} label="Province" variant="outlined"/>}

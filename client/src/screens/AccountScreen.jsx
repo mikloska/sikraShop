@@ -248,6 +248,7 @@ const AccountScreen = ({ location, history }) => {
           <Autocomplete id="States" options={states} value={state} getOptionLabel={(option) => option} className={classes.Additional}
             onChange={(event, newInputValue) => {
               setState(newInputValue);
+              setProvince('')
               setShippingAddress({...shippingAddress,state:e.target.value})
             }}
             renderInput={(params) => <TextField {...params} label="State" variant="outlined" />}
@@ -257,6 +258,7 @@ const AccountScreen = ({ location, history }) => {
           <Autocomplete id="Province" options={provinces} value={province} getOptionLabel={(option) => option} className={classes.Additional}
             onChange={(event, newInputValue) => {
               setProvince(newInputValue);
+              setState('')
               setShippingAddress({...shippingAddress,province:e.target.value})
             }}
             renderInput={(params) => <TextField {...params} label="Province" variant="outlined"/>}
