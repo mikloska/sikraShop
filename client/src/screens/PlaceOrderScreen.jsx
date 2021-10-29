@@ -67,7 +67,11 @@ const PlaceOrderScreen = ({ history }) => {
   const states=useSelector(state=>state.states)
   const basket = useSelector((state) => state.basket)
   const [sdkReady, setSdkReady] = useState(false)
-  const [discount, setDiscount] = useState(0)
+  const [finalTotal,setFinalTotal]=useState(0)
+  const [promoCode, setPromoCode]=useState('')
+  const [displayPromoCode, setDisplayPromoCode]=useState('')
+  const [promoPercentage, setPromoPercentage]=useState(0)
+  const [promoError, setPromoError]=useState(null)
 
   // if (!basket.shippingAddress) {
   //   history.push('/shipping')
@@ -95,15 +99,12 @@ const PlaceOrderScreen = ({ history }) => {
     :0)
   basket.shippingPrice = (basket.shippingAddress)&&(basket.shippingAddress.country==='United States'?0:basket.shippingAddress.country==='Canada'?addDecimals(13):basket.shippingAddress.country==='United Kingdom'?addDecimals(16):addDecimals(18))
   // basket.shippingPrice = addDecimals(basket.itemsPrice > 100 ? 0 : 100)
-  basket.taxPrice = addDecimals(Number((taxRate * basket.itemsPrice).toFixed(2)))
+  basket.taxPrice = addDecimals(Number((taxRate * basket.itemsPrice).toFixed(2))) 
   basket.totalPrice = (
     Number(basket.itemsPrice) +
     Number(basket.shippingPrice) +
     Number(basket.taxPrice)
   ).toFixed(2)
-  const [promoCode, setPromoCode]=useState('')
-  const [promoPercentage, setPromoPercentage]=useState(0)
-  const [promoError, setPromoError]=useState(null)
   const orderCreate = useSelector((state) => state.orderCreate)
   const { order, success, error } = orderCreate
   const userLogin=useSelector((state)=>state.userLogin)
@@ -123,12 +124,14 @@ const PlaceOrderScreen = ({ history }) => {
   const handleCodeSubmit=async(e)=>{
     e.preventDefault()
     const discountPercentage=await axios.get(`/api/promocode/${promoCode}`)
+    console.log(discountPercentage.data.promoCode)
     if(discountPercentage.data==='Invalid Code'){
       setPromoError(discountPercentage.data)
     }else{
       setPromoError(null)
-      setPromoCode(discountPercentage.data.promoCode)
-      setPromoPercentage(discountPercentage.data.percentage)
+      setPromoPercentage(discountPercentage.data.percentage) 
+      setDisplayPromoCode(discountPercentage.data.promoCode)
+      
     }
     // console.log(discountPercentage)
     // setDiscount(discountPercentage.percentage)
@@ -179,7 +182,8 @@ const PlaceOrderScreen = ({ history }) => {
           shippingPrice: basket.shippingPrice,
           taxPrice: basket.taxPrice,
           totalPrice: basket.totalPrice,
-          paymentResult: paymentResult
+          paymentResult: paymentResult,
+          promoUsed: `${promoCode} ${promoPercentage}% off`,
         })
     )}
     if(guest) dispatch(payGuestOrder(order._id, paymentResult))
@@ -195,8 +199,9 @@ const PlaceOrderScreen = ({ history }) => {
           itemsPrice: basket.itemsPrice,
           shippingPrice: basket.shippingPrice,
           taxPrice: basket.taxPrice,
-          totalPrice: basket.totalPrice,
-          paymentResult: paymentResult
+          totalPrice: basket.totalPrice-addDecimals(Number((basket.totalPrice*promoPercentage/100).toFixed(2))),
+          paymentResult: paymentResult,
+          promoUsed: `${promoCode} ${promoPercentage}% off`,
         })
     )}
     if(!guest) dispatch(payOrder(order._id, paymentResult))
@@ -206,7 +211,7 @@ const PlaceOrderScreen = ({ history }) => {
     // dispatch(payOrder(orderId, paymentResult))
     // dispatch({type: BASKET_RESET})
   }
-  const placeOrderHandler = () => {
+  // const placeOrderHandler = () => {
     // dispatch(
     //   createOrder({
     //     orderItems: basket.basketItems,
@@ -218,7 +223,7 @@ const PlaceOrderScreen = ({ history }) => {
     //     totalPrice: basket.totalPrice,
     //   })
     // )
-  }
+  // }
 
   return (
     <div style={{marginTop:35, marginBottom: 45, padding:20}}>
@@ -306,8 +311,7 @@ const PlaceOrderScreen = ({ history }) => {
         </Grid>
 
         <Grid item md={6} sm={10} xs={12}>
-
-          <Paper elevation={7} className={classes.paper}>
+          <Paper elevation={7} className={classes.paper} style={{width:'100%'}}>
             <List>
               <ListItem>
                 <h2>Order Summary</h2>
@@ -316,16 +320,26 @@ const PlaceOrderScreen = ({ history }) => {
                 <strong>Items: </strong> ${basket.itemsPrice}
               </ListItem>
               <ListItem>
-                <strong>Shipping: </strong> ${basket.shippingPrice}
-              </ListItem>
-              <ListItem>
                 <strong>Tax: </strong> ${basket.taxPrice}
               </ListItem>
               <ListItem>
-                <strong>Sub Total: </strong> ${basket.totalPrice}
+                <strong>Sub Total: </strong> ${basket.totalPrice}  
+              </ListItem>
+              {displayPromoCode!==''&&(
+                <>
+                  <ListItem>
+                    <strong>Discount: </strong> -${`${addDecimals(Number((basket.totalPrice*(promoPercentage/100)).toFixed(2)))} (${promoPercentage}% off)`}
+                  </ListItem>
+                  <ListItem>
+                    <strong>Promo Code: </strong>{displayPromoCode}  
+                  </ListItem>
+                </>
+              )}
+              <ListItem>
+                <strong>Shipping: </strong> ${basket.shippingPrice}
               </ListItem>
               <ListItem>
-                <strong>Total: </strong> ${basket.totalPrice}
+                <strong>Total: </strong> ${basket.totalPrice-addDecimals(Number((basket.totalPrice*promoPercentage/100).toFixed(2)))}
               </ListItem>
               <ListItem>
                 <form className={classes.form} noValidate onSubmit={handleCodeSubmit}>
@@ -340,7 +354,7 @@ const PlaceOrderScreen = ({ history }) => {
                   
               </ListItem>
               {/* <ListItem> */}
-                {error && <Message severity='error'>{error}</Message>}
+                {error && <Message  severity='error'>{error}</Message>}
               {/* </ListItem> */}
               <ListItem>
               {!sdkReady && (
@@ -348,7 +362,7 @@ const PlaceOrderScreen = ({ history }) => {
                   )} 
               {( basket.paymentMethod==='PayPal' &&
                     <PayPalButton
-                      amount={basket.totalPrice}
+                      amount={basket.totalPrice-addDecimals(Number((basket.totalPrice*promoPercentage/100).toFixed(2)))}
                       onSuccess={successPaymentHandler}
                     />
                   )}

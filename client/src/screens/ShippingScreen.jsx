@@ -63,9 +63,7 @@ const ShippingScreen = ({history}) =>{
     // setNewShippingAddress(address,city,state,province,country,zip)
   }, [country])
 
-  const [newShippingAddress, setNewShippingAddress] = useState({address:address,city:city,state:state,province:province,country:country,zip:zip})
-  const [updateSavedAddress, setUpdateSavedAddress] = useState(false)
-  const [usingSavedAddress, setUsingSavedAddress] = useState(false)
+
   const guest=useSelector(state=>state.guest.guestCheckout)
 
   // const userDetails=useSelector(state=>state.userDetails)
@@ -82,12 +80,15 @@ const ShippingScreen = ({history}) =>{
   //Only need email and name here if guest
   const [name, setName] = useState(' ');
   const [email, setEmail] = useState(' ');
-  const defaultAddress =  shippingAddress ? shippingAddress.address : ''
-  const defaultCity =  shippingAddress ? shippingAddress.city : ''
-  const defaultZip =  shippingAddress ? shippingAddress.zip : ''
-  const defaultCountry =  shippingAddress ? shippingAddress.country : ''
-  const defaultState =  shippingAddress ? shippingAddress.state : ''
-  const defaultProvince =  shippingAddress ? shippingAddress.province : ''
+  const [newShippingAddress, setNewShippingAddress] = useState([])
+  const [updateSavedAddress, setUpdateSavedAddress] = useState(false)
+  const [usingSavedAddress, setUsingSavedAddress] = useState(false)
+  const defaultAddress =  (shippingAddress&& usingSavedAddress) ? shippingAddress.address : ''
+  const defaultCity =  (shippingAddress&& usingSavedAddress) ? shippingAddress.city : ''
+  const defaultZip =  (shippingAddress&& usingSavedAddress) ? shippingAddress.zip : ''
+  const defaultCountry =  (shippingAddress&& usingSavedAddress) ? shippingAddress.country : ''
+  const defaultState =  (shippingAddress&& usingSavedAddress) ? shippingAddress.state : ''
+  const defaultProvince =  (shippingAddress&& usingSavedAddress) ? shippingAddress.province : ''
   const [address,setAddress]=useState(defaultAddress)
   const [city,setCity]=useState(defaultCity)
   const [zip,setZip]=useState(defaultZip)
@@ -249,7 +250,7 @@ const ShippingScreen = ({history}) =>{
 
               
               <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} style={{marginTop: 40}}>
-                {shippingAddress?'Update Shipping Address':'Continue to Payment'}
+                {shippingAddress && shippingAddress.address?'Update Shipping Address':'Continue to Payment'}
               </Button>
             </form>
             {message && <Message style={{width:'100%',marginTop:8}} severity='error' >{message}</Message>}

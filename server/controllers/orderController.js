@@ -13,7 +13,8 @@ const addOrderItems = async (req, res, next) => {
       taxPrice,
       shippingPrice,
       totalPrice,
-      paymentResult
+      paymentResult,
+      promoUsed
     } = req.body
 
     if (orderItems && orderItems.length === 0) {
@@ -33,7 +34,7 @@ const addOrderItems = async (req, res, next) => {
         isPaid : true,
         paidAt: Date.now(),
         paymentResult,
-
+        promoUsed
 
     })
 
@@ -59,7 +60,8 @@ const addGuestOrderItems = async (req, res, next) => {
       taxPrice,
       shippingPrice,
       totalPrice,
-      paymentResult
+      paymentResult,
+      promoUsed
     } = req.body
 
     if (orderItems && orderItems.length === 0) {
@@ -80,6 +82,7 @@ const addGuestOrderItems = async (req, res, next) => {
         isPaid : true,
         paidAt: Date.now(),
         paymentResult,
+        promoUsed
 
 
     })

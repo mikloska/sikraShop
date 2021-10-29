@@ -316,6 +316,13 @@ const OrderScreen = ({ match, location, history}) => {
                   <Grid item><strong>Tax: </strong> ${order.taxPrice}</Grid>
                 </Grid>
               </ListItem>
+              {order.promoUsed!==' 0% off'&&
+                <ListItem>
+                <Grid container justifyContent="flex-end" >
+                    <Grid item><strong>Promo Used: </strong> {order.promoUsed}</Grid>
+                  </Grid>
+                </ListItem>
+              }
               <ListItem>
                 <Grid container justifyContent="flex-end"  style={{marginBottom:20}}>
                   <Grid item><strong>Total: </strong> ${order.totalPrice}</Grid>
