@@ -68,16 +68,6 @@ const PlaceOrderScreen = ({ history }) => {
   const basket = useSelector((state) => state.basket)
   const [sdkReady, setSdkReady] = useState(false)
   const [discount, setDiscount] = useState(0)
-  useEffect(()=>{
-    if (!basket.shippingAddress) {
-      history.push('/shipping')
-    } 
-    //This will be used if and when alternative payment options are implelemnted in the future i.e. Stripe
-    // else if (!basket.paymentMethod) {
-    //   history.push('/payment')
-    // }
-
-  },[])
 
   // if (!basket.shippingAddress) {
   //   history.push('/shipping')
@@ -95,12 +85,12 @@ const PlaceOrderScreen = ({ history }) => {
   const taxRate = 
     //Had to add this conditional to check if there is a basket shippingAddress to prevent crash if user refreshes
     (basket.shippingAddress)&&(
-    basket.shippingAddress.country!=='United States'&&basket.shippingAddress.country!=='Canada'?0
-    :basket.shippingAddress.city.toUpperCase().includes('NEW YORK')&&basket.shippingAddress.state.toUpperCase().includes('NEW YORK')?.08875
+    // basket.shippingAddress.country!=='United States'&&basket.shippingAddress.country!=='Canada'?0:
+    basket.shippingAddress.city.toUpperCase().includes('NEW YORK')&&basket.shippingAddress.state.toUpperCase().includes('NEW YORK')?.08875
     :basket.shippingAddress.city.toUpperCase().includes('LOS ANGELES')?.095
     :basket.shippingAddress.city.toUpperCase().includes('SAN FRANCISCO')?.08625
     :(basket.shippingAddress.state!==''&&!basket.shippingAddress.city.toUpperCase().includes('NEW YORK')&&!basket.shippingAddress.city.toUpperCase().includes('LOS ANGELES')&&!basket.shippingAddress.city.toUpperCase().includes('SAN FRANCISCO'))?states[basket.shippingAddress.state]
-    :basket.shippingAddress.province!==''&&basket.shippingAddress.province!=='Ontario'?.015
+    :basket.shippingAddress.country==='Canada'&&basket.shippingAddress.province!=='Ontario'?.015
     :basket.shippingAddress.province==='Ontario'?.013
     :0)
   basket.shippingPrice = (basket.shippingAddress)&&(basket.shippingAddress.country==='United States'?0:basket.shippingAddress.country==='Canada'?addDecimals(13):basket.shippingAddress.country==='United Kingdom'?addDecimals(16):addDecimals(18))
@@ -146,6 +136,8 @@ const PlaceOrderScreen = ({ history }) => {
   }
 
   useEffect(() => {
+    if (!basket.shippingAddress) history.push('/shipping')
+    
     if (success) {
 
       // dispatch({ type: USER_DETAILS_RESET })
