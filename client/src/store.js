@@ -41,10 +41,11 @@ const reducer =  combineReducers({
   guest: guestReducer
 })
 //Check to see if it`s in state. If so, put it into state.
+const shippingAddressFromStorage=localStorage.getItem('shippingAddress')?JSON.parse(localStorage.getItem('shippingAddress')):{}
 const basketFromStorage = localStorage.getItem('basketItems')?JSON.parse(localStorage.getItem('basketItems')) : []
 const userInformationFromStorage = localStorage.getItem('userInformation')?JSON.parse(localStorage.getItem('userInformation')) : null
 const initialState = {
-  basket: {basketItems: basketFromStorage},
+  basket: {basketItems: basketFromStorage, shippingAddress: shippingAddressFromStorage, paymentMethod:'PayPal'},
   userLogin: {userInformation:userInformationFromStorage},
 }
 

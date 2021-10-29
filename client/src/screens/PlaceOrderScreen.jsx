@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import {Button, Box, List, ListItem, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, ListItemIcon, ListItemText, Divider, FormControl, Select, MenuItem, InputLabel, Grid, Paper} from '@material-ui/core/';
+import {Button, Box, List, ListItem, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
+ListItemIcon, ListItemText, Divider, FormControl, Select, MenuItem, InputLabel, Grid, Paper} from '@material-ui/core/';
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import CheckoutSteps from '../components/CheckoutSteps'
@@ -36,9 +37,8 @@ const StyledTableRow = withStyles((theme) => ({
 
 const useStyles = makeStyles((theme) => ({
   submit: {
-    
     background:'linear-gradient(120deg, #28ccc4, #067e78)',
-    margin: theme.spacing(3, 0, 2),
+    // margin: theme.spacing(3, 0, 2),
   },
   Box: {
     width:50
@@ -53,6 +53,10 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
+  form: {
+    width: '200px',
+    // marginTop: theme.spacing(1),
+  },
   
 }))
 
@@ -63,14 +67,11 @@ const PlaceOrderScreen = ({ history }) => {
   const states=useSelector(state=>state.states)
   const basket = useSelector((state) => state.basket)
   const [sdkReady, setSdkReady] = useState(false)
-  useEffect(()=>{
-    if (!basket.shippingAddress) {
-      history.push('/shipping')
-    } else if (!basket.paymentMethod) {
-      history.push('/payment')
-    }
-
-  },[])
+  const [finalTotal,setFinalTotal]=useState(0)
+  const [promoCode, setPromoCode]=useState('')
+  const [displayPromoCode, setDisplayPromoCode]=useState('')
+  const [promoPercentage, setPromoPercentage]=useState(0)
+  const [promoError, setPromoError]=useState(null)
 
   // if (!basket.shippingAddress) {
   //   history.push('/shipping')
@@ -88,23 +89,22 @@ const PlaceOrderScreen = ({ history }) => {
   const taxRate = 
     //Had to add this conditional to check if there is a basket shippingAddress to prevent crash if user refreshes
     (basket.shippingAddress)&&(
-    basket.shippingAddress.country!=='United States'&&basket.shippingAddress.country!=='Canada'?0
-    :basket.shippingAddress.city.toUpperCase().includes('NEW YORK')&&basket.shippingAddress.state.toUpperCase().includes('NEW YORK')?.08875
+    // basket.shippingAddress.country!=='United States'&&basket.shippingAddress.country!=='Canada'?0:
+    basket.shippingAddress.city.toUpperCase().includes('NEW YORK')&&basket.shippingAddress.state.toUpperCase().includes('NEW YORK')?.08875
     :basket.shippingAddress.city.toUpperCase().includes('LOS ANGELES')?.095
     :basket.shippingAddress.city.toUpperCase().includes('SAN FRANCISCO')?.08625
     :(basket.shippingAddress.state!==''&&!basket.shippingAddress.city.toUpperCase().includes('NEW YORK')&&!basket.shippingAddress.city.toUpperCase().includes('LOS ANGELES')&&!basket.shippingAddress.city.toUpperCase().includes('SAN FRANCISCO'))?states[basket.shippingAddress.state]
-    :basket.shippingAddress.province!==''&&basket.shippingAddress.province!=='Ontario'?.015
+    :basket.shippingAddress.country==='Canada'&&basket.shippingAddress.province!=='Ontario'?.015
     :basket.shippingAddress.province==='Ontario'?.013
     :0)
   basket.shippingPrice = (basket.shippingAddress)&&(basket.shippingAddress.country==='United States'?0:basket.shippingAddress.country==='Canada'?addDecimals(13):basket.shippingAddress.country==='United Kingdom'?addDecimals(16):addDecimals(18))
   // basket.shippingPrice = addDecimals(basket.itemsPrice > 100 ? 0 : 100)
-  basket.taxPrice = addDecimals(Number((taxRate * basket.itemsPrice).toFixed(2)))
+  basket.taxPrice = addDecimals(Number((taxRate * basket.itemsPrice).toFixed(2))) 
   basket.totalPrice = (
     Number(basket.itemsPrice) +
     Number(basket.shippingPrice) +
     Number(basket.taxPrice)
   ).toFixed(2)
-
   const orderCreate = useSelector((state) => state.orderCreate)
   const { order, success, error } = orderCreate
   const userLogin=useSelector((state)=>state.userLogin)
@@ -121,8 +121,26 @@ const PlaceOrderScreen = ({ history }) => {
     }
     document.body.appendChild(script)
   }
+  const handleCodeSubmit=async(e)=>{
+    e.preventDefault()
+    const discountPercentage=await axios.get(`/api/promocode/${promoCode}`)
+    console.log(discountPercentage.data.promoCode)
+    if(discountPercentage.data==='Invalid Code'){
+      setPromoError(discountPercentage.data)
+    }else{
+      setPromoError(null)
+      setPromoPercentage(discountPercentage.data.percentage) 
+      setDisplayPromoCode(discountPercentage.data.promoCode)
+      
+    }
+    // console.log(discountPercentage)
+    // setDiscount(discountPercentage.percentage)
+    setPromoCode('')
+  }
 
   useEffect(() => {
+    if (!basket.shippingAddress) history.push('/shipping')
+    
     if (success) {
 
       // dispatch({ type: USER_DETAILS_RESET })
@@ -164,7 +182,8 @@ const PlaceOrderScreen = ({ history }) => {
           shippingPrice: basket.shippingPrice,
           taxPrice: basket.taxPrice,
           totalPrice: basket.totalPrice,
-          paymentResult: paymentResult
+          paymentResult: paymentResult,
+          promoUsed: `${promoCode} ${promoPercentage}% off`,
         })
     )}
     if(guest) dispatch(payGuestOrder(order._id, paymentResult))
@@ -180,8 +199,9 @@ const PlaceOrderScreen = ({ history }) => {
           itemsPrice: basket.itemsPrice,
           shippingPrice: basket.shippingPrice,
           taxPrice: basket.taxPrice,
-          totalPrice: basket.totalPrice,
-          paymentResult: paymentResult
+          totalPrice: basket.totalPrice-addDecimals(Number((basket.totalPrice*promoPercentage/100).toFixed(2))),
+          paymentResult: paymentResult,
+          promoUsed: `${promoCode} ${promoPercentage}% off`,
         })
     )}
     if(!guest) dispatch(payOrder(order._id, paymentResult))
@@ -191,7 +211,7 @@ const PlaceOrderScreen = ({ history }) => {
     // dispatch(payOrder(orderId, paymentResult))
     // dispatch({type: BASKET_RESET})
   }
-  const placeOrderHandler = () => {
+  // const placeOrderHandler = () => {
     // dispatch(
     //   createOrder({
     //     orderItems: basket.basketItems,
@@ -203,7 +223,7 @@ const PlaceOrderScreen = ({ history }) => {
     //     totalPrice: basket.totalPrice,
     //   })
     // )
-  }
+  // }
 
   return (
     <div style={{marginTop:35, marginBottom: 45, padding:20}}>
@@ -290,54 +310,59 @@ const PlaceOrderScreen = ({ history }) => {
           </Paper>
         </Grid>
 
-        <Grid item md={5} sm={10} xs={12}>
-          <Paper elevation={7} className={classes.paper}>
-            <List  >
+        <Grid item md={6} sm={10} xs={12}>
+          <Paper elevation={7} className={classes.paper} style={{width:'100%'}}>
+            <List>
               <ListItem>
-                <Grid container justifyContent="center" >
-                  <Grid item><h2>Order Summary</h2></Grid>
-                </Grid>
+                <h2>Order Summary</h2>
               </ListItem>
               <ListItem>
-                <Grid container justifyContent="center" >
-                  <Grid item><strong>Items: </strong> ${basket.itemsPrice}</Grid>
-                </Grid>
+                <strong>Items: </strong> ${basket.itemsPrice}
               </ListItem>
               <ListItem>
-                <Grid container justifyContent="center" >
-                  <Grid item><strong>Shipping: </strong> ${basket.shippingPrice}</Grid>
-                </Grid>
+                <strong>Tax: </strong> ${basket.taxPrice}
               </ListItem>
               <ListItem>
-                <Grid container justifyContent="center" >
-                  <Grid item><strong>Tax: </strong> ${basket.taxPrice}</Grid>
-                </Grid>
+                <strong>Sub Total: </strong> ${basket.totalPrice}  
+              </ListItem>
+              {displayPromoCode!==''&&(
+                <>
+                  <ListItem>
+                    <strong>Discount: </strong> -${`${addDecimals(Number((basket.totalPrice*(promoPercentage/100)).toFixed(2)))} (${promoPercentage}% off)`}
+                  </ListItem>
+                  <ListItem>
+                    <strong>Promo Code: </strong>{displayPromoCode}  
+                  </ListItem>
+                </>
+              )}
+              <ListItem>
+                <strong>Shipping: </strong> ${basket.shippingPrice}
               </ListItem>
               <ListItem>
-                <Grid container justifyContent="center" >
-                  <Grid item><strong>Total: </strong> ${basket.totalPrice}</Grid>
-                </Grid>
+                <strong>Total: </strong> ${basket.totalPrice-addDecimals(Number((basket.totalPrice*promoPercentage/100).toFixed(2)))}
               </ListItem>
-
-              <TextField variant="outlined" margin="normal" required fullWidth id="email" label="Promo Code"
-                  name="promo" value='promo'
-                  onChange={(e) => {
-                    console.log(e.target.value);
-                  }}
-                />
-
-
-
               <ListItem>
-                {error && <Message severity='error'>{error}</Message>}
+                <form className={classes.form} noValidate onSubmit={handleCodeSubmit}>
+                  <TextField variant="outlined" margin="normal" required fullWidth id="email" label="Enter Promo Code"
+                    name="promo" value={promoCode} onChange={(e) => setPromoCode(e.target.value)}
+                  />
+                  <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+                    Add Promo Code
+                  </Button>
+                  {promoError && <Message severity='error'>{promoError}</Message>}
+                </form>
+                  
               </ListItem>
+              {/* <ListItem> */}
+                {error && <Message  severity='error'>{error}</Message>}
+              {/* </ListItem> */}
               <ListItem>
               {!sdkReady && (
                     <Loader />
                   )} 
               {( basket.paymentMethod==='PayPal' &&
                     <PayPalButton
-                      amount={basket.totalPrice}
+                      amount={basket.totalPrice-addDecimals(Number((basket.totalPrice*promoPercentage/100).toFixed(2)))}
                       onSuccess={successPaymentHandler}
                     />
                   )}
@@ -353,7 +378,10 @@ const PlaceOrderScreen = ({ history }) => {
                   Place Order
                 </Button>
               </ListItem> */}
+              {/* </Grid>
+              </Grid> */}
             </List>
+            
 
           </Paper>
         </Grid>

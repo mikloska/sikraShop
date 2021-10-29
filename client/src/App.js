@@ -28,6 +28,7 @@ import ContactScreen from './screens/ContactScreen';
 import CustomScreen from './screens/CustomScreen';
 import ResetPasswordScreen from './screens/ResetPasswordScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen'
+import PromoCodeScreen from './screens/PromoCodeScreen'
 import CheckoutSteps from './components/CheckoutSteps';
 
 const useStyles = makeStyles({
@@ -105,6 +106,7 @@ const App = (showBelow) => {
               <Route path='/placeorder' component={PlaceOrderScreen}/>
               <Route path='/orders/:id' component={OrderScreen}/>
               <Route path='/admin/orderlist' component={OrderListScreen} />
+              <Route path='/admin/promocode' component={PromoCodeScreen} />
               <Route path='/admin/userlist' component={UserListScreen}/>
               <Route path='/admin/user/:id/edit' component={UserEditScreen}/>
               <Route path='/admin/productlist' component={ProductListScreen} exact/>
