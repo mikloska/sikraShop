@@ -74,8 +74,7 @@ const ShippingScreen = ({history}) =>{
   //Redirect to login if userInfo is empty
   if(!userInformation&&!guest) history.push('/login')
   const basket = useSelector((state) => state.basket)
-  const {basketItems} = basket
-  const { shippingAddress } = basket
+  const {basketItems,shippingAddress} = basket
   //Redirect to home page if basket is empty
   if (basketItems.length === 0) history.push('/')
   const classes = useStyles();
@@ -86,18 +85,18 @@ const ShippingScreen = ({history}) =>{
   const [newShippingAddress, setNewShippingAddress] = useState([])
   const [updateSavedAddress, setUpdateSavedAddress] = useState(false)
   const [usingSavedAddress, setUsingSavedAddress] = useState(false)
-  const defaultAddress =  shippingAddress ? shippingAddress.address : ''
-  const defaultCity =  shippingAddress ? shippingAddress.city : ''
-  const defaultZip =  shippingAddress ? shippingAddress.zip : ''
-  const defaultCountry =  shippingAddress ? shippingAddress.country : countries[0]
-  const defaultState =  shippingAddress ? shippingAddress.state : ''
-  const defaultProvince =  shippingAddress ? shippingAddress.province : ''
-  const [address,setAddress]=useState(defaultAddress)
-  const [city,setCity]=useState(defaultCity)
-  const [zip,setZip]=useState(defaultZip)
-  const [country,setCountry]=useState(defaultCountry)
-  const [state,setState]=useState(defaultState)
-  const [province,setProvince]=useState(defaultProvince)
+  // const defaultAddress =  shippingAddress ? shippingAddress.address : ''
+  // const defaultCity =  shippingAddress ? shippingAddress.city : ''
+  // const defaultZip =  shippingAddress ? shippingAddress.zip : ''
+  // const defaultCountry =  shippingAddress ? shippingAddress.country : ''
+  // const defaultState =  shippingAddress ? shippingAddress.state : ''
+  // const defaultProvince =  shippingAddress ? shippingAddress.province : ''
+  const [address,setAddress]=useState('')
+  const [city,setCity]=useState('')
+  const [zip,setZip]=useState('')
+  const [country,setCountry]=useState('')
+  const [state,setState]=useState('')
+  const [province,setProvince]=useState('')
   const [message, setMessage]=useState(null)
   const tab = 1
   // if(shippingAddress){
@@ -124,14 +123,14 @@ const ShippingScreen = ({history}) =>{
     }
   }
   const useSavedAddress=(e)=>{
-    e.preventDefault
+    e.preventDefault()
     setUsingSavedAddress(true)
     setAddress(user.shippingAddress.address)
     setCity(user.shippingAddress.city)
     setZip(user.shippingAddress.zip)
     setCountry(user.shippingAddress.country)
-    setState(user.shippingAddress.state)
-    setProvince(user.shippingAddress.province)
+    if(user.shippingAddress.state && user.shippingAddress.state!=='') setState(user.shippingAddress.state)
+    if(user.shippingAddress.province && user.shippingAddress.province!=='') setProvince(user.shippingAddress.province)
   }
 
 
@@ -187,14 +186,14 @@ const ShippingScreen = ({history}) =>{
                 </div>
               )}
               <TextField autoComplete="address" variant="outlined" margin="normal" required fullWidth id="address"
-                label="Address" name="address" autoComplete="address" value={address}
+                label={shippingAddress.address?shippingAddress.address:'Address'} name="address" autoComplete="address" value={address}
                 onChange={(e) => {
                   setAddress(e.target.value);
                   setNewShippingAddress({...newShippingAddress,address:e.target.value});
                 }}
               />
               <TextField variant="outlined" margin="normal" required fullWidth id="city"
-                label="City" name="city" autoComplete="address" value={city}
+                label={shippingAddress.city?shippingAddress.city:'City'} name="city" autoComplete="address" value={city}
                 onChange={(e) => {
                   setCity(e.target.value);
                   setNewShippingAddress({...newShippingAddress,city:e.target.value});
@@ -205,7 +204,7 @@ const ShippingScreen = ({history}) =>{
                   setCountry(newInputValue);
                   setNewShippingAddress({...newShippingAddress,country:newInputValue})
                 }}
-                renderInput={(params) => <TextField {...params} label="Country" variant="outlined" />}
+                renderInput={(params) => <TextField {...params} label={shippingAddress.country?shippingAddress.country:'Country'} variant="outlined" />}
               />
               {country==='United States' &&
               <Autocomplete id="States" options={states} value={state} getOptionLabel={(option) => option} className={classes.Additional}
@@ -215,7 +214,7 @@ const ShippingScreen = ({history}) =>{
                   setProvince('')
                   setNewShippingAddress({...newShippingAddress,state:newInputValue})
                 }}
-                renderInput={(params) => <TextField {...params} label="State" variant="outlined" />}
+                renderInput={(params) => <TextField {...params} label={shippingAddress.provinces?shippingAddress.province:'Province'} variant="outlined" />}
                 
               />}
               {country==='Canada' &&
@@ -225,11 +224,11 @@ const ShippingScreen = ({history}) =>{
                   setState('')
                   setNewShippingAddress({...newShippingAddress,province:newInputValue})
                 }}
-                renderInput={(params) => <TextField {...params} label="Province" variant="outlined"/>}
+                renderInput={(params) => <TextField {...params} label={shippingAddress.state?shippingAddress.state:'State'} variant="outlined"/>}
                 
               />}
               <TextField variant="outlined" margin="normal" required fullWidth id="zip"
-                label="Postal Code" name="zip" autoComplete="zip" value={zip}
+                label={shippingAddress.zip?shippingAddress.zip:'Postal Code'} name="zip" autoComplete="zip" value={zip}
                 onChange={(e) => {
                   setZip(e.target.value);
                   setNewShippingAddress({...newShippingAddress,zip:e.target.value})
