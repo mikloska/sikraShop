@@ -139,7 +139,7 @@ const PlaceOrderScreen = ({ history }) => {
   }
 
   useEffect(() => {
-    if (!basket.shippingAddress) history.push('/shipping')
+    if ((!userInformation && !basket.guestInfo)||!basket.shippingAddress) history.push('/shipping')
     
     if (success) {
 
@@ -199,7 +199,7 @@ const PlaceOrderScreen = ({ history }) => {
           itemsPrice: basket.itemsPrice,
           shippingPrice: basket.shippingPrice,
           taxPrice: basket.taxPrice,
-          totalPrice: basket.totalPrice-addDecimals(Number((basket.totalPrice*promoPercentage/100).toFixed(2))),
+          totalPrice: addDecimals(Number(basket.totalPrice-(basket.totalPrice*promoPercentage/100).toFixed(2))),
           paymentResult: paymentResult,
           promoUsed: `${promoCode} ${promoPercentage}% off`,
         })
@@ -236,7 +236,7 @@ const PlaceOrderScreen = ({ history }) => {
               <ListItemText>
                 <Grid container justifyContent="center" >
                   <Grid item>
-                    {guest?basket.guestInfo.name:userInformation.name}
+                    {guest&&basket.guestInfo.name} {userInformation&&userInformation.name}
                   </Grid>
                 </Grid>
               </ListItemText>
@@ -339,7 +339,7 @@ const PlaceOrderScreen = ({ history }) => {
                 <strong>Shipping: </strong> ${basket.shippingPrice}
               </ListItem>
               <ListItem>
-                <strong>Total: </strong> ${basket.totalPrice-addDecimals(Number((basket.totalPrice*promoPercentage/100).toFixed(2)))}
+                <strong>Total: </strong> ${addDecimals(Number(basket.totalPrice-(basket.totalPrice*(promoPercentage/100)).toFixed(2)))}
               </ListItem>
               <ListItem>
                 <form className={classes.form} noValidate onSubmit={handleCodeSubmit}>
@@ -362,7 +362,7 @@ const PlaceOrderScreen = ({ history }) => {
                   )} 
               {( basket.paymentMethod==='PayPal' &&
                     <PayPalButton
-                      amount={basket.totalPrice-addDecimals(Number((basket.totalPrice*promoPercentage/100).toFixed(2)))}
+                      amount={addDecimals(Number(basket.totalPrice-(basket.totalPrice*promoPercentage/100).toFixed(2)))}
                       onSuccess={successPaymentHandler}
                     />
                   )}

@@ -63,7 +63,10 @@ const ShippingScreen = ({history}) =>{
     // setNewShippingAddress(address,city,state,province,country,zip)
   }, [country])
 
-
+  let states=useSelector(state=>state.states)
+  states = Object.keys(states)
+  const provinces=useSelector(state=>state.provinces)
+  const countries=useSelector(state=>state.countries)
   const guest=useSelector(state=>state.guest.guestCheckout)
 
   // const userDetails=useSelector(state=>state.userDetails)
@@ -83,12 +86,12 @@ const ShippingScreen = ({history}) =>{
   const [newShippingAddress, setNewShippingAddress] = useState([])
   const [updateSavedAddress, setUpdateSavedAddress] = useState(false)
   const [usingSavedAddress, setUsingSavedAddress] = useState(false)
-  const defaultAddress =  (shippingAddress&& usingSavedAddress) ? shippingAddress.address : ''
-  const defaultCity =  (shippingAddress&& usingSavedAddress) ? shippingAddress.city : ''
-  const defaultZip =  (shippingAddress&& usingSavedAddress) ? shippingAddress.zip : ''
-  const defaultCountry =  (shippingAddress&& usingSavedAddress) ? shippingAddress.country : ''
-  const defaultState =  (shippingAddress&& usingSavedAddress) ? shippingAddress.state : ''
-  const defaultProvince =  (shippingAddress&& usingSavedAddress) ? shippingAddress.province : ''
+  const defaultAddress =  shippingAddress ? shippingAddress.address : ''
+  const defaultCity =  shippingAddress ? shippingAddress.city : ''
+  const defaultZip =  shippingAddress ? shippingAddress.zip : ''
+  const defaultCountry =  shippingAddress ? shippingAddress.country : countries[0]
+  const defaultState =  shippingAddress ? shippingAddress.state : ''
+  const defaultProvince =  shippingAddress ? shippingAddress.province : ''
   const [address,setAddress]=useState(defaultAddress)
   const [city,setCity]=useState(defaultCity)
   const [zip,setZip]=useState(defaultZip)
@@ -101,10 +104,7 @@ const ShippingScreen = ({history}) =>{
   //   setAddress(address)
   // }
   // const statesTax= {'Alabama':.04,'Alaska':'N/A','American Samoa':'N/A','Arizona':.056,'Arkansas':.065,'California':.0725,'Colorado':.029,'Connecticut':.0635,'Delaware':'N/A','Washington D.C. (District of Columbia)':.0575,'Federated States of Micronesia':'N/A','Florida':.06,'Georgia':.04,'Guam':'N/A','Hawaii':.04,'Idaho':.06,'Illinois':.0625,'Indiana':.07,'Iowa':.06,'Kansas':.065,'Kentucky':.06,'Louisiana':.0445,'Maine':.055,'Marshall Islands':'N/A','Maryland':.06,'Massachusetts':.0625,'Michigan':.06,'Minnesota':.0688,'Mississippi':.07,'Missouri':.0423,'Montana':'N/A','Nebraska':.055,'Nevada':.0685,'New Hampshire':'N/A','New Jersey':.0663,'New Mexico':.0513,'New York':.04,'North Carolina':.0475,'North Dakota':.05,'Northern Mariana Islands':'N/A','Ohio':.0575,'Oklahoma':.045,'Oregon':'N/A','Palau':'N/A','Pennsylvania':.06,'Puerto Rico':'N/A','Rhode Island':.07,'South Carolina':.06,'South Dakota':.045,'Tennessee':.07,'Texas':.0625,'Utah':.0595,'Vermont':.06,'Virgin Island':'N/A','Virginia':.053,'Washington':.065,'West Virginia':.06,'Wisconsin':.05,'Wyoming':.04}
-  let states=useSelector(state=>state.states)
-  states = Object.keys(states)
-  const provinces=useSelector(state=>state.provinces)
-  const countries=useSelector(state=>state.countries)
+
 
   const handleSubmit = (e) => {
     e.preventDefault()
