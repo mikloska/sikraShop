@@ -144,6 +144,7 @@ const createProduct = async(req,res, next) => {
 // @access  Private/Admin
 const updateProduct = async (req, res, next) => {
   try{
+    console.log('in updateProduct controller. Req.body is: ',req.body)
     const {name, price, description, image, brand, category, countInStock } = req.body
 
     const product = await Product.findById(req.params.id)

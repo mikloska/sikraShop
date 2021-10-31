@@ -21,6 +21,7 @@ import {notFound, errorHandler} from './middleware/errorHandler.js'
 import uploadRoutes from './routes/uploadRoutes.js'
 import emailRoutes from './routes/emailRoutes.js'
 import morgan from 'morgan'
+
 // import nodemailer from 'nodemailer'
 // import passport from 'passport'
 // import session from 'express-session'
@@ -48,7 +49,7 @@ app.use('/api/promocode', promoRoutes)
 app.get('/api/config/paypal', (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
 )
-app.use('/api/upload', uploadRoutes)
+app.use('/api/images', uploadRoutes)
 
 // app.use(express.urlencoded({extended:true}))
 // app.use(
