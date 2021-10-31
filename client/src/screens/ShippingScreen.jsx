@@ -80,8 +80,8 @@ const ShippingScreen = ({history}) =>{
   const classes = useStyles();
   const dispatch = useDispatch()
   //Only need email and name here if guest
-  const [name, setName] = useState(' ');
-  const [email, setEmail] = useState(' ');
+  const [name, setName] = useState(basket.guestInfo?basket.guestInfo.name:' ');
+  const [email, setEmail] = useState(basket.guestInfo?basket.guestInfo.email:' ');
   const [newShippingAddress, setNewShippingAddress] = useState([])
   const [updateSavedAddress, setUpdateSavedAddress] = useState(false)
   const [usingSavedAddress, setUsingSavedAddress] = useState(false)
@@ -91,12 +91,12 @@ const ShippingScreen = ({history}) =>{
   // const defaultCountry =  shippingAddress ? shippingAddress.country : ''
   // const defaultState =  shippingAddress ? shippingAddress.state : ''
   // const defaultProvince =  shippingAddress ? shippingAddress.province : ''
-  const [address,setAddress]=useState('')
-  const [city,setCity]=useState('')
-  const [zip,setZip]=useState('')
-  const [country,setCountry]=useState('')
-  const [state,setState]=useState('')
-  const [province,setProvince]=useState('')
+  const [address,setAddress]=useState(shippingAddress.address?shippingAddress.address:'')
+  const [city,setCity]=useState(shippingAddress.city?shippingAddress.city:'')
+  const [zip,setZip]=useState(shippingAddress.zip?shippingAddress.zip:'')
+  const [country,setCountry]=useState(shippingAddress.country?shippingAddress.country:'')
+  const [state,setState]=useState(shippingAddress.state?shippingAddress.state:'')
+  const [province,setProvince]=useState(shippingAddress.province?shippingAddress.province:'')
   const [message, setMessage]=useState(null)
   const tab = 1
   // if(shippingAddress){
@@ -186,14 +186,14 @@ const ShippingScreen = ({history}) =>{
                 </div>
               )}
               <TextField autoComplete="address" variant="outlined" margin="normal" required fullWidth id="address"
-                label={shippingAddress.address?shippingAddress.address:'Address'} name="address" autoComplete="address" value={address}
+                label="Address" name="address" autoComplete="address" value={address}
                 onChange={(e) => {
                   setAddress(e.target.value);
                   setNewShippingAddress({...newShippingAddress,address:e.target.value});
                 }}
               />
               <TextField variant="outlined" margin="normal" required fullWidth id="city"
-                label={shippingAddress.city?shippingAddress.city:'City'} name="city" autoComplete="address" value={city}
+                label="City" name="city" autoComplete="address" value={city}
                 onChange={(e) => {
                   setCity(e.target.value);
                   setNewShippingAddress({...newShippingAddress,city:e.target.value});
@@ -204,7 +204,7 @@ const ShippingScreen = ({history}) =>{
                   setCountry(newInputValue);
                   setNewShippingAddress({...newShippingAddress,country:newInputValue})
                 }}
-                renderInput={(params) => <TextField {...params} label={shippingAddress.country?shippingAddress.country:'Country'} variant="outlined" />}
+                renderInput={(params) => <TextField {...params} label="Country" variant="outlined" />}
               />
               {country==='United States' &&
               <Autocomplete id="States" options={states} value={state} getOptionLabel={(option) => option} className={classes.Additional}
@@ -214,7 +214,7 @@ const ShippingScreen = ({history}) =>{
                   setProvince('')
                   setNewShippingAddress({...newShippingAddress,state:newInputValue})
                 }}
-                renderInput={(params) => <TextField {...params} label={shippingAddress.provinces?shippingAddress.province:'Province'} variant="outlined" />}
+                renderInput={(params) => <TextField {...params} label="State" variant="outlined" />}
                 
               />}
               {country==='Canada' &&
@@ -224,11 +224,11 @@ const ShippingScreen = ({history}) =>{
                   setState('')
                   setNewShippingAddress({...newShippingAddress,province:newInputValue})
                 }}
-                renderInput={(params) => <TextField {...params} label={shippingAddress.state?shippingAddress.state:'State'} variant="outlined"/>}
+                renderInput={(params) => <TextField {...params} label="Province" variant="outlined"/>}
                 
               />}
               <TextField variant="outlined" margin="normal" required fullWidth id="zip"
-                label={shippingAddress.zip?shippingAddress.zip:'Postal Code'} name="zip" autoComplete="zip" value={zip}
+                label="Postal Code" name="zip" autoComplete="zip" value={zip}
                 onChange={(e) => {
                   setZip(e.target.value);
                   setNewShippingAddress({...newShippingAddress,zip:e.target.value})
