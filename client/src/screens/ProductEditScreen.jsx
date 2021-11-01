@@ -132,7 +132,9 @@ const ProductEditScreen = ({ match, history }) => {
       updateProduct({
         _id: productId, name, price, image, category, description, countInStock,
       })
+      
     )
+    setImage('')
   };
   const uploadFileHandler = async (e) => {
     console.log('upload handler: ',e.target.files[0])

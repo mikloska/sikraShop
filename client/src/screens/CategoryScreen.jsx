@@ -31,7 +31,7 @@ const CategoryScreen = ({match}) => {
 
 
   useEffect(()=>{
-
+    
     dispatch(listProductByCategory(current, pageNumber))
 
   },[dispatch, match, pageNumber])

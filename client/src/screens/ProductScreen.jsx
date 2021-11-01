@@ -131,10 +131,10 @@ const ProductScreen = ({history, match}) =>{
                   smallImage: {
                       alt: 'product.name',
                       isFluidWidth: true,
-                      src: product.image[0]
+                      src: product.image?product.image[0]:''
                   },
                   largeImage: {
-                      src: product.image[0],
+                      src: product.image?product.image[0]:'',
                       width: 1400,
                       height: 1000
                   }
