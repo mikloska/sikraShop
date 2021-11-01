@@ -178,8 +178,8 @@ const AccountScreen = ({ location, history }) => {
         </Typography>
         {/* <div style={{width:'300px', margin:8,padding:0}}><Message severity='success' >Profile Successfully Updated!</Message></div> */}
         <Grid item>
-          {message && <div style={{width:'300px', margin:8}}><Message severity='error' >{message}</Message></div>}
-          {success && <div style={{width:'300px', marginTop:8}}><Message severity='success' >Profile Successfully Updated!</Message></div>}
+          {message && <div style={{width:'250px', margin:8}}><Message severity='error' >{message}</Message></div>}
+          {success && <div style={{width:'250px', marginTop:8}}><Message severity='success' >Profile Successfully Updated!</Message></div>}
           {error && <Message severity='error'>{error}</Message>}
         </Grid>
         {loading && <Loader />}
@@ -249,7 +249,7 @@ const AccountScreen = ({ location, history }) => {
             onChange={(event, newInputValue) => {
               setState(newInputValue);
               setProvince('')
-              setShippingAddress({...shippingAddress,state:e.target.value})
+              setShippingAddress({...shippingAddress,state:newInputValue})
             }}
             renderInput={(params) => <TextField {...params} label="State" variant="outlined" />}
             
@@ -259,7 +259,7 @@ const AccountScreen = ({ location, history }) => {
             onChange={(event, newInputValue) => {
               setProvince(newInputValue);
               setState('')
-              setShippingAddress({...shippingAddress,province:e.target.value})
+              setShippingAddress({...shippingAddress,province:newInputValue})
             }}
             renderInput={(params) => <TextField {...params} label="Province" variant="outlined"/>}
             

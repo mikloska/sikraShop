@@ -17,6 +17,11 @@ const CategoryScreen = ({match}) => {
   const dispatch = useDispatch()
   //Grab category from url
   const current = match.path.split('/')[1]
+  useEffect(()=>{
+    
+    dispatch(listProductByCategory(current, pageNumber))
+
+  },[dispatch, match, pageNumber])
   // const [products,setProducts] = useState([])
   //Grab redux category to update with current category from url in useEffect
   const productListCategory = useSelector(state => state.productListCategory)
@@ -30,11 +35,7 @@ const CategoryScreen = ({match}) => {
   }
 
 
-  useEffect(()=>{
-    
-    dispatch(listProductByCategory(current, pageNumber))
 
-  },[dispatch, match, pageNumber])
 
   const handleChange = (event, value) => {
     history.push(`/${current}/page${value}`)
@@ -52,6 +53,7 @@ const CategoryScreen = ({match}) => {
       
       <Grid container spacing={6} justifyContent="center">
       {loading ? <Loader/> : error ? <Message severity='error' style={{width:'100%'}}>{error}</Message> : 
+        productsCategory&&
         productsCategory.map((product) => (
           
           <Grid item xs={12}sm = {12} md = {4} lg = {4} xl = {4} key ={product._id} style={{textAlign:"center"}}>

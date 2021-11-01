@@ -14,7 +14,7 @@ const AboutScreen = () =>{
        <Typography variant='h4' style={{marginBottom:40}}>About Us</Typography>
       <Grid container justifyContent='center' spacing={5}>
         <Grid item md={5} sm={12} xs={12}>
-          <img style={{width:'100%'}}src='../../images/Bodiam_029_large.jpg'/>
+          <img style={{width:'100%'}}src='https://sikra.s3.us-east-2.amazonaws.com/Bodiam_029_large.jpg'/>
         </Grid>
         <Grid item md={5} sm={12} xs={12}>
           <Typography variant='h6'>Our Designer</Typography>
