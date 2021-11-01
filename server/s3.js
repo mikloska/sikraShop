@@ -11,7 +11,7 @@ const secretAccessKey=process.env.AWS_SECRET_KEY
 
 const s3=new S3({region, accessKeyId, secretAccessKey})
 
-export const uploadFile=(file)=>{
+export const uploadFile=(file, category)=>{
   // let myFile = req.file.originalname.split(".")
   // const fileType = myFile[myFile.length - 1]
   const fileStream = fs.createReadStream(file.path)
@@ -20,7 +20,7 @@ export const uploadFile=(file)=>{
     ContentType: file.mimetype,
     Bucket: bucketName,
     Body: fileStream,
-    Key: `${file.originalname}`
+    Key: `${category}/${file.originalname}`
   }
 
   return s3.upload(uploadParams).promise()

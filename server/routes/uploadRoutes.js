@@ -17,15 +17,14 @@ router.get('/:key', (req, res) => {
   readStream.pipe(res)
 })
 
-router.post('/', upload.single('image'), async (req, res, next) => {
-
+router.post('/:category', upload.single('image'), async (req, res, next) => {
+  // console.log('image post req.params:', req.params)
   const file = req.file
   console.log(file)
   try{
-    const result = await uploadFile(file)
+    const result = await uploadFile(file, req.params.category)
     await unlinkFile(file.path)
-    console.log(result)
-    const description = req.body.description
+    console.log('result of picture upload: ',result)
     res.send({imagePath: `/images/${result.Key}`})
   }
   catch(error){

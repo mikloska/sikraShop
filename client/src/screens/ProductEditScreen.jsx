@@ -148,7 +148,7 @@ const ProductEditScreen = ({ match, history }) => {
         },
       }
 
-      const { data } = await axios.post('/api/images', formData, config)
+      const { data } = await axios.post(`/api/images/${category}`, formData, config, )
       const imageName=data.imagePath.split('images/')
       setImage(`https://sikra.s3.us-east-2.amazonaws.com/${imageName[1]}`)
       setUploading(false)
