@@ -53,28 +53,28 @@ const ProductEditScreen = ({ match, history }) => {
   const IAM_USER_KEY = '';
   const IAM_USER_SECRET = '';
 
-  const uploadToS3=(file)=> {
-    let s3bucket = new AWS.S3({
-      accessKeyId: IAM_USER_KEY,
-      secretAccessKey: IAM_USER_SECRET,
-      Bucket: BUCKET_NAME
-    });
-    s3bucket.createBucket(function () {
-        var params = {
-          Bucket: BUCKET_NAME,
-          Key: file.name,
-          Body: file.data
-        };
-        s3bucket.upload(params, function (err, data) {
-          if (err) {
-            console.log('error in callback');
-            console.log(err);
-          }
-          console.log('success');
-          console.log(data);
-        });
-    });
-  }
+  // const uploadToS3=(file)=> {
+  //   let s3bucket = new AWS.S3({
+  //     accessKeyId: IAM_USER_KEY,
+  //     secretAccessKey: IAM_USER_SECRET,
+  //     Bucket: BUCKET_NAME
+  //   });
+  //   s3bucket.createBucket(function () {
+  //       var params = {
+  //         Bucket: BUCKET_NAME,
+  //         Key: file.name,
+  //         Body: file.data
+  //       };
+  //       s3bucket.upload(params, function (err, data) {
+  //         if (err) {
+  //           console.log('error in callback');
+  //           console.log(err);
+  //         }
+  //         console.log('success');
+  //         console.log(data);
+  //       });
+  //   });
+  // }
 
 
 
@@ -135,7 +135,7 @@ const ProductEditScreen = ({ match, history }) => {
     )
   };
   const uploadFileHandler = async (e) => {
-    console.log(e.target.files[0])
+    console.log('upload handler: ',e.target.files[0])
     const file = e.target.files[0]
     const formData = new FormData()
     formData.append('image', file)
@@ -148,9 +148,9 @@ const ProductEditScreen = ({ match, history }) => {
         },
       }
 
-      const { data } = await axios.post('/api/upload', formData, config)
-
-      setImage(data)
+      const { data } = await axios.post(`/api/images/${category}`, formData, config, )
+      const imageName=data.imagePath.split('images/')
+      setImage(`https://sikra.s3.us-east-2.amazonaws.com/${imageName[1]}`)
       setUploading(false)
     } catch (error) {
       console.error(error)
