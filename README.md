@@ -18,22 +18,22 @@
 
 <h2 href="#About">About sikrajewelry.com</h2>
 
-Sikra Jewely is the life work of Sára Vajda, an incredibly talented goldsmith. sikrajewelry.com is her ecommerce store. Users can create accounts and login or check out as guests. All passwords are encrypted via bcrypt with salt. They also receive password recovery emails and tokens are generated when passwords are forgotten. New products are constantly added to the Nosql database for people to see and purchase.
+Sikra Jewely is the life work of Sára Vajda, an incredibly talented goldsmith. sikrajewelry.com is her ecommerce store. The website is mobile friendly.  Users can create accounts and login or check out as guests. All passwords are encrypted via bcrypt with salt. They also receive password recovery emails and tokens are generated when passwords are forgotten. New products are constantly added to the Nosql database for people to see and purchase.
 
 
 <p align="center">
-  <img src='./images/homepage.png'/>
-  <img src='./images/Custom.png'/>
+  <img style="width:300px" src='./images/homepage.png'/>
+  <img style="width:300px" src='./images/Custom.png'/>
 </p>
 
 <p align="center">
-  <img src='./images/account-2.png'/>
-  <img src='./images/account-1.png'/>
+  <img style="width:300px" src='./images/account-2.png'/>
+  <img style="width:300px" src='./images/account-1.png'/>
 </p>
 
 <p align="center">
-  <img src='./images/checkout.png'/>
-  <img src='./images/order.png'/>
+  <img style="width:300px" src='./images/checkout.png'/>
+  <img style="width:300px" src='./images/order.png'/>
 </p>
 
 
