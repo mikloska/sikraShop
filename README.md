@@ -1,4 +1,4 @@
-<p align="center" style="background-color: #686565">
+<p align="center">
 <img src='https://sikra.s3.us-east-2.amazonaws.com/logo-%2Bhigh%2Bres4.png' width="250" />
 </p>
 <p align="center">Sikra Jewelry E-commerce site</p>
