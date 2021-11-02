@@ -22,17 +22,17 @@ Sikra Jewely is the life work of Sára Vajda, an incredibly talented goldsmith. 
 
 
 <p align="center">
-  <img style="width:300px" src='./images/homepage.png'/>
+  <img style="width:300px; margin-right:30px" src='./images/homepage.png'/>
   <img style="width:300px" src='./images/custom.png'/>
 </p>
 
-<p align="center">
-  <img style="width:300px" src='./images/account-2.png'/>
+<p align="center" style="margin-top:30px">
+  <img style="width:300px; margin-right:30px" " src='./images/account-2.png'/>
   <img style="width:300px" src='./images/account-1.png'/>
 </p>
 
-<p align="center">
-  <img style="width:300px" src='./images/checkout.png'/>
+<p align="center" style="margin-top:30px">
+  <img style="width:300px; margin-right:30px" " src='./images/checkout.png'/>
   <img style="width:300px" src='./images/order.png'/>
 </p>
 
