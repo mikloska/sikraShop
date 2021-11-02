@@ -234,7 +234,7 @@ const ProductEditScreen = ({ match, history }) => {
                   {uploading && <Loader />}
                   <FormControl className={classes.formControl} fullWidth value={category} style={{marginTop:20}}>
                     <InputLabel>Category</InputLabel>
-                    <Select defaultValue={''} onChange={e=>setCategory(e.target.value)}>
+                    <Select value={category} onChange={e=>setCategory(e.target.value)}>
                       <MenuItem value={'necklaces'}>Necklaces & Pendants</MenuItem>
                       <MenuItem value={'earrings'}>Earrings</MenuItem>
                       <MenuItem value={'rings'}>Rings</MenuItem>
