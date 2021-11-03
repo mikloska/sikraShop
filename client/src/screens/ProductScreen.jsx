@@ -10,11 +10,14 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import ReactImageMagnify from 'react-image-magnify';
 import { addToBasket } from '../actions/basketActions'
-
-// import { PRODUCT_DETAILS_RESET } from '../constants/productConstants'
-// import axios from 'axios'
+import axios from 'axios'
 
 const useStyles = makeStyles((theme)=>({
+  AdminButtons:{
+   marginLeft:30, 
+   color:'white',
+   backgroundColor:'#067e78'
+  },
   form: {
     width: '100%',
     marginTop: theme.spacing(1),
@@ -43,6 +46,8 @@ const ProductScreen = ({history, match}) =>{
   // const [total, setTotal] = useState(product.price)
   const [chain, setChain] = useState('silver')
   const [ringSize, setRingSize] = useState(7)
+  const [rearrange, setRearrange] = useState(false)
+  const [imageArr, setImageArr] = useState([])
   const [length, setLength] = useState(15)
   const [rating, setRating] = useState(0)
   const [comment, setComment] = useState('')
@@ -57,7 +62,6 @@ const ProductScreen = ({history, match}) =>{
   const [firstRender, setFirstRender] = useState(true)
   const chainObj = {'silver':35,'cord':10,'none':0}
   const classes = useStyles()
-  // const [product,setProduct] = useState({})
 
   useEffect(()=>{
     // console.log(chainObj[chain])
@@ -100,7 +104,6 @@ const ProductScreen = ({history, match}) =>{
     
 
   const updateImage = (pic) =>{
-    // console.log(e)
     setCurrentImage(pic)
     setFirstRender(false)
   }
@@ -117,6 +120,17 @@ const ProductScreen = ({history, match}) =>{
   
   const handleChainSubmit = () => {
         
+  }
+  const rearrangeImages = (image) =>{
+    if(!imageArr.includes(image)) setImageArr(oldArr=>[...oldArr,image])
+  }
+  const setNewImages= async ()=>{
+    if(product.image.length===imageArr.length){
+      await axios.put(`/api/products/images/${product._id}`, {imageArr:imageArr})
+      dispatch(listProductDetails(match.params.id))
+      setRearrange(false)
+      setImageArr([])
+    }
   }
 
   return (
@@ -163,21 +177,27 @@ const ProductScreen = ({history, match}) =>{
           
           :<Loader/>}
           {product.image ? product.image.map(image =>(
-          <img src={image} key={image} style={{width:'100px', paddingRight:4, paddingTop:4,cursor: 'pointer'}} className={classes.Image} alt={product.name} onClick={()=>updateImage(image)}/>
-        )) : <Loader/>}
+            <img src={image} key={image} style={{width:'100px', paddingRight:4, paddingTop:4,cursor: 'pointer'}} className={classes.Image} alt={product.name} onClick={()=>{updateImage(image); rearrange&&rearrangeImages(image);}}/>
+            )) 
+            : <Loader/>
+          }
+          {rearrange&& (
+            <>
+              <Button onClick={()=>setNewImages()} className={classes.AdminButtons}>Save</Button>
+              <Button onClick={()=>{setRearrange(false); setImageArr([])}} className={classes.AdminButtons}>Cancel</Button>
+            </>
+          )}
         </Grid>
-        
-        {/* {product.image ? product.image.map(image =>(
-          <Grid item md={1} xs={2} key={image}><img src={image} style={{width:'max-100%', cursor: 'pointer'}} className={classes.Image} alt={product.name} onClick={()=>updateImage(image)}/></Grid>
-        )) 
-        
-        
-        : <Loader/>} */}
         <Grid item xs={12} md={5} style={{marginLeft:'20px'}}>
           <List>
             <ListItem>
               <Typography style={{fontSize:'30px'}}>{product.name}</Typography>
-              {userInformation&&userInformation.isAdmin&&<Button onClick={()=>history.push(`/admin/product/${product._id}/edit`)} style={{marginLeft:30, color:'white',backgroundColor:'#067e78',}}>Edit Product</Button>}
+              {userInformation&&userInformation.isAdmin&&
+                <>
+                  <Button className={classes.AdminButtons} onClick={()=>history.push(`/admin/product/${product._id}/edit`)} >Edit Product</Button>
+                  <Button className={classes.AdminButtons} onClick={()=>setRearrange(true)}>Rearrange Images</Button>
+                </>
+              }
             </ListItem>
             <Divider light />
             {product.reviews.length > 1 &&
@@ -227,20 +247,13 @@ const ProductScreen = ({history, match}) =>{
                 <InputLabel>Size</InputLabel>
                 <Select onChange={(e)=>setRingSize(e.target.value)} defaultValue='7'>
                   {ringSizes}
-                  {/* <MenuItem value={5}>5</MenuItem>
-                  <MenuItem value={5.5}>5.5</MenuItem>
-                  <MenuItem value={6}>6</MenuItem> */}
                 </Select>
               </FormControl>}
             </Grid>
             <Grid item xs={6} md={4}>
-          {/* <Grid container > */}
-            {/* <Grid item md={5}> */}
+
             <List>
 
-            {/* <ListItem >
-              <ListItemText>Status:   {product.countInStock > 0 ? 'In Stock' : 'Out of Stock'}</ListItemText>
-            </ListItem> */}
             {product.category==='necklaces'&&chain!=='none'&&<ListItem>
               <FormControl className={classes.formControl} value={length} >
                 <InputLabel>Length</InputLabel>
@@ -263,9 +276,7 @@ const ProductScreen = ({history, match}) =>{
             </ListItem>
           </List>
           </Grid>
-          {/* </Grid> */}
-        {/* </Grid> */}
-        {/* <Grid item xs={4} md={4}> */}
+
         <Grid item xs={6} md={4}>
           {product.countInStock > 0 && (
           <List>
@@ -281,11 +292,7 @@ const ProductScreen = ({history, match}) =>{
                 </Select>
               </FormControl>
             </ListItem>
-            {/* <Grid item md={5}>  */}
 
-
-
-          {/* </Grid> */}
           </List>
           
           
@@ -296,7 +303,6 @@ const ProductScreen = ({history, match}) =>{
             </Button>
             </Grid>
 
-        {/* </Grid> */}
         </Grid>
         </Grid>
         </Grid>

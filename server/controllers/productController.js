@@ -173,6 +173,29 @@ const updateProduct = async (req, res, next) => {
   }
 }
 
+// @desc    Update a product's images
+// @route   PUT /api/products/images/:id
+// @access  Private/Admin
+const updateProductImageOrder = async (req, res, next) => {
+  try{
+    const {imageArr} = req.body
+    console.log(req.body)
+    const product = await Product.findById(req.params.id)
+
+    if (product) {
+      product.image=imageArr
+
+      const updatedProduct = await product.save()
+      res.json(updatedProduct)
+    } else {
+      res.status(404)
+      throw new Error('Product not found')
+    }
+  }catch(error){
+    return next(new Error(`Product '${req.params.id}' not found`))
+  }
+}
+
 
 // @desc    Create new review
 // @route   POST /api/products/:id/reviews
@@ -254,4 +277,4 @@ const deleteProductImage = async (req, res, next) => {
 
 
 
-export {getProducts,getProductById, deleteProduct, createProduct, updateProduct, getProductsByCategory, createProductReview, deleteProductImage}
+export {getProducts,getProductById, deleteProduct, createProduct, updateProduct, getProductsByCategory, createProductReview, deleteProductImage, updateProductImageOrder}
