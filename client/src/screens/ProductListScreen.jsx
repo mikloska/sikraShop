@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
   Box: {
-    width:50
+    width:100
   },
   Media: {
     height: 'auto',
@@ -165,6 +165,7 @@ const ProductListScreen = ({history, match}) => {
         <StyledTableRow>
           <StyledTableCell>ID</StyledTableCell>
           <StyledTableCell>NAME</StyledTableCell>
+          <StyledTableCell></StyledTableCell>
           <StyledTableCell>PRICE</StyledTableCell>
           <StyledTableCell>CATEGORY</StyledTableCell>
           <StyledTableCell></StyledTableCell>
@@ -180,6 +181,13 @@ const ProductListScreen = ({history, match}) => {
               <RouterLink style={{color:'#067e78'}} to={`/product/${product._id}`}>{product._id}</RouterLink>
             </StyledTableCell>
             <StyledTableCell>{product.name}</StyledTableCell>
+            <StyledTableCell>
+              <Box className={classes.Box}>
+                <RouterLink style={{color:'#067e78'}} to={`/product/${product._id}`}>
+                  <img src={product.image[0]} alt={product.name} className={classes.Media}/>
+                </RouterLink>
+              </Box>
+            </StyledTableCell>
             <StyledTableCell>${product.price}</StyledTableCell>
             <StyledTableCell>{product.category}</StyledTableCell>
             <StyledTableCell>
@@ -201,6 +209,13 @@ const ProductListScreen = ({history, match}) => {
             <RouterLink style={{color:'#067e78'}} to={`/product/${product._id}`}>{product._id}</RouterLink>
           </StyledTableCell>
           <StyledTableCell>{product.name}</StyledTableCell>
+          <StyledTableCell>
+            <Box className={classes.Box}>
+              <RouterLink style={{color:'#067e78'}} to={`/product/${product._id}`}>
+                <img src={product.image[0]} alt={product.name} className={classes.Media}/>
+              </RouterLink>
+            </Box>
+          </StyledTableCell>
           <StyledTableCell>${product.price}</StyledTableCell>
           <StyledTableCell>{product.category}</StyledTableCell>
           <StyledTableCell>

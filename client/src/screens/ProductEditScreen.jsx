@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { listProductDetails, updateProduct, deleteProductImage } from '../actions/productActions'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 // import AWS from 'aws-sdk'
 // import {DropzoneArea} from 'material-ui-dropzone'
 
@@ -49,10 +50,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ProductEditScreen = ({ match, history }) => {
-  const BUCKET_NAME = '';
-  const IAM_USER_KEY = '';
-  const IAM_USER_SECRET = '';
-
   // const uploadToS3=(file)=> {
   //   let s3bucket = new AWS.S3({
   //     accessKeyId: IAM_USER_KEY,
@@ -90,6 +87,7 @@ const ProductEditScreen = ({ match, history }) => {
   const [description, setDescription] = useState('')
   const [uploading, setUploading] = useState(false)
   const [files, setFiles] = useState([])
+  const [hideDescription, setHideDescription] =useState(true)
 
   const dispatch=useDispatch()
   //Get userRegister from state and destructure what we need from it
@@ -123,7 +121,7 @@ const ProductEditScreen = ({ match, history }) => {
   //Back to product list screen when done editing
   const leave=()=>{
     
-    history.push('/admin/productlist')
+    history.push(`/product/${product._id}`)
   }
   
   const handleSubmit = (e) => {
@@ -249,9 +247,14 @@ const ProductEditScreen = ({ match, history }) => {
                       ))}
                     </Select>
                   </FormControl>
-                  <TextField style={{marginTop:20}} fullWidth multiline aria-label="empty textarea" value={description} 
-                    onChange={(e) => {setDescription(e.target.value);}} placeholder={'Description'} name="description"
-                  />
+                  <Button style={{marginTop:10}} variant="outlined" onClick={()=>setHideDescription(!hideDescription)}>
+                    Desc<ArrowDropDownIcon />
+                  </Button>
+                  {!hideDescription &&(
+                    <TextField style={{marginTop:20}} fullWidth multiline aria-label="empty textarea" value={description} 
+                      onChange={(e) => {setDescription(e.target.value);}} placeholder={'Description'} name="description"
+                    />
+                  )}
                   <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
                     Save
                   </Button>

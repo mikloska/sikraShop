@@ -272,7 +272,7 @@ const Navbar= () => {
             <MenuIcon style={{color:"black"}}/>
           </IconButton>
           <Menu justify = "center" anchorEl={mainNavanchorEl} keepMounted open={Boolean(mainNavanchorEl)} onClose={handleNavMenuClose}>
-            <MenuItem onClick={handleCollectionMenuOpen}>Collection</MenuItem>
+            <MenuItem onClick={handleCollectionMenuOpen}>Shop</MenuItem>
             <MenuItem onClick={handleNavMenuClose} className={classes.Link} component={RouterLink} to='/about'>About Us</MenuItem>
             <MenuItem onClick={handleNavMenuClose} className={classes.Link} component={RouterLink} to='/custom'>Custom Work</MenuItem>
             <MenuItem onClick={handleNavMenuClose} className={classes.Link} component={RouterLink} to='/contact'>Contact Us</MenuItem>

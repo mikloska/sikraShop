@@ -7,7 +7,7 @@ import Product from '../models/productModel.js'
 const getProductsByCategory = async(req,res, next) => {
   // console.log('In get product by id controller. Req.params is: ', req.params)
   try{
-    const catPageSize = 4
+    const catPageSize = 9
     const catPage = Number(req.query.pageNumber) || 1
     const catCount = await Product.countDocuments({"category":req.params.id})
     //Skip over the exact amount per page that is before
