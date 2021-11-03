@@ -1,3 +1,2 @@
 -Google oAuth
--image on product admin screen
 -allow image reorder
