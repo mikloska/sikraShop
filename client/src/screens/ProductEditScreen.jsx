@@ -120,8 +120,8 @@ const ProductEditScreen = ({ match, history }) => {
   }, [dispatch, history, productId, product, successUpdate])
   //Back to product list screen when done editing
   const leave=()=>{
-    
-    history.push(`/product/${product._id}`)
+    history.goBack()
+    // history.push(`/product/${product._id}`)
   }
   
   const handleSubmit = (e) => {
