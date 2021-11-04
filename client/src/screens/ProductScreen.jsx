@@ -181,6 +181,10 @@ const ProductScreen = ({history, match}) =>{
             )) 
             : <Loader/>
           }
+          {imageArr.length>0&& imageArr.map(image=>(
+            <img src={image} key={`${image}alt`} style={{width:'100px', paddingRight:4, paddingTop:4,cursor: 'pointer'}} className={classes.Image} alt={product.name}/>
+            ))
+          }
           {rearrange&& (
             <>
               <Button onClick={()=>setNewImages()} className={classes.AdminButtons}>Save</Button>

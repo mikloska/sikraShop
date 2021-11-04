@@ -179,7 +179,6 @@ const updateProduct = async (req, res, next) => {
 const updateProductImageOrder = async (req, res, next) => {
   try{
     const {imageArr} = req.body
-    console.log(req.body)
     const product = await Product.findById(req.params.id)
 
     if (product) {
