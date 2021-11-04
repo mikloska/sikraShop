@@ -188,10 +188,10 @@ const ProductScreen = ({history, match}) =>{
             ))
           }
           {rearrange&& (
-            <>
+            <div style={{position:'absolute', borderBottom:30}}>
               <Button onClick={()=>setNewImages()} className={classes.AdminButtons}>Save</Button>
               <Button onClick={()=>{setRearrange(false); setImageArr([])}} className={classes.AdminButtons}>Cancel</Button>
-            </>
+            </div>
           )}
         </Grid>
         <Grid item xs={12} md={5} style={{marginLeft:'20px'}}>

@@ -221,14 +221,17 @@ const ProductEditScreen = ({ match, history }) => {
                     </div>) : <Loader/>} */}
                     {/* {images!==undefined&&Array.isArray(images) ? imagesArray : <Loader/>} */}
                     {imagesArr}
-                  <TextField variant="outlined" margin="normal" required fullWidth id="image"
-                    label="Enter Image URL" name="image" value={image? image: ''}
-                    onChange={(e) => {
-                      setImage(e.target.value);
-                    }}
-                  />
-                  <input type='file' onChange={uploadFileHandler} id='fileUpload' />
-                  {/* <DropzoneArea onChange={uploadFileHandler}/> */}
+                  {(category==='necklaces'||category==='earrings'||category==='rings'||category==='bracelets')&&
+                    <>
+                      <TextField variant="outlined" margin="normal" required fullWidth id="image"
+                        label="Enter Image URL" name="image" value={image? image: ''}
+                        onChange={(e) => {
+                          setImage(e.target.value);
+                        }}
+                      />
+                      <input type='file' onChange={uploadFileHandler} id='fileUpload' />
+                    </>
+                  }
                   {uploading && <Loader />}
                   <FormControl className={classes.formControl} fullWidth value={category} style={{marginTop:20}}>
                     <InputLabel>Category</InputLabel>
