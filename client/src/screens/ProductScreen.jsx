@@ -183,16 +183,19 @@ const ProductScreen = ({history, match}) =>{
             )) 
             : <Loader/>
           }
-          {imageArr.length>0&& imageArr.map(image=>(
-            <img src={image} key={`${image}alt`} className={classes.Image} alt={product.name}/>
-            ))
-          }
+
           {rearrange&& (
-            <div style={{position:'absolute', borderBottom:30}}>
+            <div style={{borderBottom:30}}>
               <Button onClick={()=>setNewImages()} className={classes.AdminButtons}>Save</Button>
               <Button onClick={()=>{setRearrange(false); setImageArr([])}} className={classes.AdminButtons}>Cancel</Button>
             </div>
           )}
+        </Grid>
+        <Grid item>
+        {imageArr.length>0&& imageArr.map(image=>(
+          <img src={image} key={`${image}alt`} className={classes.Image} alt={product.name}/>
+          ))
+        }
         </Grid>
         <Grid item xs={12} md={5} style={{marginLeft:'20px'}}>
           <List>
