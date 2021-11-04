@@ -32,7 +32,9 @@ const useStyles = makeStyles((theme)=>({
     marginTop:50
   },
   Image: {
-    width:'100%'
+    width:'100px', 
+    paddingRight:4, 
+    paddingTop:4,
   },
   formControl: {
     minWidth: 100
@@ -177,12 +179,12 @@ const ProductScreen = ({history, match}) =>{
           
           :<Loader/>}
           {product.image ? product.image.map(image =>(
-            <img src={image} key={image} style={{width:'100px', paddingRight:4, paddingTop:4,cursor: 'pointer'}} className={classes.Image} alt={product.name} onClick={()=>{updateImage(image); rearrange&&rearrangeImages(image);}}/>
+            <img src={image} key={image} style={{cursor: 'pointer'}} className={classes.Image} alt={product.name} onClick={()=>{updateImage(image); rearrange&&rearrangeImages(image);}}/>
             )) 
             : <Loader/>
           }
           {imageArr.length>0&& imageArr.map(image=>(
-            <img src={image} key={`${image}alt`} style={{width:'100px', paddingRight:4, paddingTop:4,cursor: 'pointer'}} className={classes.Image} alt={product.name}/>
+            <img src={image} key={`${image}alt`} className={classes.Image} alt={product.name}/>
             ))
           }
           {rearrange&& (
