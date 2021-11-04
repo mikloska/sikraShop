@@ -1,6 +1,6 @@
 import express from 'express'
 // import products from '../data/products.js'
-import {getProducts, getProductById, deleteProduct, createProduct, updateProduct, getProductsByCategory, deleteProductImage, createProductReview} from '../controllers/productController.js'
+import {getProducts, getProductById, deleteProduct, createProduct, updateProduct, getProductsByCategory, deleteProductImage, createProductReview, updateProductImageOrder} from '../controllers/productController.js'
 import {protectUser, admin} from '../middleware/authMiddleware.js'
 
 const router=express.Router()
@@ -12,6 +12,7 @@ router.route('/category/:id').get(getProductsByCategory)
 //     return res.status(200).json(res.locals.productsByCategory)
 //   })
 router.route('/').get(getProducts).post(protectUser, admin, createProduct)
+router.route('/images/:id').put(updateProductImageOrder)
 // router.get('/', 
   // getProducts,
   // (req, res) => {
