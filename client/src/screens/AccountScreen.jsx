@@ -162,6 +162,9 @@ const AccountScreen = ({ location, history }) => {
       setMessage('Passwords do not match!')
     }else{
       dispatch(updateUser({id:user._id,name,email,password,mailingList,shippingAddress}))
+      setUserUpdatePassword(false)
+      setPassword('')
+      setConfirm('')
     }
     setUpdated(true)
 
