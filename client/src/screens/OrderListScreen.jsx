@@ -94,8 +94,8 @@ const OrderListScreen = ({history}) => {
       <TableBody>
       {orders.map((order) => (
         <StyledTableRow key={order._id}>
-          <StyledTableCell><RouterLink style={{color:'#067e78'}} to={`/orders/${order._id}`}>{order._id}</RouterLink></StyledTableCell>
-          <StyledTableCell>{order.user && order.user.name}</StyledTableCell>
+          <StyledTableCell><RouterLink style={{color:'#067e78'}} to={order.guest? `/orders/${order._id}/guest`:`/orders/${order._id}`}>{order._id}</RouterLink></StyledTableCell>
+          <StyledTableCell>{order.user ? order.user.name: order.guest}</StyledTableCell>
           <StyledTableCell>{order.createdAt.substring(0, 10)}</StyledTableCell>
           <StyledTableCell>${order.totalPrice}</StyledTableCell>
           <StyledTableCell> 
