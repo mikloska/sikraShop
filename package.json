@@ -2,6 +2,9 @@
   "name": "sikrashop",
   "version": "1.0.0",
   "description": "e-commerce site for goldsmith",
+  "engines": {
+    "node": "14.16.0"
+  },
   "main": "webpack.config.js",
   "type": "module",
   "scripts": {

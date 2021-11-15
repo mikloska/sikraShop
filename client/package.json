@@ -2,6 +2,9 @@
   "name": "sikra-front-end",
   "version": "1.0.0",
   "description": "ecommerce front end",
+  "engines": {
+    "node": "14.16.0"
+  },
   "main": "webpack.config.js",
   "scripts": {},
   "author": "",
