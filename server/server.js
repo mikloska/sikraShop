@@ -70,7 +70,7 @@ const __dirname = path.resolve()
 // app.use('/build', express.static('../build'));
 
 // app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
-const root = path.join(__dirname, 'client', 'build')
+const root = path.join(__dirname, 'build')
 if (process.env.NODE_ENV === 'production') {
   // console.log('In production')
   app.use(express.static(root))
