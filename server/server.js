@@ -69,15 +69,15 @@ const __dirname = path.resolve()
 // app.use('/build', express.static(path.join(__dirname, '/build')));
 // app.use('/build', express.static('../build'));
 
-app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
-
+// app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
+const root = require('path').join(__dirname, 'client', 'build')
 if (process.env.NODE_ENV === 'production') {
   // console.log('In production')
-  app.use(express.static(path.join(__dirname, '/build')))
+  app.use(express.static(root))
 
-  app.get('*', (req, res) =>
-    res.sendFile(path.resolve(__dirname, 'build', 'index.html'))
-  )
+  app.get("*", (req, res) => {
+    res.sendFile('index.html', { root });
+  })
 } else {
   app.get('/', (req, res) => {
     res.send('API is running....')
