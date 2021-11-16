@@ -10,8 +10,7 @@ import Paginate from '../components/Paginate'
 import { makeStyles} from '@material-ui/core/styles';
 import {getUserDetails} from '../actions/userActions'
 import { listMyOrders } from '../actions/orderActions'
-import HomeGalleryFull from '../components/HomeGalleryFull'
-import HomeGalleryMobile from '../components/HomeGalleryMobile'
+import HomeGallery from '../components/HomeGallery'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 // import airpods from '../../../images/airpods.jpg'
 
@@ -28,7 +27,8 @@ const HomeScreen = ({match}) => {
   const dispatch=useDispatch()
   const userLogin=useSelector(state=>state.userLogin)
   const {loading,error,userInformation}=userLogin
-  const showMobile = useMediaQuery('(max-width:600px)');
+  const showSmall = useMediaQuery('(min-width:600px)');
+  const showMobile = useMediaQuery('(max-width:400px)');
   useEffect(()=>{
     if(userInformation){
       dispatch(listMyOrders())
@@ -57,7 +57,7 @@ const HomeScreen = ({match}) => {
 
   return (
     <div>
-      {showMobile?<HomeGalleryMobile/>:<HomeGalleryFull/>}
+      {showMobile?<HomeGallery w={370} h={400}/>:showSmall?<HomeGallery w={600} h={550}/>:<HomeGallery w={1920} h={750}/>}
 
       {/* <h1>Latest Products</h1>
       {loading ? <Loader/> : error ? <Message severity='error'>{error}</Message> : 
