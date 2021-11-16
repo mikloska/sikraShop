@@ -28,7 +28,7 @@ const HomeScreen = ({match}) => {
   const dispatch=useDispatch()
   const userLogin=useSelector(state=>state.userLogin)
   const {loading,error,userInformation}=userLogin
-  const showMobile = useMediaQuery('(max-width:700px)');
+  const showMobile = useMediaQuery('(max-width:600px)');
   useEffect(()=>{
     if(userInformation){
       dispatch(listMyOrders())
