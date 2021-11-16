@@ -91,12 +91,12 @@ const ShippingScreen = ({history}) =>{
   // const defaultCountry =  shippingAddress ? shippingAddress.country : ''
   // const defaultState =  shippingAddress ? shippingAddress.state : ''
   // const defaultProvince =  shippingAddress ? shippingAddress.province : ''
-  const [address,setAddress]=useState(shippingAddress.address?shippingAddress.address:'')
-  const [city,setCity]=useState(shippingAddress.city?shippingAddress.city:'')
-  const [zip,setZip]=useState(shippingAddress.zip?shippingAddress.zip:'')
-  const [country,setCountry]=useState(shippingAddress.country?shippingAddress.country:'')
-  const [state,setState]=useState(shippingAddress.state?shippingAddress.state:'')
-  const [province,setProvince]=useState(shippingAddress.province?shippingAddress.province:'')
+  const [address,setAddress]=useState((shippingAddress&&shippingAddress.address)?shippingAddress.address:'')
+  const [city,setCity]=useState((shippingAddress&&shippingAddress.city)?shippingAddress.city:'')
+  const [zip,setZip]=useState((shippingAddress&&shippingAddress.zip)?shippingAddress.zip:'')
+  const [country,setCountry]=useState((shippingAddress&&shippingAddress.country)?shippingAddress.country:'')
+  const [state,setState]=useState((shippingAddress&&shippingAddress.state)?shippingAddress.state:'')
+  const [province,setProvince]=useState((shippingAddress&&shippingAddress.province)?shippingAddress.province:'')
   const [message, setMessage]=useState(null)
   const tab = 1
   // if(shippingAddress){

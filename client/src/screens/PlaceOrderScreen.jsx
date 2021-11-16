@@ -69,6 +69,7 @@ const PlaceOrderScreen = ({ history }) => {
   const [sdkReady, setSdkReady] = useState(false)
   const [finalTotal,setFinalTotal]=useState(0)
   const [promoCode, setPromoCode]=useState('')
+  const [discountedTotal, setDiscountedTotal] = useState(0)
   const [displayPromoCode, setDisplayPromoCode]=useState('')
   const [promoPercentage, setPromoPercentage]=useState(0)
   const [promoError, setPromoError]=useState(null)
@@ -99,7 +100,7 @@ const PlaceOrderScreen = ({ history }) => {
     :0)
   basket.shippingPrice = (basket.shippingAddress)&&(basket.shippingAddress.country==='United States'?0:basket.shippingAddress.country==='Canada'?addDecimals(13):basket.shippingAddress.country==='United Kingdom'?addDecimals(16):addDecimals(18))
   // basket.shippingPrice = addDecimals(basket.itemsPrice > 100 ? 0 : 100)
-  basket.taxPrice = addDecimals(Number((taxRate * basket.itemsPrice).toFixed(2))) 
+  basket.taxPrice = addDecimals(Number((taxRate * basket.itemsPrice-((taxRate * basket.itemsPrice)*promoPercentage/100)).toFixed(2))) 
   basket.totalPrice = (
     Number(basket.itemsPrice) +
     Number(basket.shippingPrice) +
@@ -131,10 +132,7 @@ const PlaceOrderScreen = ({ history }) => {
       setPromoError(null)
       setPromoPercentage(discountPercentage.data.percentage) 
       setDisplayPromoCode(discountPercentage.data.promoCode)
-      
     }
-    // console.log(discountPercentage)
-    // setDiscount(discountPercentage.percentage)
     setPromoCode('')
   }
 
@@ -181,7 +179,7 @@ const PlaceOrderScreen = ({ history }) => {
           itemsPrice: basket.itemsPrice,
           shippingPrice: basket.shippingPrice,
           taxPrice: basket.taxPrice,
-          totalPrice: basket.totalPrice,
+          totalPrice: addDecimals(Number(basket.totalPrice-(basket.itemsPrice*promoPercentage/100).toFixed(2))),
           paymentResult: paymentResult,
           promoUsed: `${promoCode} ${promoPercentage}% off`,
         })
@@ -199,7 +197,7 @@ const PlaceOrderScreen = ({ history }) => {
           itemsPrice: basket.itemsPrice,
           shippingPrice: basket.shippingPrice,
           taxPrice: basket.taxPrice,
-          totalPrice: addDecimals(Number(basket.totalPrice-(basket.totalPrice*promoPercentage/100).toFixed(2))),
+          totalPrice: addDecimals(Number(basket.totalPrice-(basket.itemsPrice*promoPercentage/100).toFixed(2))),
           paymentResult: paymentResult,
           promoUsed: `${promoCode} ${promoPercentage}% off`,
         })
@@ -323,12 +321,12 @@ const PlaceOrderScreen = ({ history }) => {
                 <strong>Tax: </strong> ${basket.taxPrice}
               </ListItem>
               <ListItem>
-                <strong>Sub Total: </strong> ${basket.totalPrice}  
+                <strong>Sub Total: </strong> ${Number(basket.totalPrice-basket.shippingPrice).toFixed(2)}  
               </ListItem>
               {displayPromoCode!==''&&(
                 <>
                   <ListItem>
-                    <strong>Discount: </strong> -${`${addDecimals(Number((basket.totalPrice*(promoPercentage/100)).toFixed(2)))} (${promoPercentage}% off)`}
+                    <strong>Discount: </strong> -${`${addDecimals(Number((basket.itemsPrice*(promoPercentage/100)).toFixed(2)))} (${promoPercentage}% off)`}
                   </ListItem>
                   <ListItem>
                     <strong>Promo Code: </strong>{displayPromoCode}  
@@ -339,7 +337,7 @@ const PlaceOrderScreen = ({ history }) => {
                 <strong>Shipping: </strong> ${basket.shippingPrice}
               </ListItem>
               <ListItem>
-                <strong>Total: </strong> ${addDecimals(Number(basket.totalPrice-(basket.totalPrice*(promoPercentage/100)).toFixed(2)))}
+                <strong>Total: </strong> ${addDecimals(Number(basket.totalPrice-(basket.itemsPrice*promoPercentage/100).toFixed(2)))}
               </ListItem>
               <ListItem>
                 <form className={classes.form} noValidate onSubmit={handleCodeSubmit}>
@@ -362,7 +360,7 @@ const PlaceOrderScreen = ({ history }) => {
                   )} 
               {( basket.paymentMethod==='PayPal' &&
                     <PayPalButton
-                      amount={addDecimals(Number(basket.totalPrice-(basket.totalPrice*promoPercentage/100).toFixed(2)))}
+                      amount={addDecimals(Number(basket.totalPrice-(basket.itemsPrice*promoPercentage/100).toFixed(2)))}
                       onSuccess={successPaymentHandler}
                     />
                   )}
