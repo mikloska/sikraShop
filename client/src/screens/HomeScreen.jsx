@@ -4,13 +4,13 @@ import Product from '../components/Product'
 import Grid from '@material-ui/core/Grid'
 // import axios from 'axios'
 import {listProducts} from '../actions/productActions'
-import { Parallax, Background } from 'react-parallax';
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import Paginate from '../components/Paginate'
 import { makeStyles} from '@material-ui/core/styles';
 import {getUserDetails} from '../actions/userActions'
 import { listMyOrders } from '../actions/orderActions'
+import HomeGallery from '../components/HomeGallery'
 // import airpods from '../../../images/airpods.jpg'
 
 // import {DropzoneArea} from 'material-ui-dropzone'
@@ -54,57 +54,8 @@ const HomeScreen = ({match}) => {
 
   return (
     <div>
-      {/* <Parallax
-        blur={{ min: 15, max: -15 }} 
-        bgImage={'https://sikra.s3.us-east-2.amazonaws.com/necklaces/silver-bobcat-pendant-outdoor.jpg'}
-        bgImageAlt="bobcat" 
-        strength={830}
-        renderLayer={percentage => (
-          <div style={{left: '50%', top: '50%',width: percentage * 500, height: percentage * 830}} />
-        )}
-      >
-      </Parallax> */}
-      {/* <Parallax
-        blur={{ min: 15, max: -15 }}
-        bgImage={'https://sikra.s3.us-east-2.amazonaws.com/necklaces/ammonite.jpg'}
-        bgImageAlt="ammonite" 
-        strength={830}
-        renderLayer={percentage => (
-          <div style={{left: '50%', top: '50%',width: percentage * 830, height: percentage * 830}} />
-        )}
-        >
-      </Parallax> */}
- 
-      <Parallax
-        blur={{ min: -10, max: 10 }} 
-        bgImage={'https://sikra.s3.us-east-2.amazonaws.com/necklaces/owl-group.jpg'}
-        bgImageAlt="owls" 
-        strength={830}
-        renderLayer={percentage => (
-          <div style={{left: '50%', top: '50%',width: percentage * 830, height: percentage * 830}} />
-        )}
-      >
-      </Parallax>
-      <Parallax
-        blur={{ min: 15, max: -15 }} 
-        bgImage={'https://sikra.s3.us-east-2.amazonaws.com/rings/Dragon-ring-moss.jpg'}
-        bgImageAlt="dragon" 
-        strength={830}
-        renderLayer={percentage => (
-          <div style={{left: '50%', top: '50%',width: percentage * 830, height: percentage * 830}} />
-        )}
-      >
-      </Parallax>
-      {/* <Parallax
-        blur={{ min: 10, max: -15 }}
-        bgImage={'https://sikra.s3.us-east-2.amazonaws.com/rings/Fossil-Ring-Gold-Amber-Enamel-Outside-Side.jpg'}
-        bgImageAlt="fossil ring"
-        strength={830}
-        renderLayer={percentage => (
-          <div style={{left: '50%', top: '50%',width: percentage * 830, height: percentage * 830}} />
-        )}
-      >
-      </Parallax> */}
+      <HomeGallery/>
+
       {/* <h1>Latest Products</h1>
       {loading ? <Loader/> : error ? <Message severity='error'>{error}</Message> : 
       <Grid container spacing={6} justifyContent="center">
