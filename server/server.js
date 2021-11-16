@@ -73,6 +73,7 @@ const __dirname = path.resolve()
 const root = path.join(__dirname, 'build')
 if (process.env.NODE_ENV === 'production') {
   app.use((req, res, next) => {
+    if(!req.header) res.redirect(`https://${req.header('host')}${req.url}`)
     if (req.header('x-forwarded-proto') !== 'https')
       if(req.header('host').includes('www')) {
         res.redirect(`https://${req.header('host')}${req.url}`)
