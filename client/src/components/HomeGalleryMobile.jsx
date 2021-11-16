@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const HomeGallery =()=> {
+const HomeGalleryMobile =()=> {
 
 
     return (
@@ -69,4 +69,4 @@ const HomeGallery =()=> {
     
 }
 
-export default HomeGallery
+export default HomeGalleryMobile
