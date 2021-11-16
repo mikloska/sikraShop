@@ -85,7 +85,7 @@ const HomeScreen = ({match}) => {
         )}
       >
       </Parallax>
-      {/* <Parallax
+      <Parallax
         blur={{ min: 15, max: -15 }} 
         bgImage={'https://sikra.s3.us-east-2.amazonaws.com/rings/Dragon-ring-moss.jpg'}
         bgImageAlt="dragon" 
@@ -95,7 +95,7 @@ const HomeScreen = ({match}) => {
         )}
       >
       </Parallax>
-      <Parallax
+      {/* <Parallax
         blur={{ min: 10, max: -15 }}
         bgImage={'https://sikra.s3.us-east-2.amazonaws.com/rings/Fossil-Ring-Gold-Amber-Enamel-Outside-Side.jpg'}
         bgImageAlt="fossil ring"
