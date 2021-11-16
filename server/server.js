@@ -72,11 +72,11 @@ const __dirname = path.resolve()
 // app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 const root = path.join(__dirname, 'build')
 if (process.env.NODE_ENV === 'production') {
-  if (req.header('x-forwarded-proto') !== 'https') res.redirect(`https://${req.header('host')}${req.url}`)
   // console.log('In production')
   app.use(express.static(root))
 
   app.get("*", (req, res) => {
+    if (req.header('x-forwarded-proto') !== 'https') res.redirect(`https://${req.header('host')}${req.url}`)
     res.sendFile('index.html', { root });
   })
 } else {
