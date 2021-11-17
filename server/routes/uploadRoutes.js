@@ -20,11 +20,11 @@ router.get('/:key', (req, res) => {
 router.post('/:category', upload.single('image'), async (req, res, next) => {
   // console.log('image post req.params:', req.params)
   const file = req.file
-  console.log(file)
+  // console.log(file)
   try{
     const result = await uploadFile(file, req.params.category)
     await unlinkFile(file.path)
-    console.log('result of picture upload: ',result)
+    // console.log('result of picture upload: ',result)
     res.send({imagePath: `/images/${result.Key}`})
   }
   catch(error){

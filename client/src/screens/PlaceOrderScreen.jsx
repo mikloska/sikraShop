@@ -125,7 +125,6 @@ const PlaceOrderScreen = ({ history }) => {
   const handleCodeSubmit=async(e)=>{
     e.preventDefault()
     const discountPercentage=await axios.get(`/api/promocode/${promoCode}`)
-    console.log(discountPercentage.data.promoCode)
     if(discountPercentage.data==='Invalid Code'){
       setPromoError(discountPercentage.data)
     }else{

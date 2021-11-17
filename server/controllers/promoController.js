@@ -55,7 +55,7 @@ const postPromo= async (req,res,next)=>{
 
 const deletePromo= async (req,res,next)=>{
   try{
-    console.log('in delete promo controller. req.params.id is: ',req.params.id)
+    // console.log('in delete promo controller. req.params.id is: ',req.params.id)
     
     const promo=await Promo.findById(req.params.id)
     if(promo){

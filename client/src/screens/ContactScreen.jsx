@@ -50,14 +50,14 @@ const ContactScreen = () => {
 
   const sendEmail =(e) =>{
     e.preventDefault();
-    console.log(e.target)
+    // console.log(e.target)
 
     emailjs.sendForm('service_471bwwg', 'template_4ag980g', e.target, 'user_C1QZMlOYTLCRsiOKkwxXB')
       .then((result) => {
-        console.log(result.text);  
+        // console.log(result.text);  
       }
       , (error) => {
-        console.log(error.text);
+        // console.log(error.text);
       });
       setAlert(true)
       setName('')

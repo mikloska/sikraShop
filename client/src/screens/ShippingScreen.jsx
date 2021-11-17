@@ -209,7 +209,6 @@ const ShippingScreen = ({history}) =>{
               {country==='United States' &&
               <Autocomplete id="States" options={states} value={state} getOptionLabel={(option) => option} className={classes.Additional}
                 onChange={(e, newInputValue) => {
-                  console.log(newInputValue)
                   setState(newInputValue);
                   setProvince('')
                   setNewShippingAddress({...newShippingAddress,state:newInputValue})

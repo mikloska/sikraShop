@@ -50,10 +50,6 @@ const BasketScreen = ({ match, location, history }) => {
 
 
   useEffect(() => {
-    if(chain && chain!=='') console.log('chain: ', chain)
-    if(length>0) console.log('length: ', length)
-    if(size>0) console.log('size: ', size)
-
     dispatch(changeBadge(total))
     if (productId) {
       // dispatch(addToBasket(productId, qty, chain, length, size))

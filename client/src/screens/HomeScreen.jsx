@@ -57,7 +57,7 @@ const HomeScreen = ({match}) => {
 
   return (
     <div>
-      {showMobile?<HomeGallery w={370} h={400}/>:showSmall?<HomeGallery w={600} h={550}/>:<HomeGallery w={1920} h={750}/>}
+      {showMobile?<HomeGallery w={370} h={400}/>:showSmall?<HomeGallery w={600} h={550}/>:<HomeGallery w={1920} h={950}/>}
 
       {/* <h1>Latest Products</h1>
       {loading ? <Loader/> : error ? <Message severity='error'>{error}</Message> : 

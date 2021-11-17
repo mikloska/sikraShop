@@ -238,7 +238,7 @@ const forgotPassword = async (req, res, next) => {
     const buffer = crypto.randomBytes(32)
     const token = buffer.toString("hex")
     res.locals.token=token
-    console.log('token: ',token)
+    // console.log('token: ',token)
     const user = await User.findOne({email:req.body.email})
 
     if(!user) return res.status(422).json({error:"No user with that email"})

@@ -160,7 +160,6 @@ const getOrderById = async (req, res, next) => {
 // @route   GET /api/orders/:id/pay
 // @access  Private
 const updateOrderToPaid = async (req, res, next) => {
-  console.log('In updateOrderToPaid controller')
   try{
     const order = await Order.findById(req.params.id)
 
@@ -191,9 +190,9 @@ const updateOrderToPaid = async (req, res, next) => {
 const updateOrderToShipped = async (req, res, next) => {
   try{
     const order = await Order.findById(req.params.id)
-    console.log('req.params: ', req.params)
+    // console.log('req.params: ', req.params)
     // const {trackingNumber, trackingLink} = req.body
-    console.log('req.body: ',req.body)
+    // console.log('req.body: ',req.body)
 
     if (order) {
       order.trackingNumber=req.body.trackingNumber

@@ -29,7 +29,7 @@ const signUpEmail = (req,res,next)=>{
           return console.log(error);
       }
   
-      console.log('Message sent: ' + info.response);
+      // console.log('Message sent: ' + info.response);
     })
     res.send('sent')
 
@@ -43,7 +43,6 @@ const signUpEmail = (req,res,next)=>{
 
 const orderEmail = (req,res,next)=>{
   try{
-    console.log(req.body)
     const {usersName, userEmail, price, orderId,guest } = req.body
     let transporter = nodemailer.createTransport({
       host: "smtp-mail.outlook.com", // hostname
@@ -72,7 +71,7 @@ const orderEmail = (req,res,next)=>{
           return console.log(error);
       }
   
-      console.log('Message sent: ' + info.response);
+      // console.log('Message sent: ' + info.response);
     })
     res.send('sent')
 
@@ -85,7 +84,6 @@ const orderEmail = (req,res,next)=>{
 
 const orderNotificationEmail = (req,res,next)=>{
   try{
-    console.log(req.body)
     const {orderId, guest} = req.body
     let transporter = nodemailer.createTransport({
       host: "smtp-mail.outlook.com", // hostname
@@ -112,7 +110,7 @@ const orderNotificationEmail = (req,res,next)=>{
           return console.log(error);
       }
   
-      console.log('Message sent: ' + info.response);
+      // console.log('Message sent: ' + info.response);
     })
     res.send('sent')
 
@@ -150,7 +148,7 @@ const shippingNotificationEmail = (req,res,next)=>{
           return console.log(error);
       }
   
-      console.log('Message sent: ' + info.response);
+      // console.log('Message sent: ' + info.response);
     })
     res.send('sent')
 
@@ -188,7 +186,7 @@ const emailResetLink = (req,res,next)=>{
           return console.log(error);
       }
   
-      console.log('Message sent: ' + info.response);
+      // console.log('Message sent: ' + info.response);
     })
     // res.json('sent')
     return next()
