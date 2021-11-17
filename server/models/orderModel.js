@@ -18,6 +18,7 @@ const orderSchema = mongoose.Schema(
         qty: { type: Number, required: true },
         length: {type: Number},
         size: {type:Number},
+        braceletSize: {type:String},
         chain: {type: String},
         image: {type: [{type: String}], required:true},
         price: { type: Number, required: true },

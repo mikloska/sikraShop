@@ -94,6 +94,7 @@ const BasketScreen = ({ match, location, history }) => {
                  {item.category==='rings'&&` size ${item.size}`}
                  {(item.category==='necklaces'&&item.chain==='silver')&&` ${item.length}" ${item.chain} chain`}
                  {(item.category==='necklaces'&&item.chain==='cord')&&` ${item.length}" ${item.chain}`}
+                 {item.category==='bracelets'&& ` size ${item.braceletSize}`}
                    
                 </Typography>
       

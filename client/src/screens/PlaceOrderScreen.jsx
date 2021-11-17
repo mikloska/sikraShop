@@ -289,6 +289,7 @@ const PlaceOrderScreen = ({ history }) => {
                     {item.category==='necklaces'&&item.chain==='silver'&&` -${item.length}" silver chain`}
                     {item.category==='necklaces'&&item.chain==='cord'&&` -${item.length}" cord`}
                     {item.category==='rings'&&` -size ${item.size}`}
+                    {item.category==='bracelets'&&` -size ${item.braceletSize}`}
                   </StyledTableCell>
                   {/* <TableCell><Box className={classes.Box}><img src={item.image} alt={item.name} className={classes.Media}/></Box></TableCell> */}
                   <StyledTableCell>{item.qty}</StyledTableCell>

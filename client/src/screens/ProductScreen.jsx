@@ -50,6 +50,7 @@ const ProductScreen = ({history, match}) =>{
   // const [total, setTotal] = useState(product.price)
   const [chain, setChain] = useState('silver')
   const [ringSize, setRingSize] = useState(7)
+  const [braceletSize, setBraceletSize] = useState('medium')
   const [rearrange, setRearrange] = useState(false)
   const [imageArr, setImageArr] = useState([])
   const [length, setLength] = useState(15)
@@ -92,7 +93,7 @@ const ProductScreen = ({history, match}) =>{
   },[dispatch, match, successProductReview])
 
   const handleAddToBasket = () => {
-    dispatch(addToBasket(match.params.id, qty, product.category==='necklaces'?chain:null, product.category==='necklaces'?length:null, product.category==='rings'?ringSize:null, product.category))
+    dispatch(addToBasket(match.params.id, qty, product.category==='necklaces'?chain:null, product.category==='necklaces'?length:null, product.category==='rings'?ringSize:null,product.category==='bracelets'?braceletSize:null, product.category))
     history.push('/basket')
     // if(product.category==='necklaces'){
     //   history.push(`/basket/${match.params.id}?chain=${chain}?length=${length}?qty=${qty}`)
@@ -266,6 +267,18 @@ const ProductScreen = ({history, match}) =>{
                   {ringSizes}
                 </Select>
               </FormControl>}
+              {product.category==='bracelets'&&
+                <ListItem>
+                  <FormControl className={classes.formControl} value={braceletSize} >
+                    <InputLabel>Size</InputLabel>
+                    <Select defaultValue='medium' onChange={e=>setBraceletSize(e.target.value)}>
+                      <MenuItem value={'small'}>small</MenuItem>
+                      <MenuItem value={'medium'}>medium</MenuItem>
+                      <MenuItem value={'large'}>large</MenuItem>
+                    </Select>
+                  </FormControl>
+                </ListItem>
+              }
             </Grid>
             <Grid item xs={6} md={4}>
 

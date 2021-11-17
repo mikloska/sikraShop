@@ -267,6 +267,7 @@ const OrderScreen = ({ match, location, history}) => {
                     {item.category==='necklaces'&&item.chain==='silver'&&` -${item.length}" silver chain`}
                     {item.category==='necklaces'&&item.chain==='cord'&&` -${item.length}" cord`}
                     {item.category==='rings'&&item.size>0&&` -size ${item.size}`}
+                    {item.category==='bracelets'&&` -size ${item.braceletSize}`}
                   </StyledTableCell>
                   <StyledTableCell>{item.qty}</StyledTableCell>
                   <StyledTableCell>${item.price}</StyledTableCell>

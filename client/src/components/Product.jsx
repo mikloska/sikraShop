@@ -42,7 +42,7 @@ const Product = ({product}) => {
           
           
           <Typography style={{paddingBottom:9}}>
-            <strong>${product.price}</strong>
+            <strong>{product.category==='necklaces'?`Starting at $${product.price}`:`$${product.price}`}</strong>
           </Typography>
         </Link>
           {/* </a> */}
