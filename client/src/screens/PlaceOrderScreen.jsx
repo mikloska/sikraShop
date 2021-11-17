@@ -359,6 +359,7 @@ const PlaceOrderScreen = ({ history }) => {
                   )} 
               {( basket.paymentMethod==='PayPal' &&
                     <PayPalButton
+                      shippingPreference="NO_SHIPPING"
                       amount={addDecimals(Number(basket.totalPrice-(basket.itemsPrice*promoPercentage/100).toFixed(2)))}
                       onSuccess={successPaymentHandler}
                     />
