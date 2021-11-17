@@ -218,16 +218,7 @@ const OrderScreen = ({ match, location, history}) => {
                     value={trackingLink} onChange={(e) => {setTrackingLink(e.target.value);}}/>
                   </ListItem>
                 )}
-            <ListItem>
-            {order.isShipped ? (
-                <Message severity='success'>Shipped on {order.shippedAt}<br></br><b>Click to view tracking information:</b> <a href={order.trackingLink} target="_blank" style={{color:'#067e78'}}>{order.trackingNumber}</a></Message>
-                
-              ) : (
-                <Message severity='warning'>Not Shipped</Message>
-              )}
-            </ListItem>
-
-            <ListItem>
+            {/* <ListItem>
               <ListItemText>
                 <Grid container justifyContent="flex-start" >
                   <Grid item><strong>Payment Method: </strong>
@@ -235,12 +226,20 @@ const OrderScreen = ({ match, location, history}) => {
                 </Grid>
                 </Grid>
               </ListItemText>
-            </ListItem>
+            </ListItem> */}
             <ListItem>
             {order.isPaid ? (
                 <Message severity='success'>Paid on {order.paidAt}</Message>
               ) : (
                 <Message severity='warning'>Not Paid</Message>
+              )}
+            </ListItem>
+            <ListItem>
+            {order.isShipped ? (
+                <Message severity='success'>Shipped on {order.shippedAt}<br></br><b>Click to view tracking information:</b> <a href={order.trackingLink} target="_blank" style={{color:'#067e78'}}>{order.trackingNumber}</a></Message>
+                
+              ) : (
+                <Message severity='warning'>Preparing for shipment</Message>
               )}
             </ListItem>
 
