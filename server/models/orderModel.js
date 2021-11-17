@@ -21,6 +21,7 @@ const orderSchema = mongoose.Schema(
         chain: {type: String},
         image: {type: [{type: String}], required:true},
         price: { type: Number, required: true },
+        category: {type: String, required: true},
         product: {
           type: mongoose.Schema.Types.ObjectId,
           required: true,

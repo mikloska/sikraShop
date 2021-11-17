@@ -85,7 +85,7 @@ const ProductScreen = ({history, match}) =>{
   },[dispatch, match, successProductReview])
 
   const handleAddToBasket = () => {
-    dispatch(addToBasket(match.params.id, qty, chain, length, ringSize, product.category))
+    dispatch(addToBasket(match.params.id, qty, product.category==='necklaces'?chain:null, product.category==='necklaces'?length:null, product.category==='rings'?ringSize:null, product.category))
     history.push('/basket')
     // if(product.category==='necklaces'){
     //   history.push(`/basket/${match.params.id}?chain=${chain}?length=${length}?qty=${qty}`)
