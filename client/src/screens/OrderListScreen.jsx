@@ -92,7 +92,7 @@ const OrderListScreen = ({history}) => {
         </StyledTableRow>
       </TableHead>
       <TableBody>
-      {orders.map((order) => (
+      {orders.reverse().map((order) => (
         <StyledTableRow key={order._id}>
           <StyledTableCell><RouterLink style={{color:'#067e78'}} to={order.guest? `/orders/${order._id}/guest`:`/orders/${order._id}`}>{order._id}</RouterLink></StyledTableCell>
           <StyledTableCell>{order.user ? order.user.name: order.guest}</StyledTableCell>
