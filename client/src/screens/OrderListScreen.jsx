@@ -86,7 +86,7 @@ const OrderListScreen = ({history}) => {
           <StyledTableCell>USER</StyledTableCell>
           <StyledTableCell>DATE</StyledTableCell>
           <StyledTableCell>TOTAL</StyledTableCell>
-          <StyledTableCell>DELIVERED</StyledTableCell>
+          <StyledTableCell>SHIPPED</StyledTableCell>
           {/* <StyledTableCell></StyledTableCell> */}
 
         </StyledTableRow>
