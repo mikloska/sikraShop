@@ -8,9 +8,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import {listProductDetails, createProductReview} from '../actions/productActions'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
+import NecklaceModal from '../components/NecklaceModal';
 import ReactImageMagnify from 'react-image-magnify';
 import { addToBasket } from '../actions/basketActions'
 import axios from 'axios'
+
 
 const useStyles = makeStyles((theme)=>({
   AdminButtons:{
@@ -64,6 +66,11 @@ const ProductScreen = ({history, match}) =>{
   const [firstRender, setFirstRender] = useState(true)
   const chainObj = {'silver':35,'cord':10,'none':0}
   const classes = useStyles()
+  //For necklace sizing modal
+  const [modalOpen, setModalOpen] = useState(false);
+  const handleModalOpen = () => setModalOpen(true);
+  const handleModalClose = () => setModalOpen(false);
+
 
   useEffect(()=>{
     // console.log(chainObj[chain])
@@ -243,14 +250,15 @@ const ProductScreen = ({history, match}) =>{
           <Grid container>
             <Grid item md={7}>
               {product.category==='necklaces'&&
-              <FormControl className={classes.form} noValidate onSubmit={handleChainSubmit} style={{border:'1px'}}>
-                <FormLabel component="legend">Necklace Material</FormLabel>
-                <RadioGroup row onChange={(e)=>setChain(e.target.value)} value={chain}>
-                  <FormControlLabel control={<Radio  id='silver' value='silver' name="chain" />}label='silver'>Silver</FormControlLabel>
-                  <FormControlLabel control={<Radio  id='cord' value='cord' name="chain" />}label='cord'>Cord</FormControlLabel>
-                  <FormControlLabel control={<Radio  id='none' value='none' name="chain" />}label='none'>none</FormControlLabel>
-                </RadioGroup>
-              </FormControl>}
+                <FormControl className={classes.form} noValidate onSubmit={handleChainSubmit} style={{border:'1px'}}>
+                  <FormLabel component="legend">Necklace Material</FormLabel>
+                  <RadioGroup row onChange={(e)=>setChain(e.target.value)} value={chain}>
+                    <FormControlLabel control={<Radio  id='silver' value='silver' name="chain" />}label='silver'>Silver</FormControlLabel>
+                    <FormControlLabel control={<Radio  id='cord' value='cord' name="chain" />}label='cord'>Cord</FormControlLabel>
+                    <FormControlLabel control={<Radio  id='none' value='none' name="chain" />}label='none'>none</FormControlLabel>
+                  </RadioGroup>
+                </FormControl>
+              }
               {product.category==='rings'&&
               <FormControl className={classes.formControl} style={{border:'1px'}}>
                 <InputLabel>Size</InputLabel>
@@ -263,16 +271,21 @@ const ProductScreen = ({history, match}) =>{
 
             <List>
 
-            {product.category==='necklaces'&&chain!=='none'&&<ListItem>
-              <FormControl className={classes.formControl} value={length} >
-                <InputLabel>Length</InputLabel>
-                <Select defaultValue='15' onChange={e=>setLength(e.target.value)}>
-                  <MenuItem value={15}>15"</MenuItem>
-                  <MenuItem value={16}>16"</MenuItem>
-                  <MenuItem value={18}>18"</MenuItem>
-                </Select>
-              </FormControl>
-            </ListItem>}
+            {product.category==='necklaces'&&chain!=='none'&&(
+            <div>
+              <ListItem>
+                <FormControl className={classes.formControl} value={length} >
+                  <InputLabel>Length</InputLabel>
+                  <Select defaultValue='15' onChange={e=>setLength(e.target.value)}>
+                    <MenuItem value={15}>15"</MenuItem>
+                    <MenuItem value={16}>16"</MenuItem>
+                    <MenuItem value={18}>18"</MenuItem>
+                  </Select>
+                </FormControl>
+              </ListItem>
+              <NecklaceModal modalOpen={modalOpen} handleModalOpen={handleModalOpen} handleModalClose={handleModalClose} />
+            </div>
+          )}
           </List>
           </Grid>
           <Grid item md={5}>

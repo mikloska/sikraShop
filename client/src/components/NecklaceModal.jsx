@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Box, Modal} from '@material-ui/core';
+import {Box, Modal, Button, Typography} from '@material-ui/core';
 
 const style = {
   position: 'absolute',
@@ -13,29 +13,23 @@ const style = {
   p: 4,
 };
 
-export default function BasicModal() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+const NecklaceModal =({modalOpen, handleModalOpen, handleModalClose})=> {
 
   return (
     <div>
-      <Button onClick={handleOpen}>Open modal</Button>
+      <Button variant='contained' onClick={handleModalOpen}>Chain Size Guide</Button>
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={modalOpen}
+        onClose={handleModalClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
+          <img style={{width:'100%'}}src='https://sikra.s3.us-east-2.amazonaws.com/necklaces/necklace-guide.jpg'/>
         </Box>
       </Modal>
     </div>
   );
 }
+
+export default NecklaceModal
