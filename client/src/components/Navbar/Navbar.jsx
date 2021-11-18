@@ -166,7 +166,7 @@ const Navbar= () => {
           </div>
           <div className={classes.grow} />
           <DesktopRightMenu desktopClass={classes.sectionDesktop} MyBadge={MyBadge} itemCount={itemCount} anchorEl={anchorEl} setAnchorEl={setAnchorEl} handleMobileMenuClose={handleMobileMenuClose}
-            menuId={menuId} isMenuOpen={isMenuOpen} handleMenuClose={handleMenuClose} handleSignOut={handleSignOut} userInformation={userInformation} linkClass={classes.Link}/>
+            menuId={menuId} isMenuOpen={isMenuOpen} handleMenuClose={handleMenuClose} handleSignOut={handleSignOut} userInformation={userInformation} linkClass={classes.Link} handleMenuClose={handleMenuClose}/>
           <div className={classes.sectionMobile}>
             <IconButton aria-label="show more" aria-controls={mobileMenuId} aria-haspopup="true"
               onClick={handleMobileMenuOpen} color="inherit"
@@ -177,7 +177,7 @@ const Navbar= () => {
           <MobileMenu userInformation={userInformation} MyBadge={MyBadge} mobileMoreAnchorEl={mobileMoreAnchorEl} mobileMenuId={mobileMenuId}
             isMobileMenuOpen={isMobileMenuOpen} handleMobileMenuClose={handleMobileMenuClose} itemCount={itemCount} linkClass={classes.Link}
             anchorEl={anchorEl} setAnchorEl={setAnchorEl} menuId={menuId} isMenuOpen={isMenuOpen} handleMenuClose={handleMenuClose} 
-            handleSignOut={handleSignOut} userInformation={userInformation} linkClass={classes.Link}
+            handleSignOut={handleSignOut} userInformation={userInformation} linkClass={classes.Link} handleMenuClose={handleMenuClose}
           />
         </Toolbar>
 

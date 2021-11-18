@@ -6,7 +6,7 @@ import AdminMenu from './AdminMenu'
 import AccountMenu from './AccountMenu'
 
 const MobileMenu = ({userInformation, MyBadge, mobileMoreAnchorEl, mobileMenuId, 
-    isMobileMenuOpen, handleMobileMenuClose, itemCount, linkClass, handleAdminMenuOpen, handleAdminMenuClose, 
+      isMobileMenuOpen, handleMobileMenuClose, itemCount, linkClass, handleAdminMenuOpen, handleAdminMenuClose, 
     adminAnchorEl, isAdminMenuOpen, anchorEl, setAnchorEl, menuId, isMenuOpen, handleMenuClose, 
     handleSignOut}) =>{
   return (
@@ -15,9 +15,9 @@ const MobileMenu = ({userInformation, MyBadge, mobileMoreAnchorEl, mobileMenuId,
     >
       {userInformation && userInformation.isAdmin &&
         <MenuItem>
-          <AdminMenu handleAdminMenuOpen={handleAdminMenuOpen} 
+          <AdminMenu handleAdminMenuOpen={handleAdminMenuOpen} handleMenuClose={handleMenuClose}
             handleMobileMenuClose={handleMobileMenuClose} handleAdminMenuClose={handleAdminMenuClose} 
-            adminAnchorEl={adminAnchorEl} isAdminMenuOpen={isAdminMenuOpen}
+            adminAnchorEl={adminAnchorEl} isAdminMenuOpen={isAdminMenuOpen} anchorEl={anchorEl}
           />
         </MenuItem>
         }
@@ -31,7 +31,7 @@ const MobileMenu = ({userInformation, MyBadge, mobileMoreAnchorEl, mobileMenuId,
         </IconButton>
       </MenuItem>
       <MenuItem >
-        <AccountMenu anchorEl={anchorEl} menuId={menuId} isMenuOpen={isMenuOpen} handleMenuClose={handleMenuClose} 
+        <AccountMenu anchorEl={anchorEl} menuId={menuId} isMenuOpen={isMenuOpen} handleMenuClose={handleMenuClose}  menuId={menuId} 
           handleSignOut={handleSignOut} userInformation={userInformation} setAnchorEl={setAnchorEl} linkClass={linkClass} />
       </MenuItem>
     </Menu>

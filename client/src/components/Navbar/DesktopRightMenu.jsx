@@ -5,7 +5,7 @@ import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import AccountMenu from './AccountMenu'
 import AdminMenu from './AdminMenu'
 
-const DesktopRightMenu = ({desktopClass, MyBadge, itemCount, handleProfileMenuOpen, anchorEl,setAnchorEl, menuId, isMenuOpen, handleMobileMenuClose,
+const DesktopRightMenu = ({desktopClass, MyBadge, itemCount, handleProfileMenuOpen, anchorEl,setAnchorEl, menuId, isMenuOpen, handleMobileMenuClose, 
   handleMenuClose, handleSignOut, userInformation, handleAdminMenuOpen, handleAdminMenuClose, adminAnchorEl, isAdminMenuOpen, linkClass}) =>{
   return(
     <div className={desktopClass}>
@@ -19,7 +19,8 @@ const DesktopRightMenu = ({desktopClass, MyBadge, itemCount, handleProfileMenuOp
         handleMenuClose={handleMenuClose} handleSignOut={handleSignOut} userInformation={userInformation} linkClass={linkClass}/>
     
       {userInformation && userInformation.isAdmin && (
-        <AdminMenu handleAdminMenuOpen={handleAdminMenuOpen} handleAdminMenuClose={handleAdminMenuClose} adminAnchorEl={adminAnchorEl} isAdminMenuOpen={isAdminMenuOpen} handleMobileMenuClose={handleMobileMenuClose}/>
+        <AdminMenu handleMenuClose={handleMenuClose} handleAdminMenuOpen={handleAdminMenuOpen} handleAdminMenuClose={handleAdminMenuClose} anchorEl={anchorEl}
+        menuId={menuId} adminAnchorEl={adminAnchorEl} isAdminMenuOpen={isAdminMenuOpen} handleMobileMenuClose={handleMobileMenuClose}/>
       )}
     </div>
   )
