@@ -5,20 +5,15 @@ import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import AdminMenu from './AdminMenu'
 import AccountMenu from './AccountMenu'
 
-const MobileMenu = ({userInformation, MyBadge, mobileMoreAnchorEl, mobileMenuId, 
-      isMobileMenuOpen, handleMobileMenuClose, itemCount, linkClass, handleAdminMenuOpen, handleAdminMenuClose, 
-    adminAnchorEl, isAdminMenuOpen, anchorEl, setAnchorEl, menuId, isMenuOpen, handleMenuClose, 
-    handleSignOut}) =>{
+const MobileMenu = ({userInformation, MyBadge, mobileMoreAnchorEl, mobileMenuId, isMobileMenuOpen, handleMobileMenuClose, itemCount, 
+  linkClass, anchorEl, setAnchorEl, menuId, isMenuOpen, handleMenuClose, handleSignOut}) =>{
   return (
     <Menu anchorEl={mobileMoreAnchorEl} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} id={mobileMenuId}
       keepMounted transformOrigin={{ vertical: 'top', horizontal: 'right' }} open={isMobileMenuOpen} onClose={handleMobileMenuClose}
     >
       {userInformation && userInformation.isAdmin &&
         <MenuItem>
-          <AdminMenu handleAdminMenuOpen={handleAdminMenuOpen} handleMenuClose={handleMenuClose}
-            handleMobileMenuClose={handleMobileMenuClose} handleAdminMenuClose={handleAdminMenuClose} 
-            adminAnchorEl={adminAnchorEl} isAdminMenuOpen={isAdminMenuOpen} anchorEl={anchorEl}
-          />
+          <AdminMenu handleMenuClose={handleMenuClose} />
         </MenuItem>
         }
       <MenuItem>

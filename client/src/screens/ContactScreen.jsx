@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ContactScreen = () => {
-  const [name, setName] = useState('');
+  const [subject, setSubject] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [alert, setAlert] = useState(false);
@@ -60,7 +60,7 @@ const ContactScreen = () => {
         // console.log(error.text);
       });
       setAlert(true)
-      setName('')
+      setSubject('')
       setEmail('')
       setMessage('')
   }
@@ -80,17 +80,13 @@ const ContactScreen = () => {
                 Contact Us
               </Typography>
               <form className={classes.form} noValidate onSubmit={sendEmail}>
-                <TextField variant="outlined" margin="normal" required fullWidth id="name" label='Name'
-                  name="user_name" value={name}
-                  onChange={(e) => {
-                    setName(e.target.value);
-                  }}
-                />
                 <TextField variant="outlined" margin="normal" required fullWidth name="user_email" label='Email Address' type="email"
                   id="email" value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <TextField variant="outlined" margin="normal" required fullWidth id="subject" label='Subject'
+                  name="user_subject" value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
                 />
                 <List>
                   {alert===true && <Alert severity="success">Email sent!</Alert>}

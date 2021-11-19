@@ -119,7 +119,7 @@ const Navbar= () => {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const [shopAnchorEl, setShopAnchorEl] = useState(null);
   const isShopMenuOpen = Boolean(shopAnchorEl);
-  const handleShopMenuClose = (event)=>{
+  const handleShopMenuClose = ()=>{
     setShopAnchorEl(null)
     handleNavMenuClose()
   }
