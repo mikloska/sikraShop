@@ -10,9 +10,10 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import NecklaceModal from '../components/NecklaceModal';
 import CustomButton from '../components/CustomButton'
-import ReactImageMagnify from 'react-image-magnify';
+// import ReactImageMagnify from 'react-image-magnify';
 import { addToBasket } from '../actions/basketActions'
 import axios from 'axios'
+import ProductImages from './ProductScreen/ProductImages'
 
 
 const useStyles = makeStyles((theme)=>({
@@ -28,11 +29,11 @@ const useStyles = makeStyles((theme)=>({
   root: {
     marginTop:50
   },
-  Image: {
-    width:'100px', 
-    paddingRight:4, 
-    paddingTop:4,
-  },
+  // Image: {
+  //   width:'100px', 
+  //   paddingRight:4, 
+  //   paddingTop:4,
+  // },
   formControl: {
     minWidth: 100
   }
@@ -44,7 +45,7 @@ const ProductScreen = ({history, match}) =>{
   const [ringSize, setRingSize] = useState(7)
   const [braceletSize, setBraceletSize] = useState('medium')
   const [rearrange, setRearrange] = useState(false)
-  const [imageArr, setImageArr] = useState([])
+  // const [imageArr, setImageArr] = useState([])
   const [length, setLength] = useState(15)
   const [rating, setRating] = useState(0)
   const [comment, setComment] = useState('')
@@ -55,8 +56,8 @@ const ProductScreen = ({history, match}) =>{
   const productReviewCreate = useSelector((state) => state.productReviewCreate)
   const {success: successProductReview, loading: loadingProductReview, error: errorProductReview} = productReviewCreate
   const {loading, error, product} = productDetails
-  const [currentImage, setCurrentImage] = useState('')
-  const [firstRender, setFirstRender] = useState(true)
+  // const [currentImage, setCurrentImage] = useState('')
+  // const [firstRender, setFirstRender] = useState(true)
   const chainObj = {'silver':35,'cord':10,'none':0}
   const classes = useStyles()
   //For necklace sizing modal
@@ -90,10 +91,10 @@ const ProductScreen = ({history, match}) =>{
   }
     
 
-  const updateImage = (pic) =>{
-    setCurrentImage(pic)
-    setFirstRender(false)
-  }
+  // const updateImage = (pic) =>{
+  //   setCurrentImage(pic)
+  //   setFirstRender(false)
+  // }
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -105,24 +106,25 @@ const ProductScreen = ({history, match}) =>{
     )
   }
 
-  const rearrangeImages = (image) =>{
-    if(!imageArr.includes(image)) setImageArr(oldArr=>[...oldArr,image])
-  }
-  const setNewImages= async ()=>{
-    if(product.image.length===imageArr.length){
-      await axios.put(`/api/products/images/${product._id}`, {imageArr:imageArr})
-      dispatch(listProductDetails(match.params.id))
-      setRearrange(false)
-      setImageArr([])
-    }
-  }
+  // const rearrangeImages = (image) =>{
+  //   if(!imageArr.includes(image)) setImageArr(oldArr=>[...oldArr,image])
+  // }
+  // const setNewImages= async ()=>{
+  //   if(product.image.length===imageArr.length){
+  //     await axios.put(`/api/products/images/${product._id}`, {imageArr:imageArr})
+  //     dispatch(listProductDetails(match.params.id))
+  //     setRearrange(false)
+  //     setImageArr([])
+  //   }
+  // }
 
   return (
     <div className={classes.root}  style={{marginTop:35, marginBottom: 45, padding:20}}>
       {loading ? <Loader/> : error ? <Message severity='error'>{error}</Message> :
       <Grid container spacing={3}>
         <Grid item md={6}>
-          {product.image&&firstRender===true ? 
+          <ProductImages product={product} rearrange={rearrange} setRearrange={setRearrange}/>
+          {/* {product.image&&firstRender===true ? 
             <div>
               <ReactImageMagnify className={classes.Image} enlargedImagePosition='over' {...{
                   smallImage: {
@@ -160,20 +162,20 @@ const ProductScreen = ({history, match}) =>{
             <img src={image} key={image} style={{cursor: 'pointer'}} className={classes.Image} alt={product.name} onClick={()=>{updateImage(image); rearrange&&rearrangeImages(image);}}/>
             )) 
             : <Loader/>
-          }
+          } */}
 
-          {rearrange&& (
+          {/* {rearrange&& (
             <div style={{borderBottom:30}}>
               <Button onClick={()=>setNewImages()} className={classes.AdminButtons}>Save</Button>
               <Button onClick={()=>{setRearrange(false); setImageArr([])}} className={classes.AdminButtons}>Cancel</Button>
             </div>
-          )}
+          )} */}
         </Grid>
         <Grid item>
-        {imageArr.length>0&& imageArr.map(image=>(
+        {/* {imageArr.length>0&& imageArr.map(image=>(
           <img src={image} key={`${image}alt`} className={classes.Image} alt={product.name}/>
           ))
-        }
+        } */}
         </Grid>
         <Grid item xs={12} md={5} style={{marginLeft:'20px'}}>
           <List>
