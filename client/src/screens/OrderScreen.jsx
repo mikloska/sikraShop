@@ -229,14 +229,14 @@ const OrderScreen = ({ match, location, history}) => {
             </ListItem> */}
             <ListItem>
             {order.isPaid ? (
-                <Message severity='success'>Paid on {order.paidAt}</Message>
+                <Message severity='success'>Paid on {order.paidAt.split('T')[0]}</Message>
               ) : (
                 <Message severity='warning'>Not Paid</Message>
               )}
             </ListItem>
             <ListItem>
             {order.isShipped ? (
-                <Message severity='success'>Shipped on {order.shippedAt}<br></br><b>Click to view tracking information:</b> <a href={order.trackingLink} target="_blank" style={{color:'#067e78'}}>{order.trackingNumber}</a></Message>
+                <Message severity='success'>Shipped on {order.shippedAt.split('T')[0]}<br></br><b>Click to view tracking information:</b> <a href={order.trackingLink} target="_blank" style={{color:'#067e78'}}>{order.trackingNumber}</a></Message>
                 
               ) : (
                 <Message severity='warning'>Preparing for shipment</Message>
