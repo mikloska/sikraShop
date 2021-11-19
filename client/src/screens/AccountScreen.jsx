@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Redirect as redirect } from 'react-router-dom';
-import {Avatar, Button, Card, CssBaseline, TextField, Link, Grid, Box, Paper, Checkbox, 
-Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Divider, FormGroup, FormControlLabel} from '@material-ui/core';
+import {Button, TextField, Grid, Paper, Checkbox, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, 
+  Divider, FormGroup, FormControlLabel} from '@material-ui/core';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { useHistory } from 'react-router-dom'
-import PermIdentityIcon from '@material-ui/icons/PermIdentity';
+import CustomButton from '../components/CustomButton'
 import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import {getUserDetails, updateUser} from '../actions/userActions'
@@ -14,23 +12,11 @@ import { listMyOrders } from '../actions/orderActions'
 import CloseIcon from '@material-ui/icons/Close';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { USER_UPDATE_RESET } from '../constants/userConstants'
-// const CustomLock = withStyles((theme) => ({
-//   lock: {
-//     backgroundColor:'#067e78'
-//   },
-// }))(LockOpenIcon);
-// const CustomLock = styled(LockOpenIcon)({
-//   color:'#067e78'
-//   // color:linear-gradient(120deg, #28ccc4, #067e78),
-// });
+
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
-    // background:'linear-gradient(120deg, #28ccc4, #067e78)',
     color: theme.palette.common.white,
-  },
-  body: {
-    // fontSize: 14,
   },
 }))(TableCell);
 
@@ -44,21 +30,19 @@ const StyledTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 const useStyles = makeStyles((theme) => ({
-  table:{
-    // width:400
+  divider: {
+    background:'linear-gradient(120deg, #28ccc4, #067e78)',
+    margin: theme.spacing(3, 0, 2),
   },
   Box: {
     width:50
   },
   Icon: {
     color: '#8a0b20',
-    // marginLeft:27
   },
   card: {
     paddingLeft:20,
     paddingRight:20
-    // padding: theme.spacing(5),
-    // height="100%"
   },
   paper: {
     marginTop: theme.spacing(4),
@@ -67,17 +51,11 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   avatar: {
-    // backgroundColor:'#067e78'
-    // margin: theme.spacing(1),
     backgroundColor: theme.palette.primary.main,
   },
   form: {
     width: '100%',
     marginTop: theme.spacing(1),
-  },
-  submit: {
-    background:'linear-gradient(120deg, #28ccc4, #067e78)',
-    margin: theme.spacing(3, 0, 2),
   },
   googleBtn: {
     margin: theme.spacing(0, 0, 0),
@@ -107,14 +85,9 @@ const AccountScreen = ({ location, history }) => {
 
   const userUpdate=useSelector(state=>state.userUpdate)
   const {success}=userUpdate
-  
-
   const orderListOfUser=useSelector(state=>state.orderListOfUser)
   const {loading: loadingOrders,error:errorOrders,orders}=orderListOfUser
-
   const classes = useStyles();
-  // const history = useHistory();
-  
   const [address,setAddress]=useState('')
   const [updated,setUpdated]=useState(false)
   const [city,setCity]=useState('')
@@ -124,9 +97,6 @@ const AccountScreen = ({ location, history }) => {
   const [province,setProvince]=useState('')
   const [mailingList, setMailingList] = useState(false)
   const [shippingAddress, setShippingAddress] = useState({address:address,city:city,state:state,province:province,country:country,zip:zip})
-
-
-
 
   useEffect(()=>{
     if(!userInformation) {
@@ -151,10 +121,7 @@ const AccountScreen = ({ location, history }) => {
         setShippingAddress(user.shippingAddress)
       }
     }
-
   },[dispatch, history, userInformation, user, success])
-
-  
   const handleSubmit = (e) => {
     e.preventDefault();
     //In case chrome autofills pw, it will not throw an error if drop down to change pw is not open
@@ -170,8 +137,6 @@ const AccountScreen = ({ location, history }) => {
 
   };
 
-  // if (isLoggedIn) return <Redirect to="/" />;
-
   return (
     <Grid container justifyContent="center" spacing={6} style={{marginTop:35, marginBottom: 45, padding:20}}>
       <Grid item sm={12} xs={12} md={4}>
@@ -179,7 +144,6 @@ const AccountScreen = ({ location, history }) => {
         <Typography variant="h5">
           {name}'s Account
         </Typography>
-        {/* <div style={{width:'300px', margin:8,padding:0}}><Message severity='success' >Profile Successfully Updated!</Message></div> */}
         <Grid item>
           {message && <div style={{width:'250px', margin:8}}><Message severity='error' >{message}</Message></div>}
           {success && <div style={{width:'250px', marginTop:8}}><Message severity='success' >Profile Successfully Updated!</Message></div>}
@@ -216,15 +180,7 @@ const AccountScreen = ({ location, history }) => {
                 }}
               />
             </div>
-
-          }
-
-
-          {/* <FormControlLabel
-      control={<Checkbox value="remember" color="primary" />}
-      label="Remember me"
-    /> */}
-                            
+          }                            
           <TextField autoComplete="address" variant="outlined" margin="normal" required fullWidth id="address"
             label="Address" name="address" autoComplete="address" value={address}
             onChange={(e) => {
@@ -243,7 +199,6 @@ const AccountScreen = ({ location, history }) => {
             onChange={(e, newInputValue) => {
               setCountry(newInputValue);
               setShippingAddress({...shippingAddress,country:newInputValue})
-              
             }}
             renderInput={(params) => <TextField {...params} label="Country" variant="outlined" />}
           />
@@ -255,7 +210,6 @@ const AccountScreen = ({ location, history }) => {
               setShippingAddress({...shippingAddress,state:newInputValue})
             }}
             renderInput={(params) => <TextField {...params} label="State" variant="outlined" />}
-            
           />}
           {country==='Canada' &&
           <Autocomplete id="Province" options={provinces} value={province} getOptionLabel={(option) => option} className={classes.Additional}
@@ -264,46 +218,23 @@ const AccountScreen = ({ location, history }) => {
               setState('')
               setShippingAddress({...shippingAddress,province:newInputValue})
             }}
-            renderInput={(params) => <TextField {...params} label="Province" variant="outlined"/>}
-            
+            renderInput={(params) => <TextField {...params} label="Province" variant="outlined"/>} 
           />}
           <TextField variant="outlined" margin="normal" required fullWidth id="zip"
             label="Postal Code" name="zip" autoComplete="zip" value={zip}
             onChange={(e) => {
               setZip(e.target.value);
               setShippingAddress({...shippingAddress,zip:e.target.value})
-              // console.log(shippingAddress)
             }}
           />
-          {/* {user.mailingList? */}
             <FormGroup onChange={(e) => setMailingList(!mailingList)} >
               <FormControlLabel control={<Checkbox checked={mailingList}/>} label='On mailing list' />
             </FormGroup>
-             {/* :  
-            <FormGroup onChange={(e) => setMailingList(true)} >
-              <FormControlLabel control={<Checkbox />} label='Sign up for mailing list' />
-            </FormGroup>  */}
-          
-          {/* } */}
-
-          <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
-            Udpate
-          </Button>
-
+          <CustomButton text={'Update'}/>
         </form>
-
-        <Typography
-          component="h3"
-          variant="h5"
-          className={classes.submit}
-        >
-          <Divider />
-        </Typography>
+         <Divider className={classes.divider}/>
         </Paper>
-      </Grid>
-
-
-      
+      </Grid>      
       <Grid item md={8} sm={12} xs={12}>
         <Paper elevation={7} style={{padding:20}}>
         <Typography variant="h5">
@@ -315,7 +246,6 @@ const AccountScreen = ({ location, history }) => {
         ) : errorOrders ? (
           <Message severiy='error'>{errorOrders}</Message>
         ) : (
-          // <TableContainer component={Paper}>
           <TableContainer style={{overflowX:'scroll'}}>
           <Table className={classes.table} style={{marginTop:20}}>
             <TableHead>
@@ -325,7 +255,6 @@ const AccountScreen = ({ location, history }) => {
                 <StyledTableCell>TOTAL</StyledTableCell>
                 <StyledTableCell>PAID</StyledTableCell>
                 <StyledTableCell>SHIPPED</StyledTableCell>
-                {/* <StyledTableCell></StyledTableCell> */}
               </StyledTableRow>
             </TableHead>
             <TableBody>
@@ -345,36 +274,19 @@ const AccountScreen = ({ location, history }) => {
                     ) : (
                       <StyledTableCell> </StyledTableCell>
                     )}
-                  
-                  
                     {order.isShipped ? (
                       <StyledTableCell>{order.shippedAt.substring(0, 10)}</StyledTableCell>
                     ) : (
                       <StyledTableCell><CloseIcon className={classes.Icon}/></StyledTableCell>
                     )}
-            
-                  {/* <StyledTableCell>
-                    <RouterLink to={`/orders/${order._id}`} style={{color:'#067e78'}}>
-                      <Button style={{color:'#067e78'}}>
-                        Details
-                      </Button>
-                    </RouterLink>
-                  </StyledTableCell> */}
                 </StyledTableRow>
               ))}
             </TableBody>
           </Table>
- 
           </TableContainer>
         )}
-
-
-
-
-
       </Paper>
       </Grid>
-
     </Grid>
 
   );

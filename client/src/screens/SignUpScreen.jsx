@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import {Avatar, Button, Card, TextField, Link, Grid, Box, Paper, Typography, Divider, Container, FormGroup, FormControlLabel, Checkbox} from '@material-ui/core';
+import {Avatar, Card, TextField, Link, Grid, Box, Paper, Typography, Container, FormGroup, FormControlLabel, Checkbox} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Message from '../components/Message'
 import Loader from '../components/Loader'
+import CustomButton from '../components/CustomButton'
 import { useHistory } from 'react-router-dom'
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import { Link as RouterLink } from 'react-router-dom';
@@ -16,18 +17,13 @@ const useStyles = makeStyles((theme) => ({
   card: {
     paddingLeft:20,
     paddingRight:20
-    // padding: theme.spacing(5),
-    // height="100%"
   },
   paper: {
-    // marginTop: theme.spacing(4),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
   },
   avatar: {
-    // backgroundColor:'#067e78'
-    // margin: theme.spacing(1),
     backgroundColor: theme.palette.primary.main,
   },
   form: {
@@ -190,14 +186,11 @@ const SignUpScreen = ({ isLoggedIn, setIsLoggedIn }) => {
                       onChange={(e) => {
                         setZip(e.target.value);
                         setShippingAddress({...shippingAddress,zip:e.target.value})
-                        // console.log(shippingAddress)
                       }}
                     />
                   </div>
                 }
-                <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
-                  Sign Up
-                </Button>
+                <CustomButton text={'Sign Up'}/>
                 <Grid container>
                    <Grid item xs={11}>
                     <Link component={RouterLink} to={redirect ? `/login?redirect=${redirect}`:'/login'} variant="body2" color='inherit'>
@@ -206,7 +199,7 @@ const SignUpScreen = ({ isLoggedIn, setIsLoggedIn }) => {
                   </Grid>
                 </Grid>
               </form>
-              {/* <Button fullWidth variant="contained" color="primary" className={classes.submit} style={{marginTop: 40}}>
+              {/* //For future use with oAuth <Button fullWidth variant="contained" color="primary" className={classes.submit} style={{marginTop: 40}}>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google Logo" style={{marginRight: 10}}/>
                 Sign Up With Google
               </Button> */}

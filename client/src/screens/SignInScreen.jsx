@@ -1,54 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import {Avatar, Button, Card, TextField, Link, Grid, Box, Paper, Typography, Divider, Container} from '@material-ui/core';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { makeStyles, styled } from '@material-ui/core/styles';
-import { useHistory } from 'react-router-dom'
+import {Avatar, Button, Card, TextField, Link, Grid, Box, Paper, Typography, Container} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import { Link as RouterLink } from 'react-router-dom';
 import {signIn} from '../actions/userActions'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import CheckoutSteps from '../components/CheckoutSteps'
-import {getUserDetails, guestUpdate} from '../actions/userActions'
-import { guestReducer } from '../reducers/userReducers';
+import CustomButton from '../components/CustomButton'
+import {getUserDetails} from '../actions/userActions'
 import { GUEST_TRUE, GUEST_FALSE } from '../constants/userConstants';
-// import CheckoutScreen from './CheckoutScreen';
-// const CustomLock = withStyles((theme) => ({
-//   lock: {
-//     backgroundColor:'#067e78'
-//   },
-// }))(LockOpenIcon);
-// const CustomLock = styled(LockOpenIcon)({
-//   color:'#067e78'
-//   // color:linear-gradient(120deg, #28ccc4, #067e78),
-// });
 
 const useStyles = makeStyles((theme) => ({
   card: {
     paddingLeft:20,
     paddingRight:20
-    // padding: theme.spacing(5),
-    // height="100%"
   },
   paper: {
-    // marginTop: theme.spacing(4),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
   },
   avatar: {
-    // backgroundColor:'#067e78'
-    // margin: theme.spacing(1),
     backgroundColor: theme.palette.primary.main,
   },
   form: {
     width: '100%',
     marginTop: theme.spacing(1),
-  },
-  submit: {
-    background:'linear-gradient(120deg, #28ccc4, #067e78)',
-    margin: theme.spacing(3, 0, 2),
   },
   googleBtn: {
     margin: theme.spacing(0, 0, 0),
@@ -59,9 +38,6 @@ const SignInScreen = ({ location, history }) => {
   const basketItems=useSelector(state=>state.basket.basketItems)
   const guest=useSelector(state=>state.guest.guestCheckout)
   const tab = 0
-  //Define redirect to send users to route if there is an added redirect
-  // const redirect= '/'
-  // const redirect= location==undefined ? '/':location.search.split('=')[1]
   const redirect= location.search && location!==undefined ? location.search.split('=')[1] : '/'
   const classes = useStyles();
   //state to store input field values
@@ -69,7 +45,6 @@ const SignInScreen = ({ location, history }) => {
   const guestCheckout=()=>{
     dispatch({type:GUEST_TRUE})
     history.push('/shipping')
-    // dispatch(guestUpdate())
   }
   //Get userLogin from state and destructure what we need from it
   const userLogin=useSelector(state=>state.userLogin)
@@ -79,8 +54,6 @@ const SignInScreen = ({ location, history }) => {
 
   //Redirect if logged in 
   useEffect(()=>{
-    // console.log('guest: ',guest)
-    // if(guest) history.push('/shipping')
     if(userInformation){
       dispatch(getUserDetails('profile'))
       history.push(redirect)
@@ -125,10 +98,7 @@ const SignInScreen = ({ location, history }) => {
                     setPassword(e.target.value);
                   }}
                 />
-
-                <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} >
-                  Sign In
-                </Button>
+                <CustomButton text={'Sign In'} />
                 <Grid container>
                   <Grid item xs={11}>
                     <Link component={RouterLink} to='/forgotpassword' variant="body2" color='inherit'>

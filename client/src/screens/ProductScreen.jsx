@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import{Paper, Link, Card, Button, Grid, Typography, List, ListItem, ListItemIcon, ListItemText, Radio,
-Divider, RadioGroup, FormControl, FormLabel, FormControlLabel, Select, MenuItem, InputLabel, TextField}  from '@material-ui/core/'
+import{Grid, Typography, List, ListItem, ListItemText, Radio,Divider, RadioGroup, FormControl, FormLabel, FormControlLabel,
+Select, MenuItem, InputLabel, TextField, Button}  from '@material-ui/core/'
 import { Link as RouterLink } from 'react-router-dom';
 import Rating from '../components/Rating'
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,6 +9,7 @@ import {listProductDetails, createProductReview} from '../actions/productActions
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import NecklaceModal from '../components/NecklaceModal';
+import CustomButton from '../components/CustomButton'
 import ReactImageMagnify from 'react-image-magnify';
 import { addToBasket } from '../actions/basketActions'
 import axios from 'axios'
@@ -24,12 +25,6 @@ const useStyles = makeStyles((theme)=>({
     width: '100%',
     marginTop: theme.spacing(1),
   },
-  submit: {
-    width:'80%',
-    background:'linear-gradient(120deg, #28ccc4, #067e78)',
-    marginTop:13
-    // margin: theme.spacing(3, 0, 2),
-  },
   root: {
     marginTop:50
   },
@@ -43,11 +38,8 @@ const useStyles = makeStyles((theme)=>({
   }
 }))
 
-
 const ProductScreen = ({history, match}) =>{
   const [qty, setQty] = useState(1)
-  // const [productPrice, setproductPrice] = useState(product.price)
-  // const [total, setTotal] = useState(product.price)
   const [chain, setChain] = useState('silver')
   const [ringSize, setRingSize] = useState(7)
   const [braceletSize, setBraceletSize] = useState('medium')
@@ -74,19 +66,11 @@ const ProductScreen = ({history, match}) =>{
 
 
   useEffect(()=>{
-    // console.log(chainObj[chain])
-    // dispatch({type:PRODUCT_DETAILS_RESET})
     if (successProductReview) {
       setRating(0)
       setComment('')
-      
     }
-    // axios.get(`/api/products/${match.params.id}`)
-    //   .then(res => {
-    //   setProduct(res.data);
-    // })
-    // .catch(err => console.log(err))
-    // console.log(product.image)
+
     dispatch(listProductDetails(match.params.id))
     if(product.image) setCurrentImage(product.image[0])
     
@@ -95,13 +79,6 @@ const ProductScreen = ({history, match}) =>{
   const handleAddToBasket = () => {
     dispatch(addToBasket(match.params.id, qty, product.category==='necklaces'?chain:null, product.category==='necklaces'?length:null, product.category==='rings'?ringSize:null,product.category==='bracelets'?braceletSize:null, product.category))
     history.push('/basket')
-    // if(product.category==='necklaces'){
-    //   history.push(`/basket/${match.params.id}?chain=${chain}?length=${length}?qty=${qty}`)
-    // }else if(product.category==='rings'){
-    //   history.push(`/basket/${match.params.id}?size=${ringSize}?qty=${qty}`)
-    // }else{
-    //   history.push(`/basket/${match.params.id}?qty=${qty}`)
-    // }
   }
 
   const ringSizes = []
@@ -127,10 +104,7 @@ const ProductScreen = ({history, match}) =>{
       })
     )
   }
-  
-  const handleChainSubmit = () => {
-        
-  }
+
   const rearrangeImages = (image) =>{
     if(!imageArr.includes(image)) setImageArr(oldArr=>[...oldArr,image])
   }
@@ -148,9 +122,8 @@ const ProductScreen = ({history, match}) =>{
       {loading ? <Loader/> : error ? <Message severity='error'>{error}</Message> :
       <Grid container spacing={3}>
         <Grid item md={6}>
-          {/* {product.image ? <img src={product.image[0]} alt={product.name} className={classes.Image}/> : <Loader/>} */}
           {product.image&&firstRender===true ? 
-            <>
+            <div>
               <ReactImageMagnify className={classes.Image} enlargedImagePosition='over' {...{
                   smallImage: {
                       alt: 'product.name',
@@ -163,11 +136,9 @@ const ProductScreen = ({history, match}) =>{
                       height: 1000
                   }
               }} />
-            </>
-          
-          
+            </div>
            :
-          //  <img src={product.image[0]} alt={product.name} className={classes.Image}/>
+
           product.image&&firstRender===false ? 
             <div>
               <ReactImageMagnify className={classes.Image} enlargedImagePosition='over' {...{
@@ -183,7 +154,6 @@ const ProductScreen = ({history, match}) =>{
                 }
               }} />
             </div>
-              // <img src={currentImage} alt={product.name} className={classes.Image}/> : 
           
           :<Loader/>}
           {product.image ? product.image.map(image =>(
@@ -251,7 +221,7 @@ const ProductScreen = ({history, match}) =>{
           <Grid container>
             <Grid item md={7}>
               {product.category==='necklaces'&&
-                <FormControl className={classes.form} noValidate onSubmit={handleChainSubmit} style={{border:'1px'}}>
+                <FormControl className={classes.form} noValidate style={{border:'1px'}}>
                   <FormLabel component="legend">Necklace Material</FormLabel>
                   <RadioGroup row onChange={(e)=>setChain(e.target.value)} value={chain}>
                     <FormControlLabel control={<Radio  id='silver' value='silver' name="chain" />}label='silver'>Silver</FormControlLabel>
@@ -333,10 +303,8 @@ const ProductScreen = ({history, match}) =>{
           
           )}
           <Grid style={{marginTop:20}} item md={12}>
-            <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} disabled={product.countInStock===0} onClick={handleAddToBasket}>
-              Add To Basket
-            </Button>
-            </Grid>
+            <CustomButton disabled={product.countInStock===0} onClick={handleAddToBasket} text={'Add To Basket'}/>
+          </Grid>
 
         </Grid>
         </Grid>
@@ -397,9 +365,7 @@ const ProductScreen = ({history, match}) =>{
               )}
             </ListItem>
           </List>
-
         </Grid>
-        
       </Grid>}
 
     </div>

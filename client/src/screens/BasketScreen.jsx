@@ -8,12 +8,9 @@ import Message from '../components/Message'
 import { addToBasket, removeFromBasket } from '../actions/basketActions'
 import { changeBadge } from '../actions/itemCountActions'
 import Loader from '../components/Loader'
+import CustomButton from '../components/CustomButton'
 
 const useStyles = makeStyles((theme)=>({
-  CheckoutButton: {
-    background:'linear-gradient(120deg, #28ccc4, #067e78)',
-    margin: theme.spacing(3, 0, 2),
-  },
   Card: {
     textAlign: 'center'
   },
@@ -138,16 +135,7 @@ const BasketScreen = ({ match, location, history }) => {
               </h2>
             </ListItem>
             <ListItem style={{ display: "flex", justifyContent: "center", marginBottom:20 }}>
-              <Button
-                type='button'
-                color='primary'
-                variant="contained"
-                disabled={basketItems.length === 0}
-                onClick={checkoutHandler}
-                className={classes.CheckoutButton}
-              >
-                Proceed To Checkout
-              </Button>
+              <CustomButton disabled={basketItems.length === 0} onClick={checkoutHandler} text={'Proceed To Checkout'}/>
             </ListItem>
           </List>
         </Paper>
