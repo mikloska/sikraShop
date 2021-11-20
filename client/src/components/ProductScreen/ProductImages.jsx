@@ -1,11 +1,11 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import ReactImageMagnify from 'react-image-magnify';
 import Loader from '../../components/Loader'
 import { makeStyles } from '@material-ui/core/styles';
-import {listProductDetails, createProductReview} from '../../actions/productActions'
-import{Grid, Typography, List, ListItem, ListItemText, Radio,Divider, RadioGroup, FormControl, FormLabel, FormControlLabel,
-  Select, MenuItem, InputLabel, TextField, Button}  from '@material-ui/core/'
-  import { useDispatch, useSelector } from 'react-redux';
+import {listProductDetails} from '../../actions/productActions'
+import{Button}  from '@material-ui/core/'
+import { useDispatch } from 'react-redux';
+import axios from 'axios'
 
 const useStyles = makeStyles((theme)=>({
   AdminButtons:{
@@ -20,12 +20,14 @@ const useStyles = makeStyles((theme)=>({
   },
 }))
 
-const ProductImages = ({product, rearrange, setRearrange}) => {
-  const [imageArr, setImageArr] = useState([])
+const ProductImages = ({product, rearrange, setRearrange, imageArr, setImageArr, setNewImages}) => {
   const [currentImage, setCurrentImage] = useState('')
   const [firstRender, setFirstRender] = useState(true)
   const classes = useStyles()
   const dispatch = useDispatch()
+  useEffect(()=>{
+    if(product.image) setCurrentImage(product.image[0])
+  },[dispatch])
   const updateImage = (pic) =>{
     setCurrentImage(pic)
     setFirstRender(false)
@@ -33,14 +35,7 @@ const ProductImages = ({product, rearrange, setRearrange}) => {
   const rearrangeImages = (image) =>{
     if(!imageArr.includes(image)) setImageArr(oldArr=>[...oldArr,image])
   }
-  const setNewImages= async ()=>{
-    if(product.image.length===imageArr.length){
-      await axios.put(`/api/products/images/${product._id}`, {imageArr:imageArr})
-      dispatch(listProductDetails(match.params.id))
-      setRearrange(false)
-      setImageArr([])
-    }
-  }
+
   return(
     <div>
       {product.image&&firstRender===true ? 

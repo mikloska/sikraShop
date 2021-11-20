@@ -1,10 +1,7 @@
-import React, {useState} from 'react'
-import{Grid, Typography, List, ListItem, ListItemText, Radio,Divider, RadioGroup, FormControl, FormLabel, FormControlLabel,
-Select, MenuItem, InputLabel, TextField, Button}  from '@material-ui/core/'
+import React from 'react'
+import {List, ListItem, ListItemText}  from '@material-ui/core/'
 
-export const ProductOptions = () => {
-
-
+const Pricing = ({product, chain, chainObj, qty}) => {
   return(
     <List>
       <ListItem>
@@ -17,4 +14,4 @@ export const ProductOptions = () => {
   )
 }
 
-export default ProductOptions
+export default Pricing
