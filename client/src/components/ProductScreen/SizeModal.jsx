@@ -13,11 +13,11 @@ const style = {
   p: 4,
 };
 
-const NecklaceModal =({modalOpen, handleModalOpen, handleModalClose})=> {
+const SizeModal =({modalOpen, handleModalOpen, handleModalClose, img})=> {
 
   return (
     <div>
-      <Button variant='contained' onClick={handleModalOpen}>Chain Size Guide</Button>
+      <Button style={{width:145, marginTop:10}} variant='contained' onClick={handleModalOpen}>Chain Size Guide</Button>
       <Modal
         open={modalOpen}
         onClose={handleModalClose}
@@ -25,11 +25,11 @@ const NecklaceModal =({modalOpen, handleModalOpen, handleModalClose})=> {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <img style={{width:'100%'}}src='https://sikra.s3.us-east-2.amazonaws.com/necklaces/necklace-guide.jpg'/>
+          <img style={{width:'100%'}} src={img}/>
         </Box>
       </Modal>
     </div>
   );
 }
 
-export default NecklaceModal
+export default SizeModal
