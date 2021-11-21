@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import{Grid, Typography, List, ListItem, FormControl, Select, MenuItem, InputLabel, TextField, Button}  from '@material-ui/core/'
-import { Link as RouterLink } from 'react-router-dom';
 import Rating from '../components/Rating'
 import { useDispatch, useSelector } from 'react-redux';
 import {listProductDetails, createProductReview} from '../actions/productActions'
