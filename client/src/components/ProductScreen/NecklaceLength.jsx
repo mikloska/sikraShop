@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import{FormControl, Select, MenuItem, InputLabel}  from '@material-ui/core/'
+import{FormControl, Select, MenuItem, FormLabel}  from '@material-ui/core/'
  import SizeModal from './SizeModal';
 
 const NecklaceLength = ({formControlClass, setLength}) => {
@@ -10,7 +10,7 @@ const NecklaceLength = ({formControlClass, setLength}) => {
   return(
     <div>
       <FormControl className={formControlClass} value={length} >
-        <InputLabel>Length</InputLabel>
+        <FormLabel>Length</FormLabel>
         <Select defaultValue='15' onChange={e=>setLength(e.target.value)}>
           <MenuItem value={15}>15"</MenuItem>
           <MenuItem value={16}>16"</MenuItem>

@@ -70,7 +70,7 @@ export const ProductOptions = ({product, match, history, chain, setChain, chainO
         )}
 
       </Grid>
-      <Grid container justifyContent='center' >
+      <Grid container justifyContent='center'>
         <Grid item md={2}>
           <Pricing product={product} chain={chain} chainObj={chainObj} qty={qty}/>
         </Grid>
