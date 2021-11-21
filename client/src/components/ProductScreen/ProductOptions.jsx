@@ -50,7 +50,7 @@ export const ProductOptions = ({product, match, history, chain, setChain, chainO
   return(
     <Grid container justifyContent='center'>
       <Grid container justifyContent='center' style={{paddingBottom:40}}>
-        <Grid item xs={4} md={4} align='center'>
+        <Grid item xs={3} md={3} align='center'>
           {product.category==='necklaces'&&
             <NecklaceOptions formClass={classes.form} chain={chain} setChain={setChain}/>
           }
@@ -62,7 +62,7 @@ export const ProductOptions = ({product, match, history, chain, setChain, chainO
           }
         </Grid>
         {product.category==='necklaces'&&chain!=='none'&&(
-          <Grid item xs={4} md={4} align='center'>
+          <Grid item xs={3} md={3} align='center'>
             <List>
               <NecklaceLength formControlClass={classes.formControl} setLength={setLength}/>
             </List>

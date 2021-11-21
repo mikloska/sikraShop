@@ -19,14 +19,11 @@ const AddToBasket = ({product, formControlClass, qty, setQty, handleAddToBasket}
             </Select>
           </FormControl>
         </ListItem>
-  
-      </List>
-      
-      
+      </List>      
       )}
-      {/* <Grid style={{marginTop:20}} item md={12}> */}
-        <CustomButton disabled={product.countInStock===0} onClick={handleAddToBasket} text={'Add To Basket'} style={{width:100}}/>
-      {/* </Grid> */}
+      <Button style={{background:'linear-gradient(120deg, #28ccc4, #067e78)'}} type="submit" variant="contained" color="primary" onClick={handleAddToBasket} disabled={product.countInStock===0}>
+        Add To Basket
+      </Button>
     </div>
   )
 
