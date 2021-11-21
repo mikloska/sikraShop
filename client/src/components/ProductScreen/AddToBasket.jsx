@@ -1,5 +1,5 @@
 import React from 'react'
-import {List, ListItem, FormControl, Select, MenuItem, InputLabel, Grid}  from '@material-ui/core/'
+import {List, ListItem, FormControl, Select, MenuItem, InputLabel, Button}  from '@material-ui/core/'
 import CustomButton from '../CustomButton'
 
 const AddToBasket = ({product, formControlClass, qty, setQty, handleAddToBasket}) => {
@@ -24,9 +24,9 @@ const AddToBasket = ({product, formControlClass, qty, setQty, handleAddToBasket}
       
       
       )}
-      <Grid style={{marginTop:20}} item md={12}>
-        <CustomButton disabled={product.countInStock===0} onClick={handleAddToBasket} text={'Add To Basket'}/>
-      </Grid>
+      {/* <Grid style={{marginTop:20}} item md={12}> */}
+        <CustomButton disabled={product.countInStock===0} onClick={handleAddToBasket} text={'Add To Basket'} style={{width:100}}/>
+      {/* </Grid> */}
     </div>
   )
 

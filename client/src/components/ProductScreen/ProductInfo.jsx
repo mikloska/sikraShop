@@ -1,16 +1,20 @@
 import React from 'react'
-import{Typography, List, ListItem, ListItemText, Divider, Button}  from '@material-ui/core/'
+import{Typography, List, ListItem, ListItemText, Divider, Button, Grid}  from '@material-ui/core/'
 
-const ProductInfo = ({product, userInformation, chain, chainObj, setRearrange, AdminButtonsClass, history}) => {
+const ProductInfo = ({product, userInformation, chain, chainObj, setRearrange, AdminButtonsClass, Rating, history}) => {
   return(
     <List>
       <ListItem>
         <Typography style={{fontSize:'30px'}}>{product.name}</Typography>
         {userInformation&&userInformation.isAdmin&&
-          <div>
-            <Button className={AdminButtonsClass} onClick={()=>history.push(`/admin/product/${product._id}/edit`)} >Edit Product</Button>
-            <Button className={AdminButtonsClass} onClick={()=>setRearrange(true)}>Rearrange Images</Button>
-          </div>
+          <Grid container spacing={3}>
+            <Grid item>
+              <Button className={AdminButtonsClass} onClick={()=>history.push(`/admin/product/${product._id}/edit`)} >Edit Product</Button>
+            </Grid>
+            <Grid item>
+              <Button className={AdminButtonsClass} onClick={()=>setRearrange(true)}>Rearrange Images</Button>
+            </Grid>
+          </Grid>
         }
       </ListItem>
       <Divider light />

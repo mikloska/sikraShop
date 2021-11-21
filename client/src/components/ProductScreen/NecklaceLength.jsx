@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
-import{ListItem, FormControl, Select, MenuItem, InputLabel}  from '@material-ui/core/'
- import NecklaceModal from './NecklaceModal';
+import{FormControl, Select, MenuItem, InputLabel}  from '@material-ui/core/'
+ import SizeModal from './SizeModal';
 
 const NecklaceLength = ({formControlClass, setLength}) => {
     //For necklace sizing modal
@@ -9,7 +9,6 @@ const NecklaceLength = ({formControlClass, setLength}) => {
     const handleModalClose = () => setModalOpen(false);
   return(
     <div>
-    <ListItem>
       <FormControl className={formControlClass} value={length} >
         <InputLabel>Length</InputLabel>
         <Select defaultValue='15' onChange={e=>setLength(e.target.value)}>
@@ -18,8 +17,7 @@ const NecklaceLength = ({formControlClass, setLength}) => {
           <MenuItem value={18}>18"</MenuItem>
         </Select>
       </FormControl>
-    </ListItem>
-    <NecklaceModal modalOpen={modalOpen} handleModalOpen={handleModalOpen} handleModalClose={handleModalClose} />
+    <SizeModal modalOpen={modalOpen} handleModalOpen={handleModalOpen} handleModalClose={handleModalClose} img={'https://sikra.s3.us-east-2.amazonaws.com/necklaces/necklace-guide.jpg'}/>
   </div>
   )
 }

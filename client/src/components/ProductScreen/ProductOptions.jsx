@@ -12,9 +12,9 @@ import Pricing from './Pricing'
 
 const useStyles = makeStyles((theme)=>({
   AdminButtons:{
-   marginLeft:30, 
-   color:'white',
-   backgroundColor:'#067e78'
+    marginTop:10,
+    color:'white',
+    backgroundColor:'#067e78'
   },
   form: {
     width: '100%',
@@ -48,36 +48,37 @@ export const ProductOptions = ({product, match, history, chain, setChain, chainO
     history.push('/basket')
   }
   return(
-    <Grid container spacing={1} alignItems='center' justifyContent='center'>
-      <Grid item md={7}>
-        {product.category==='necklaces'&&
-          <NecklaceOptions formClass={classes.form} chain={chain} setChain={setChain}/>
-        }
-        {product.category==='rings'&&
-          <RingOptions ringSizes={ringSizes} setRingSize={setRingSize} formControlClass={classes.formControl}/>
-        }
-        {product.category==='bracelets'&&
-          <BraceletOptions braceletSize={braceletSize} setBraceletSize={setBraceletSize} formControlClass={classes.formControl}/>
-        }
+    <Grid container justifyContent='center'>
+      <Grid container justifyContent='center' style={{paddingBottom:40}}>
+        <Grid item xs={4} md={4} align='center'>
+          {product.category==='necklaces'&&
+            <NecklaceOptions formClass={classes.form} chain={chain} setChain={setChain}/>
+          }
+          {product.category==='rings'&&
+            <RingOptions ringSizes={ringSizes} setRingSize={setRingSize} formControlClass={classes.formControl}/>
+          }
+          {product.category==='bracelets'&&
+            <BraceletOptions braceletSize={braceletSize} setBraceletSize={setBraceletSize} formControlClass={classes.formControl}/>
+          }
+        </Grid>
+        {product.category==='necklaces'&&chain!=='none'&&(
+          <Grid item xs={4} md={4} align='center'>
+            <List>
+              <NecklaceLength formControlClass={classes.formControl} setLength={setLength}/>
+            </List>
+          </Grid> 
+        )}
+
       </Grid>
-      <Grid item xs={6} md={4}>
-
-      <List>
-
-      {product.category==='necklaces'&&chain!=='none'&&(
-        <NecklaceLength formControlClass={classes.formControl} setLength={setLength}/>
-      )}
-    </List>
+      <Grid container justifyContent='center' >
+        <Grid item md={2}>
+          <Pricing product={product} chain={chain} chainObj={chainObj} qty={qty}/>
+        </Grid>
+        <Grid item md={2}>
+          <AddToBasket product={product} formControlClass={classes.formControl} qty={qty} setQty={setQty} handleAddToBasket={handleAddToBasket}/>
+        </Grid>
+      </Grid>
     </Grid>
-    <Grid item md={5}>
-      <Pricing product={product} chain={chain} chainObj={chainObj} qty={qty}/>
-
-    </Grid>
-
-  <Grid item xs={6} md={4}>
-    <AddToBasket product={product} formControlClass={classes.formControl} qty={qty} setQty={setQty} handleAddToBasket={handleAddToBasket}/>
-  </Grid>
-  </Grid>
   )
 }
 
