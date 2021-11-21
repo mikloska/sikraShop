@@ -17,13 +17,8 @@ const SizeModal =({modalOpen, handleModalOpen, handleModalClose, img})=> {
 
   return (
     <div>
-      <Button style={{width:145, marginTop:10}} variant='contained' onClick={handleModalOpen}>Chain Size Guide</Button>
-      <Modal
-        open={modalOpen}
-        onClose={handleModalClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+      <Button style={{marginTop:10, margin:0}} variant='contained' onClick={handleModalOpen}>Chain Size Guide</Button>
+      <Modal open={modalOpen} onClose={handleModalClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
         <Box sx={style}>
           <img style={{width:'100%'}} src={img}/>
         </Box>

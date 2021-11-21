@@ -11,6 +11,9 @@ import AddToBasket from './AddToBasket';
 import Pricing from './Pricing'
 
 const useStyles = makeStyles((theme)=>({
+  Label:{
+    fonstSize:30
+  },
   AdminButtons:{
     marginTop:10,
     color:'white',
@@ -49,8 +52,8 @@ export const ProductOptions = ({product, match, history, chain, setChain, chainO
   }
   return(
     <Grid container justifyContent='center'>
-      <Grid container justifyContent='center' style={{paddingBottom:40}}>
-        <Grid item xs={3} md={3} align='center'>
+      <Grid container justifyContent='center' style={{paddingBottom:40}} spacing={2}>
+        <Grid item xs={4} md={3} align='center'>
           {product.category==='necklaces'&&
             <NecklaceOptions formClass={classes.form} chain={chain} setChain={setChain}/>
           }
@@ -62,20 +65,18 @@ export const ProductOptions = ({product, match, history, chain, setChain, chainO
           }
         </Grid>
         {product.category==='necklaces'&&chain!=='none'&&(
-          <Grid item xs={3} md={3} align='center'>
-            <List>
-              <NecklaceLength formControlClass={classes.formControl} setLength={setLength}/>
-            </List>
+          <Grid item xs={4} md={3} align='center'>
+            <NecklaceLength formControlClass={classes.formControl} setLength={setLength}/>
           </Grid> 
         )}
 
       </Grid>
-      <Grid container justifyContent='center'>
-        <Grid item md={2}>
+      <Grid container justifyContent='center' spacing={2}>
+        <Grid item xs={4} md={3} align='center'>
           <Pricing product={product} chain={chain} chainObj={chainObj} qty={qty}/>
         </Grid>
-        <Grid item md={2}>
-          <AddToBasket product={product} formControlClass={classes.formControl} qty={qty} setQty={setQty} handleAddToBasket={handleAddToBasket}/>
+        <Grid item xs={4} md={3} align='center'>
+          <AddToBasket product={product} formControlClass={classes.formControl} qty={qty} setQty={setQty} handleAddToBasket={handleAddToBasket} labelClass={classes.Label}/>
         </Grid>
       </Grid>
     </Grid>

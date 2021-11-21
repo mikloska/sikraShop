@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import{FormControl, Select, MenuItem, FormLabel}  from '@material-ui/core/'
+import{List, FormControl, Select, MenuItem, FormLabel}  from '@material-ui/core/'
  import SizeModal from './SizeModal';
 
 const NecklaceLength = ({formControlClass, setLength}) => {
@@ -9,14 +9,16 @@ const NecklaceLength = ({formControlClass, setLength}) => {
     const handleModalClose = () => setModalOpen(false);
   return(
     <div>
-      <FormControl className={formControlClass} value={length} >
-        <FormLabel>Length</FormLabel>
-        <Select defaultValue='15' onChange={e=>setLength(e.target.value)}>
-          <MenuItem value={15}>15"</MenuItem>
-          <MenuItem value={16}>16"</MenuItem>
-          <MenuItem value={18}>18"</MenuItem>
-        </Select>
-      </FormControl>
+      <List>
+        <FormControl className={formControlClass} value={length} >
+          <FormLabel>Length</FormLabel>
+          <Select defaultValue='15' onChange={e=>setLength(e.target.value)}>
+            <MenuItem value={15}>15"</MenuItem>
+            <MenuItem value={16}>16"</MenuItem>
+            <MenuItem value={18}>18"</MenuItem>
+          </Select>
+        </FormControl>
+      </List>
     <SizeModal modalOpen={modalOpen} handleModalOpen={handleModalOpen} handleModalClose={handleModalClose} img={'https://sikra.s3.us-east-2.amazonaws.com/necklaces/necklace-guide.jpg'}/>
   </div>
   )
