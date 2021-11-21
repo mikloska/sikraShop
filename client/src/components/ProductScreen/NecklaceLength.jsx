@@ -19,7 +19,8 @@ const NecklaceLength = ({formControlClass, setLength}) => {
           </Select>
         </FormControl>
       </List>
-    <SizeModal modalOpen={modalOpen} handleModalOpen={handleModalOpen} handleModalClose={handleModalClose} img={'https://sikra.s3.us-east-2.amazonaws.com/necklaces/necklace-guide.jpg'}/>
+    <SizeModal modalOpen={modalOpen} handleModalOpen={handleModalOpen} handleModalClose={handleModalClose} 
+    img={'https://sikra.s3.us-east-2.amazonaws.com/necklaces/necklace-guide.jpg'} text={'Chain'}/>
   </div>
   )
 }

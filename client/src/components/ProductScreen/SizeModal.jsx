@@ -13,11 +13,11 @@ const style = {
   p: 4,
 };
 
-const SizeModal =({modalOpen, handleModalOpen, handleModalClose, img})=> {
+const SizeModal =({modalOpen, handleModalOpen, handleModalClose, img, text})=> {
 
   return (
     <div>
-      <Button style={{marginTop:10, margin:0}} variant='contained' onClick={handleModalOpen}>Chain Size Guide</Button>
+      <Button style={{marginTop:10, margin:0}} variant='contained' onClick={handleModalOpen}>{`${text} Size Guide`}</Button>
       <Modal open={modalOpen} onClose={handleModalClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
         <Box sx={style}>
           <img style={{width:'100%'}} src={img}/>

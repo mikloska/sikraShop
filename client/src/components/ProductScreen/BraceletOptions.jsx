@@ -1,10 +1,10 @@
 import React from 'react'
-import{FormControl, Select, MenuItem, InputLabel}  from '@material-ui/core/'
+import{FormControl, Select, MenuItem, FormLabel}  from '@material-ui/core/'
 
 const BraceletOptions = ({braceletSize, setBraceletSize, formControlClass}) => {
   return(
     <FormControl className={formControlClass} value={braceletSize} >
-      <InputLabel>Size</InputLabel>
+      <FormLabel>Size</FormLabel>
       <Select defaultValue='medium' onChange={e=>setBraceletSize(e.target.value)}>
         <MenuItem value={'small'}>small</MenuItem>
         <MenuItem value={'medium'}>medium</MenuItem>
