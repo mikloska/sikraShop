@@ -10,7 +10,7 @@ const ProductReviews = ({product, userInformation, handleReviewSubmit, successPr
     <div>
       <Typography style={{fontSize:'25px'}}>Reviews</Typography>
       <List>
-      {product.reviews.length === 0 && <Message style={{margin:20}}>No Reviews</Message>}
+      {product.reviews.length === 0 && <ListItem><Message >No Reviews</Message></ListItem>}
         {product.reviews.map((review) => (
           <List key={review._id}>
             <ListItem>
@@ -18,7 +18,6 @@ const ProductReviews = ({product, userInformation, handleReviewSubmit, successPr
               {review.createdAt.substring(0, 10)}                  
             </ListItem>
             <ListItem>
-              <Rating value={review.rating} />
             </ListItem>
             <ListItem>
               <p>{review.comment}</p>
