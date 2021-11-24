@@ -1,9 +1,19 @@
 import React from 'react'
 import {Grid,Typography} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
+
+const useStyles = makeStyles((theme)=>({
+  root: {
+    marginTop:50
+  },
+
+  }))
 const AboutScreen = () =>{
+  const classes = useStyles()
 
   return (
+    
     <div className={classes.root} style={{marginTop:35, marginBottom: 45, padding:20}}>
        <Typography variant='h4' style={{marginBottom:40}}>About Us</Typography>
       <Grid container justifyContent='center' spacing={5}>
