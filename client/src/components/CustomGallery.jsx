@@ -17,7 +17,6 @@ const CustomGallery =()=> {
     slidesToShow: 1,
     slidesToScroll: 1
   };
-
     return (
       <Slider {...settings} autoplay={true} autoplaySpeed={2000} pauseOnHover={false}>
         <div>
