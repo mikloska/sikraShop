@@ -4,7 +4,7 @@ import Slider from "react-slick";
 
 const useStyles = makeStyles((theme) => ({
   Images:{
-    width:'70vw'
+    width:'100%'
   }
 }));
 
