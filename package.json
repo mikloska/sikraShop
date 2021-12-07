@@ -4,7 +4,7 @@
   "description": "e-commerce site for goldsmith",
   "engines": {
     "node": "14.16.0",
-    "npm" : "7.9.0"
+    "npm": "7.9.0"
   },
   "main": "webpack.config.js",
   "type": "module",
@@ -46,6 +46,7 @@
     "file-loader": "^6.2.0",
     "fs": "*",
     "html-webpack-plugin": "^5.3.2",
+    "jest": "^27.4.3",
     "jsonwebtoken": "^8.5.1",
     "material-ui-image": "^3.3.2",
     "mongoose": "^5.13.1",
@@ -60,6 +61,7 @@
     "yargs": "^16.2.0"
   },
   "devDependencies": {
+    "@testing-library/react": "^12.1.2",
     "cross-env": "^7.0.3",
     "nodemon": "^2.0.12",
     "webpack-dev-middleware": "^5.0.0",
