@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, createContext} from 'react';
 import { Route } from 'react-router-dom'
 import { alpha, makeStyles, withStyles } from '@material-ui/core/styles';
 import {AppBar, Toolbar, IconButton, Menu, MenuItem, Typography, Button, TextField, Badge} from '@material-ui/core';
@@ -14,6 +14,7 @@ import { changeBadge } from '../../actions/itemCountActions'
 import {signOut} from '../../actions/userActions'
 import SearchBox from './SearchBox'
 import { BASKET_RESET } from '../../constants/basketConstants';
+export const NavbarContext=createContext()
 
 const MyBadge = withStyles((theme) => ({
   badge: {
@@ -152,35 +153,38 @@ const Navbar= () => {
 
   const menuId = 'primary-search-account-menu';
   const mobileMenuId = 'primary-search-account-menu-mobile';
+  const NavbarProps={'userInformation':userInformation}
+
   return (
     <div className={classes.grow} >
       <AppBar position="static" className={classes.stylebar}>
-        <Toolbar>
-          <NavigationMenu menuButtonClass={classes.menuButton} handleNavMenuOpen={handleNavMenuOpen} handleNavMenuClose={handleNavMenuClose} mainNavAnchorEl={mainNavAnchorEl} handleShopMenuOpen={handleShopMenuOpen } linkClass={classes.Link}/>
-          <ShopMenu shopAnchorEl={shopAnchorEl} handleShopMenuClose={handleShopMenuClose} isShopMenuOpen={isShopMenuOpen} linkClass={classes.Link}/>
-          <Typography variant="h6" className={classes.title} component={RouterLink} to='/'>
-            <img src={'https://sikra.s3.us-east-2.amazonaws.com/logo-%2Bhigh%2Bres4.png'} alt="logo" className={classes.logo} />
-          </Typography>
-          <div className={classes.search}>
-            <Route render={({ history }) => <SearchBox history={history} className={classes.SearchBox}/>} />
-          </div>
-          <div className={classes.grow} />
-          <DesktopRightMenu desktopClass={classes.sectionDesktop} MyBadge={MyBadge} itemCount={itemCount} anchorEl={anchorEl} setAnchorEl={setAnchorEl} handleMobileMenuClose={handleMobileMenuClose}
-            menuId={menuId} isMenuOpen={isMenuOpen} handleMenuClose={handleMenuClose} handleSignOut={handleSignOut} userInformation={userInformation} linkClass={classes.Link} handleMenuClose={handleMenuClose}/>
-          <div className={classes.sectionMobile}>
-            <IconButton aria-label="show more" aria-controls={mobileMenuId} aria-haspopup="true"
-              onClick={handleMobileMenuOpen} color="inherit"
-            >
-              <MoreIcon style={{color:"black"}}/>
-            </IconButton>
-          </div>
-          <MobileMenu userInformation={userInformation} MyBadge={MyBadge} mobileMoreAnchorEl={mobileMoreAnchorEl} mobileMenuId={mobileMenuId}
-            isMobileMenuOpen={isMobileMenuOpen} handleMobileMenuClose={handleMobileMenuClose} itemCount={itemCount} linkClass={classes.Link}
-            anchorEl={anchorEl} setAnchorEl={setAnchorEl} menuId={menuId} isMenuOpen={isMenuOpen} handleMenuClose={handleMenuClose} 
-            handleSignOut={handleSignOut} userInformation={userInformation} linkClass={classes.Link} handleMenuClose={handleMenuClose}
-          />
-        </Toolbar>
-
+        <NavbarContext.Provider value={NavbarProps}>
+          <Toolbar>
+            <NavigationMenu menuButtonClass={classes.menuButton} handleNavMenuOpen={handleNavMenuOpen} handleNavMenuClose={handleNavMenuClose} mainNavAnchorEl={mainNavAnchorEl} handleShopMenuOpen={handleShopMenuOpen } linkClass={classes.Link}/>
+            <ShopMenu shopAnchorEl={shopAnchorEl} handleShopMenuClose={handleShopMenuClose} isShopMenuOpen={isShopMenuOpen} linkClass={classes.Link}/>
+            <Typography variant="h6" className={classes.title} component={RouterLink} to='/'>
+              <img src={'https://sikra.s3.us-east-2.amazonaws.com/logo-%2Bhigh%2Bres4.png'} alt="logo" className={classes.logo} />
+            </Typography>
+            <div className={classes.search}>
+              <Route render={({ history }) => <SearchBox history={history} className={classes.SearchBox}/>} />
+            </div>
+            <div className={classes.grow} />
+            <DesktopRightMenu desktopClass={classes.sectionDesktop} MyBadge={MyBadge} itemCount={itemCount} anchorEl={anchorEl} setAnchorEl={setAnchorEl} handleMobileMenuClose={handleMobileMenuClose}
+              menuId={menuId} isMenuOpen={isMenuOpen} handleMenuClose={handleMenuClose} handleSignOut={handleSignOut} linkClass={classes.Link} handleMenuClose={handleMenuClose}/>
+            <div className={classes.sectionMobile}>
+              <IconButton aria-label="show more" aria-controls={mobileMenuId} aria-haspopup="true"
+                onClick={handleMobileMenuOpen} color="inherit"
+              >
+                <MoreIcon style={{color:"black"}}/>
+              </IconButton>
+            </div>
+            <MobileMenu userInformation={userInformation} MyBadge={MyBadge} mobileMoreAnchorEl={mobileMoreAnchorEl} mobileMenuId={mobileMenuId}
+              isMobileMenuOpen={isMobileMenuOpen} handleMobileMenuClose={handleMobileMenuClose} itemCount={itemCount} linkClass={classes.Link}
+              anchorEl={anchorEl} setAnchorEl={setAnchorEl} menuId={menuId} isMenuOpen={isMenuOpen} handleMenuClose={handleMenuClose} 
+              handleSignOut={handleSignOut} linkClass={classes.Link} handleMenuClose={handleMenuClose}
+            />
+          </Toolbar>
+        </NavbarContext.Provider>
       </AppBar>
     </div>
   );

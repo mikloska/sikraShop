@@ -1,12 +1,18 @@
-import React from 'react'
+import React, {useContext, useEffect} from 'react'
 import { Link as RouterLink } from 'react-router-dom';
 import {Menu, MenuItem, IconButton} from '@material-ui/core';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import AccountMenu from './AccountMenu'
 import AdminMenu from './AdminMenu'
+import {NavbarContext} from './Navbar'
 
 const DesktopRightMenu = ({desktopClass, MyBadge, itemCount, handleProfileMenuOpen, anchorEl,setAnchorEl, menuId, isMenuOpen, handleMobileMenuClose, 
-  handleMenuClose, handleSignOut, userInformation, handleAdminMenuOpen, handleAdminMenuClose, adminAnchorEl, isAdminMenuOpen, linkClass}) =>{
+  handleMenuClose, handleSignOut, handleAdminMenuOpen, handleAdminMenuClose, adminAnchorEl, isAdminMenuOpen, linkClass}) =>{
+    const NavbarValues=useContext(NavbarContext)
+    const userInformation=NavbarValues.userInformation
+  useEffect(()=>{
+  
+  },[])
   return(
     <div className={desktopClass}>
       <IconButton aria-label="cart" aria-controls="cart" aria-haspopup="true" color="inherit" className={linkClass} component={RouterLink} to='/basket'>

@@ -29,9 +29,6 @@ const CheckoutSteps = (props)=>{
     history.push(routes[val])
   }
 
-  useEffect(()=>{
-
-  },[])
   return (
     <div>
     <Router>
