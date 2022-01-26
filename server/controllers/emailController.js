@@ -161,7 +161,7 @@ const shippingNotificationEmail = (req,res,next)=>{
 
 
 const emailResetLink = (req,res,next)=>{
-  // console.log('req.body: ', req.body)
+  // console.log('req.body in emailResetLink: ', req.body)
   try{
     let transporter = nodemailer.createTransport({
       host: "smtp-mail.outlook.com", // hostname

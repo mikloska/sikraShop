@@ -235,23 +235,35 @@ const updateUser = async (req, res, next) => {
 const forgotPassword = async (req, res, next) => {
   // console.log('req.body: ',req.body)
   try{
-    const buffer = crypto.randomBytes(32)
-    const token = buffer.toString("hex")
-    res.locals.token=token
-    // console.log('token: ',token)
-    const user = await User.findOne({email:req.body.email})
+    // try{
+      const user = await User.findOne( {email:req.body.email})
+      if(!user){
+        return next(new Error('No user with that email'))
+      }
+      // if(!user) return next((new Error('No user with that email')))
+      // if(user){
+      const buffer = crypto.randomBytes(32)
+      const token = buffer.toString("hex")
+      res.locals.token=token
+      // console.log('token: ',token)
 
-    if(!user) return res.status(422).json({error:"No user with that email"})
-    user.resetToken = token
-    
-    user.expiryResetToken = Date.now() + 3600000
-    await user.save()
-    // res.json('sent')
-    return next()
+      // const user = await User.findOne({email:req.body.email})
+      // console.log('user in forgorPasswordController: ', user)
+      // if(!user) return res.status(422).json({error:"No user with that email"})
+      user.resetToken = token
+      
+      user.expiryResetToken = Date.now() + 3600000
+      await user.save()
+      // res.json('sent')
+      return next()
+      // }
+
+  // }
+
   
   }catch(error){
     console.error(`Error: ${error.message}`.red.underline.bold)
-    return next(new Error(`Error in reset password user controller: ${error.message}`))
+    return next(new Error(`Error in forgot password user controller: ${error.message}`))
   }
 }
 

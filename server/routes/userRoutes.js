@@ -30,8 +30,21 @@ router
   
   // }
   // );
+  // router.route('/forgotpassword').post(forgotPassword, emailResetLink)
+  // (req,res)=>{
+    // console.log('res.locals in forgotPassword route: ', res.locals)
+    // console.log(res.locals.token)
+    // return res.status(200).json(res.locals.token)
+  // })
+
+  // router.post('/passwordreset',resetPassword,
+  // (req,res)=>{
+  //   return res.status(200).json(res.locals.user)
+  // })
   router.post('/forgotpassword',forgotPassword, emailResetLink,
   (req,res)=>{
+    // console.log('res', res)
+    // console.log('res.locals in forgotPassword route: ', res.locals)
     // console.log(res.locals.token)
     return res.status(200).json(res.locals.token)
   })
