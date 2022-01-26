@@ -161,6 +161,7 @@ const shippingNotificationEmail = (req,res,next)=>{
 
 
 const emailResetLink = (req,res,next)=>{
+  // console.log('req.body: ', req.body)
   try{
     let transporter = nodemailer.createTransport({
       host: "smtp-mail.outlook.com", // hostname
@@ -176,7 +177,7 @@ const emailResetLink = (req,res,next)=>{
     });
     let mailOptions = {
       from: '"Sikra Jewelry " info@sikrajewelry.com', // sender address (who sends)
-      to: 'mikloskertesz@hotmail.com', // list of receivers (who receives)
+      to: `${req.body.email}`, // list of receivers (who receives)
       subject: 'Password reset link', // Subject line
       text: `Hello Miklos & Sara, You have a new order!`, // plaintext body
       html: `<img src='https://sikra.s3.us-east-2.amazonaws.com/logo-+high+res3.png' style="width:300px;"/><br></br><b>Hello,</b><br>click <a href="http://www.sikrajewelry.com/passwordreset/${req.body.email}/${res.locals.token}">this link</a> to reset your password.` // html body
