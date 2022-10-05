@@ -35,8 +35,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignInScreen = ({ location, history }) => {
-  const basketItems=useSelector(state=>state.basket.basketItems)
-  const guest=useSelector(state=>state.guest.guestCheckout)
+  const basketItems= useSelector(state=>state.basket.basketItems)
+  const guest= useSelector(state=>state.guest.guestCheckout)
   const tab = 0
   const redirect= location.search && location!==undefined ? location.search.split('=')[1] : '/'
   const classes = useStyles();
@@ -55,6 +55,7 @@ const SignInScreen = ({ location, history }) => {
   //Redirect if logged in 
   useEffect(()=>{
     if(userInformation){
+      dispatch({type:GUEST_FALSE})
       dispatch(getUserDetails('profile'))
       history.push(redirect)
       
