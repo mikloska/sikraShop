@@ -141,7 +141,7 @@ const shippingNotificationEmail = (req,res,next)=>{
       to: `${userEmail}`, // list of receivers (who receives)
       subject: 'your order has shipped', // Subject line
       text: `Hello ${usersName}, Your order has shipped!`, // plaintext body
-      html: `<img src='https://sikra.s3.us-east-2.amazonaws.com/logo-+high+res3.png' style="width:300px;"/><br></br><b>Hello ${usersName},</b><br>Your order has shipped!  Check order status and tracking here: <a href = 'http://www.sikrajewelry.com/orders/${orderId}${guest ? `/guest` : ''}>${orderId}<a/>` // html body
+      html: `<img src='https://sikra.s3.us-east-2.amazonaws.com/logo-+high+res3.png' style="width:300px;"/><br></br><b>Hello ${usersName},</b><br>Your order has shipped!  Check order status and tracking here: <a href = 'http://www.sikrajewelry.com/orders/${orderId}${guest?`/guest`:''}'>${orderId}<a/>` // html body                                               
     };
     transporter.sendMail(mailOptions, function(error, info){
       if(error){
