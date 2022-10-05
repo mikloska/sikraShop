@@ -119,17 +119,18 @@ const PlaceOrderScreen = ({ history }) => {
 
   useEffect(() => {
     if ((!userInformation && !basket.guestInfo)||!basket.shippingAddress) history.push('/shipping')
-    
     if (success) {
-      if(!guest){
-        axios.post('/api/email/order', {usersName:userInformation.name,userEmail:userInformation.email,price:basket.totalPrice, orderId:order._id, guest:guest})
-        history.push(`/orders/${order._id}`)
-      } 
-      if(guest){
-        axios.post('/api/email/order', {usersName:basket.guestInfo.name,userEmail:basket.guestInfo.email,price:basket.totalPrice, orderId:order._id, guest:guest})
-        history.push(`/orders/${order._id}/guest`)
-      } 
-      axios.post('/api/email/ordernotification', {orderId:order._id})
+      axios.post('/api/email/order', 
+        {
+          usersName: guest ? basket.guestInfo.name : userInformation.name,
+          userEmail: guest ? basket.guestInfo.email : userInformation.email,
+          price: basket.totalPrice, 
+          orderId: order._id, 
+          guest: guest
+        }
+      )
+      history.push(`/orders/${order._id}${guest ? '/guest' : ''}`)
+      axios.post('/api/email/ordernotification', {orderId: order._id})
     }
     if (!window.paypal) {
       addPayPalScript()

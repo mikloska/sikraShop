@@ -82,7 +82,14 @@ const OrderScreen = ({ match, location, history}) => {
 
   const shipHandler = () => {
     dispatch(shipOrder(order, trackingNumber,trackingLink))
-    axios.post('/api/email/shippingnotification', {usersName:location.pathname.includes('guest')?order.guest:order.user.name,userEmail:location.pathname.includes('guest')?order.email:order.user.email,orderId:order._id})
+    axios.post('/api/email/shippingnotification', 
+      {
+        usersName: location.pathname.includes('guest') ? order.guest : order.user.name,
+        userEmail: location.pathname.includes('guest') ? order.email : order.user.email,
+        orderId:order._id,
+        guest: location.pathname.includes('guest') ? true : false
+      }
+    )
   }
 
 
