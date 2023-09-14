@@ -100,7 +100,7 @@ const OrderScreen = ({ match, location, history}) => {
   }
 
 
-  if(!loading&&!error){
+  if(!loading&&!error && (order && order.orderItems)){
     const addDecimals = (num) => {
       return (Math.round(num * 100) / 100).toFixed(2)
     }
