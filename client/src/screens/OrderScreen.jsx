@@ -111,7 +111,6 @@ const OrderScreen = ({ match, location, history}) => {
   }
 
   // useEffect(() => {
-  //   console.log('fuck')
   //   dispatch({ type: ORDER_PAY_RESET })
   //   dispatch({ type: ORDER_SHIP_RESET })
   //   if(location.pathname.includes('guest')){
@@ -170,7 +169,9 @@ const OrderScreen = ({ match, location, history}) => {
   ) : error ? (
     <Message severity='error'>{error}</Message>
   ) : (
+    
     <div  style={{marginTop:35, marginBottom: 45, padding:20}}>
+      {(location.pathname.includes('guest') || (order && order.user && order.user.name)) &&
       <Grid container justifyContent="center" spacing={6}>
         <Grid item md={6} sm={2} xs={12}>
         <Paper elevation={7} className={classes.paper}>
@@ -422,12 +423,7 @@ const OrderScreen = ({ match, location, history}) => {
           </Paper>
         </Grid> */}
       </Grid>
-
-
-
-
-
-
+      }
     </div>
    
     

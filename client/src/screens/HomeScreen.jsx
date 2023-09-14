@@ -34,9 +34,6 @@ const HomeScreen = ({match}) => {
       dispatch(listMyOrders())
       dispatch(getUserDetails('profile'))
     } 
-    if(showMobile) console.log('mobile width')
-    if(showSmall) console.log('small width')
-    if(!showMobile && !showSmall) console.log('regular width')
   })
   // const handleScrollClick = () => {
   //   window[`scrollTo`]({ top: 0, behavior: `smooth` })
