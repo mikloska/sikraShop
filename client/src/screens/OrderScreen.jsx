@@ -104,10 +104,11 @@ const OrderScreen = ({ match, location, history}) => {
     const addDecimals = (num) => {
       return (Math.round(num * 100) / 100).toFixed(2)
     }
-
-    order.itemsPrice = addDecimals(
-      order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
-    )
+    if(order.orderItems.length > 0){
+      order.itemsPrice = addDecimals(
+        order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
+      )
+    }
   }
 
   // useEffect(() => {
