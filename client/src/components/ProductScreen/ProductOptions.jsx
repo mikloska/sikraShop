@@ -35,7 +35,7 @@ export const ProductOptions = ({product, match, history, chain, setChain, chainO
   const [qty, setQty] = useState(1)
   const [ringSize, setRingSize] = useState(7)
   const [braceletSize, setBraceletSize] = useState('medium')
-  const [length, setLength] = useState(15)
+  const [length, setLength] = useState(18)
 
   const ringSizes = []
   for(let i = 5; i< 14; i++){

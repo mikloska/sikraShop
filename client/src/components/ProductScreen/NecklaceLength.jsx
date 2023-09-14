@@ -12,7 +12,7 @@ const NecklaceLength = ({formControlClass, setLength}) => {
       <List>
         <FormControl className={formControlClass} value={length} >
           <FormLabel>Length</FormLabel>
-          <Select defaultValue='15' onChange={e=>setLength(e.target.value)}>
+          <Select defaultValue='18' onChange={e=>setLength(e.target.value)}>
             <MenuItem value={15}>15"</MenuItem>
             <MenuItem value={16}>16"</MenuItem>
             <MenuItem value={18}>18"</MenuItem>
