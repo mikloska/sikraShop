@@ -128,6 +128,16 @@ const OrderScreen = ({ match, location, history}) => {
   //   }
 
   // }, [])
+  if(order && order.orderItems){
+    const addDecimals = (num) => {
+      return (Math.round(num * 100) / 100).toFixed(2)
+    }
+    if(order.orderItems.length > 0){
+      order.itemsPrice = addDecimals(
+        order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
+      )
+    }
+  }
   
 
   useEffect(() => {
@@ -155,16 +165,6 @@ const OrderScreen = ({ match, location, history}) => {
       }
       if(userInformation && !userInformation.isAdmin && !location.pathname.includes('guest')){
         dispatch(getOrderDetails(orderId, true))
-      }
-      if(order && order.orderItems){
-        const addDecimals = (num) => {
-          return (Math.round(num * 100) / 100).toFixed(2)
-        }
-        if(order.orderItems.length > 0){
-          order.itemsPrice = addDecimals(
-            order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
-          )
-        }
       }
 
     } 
