@@ -225,7 +225,7 @@ const OrderScreen = ({ match, location, history}) => {
             
             <ListItem>
               <ListItemText>
-                {(order && order.shippingAddress && order.shippingAddress.address)
+                {(order && order.shippingAddress && order.shippingAddress.address) &&
                 <Grid container justifyContent="flex-start" >
                   <Grid item><strong>Shipping Address: </strong>
                   {' '}{order.shippingAddress.address} {order.shippingAddress.city},{' '}
@@ -233,7 +233,7 @@ const OrderScreen = ({ match, location, history}) => {
                   {order.shippingAddress.zip}{' '}{order.shippingAddress.country}
                   </Grid>
                 </Grid>
-}
+                }
               </ListItemText>
             </ListItem>
             {loadingDeliver && <Loader />}
