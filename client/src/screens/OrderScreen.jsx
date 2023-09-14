@@ -180,7 +180,7 @@ const OrderScreen = ({ match, location, history}) => {
   ) : (
     
     <div  style={{marginTop:35, marginBottom: 45, padding:20}}>
-      {(!loading && (location.pathname.includes('guest') || (order && order.user && order.user.name))) &&
+      {(order && !loading && (location.pathname.includes('guest') || (order.user && order.user.name))) &&
       <Grid container justifyContent="center" spacing={6}>
         <Grid item md={6} sm={2} xs={12}>
         <Paper elevation={7} className={classes.paper}>
