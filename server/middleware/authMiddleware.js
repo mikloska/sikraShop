@@ -48,7 +48,7 @@ const admin = (req, res, next) => {
   }
   catch(error){
     console.error(`Error: ${error.message}`.red.underline.bold)
-    return next(`Error in protectUser controller: ${error.message}`)
+    return next(`Error in admin controller: ${error.message}`)
   }
 }
 

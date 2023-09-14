@@ -8,6 +8,7 @@ router.route('/').post(protectUser, addOrderItems).get(protectUser, admin, getOr
 router.route('/guest').post(addGuestOrderItems)
 router.route('/myorders').get(protectUser, getMyOrders)
 router.route('/:id').get(protectUser, getOrderById)
+router.route('/admin/:id').get(getGuestOrderById)
 router.route('/:id/guest').get(getGuestOrderById)
 router.route('/:id/pay').put(protectUser, updateOrderToPaid)
 router.route('/:id/guest/pay').put(updateOrderToPaid)
