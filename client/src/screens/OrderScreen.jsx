@@ -81,8 +81,6 @@ const OrderScreen = ({ match, location, history}) => {
   const orderDetails = useSelector((state) => state.orderDetails)
   const { order, loading, error } = orderDetails
 
-  const orderList = useSelector((state) => state.orderList)
-  const { orders, loadingOrders, orderListError } = orderDetails
 
   const [isAdmin, setIsAdmin] = useState(false)
   
@@ -173,14 +171,14 @@ const OrderScreen = ({ match, location, history}) => {
   }, [dispatch, orderId, successPay, order, successDeliver])
 
 
-  return loading ? (
+  return (loading) ? (
     <Loader />
   ) : error ? (
     <Message severity='error'>{error}</Message>
   ) : (
     
     <div  style={{marginTop:35, marginBottom: 45, padding:20}}>
-      {(order && !loading && (location.pathname.includes('guest') || (order.user && order.user.name))) &&
+      {(order && order.orderItems && !loading && (location.pathname.includes('guest') || (order.user && order.user.name))) &&
       <Grid container justifyContent="center" spacing={6}>
         <Grid item md={6} sm={2} xs={12}>
         <Paper elevation={7} className={classes.paper}>
