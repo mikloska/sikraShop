@@ -26,14 +26,17 @@ const useStyles = makeStyles((theme) => ({
 const HomeScreen = ({match}) => {
   const dispatch=useDispatch()
   const userLogin=useSelector(state=>state.userLogin)
-  const {loading,error,userInformation}=userLogin
-  const showSmall = useMediaQuery('(min-width:600px)');
-  const showMobile = useMediaQuery('(max-width:400px)');
+  const {loading, error, userInformation}=userLogin
+  const showSmall = useMediaQuery('(min-width:600px) and (max-width:900px)');
+  const showMobile = useMediaQuery('(max-width:600px)');
   useEffect(()=>{
     if(userInformation){
       dispatch(listMyOrders())
       dispatch(getUserDetails('profile'))
     } 
+    if(showMobile) console.log('mobile width')
+    if(showSmall) console.log('small width')
+    if(!showMobile && !showSmall) console.log('regular width')
   })
   // const handleScrollClick = () => {
   //   window[`scrollTo`]({ top: 0, behavior: `smooth` })
@@ -56,23 +59,22 @@ const HomeScreen = ({match}) => {
 
 
   return (
-    <div>
-      {showMobile?<HomeGallery w={370} h={400}/>:showSmall?<HomeGallery w={600} h={550}/>:<HomeGallery w={1920} h={950}/>}
-
-      {/* <h1>Latest Products</h1>
-      {loading ? <Loader/> : error ? <Message severity='error'>{error}</Message> : 
-      <Grid container spacing={6} justifyContent="center">
-        {products.map((product) => (
+    <>
+      <HomeGallery w={showMobile ? 100: showSmall ? 2 : 100} h={showMobile ? 500 : showSmall ? 600 : 900}/>
+    </>
+    
+      // <h1>Latest Products</h1>
+      // {loading ? <Loader/> : error ? <Message severity='error'>{error}</Message> : 
+      // <Grid container spacing={6} justifyContent="center">
+      //   {products.map((product) => (
           
-          <Grid item xs={12}sm = {12} md = {6} lg = {4} xl = {3} key ={product._id} style={{textAlign:"center"}}>
-            <Product product = {product} />
-          </Grid>
-        ))}
+      //     <Grid item xs={12}sm = {12} md = {6} lg = {4} xl = {3} key ={product._id} style={{textAlign:"center"}}>
+      //       <Product product = {product} />
+      //     </Grid>
+      //   ))}
         
-        <Paginate pages={pages} page={page} handleScrollClick={handleScrollClick} keyword={keyword ? keyword : ''}/>
+      //   <Paginate pages={pages} page={page} handleScrollClick={handleScrollClick} keyword={keyword ? keyword : ''}/>
         
-      </Grid>} */}
-    </div>
   )
 }
 

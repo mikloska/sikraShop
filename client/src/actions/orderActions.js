@@ -2,7 +2,7 @@ import axios from 'axios'
 import { BASKET_CLEAR_ITEMS, BASKET_CLEAR_ADDRESS,BASKET_RESET, BASKET_CLEAR_GUEST_INFO, BASKET_CLEAR_AFTER_ORDER} from '../constants/basketConstants'
 // BASKET_CLEAR_SHIPPING_PRICE, BASKET_CLEAR_ITEMS_PRICE, BASKET_CLEAR_TOTAL_PRICE, BASKET_CLEAR_TAX_PRICE
 import { ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS, ORDER_CREATE_FAILURE, ORDER_CREATE_RESET,ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS,
-  ORDER_DETAILS_FAILURE, ORDER_PAY_REQUEST, ORDER_PAY_FAILURE, ORDER_PAY_SUCCESS, ORDER_PAY_RESET, ORDER_LIST_OF_USER_REQUEST,
+  ORDER_DETAILS_FAILURE, ORDER_DETAILS_RESET, ORDER_PAY_REQUEST, ORDER_PAY_FAILURE, ORDER_PAY_SUCCESS, ORDER_PAY_RESET, ORDER_LIST_OF_USER_REQUEST,
   ORDER_LIST_OF_USER_SUCCESS, ORDER_LIST_OF_USER_FAILURE, ORDER_LIST_OF_USER_RESET, ORDER_LIST_FAILURE, ORDER_LIST_SUCCESS,
   ORDER_LIST_REQUEST, ORDER_SHIP_FAILURE, ORDER_SHIP_SUCCESS, ORDER_SHIP_REQUEST, ORDER_SHIP_RESET
 } from '../constants/orderConstants'
@@ -99,6 +99,42 @@ export const createGuestOrder = (order) => async (dispatch, getState) => {
   }
 }
 
+export const getAdminOrderDetails = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ORDER_DETAILS_REQUEST,
+    })
+
+    const {
+      userLogin: { userInformation },
+    } = getState()
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInformation.token}`,
+      },
+    }
+    const { data } = await axios.get(`/api/orders/admin/${id}`, config)
+
+    dispatch({
+      type: ORDER_DETAILS_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+    if (message === 'Not authorized, token failed') {
+      dispatch(signOut())
+    }
+    dispatch({
+      type: ORDER_DETAILS_FAILURE,
+      payload: message,
+    })
+  }
+}
+
 export const getOrderDetails = (id) => async (dispatch, getState) => {
   try {
     dispatch({
@@ -114,7 +150,6 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInformation.token}`,
       },
     }
-
     const { data } = await axios.get(`/api/orders/${id}`, config)
 
     dispatch({
@@ -317,6 +352,7 @@ export const listMyOrders = () => async (dispatch, getState) => {
 
 export const listOrders = () => async (dispatch, getState) => {
   try {
+    // dispatch({type: ORDER_DETAILS_RESET})
     dispatch({
       type: ORDER_LIST_REQUEST,
     })

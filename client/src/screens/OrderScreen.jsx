@@ -5,11 +5,12 @@ import {Typography,Button, Box, Table, TableBody, TableCell, TableContainer, Tab
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { getOrderDetails, getGuestOrderDetails,payOrder, shipOrder,} from '../actions/orderActions'
+import { getOrderDetails, getAdminOrderDetails, getGuestOrderDetails,payOrder, shipOrder,} from '../actions/orderActions'
 import axios from 'axios'
 // import { PayPalButton } from 'react-paypal-button-v2'
 import {ORDER_PAY_RESET,  ORDER_SHIP_RESET } from '../constants/orderConstants'
 import { listMyOrders } from '../actions/orderActions'
+import { is } from 'core-js/library/es7/object';
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -80,6 +81,12 @@ const OrderScreen = ({ match, location, history}) => {
   const orderDetails = useSelector((state) => state.orderDetails)
   const { order, loading, error } = orderDetails
 
+  const orderList = useSelector((state) => state.orderList)
+  const { orders, loadingOrders, orderListError } = orderDetails
+
+  const [isAdmin, setIsAdmin] = useState(false)
+  
+
   const shipHandler = () => {
     dispatch(shipOrder(order, trackingNumber,trackingLink))
     axios.post('/api/email/shippingnotification', 
@@ -102,51 +109,61 @@ const OrderScreen = ({ match, location, history}) => {
       order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
     )
   }
+
+  // useEffect(() => {
+  //   console.log('fuck')
+  //   dispatch({ type: ORDER_PAY_RESET })
+  //   dispatch({ type: ORDER_SHIP_RESET })
+  //   if(location.pathname.includes('guest')){
+  //     dispatch(getGuestOrderDetails(orderId))
+  //   } else {
+  //     dispatch(getOrderDetails(orderId))
+  //   }
+    
+  //   // if(order && !location.pathname.includes('guest') || (order._id !== orderId)) dispatch(getOrderDetails(orderId))
+  //   // if((order && order.guest) && !location.pathname.includes('guest')) dispatch(getOrderDetails(orderId))
+  //   // console.log('location: ' , location.pathname.includes('guest'))
+  //   // dispatch(payOrder(orderId, paymentResult))
+  //   //Commented out below so guests can view order. May need to figure out alternate way to protect users
+  //   if (!userInformation&&!location.pathname.includes('guest')) {
+  //     history.push('/login')
+  //   }
+
+  // }, [])
   
 
   useEffect(() => {
-    if(userInformation) dispatch(listMyOrders())
-    // console.log('location: ' , location.pathname.includes('guest'))
-    // dispatch(payOrder(orderId, paymentResult))
     //Commented out below so guests can view order. May need to figure out alternate way to protect users
-    if (!userInformation&&!location.pathname.includes('guest')) {
+    if (!userInformation && !location.pathname.includes('guest')) {
       history.push('/login')
     }
-    // if(userInformation.email!==order.user.email) history.push('/')
-
-
-    // const addPayPalScript = async () => {
-    //   const { data: clientId } = await axios.get('/api/config/paypal')
-    //   const script = document.createElement('script')
-    //   script.type = 'text/javascript'
-    //   script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`
-    //   script.async = true
-    //   script.onload = () => {
-    //     setSdkReady(true)
-    //   }
-    //   document.body.appendChild(script)
-    // }
     //Check for order and if the order id doesn't match id in url, get most recent
-    if (!order || successPay || order._id !== orderId || successDeliver) {
+    if (!order || successPay || (order && order._id !== orderId) || successDeliver ) {
+      if(userInformation && userInformation.isAdmin){
+        dispatch(getAdminOrderDetails(orderId))
+      }
+      if(userInformation && userInformation.isAdmin && (order && !order.user)){
+        dispatch(getAdminOrderDetails(orderId))
+      }
       //Prevent useEffect loop
       dispatch({ type: ORDER_PAY_RESET })
       dispatch({ type: ORDER_SHIP_RESET })
-      dispatch(getGuestOrderDetails(orderId))
-      // dispatch(getOrderDetails(orderId))
+      if(location.pathname.includes('guest')){
+        console.log('guest')
+        dispatch(getGuestOrderDetails(orderId))
+      } 
+      if(userInformation && userInformation.isAdmin && !location.pathname.includes('guest')){
+        console.log('admin')
+        dispatch(getAdminOrderDetails(orderId))
+      }
+      if(userInformation && !userInformation.isAdmin && !location.pathname.includes('guest')){
+        console.log('user')
+        dispatch(getOrderDetails(orderId, true))
+      }
+
     } 
-    //else if (!order.isPaid) {
-      // if (!window.paypal) {
-      //   addPayPalScript()
-      // } else {
-      //   setSdkReady(true)
-      // }
-    //}
   }, [dispatch, orderId, successPay, order, successDeliver])
 
-  const successPaymentHandler = (paymentResult) => {
-    // console.log(paymentResult)
-    // dispatch(payOrder(orderId, paymentResult))
-  }
 
   return loading ? (
     <Loader />
@@ -178,7 +195,7 @@ const OrderScreen = ({ match, location, history}) => {
               <ListItemText>
                 <Grid container justifyContent="flex-start" >
                   <Grid item><strong>Name: </strong>
-                  {' '}{location.pathname.includes('guest')? order.guest:order.user.name}
+                  {' '}{location.pathname.includes('guest') ? order.guest: order.user.name}
                   </Grid>
                 </Grid>
 

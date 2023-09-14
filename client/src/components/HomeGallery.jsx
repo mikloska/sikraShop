@@ -18,7 +18,7 @@ const HomeGallery =({w, h})=> {
           bgImageAlt="ammonite" 
           strength={-200}
           >
-          <div style={{width:'370px', height: '400px'}} />
+          <div style={{width:w, height: h}} />
         </Parallax>
   
         <Parallax
@@ -27,7 +27,7 @@ const HomeGallery =({w, h})=> {
           bgImageAlt="owls" 
           strength={-200}
         >
-          <div style={{width:'370px', height: '400px'}} />
+          <div style={{width:w, height: h}} />
         </Parallax>
         <Parallax
           blur={{ min: 10, max: -10 }} 
@@ -35,7 +35,7 @@ const HomeGallery =({w, h})=> {
           bgImageAlt="dragon" 
           strength={-200}
         >
-          <div style={{width:'370px', height: '400px'}} />
+          <div style={{width:w, height: h}} />
         </Parallax>
         <Parallax
           blur={{ min: 10, max: -10 }}
@@ -43,7 +43,7 @@ const HomeGallery =({w, h})=> {
           bgImageAlt="fossil ring"
           strength={-200}
         >
-          <div style={{width:'370px', height: '400px'}} />
+          <div style={{width:w, height: h}} />
         </Parallax>
         <Parallax
           blur={{ min: -10, max: 10 }} 
@@ -51,7 +51,7 @@ const HomeGallery =({w, h})=> {
           bgImageAlt="bobcat" 
           strength={-200}
         >
-          <div style={{width:'370px', height: '400px'}} />
+          <div style={{width:w, height: h}} />
         </Parallax> 
       </div>
     );
