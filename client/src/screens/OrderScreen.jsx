@@ -100,16 +100,16 @@ const OrderScreen = ({ match, location, history}) => {
   }
 
 
-  if(!loading&&!error && (order && order.orderItems)){
-    const addDecimals = (num) => {
-      return (Math.round(num * 100) / 100).toFixed(2)
-    }
-    if(order.orderItems.length > 0){
-      order.itemsPrice = addDecimals(
-        order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
-      )
-    }
-  }
+  // if(!loading&&!error && (order && order.orderItems)){
+  //   const addDecimals = (num) => {
+  //     return (Math.round(num * 100) / 100).toFixed(2)
+  //   }
+  //   if(order.orderItems.length > 0){
+  //     order.itemsPrice = addDecimals(
+  //       order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
+  //     )
+  //   }
+  // }
 
   // useEffect(() => {
   //   dispatch({ type: ORDER_PAY_RESET })
@@ -133,6 +133,17 @@ const OrderScreen = ({ match, location, history}) => {
   
 
   useEffect(() => {
+    if(!loading&&!error && (order && order.orderItems)){
+      const addDecimals = (num) => {
+        return (Math.round(num * 100) / 100).toFixed(2)
+      }
+      if(order.orderItems.length > 0){
+        order.itemsPrice = addDecimals(
+          order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
+        )
+      }
+    }
+  
     //Commented out below so guests can view order. May need to figure out alternate way to protect users
     if (!userInformation && !location.pathname.includes('guest')) {
       history.push('/login')
@@ -169,7 +180,7 @@ const OrderScreen = ({ match, location, history}) => {
   ) : (
     
     <div  style={{marginTop:35, marginBottom: 45, padding:20}}>
-      {(order && order.shippingAddress && order.shippingAddress.address && (location.pathname.includes('guest') || (order && order.user && order.user.name))) &&
+      {(!loading && (location.pathname.includes('guest') || (order && order.user && order.user.name))) &&
       <Grid container justifyContent="center" spacing={6}>
         <Grid item md={6} sm={2} xs={12}>
         <Paper elevation={7} className={classes.paper}>
