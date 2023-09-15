@@ -1,2 +1,0 @@
--Google oAuth
--allow image reorder

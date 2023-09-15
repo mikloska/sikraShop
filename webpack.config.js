@@ -1,6 +1,8 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import CopyPlugin from 'copy-webpack-plugin';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 // const path = require('path');
@@ -15,6 +17,11 @@ const __dirname = path.dirname(__filename);
     publicPath: '/',
   },
   plugins: [
+    new CopyPlugin({
+      patterns: [
+        { from: "robots.txt", to: "robots.txt" },
+      ],
+    }),
     new HtmlWebpackPlugin({
       title: 'Sikra Shop',
       template: './index.html',
