@@ -68,6 +68,11 @@ const App = (showBelow) => {
   return (
     
     <Router>
+      <title>Sikra Jewelry - Handmade earthy and witchy jewelry</title>
+      <meta name="description" content="Sikra Jewelry is the culmination of the life work of Sara Vajda. 
+        As an avid nature lover with a gift for creativity from a young age, her pieces are a medium for her to share her imagination and inspiration with the world
+        All pieces are handmade with love from recycled gold, silver or bronze.">
+      </meta>
       <>
         <div className = 'page-wrap' style={{padding:0}}>
         <Navbar/>
