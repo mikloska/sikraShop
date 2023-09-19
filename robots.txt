@@ -1,4 +1,4 @@
-User-agent: googlebot
+User-agent: *
 Disallow: /basket/
 Disallow: /login/
 Disallow: /forgotpassword/
